@@ -1,0 +1,79 @@
+<resources>
+    <string name="app_name">RPhelper</string>
+
+    <string name="profile">Profil</string>
+    <string name="equipments">Equipements</string>
+    <string name="spells">Sorts</string>
+    <string name="inventory">Inventaire</string>
+    <string name="fight">Combat</string>
+
+    <string name="notes">Notes</string>
+    <string name="money">Argent</string>
+    <string name="skills">Compétences</string>
+    <string name="don">Don</string>
+    
+    <string name="name">Nom :</string>
+    <string name="classe">Classe :</string>
+    <string name="race">Race :</string>
+    <string name="origin">Origine :</string>
+    <string name="religion">Religion :</string>
+    <string name="level">Niveau :</string>
+    <string name="speed">Vitesse :</string>
+    
+    <string name="intel">INT</string>
+    <string name="strength">FOR</string>
+    <string name="faith">FOI</string>
+    <string name="dex">DEX</string>
+    <string name="vit">VIT</string>
+    <string name="mem">MEM</string>
+    <string name="end">END</string>
+    <string name="vig">VIG</string>
+    <string name="weight">POIDS</string>
+    <string name="weight_min">Poids</string>
+    <string name="pv">VIE</string>
+    <string name="mana">MANA</string>
+    <string name="mana_min">Mana</string>
+    <string name="constitution">CONST</string>
+
+    <string name="handLeft">Main gauche</string>
+    <string name="handRight">Main droite</string>
+    <string name="damages">Dégats</string>
+    <string name="affinity">Affinité</string>
+    <string name="status">Statut</string>
+    <string name="bonus_for">Bonus FOR</string>
+    <string name="bonus_dex">Bonus DEX</string>
+    <string name="bonus_int">Bonus INT</string>
+    <string name="bonus_foi">Bonus FOI</string>
+    <string name="boost">Boost</string>
+    <string name="block">Blocage</string>
+    <string name="res">Résistance(s)</string>
+    <string name="def">Défense</string>
+    <string name="fai">Faiblesse(s)</string>
+    <string name="immun">Immunité(s)</string>
+    <string name="effect">Effet</string>
+    <string name="equip">Equipé</string>
+    <string name="desc">Description</string>
+    <string name="quantity">Quantité</string>
+
+    <string name="weapon">Armes</string>
+    <string name="armor">Armure</string>
+    <string name="hat">Chapeau</string>
+    <string name="chestplate">Plastron</string>
+    <string name="gloves">Gants</string>
+    <string name="greaves">Jambières</string>
+
+    <string name="skill_diplo">Diplomatie / Bluff</string>
+    <string name="skill_psy">Intuition / Psychologie</string>
+    <string name="skill_know">Connaissance / Analyse</string>
+    <string name="skill_push">Grimper / Pousser</string>
+    <string name="skill_sneak">Acrobatie / Discrétion</string>
+    <string name="skill_craft">Artisanat / Sabotage</string>
+
+    <string name="cast_spell">Lancer\nle sort</string>
+    <string name="total_damage">Dégats totaux</string>
+    <string name="known_spells">Sorts connus</string>
+    
+    
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

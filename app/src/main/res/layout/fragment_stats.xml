@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.StatsFragment">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:padding="@dimen/app_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/person"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                android:id="@+id/profile_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/app_margin"
+                app:layout_constraintLeft_toRightOf="@+id/profile_picture" />
+
+            <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                android:id="@+id/profile_race"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/app_margin"
+                android:layout_marginTop="@dimen/txt_margin"
+                app:layout_constraintLeft_toRightOf="@+id/profile_picture"
+                app:layout_constraintTop_toBottomOf="@id/profile_name" />
+
+            <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                android:id="@+id/profile_origin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/app_margin"
+                android:layout_marginTop="@dimen/txt_margin"
+                app:layout_constraintLeft_toRightOf="@+id/profile_picture"
+                app:layout_constraintTop_toBottomOf="@id/profile_race" />
+
+            <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                android:id="@+id/profile_religion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/app_margin"
+                android:layout_marginTop="@dimen/txt_margin"
+                app:layout_constraintLeft_toRightOf="@+id/profile_picture"
+                app:layout_constraintTop_toBottomOf="@id/profile_origin" />
+
+            <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                android:id="@+id/profile_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/double_app_margin"
+                app:layout_constraintBottom_toBottomOf="@id/profile_speed"
+                app:layout_constraintEnd_toStartOf="@id/profile_speed"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                android:id="@+id/profile_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_religion" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/indic_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:padding="@dimen/app_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profile_layout">
+
+            <com.rphelper.cecib.rphelper.component.IndicComponent
+                android:id="@+id/indic_life"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/indic_const"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.rphelper.cecib.rphelper.component.IndicComponent
+                android:id="@+id/indic_const"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/big_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/indic_life" />
+
+            <com.rphelper.cecib.rphelper.component.IndicComponent
+                android:id="@+id/indic_mana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_margin"
+                app:layout_constraintEnd_toStartOf="@id/indic_weight"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/indic_life" />
+
+            <com.rphelper.cecib.rphelper.component.IndicComponent
+                android:id="@+id/indic_weight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/big_margin"
+                android:layout_marginTop="@dimen/app_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/indic_mana"
+                app:layout_constraintTop_toBottomOf="@+id/indic_const" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/stat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:padding="@dimen/app_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/indic_layout">
+
+            <TableLayout
+                android:id="@+id/stat_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_shape"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="@drawable/border_shape"
+                        android:padding="10dip"
+                        android:text="@string/vit"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:background="@drawable/border_shape"
+                        android:padding="10dip"
+                        android:text="@string/vig"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:background="@drawable/border_shape"
+                        android:padding="10dip"
+                        android:text="@string/strength"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:background="@drawable/border_shape"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="@string/dex"
+                        android:textColor="@color/colorTxt" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/stat_vit"
+                        android:background="@drawable/line_shape"
+                        android:padding="10dip"
+                        android:text="10"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:id="@+id/stat_vig"
+                        android:background="@drawable/line_shape"
+                        android:padding="10dip"
+                        android:text="10"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:id="@+id/stat_for"
+                        android:background="@drawable/line_shape"
+                        android:padding="10dip"
+                        android:text="10"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:id="@+id/stat_dex"
+                        android:background="@drawable/line_shape"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="10"
+                        android:textColor="@color/colorTxt" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TableLayout
+                android:id="@+id/stat_table2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/app_margin"
+                android:background="@drawable/border_shape"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/stat_table">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:background="@drawable/border_shape"
+                        android:padding="10dip"
+                        android:text="@string/end"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:background="@drawable/border_shape"
+                        android:padding="10dip"
+                        android:text="@string/mem"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:background="@drawable/border_shape"
+                        android:padding="10dip"
+                        android:text="@string/intel"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:background="@drawable/border_shape"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="@string/faith"
+                        android:textColor="@color/colorTxt" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/stat_end"
+                        android:background="@drawable/line_shape"
+                        android:padding="10dip"
+                        android:text="10"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:id="@+id/stat_mem"
+                        android:background="@drawable/line_shape"
+                        android:padding="10dip"
+                        android:text="10"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:id="@+id/stat_int"
+                        android:background="@drawable/line_shape"
+                        android:padding="10dip"
+                        android:text="10"
+                        android:textColor="@color/colorTxt" />
+
+                    <TextView
+                        android:id="@+id/stat_foi"
+                        android:background="@drawable/line_shape"
+                        android:gravity="right"
+                        android:padding="10dip"
+                        android:text="10"
+                        android:textColor="@color/colorTxt" />
+                </TableRow>
+            </TableLayout>
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/skill_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:padding="@dimen/app_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/stat_layout">
+
+            <TableLayout
+                android:id="@+id/skill_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/txt_margin">
+
+                    <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                        android:id="@+id/skill_diplo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/txt_margin">
+
+                    <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                        android:id="@+id/skill_psy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/txt_margin">
+
+                    <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                        android:id="@+id/skill_know"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/txt_margin">
+
+                    <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                        android:id="@+id/skill_push"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/txt_margin">
+                    <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                        android:id="@+id/skill_sneak"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/txt_margin">
+                    <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                        android:id="@+id/skill_craft"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+            </TableLayout>
+
+        </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/don_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/app_margin"
+        android:background="@color/white"
+        android:elevation="1dp"
+        android:padding="@dimen/app_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/skill_layout">
+        <com.rphelper.cecib.rphelper.component.IndicComponent
+            android:id="@+id/don_cat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </android.support.constraint.ConstraintLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/big_margin"
+            app:layout_constraintTop_toBottomOf="@+id/don_layout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>
