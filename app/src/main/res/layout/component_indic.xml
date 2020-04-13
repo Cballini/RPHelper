@@ -13,7 +13,7 @@
         android:textAlignment="center"
         android:textSize="@dimen/cat_txt"
         android:textColor="@color/colorCatTitle"
-        android:background="@drawable/indic_shape"
+        android:background="@drawable/shape_indic"
         app:layout_constraintEnd_toEndOf="@id/indic_stats"
         app:layout_constraintStart_toStartOf="@id/indic_stats"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:id="@+id/indic_stats"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/indic_txt_shape"
+        android:background="@drawable/shape_indic_txt"
         android:padding="5dp"
         app:layout_constraintTop_toBottomOf="@id/indic_title">
     <TextView

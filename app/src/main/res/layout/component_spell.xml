@@ -9,7 +9,7 @@
         android:id="@+id/spell_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/indic_shape"
+        android:background="@drawable/shape_indic"
         android:padding="@dimen/small_margin"
         android:text="Nom"
         android:textAlignment="center"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/border_shape"
+            android:background="@drawable/shape_border"
             android:gravity="center"
             android:padding="@dimen/txt_margin"
             android:orientation="horizontal">
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/border_shape"
+            android:background="@drawable/shape_border"
             android:gravity="center"
             android:padding="@dimen/txt_margin"
             android:orientation="horizontal">
@@ -93,7 +93,7 @@
         android:id="@+id/spell_total_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/border_shape"
+        android:background="@drawable/shape_border"
         android:gravity="center"
         android:padding="@dimen/txt_margin"
         android:orientation="horizontal"
@@ -120,7 +120,7 @@
         android:id="@+id/spell_note_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/indic_txt_shape"
+        android:background="@drawable/shape_indic_txt"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/spell_stat_layout">
 
@@ -198,7 +198,7 @@
         android:paddingBottom="@dimen/small_margin"
         android:paddingEnd="@dimen/app_margin"
         android:paddingStart="@dimen/app_margin"
-        android:background="@drawable/rond_button_shape"
+        android:background="@drawable/shape_rond_button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spell_note_layout"/>

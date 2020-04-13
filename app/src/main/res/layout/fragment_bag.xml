@@ -1,14 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.BagFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/inventory" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/bag_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent">
+            <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                android:id="@+id/bag_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/small_margin"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/bag_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/small_margin"
+                tools:listitem="@layout/component_line_object"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/big_margin"
+            app:layout_constraintTop_toBottomOf="@+id/bag_layout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

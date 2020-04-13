@@ -1,14 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.EquipmentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/equipments" />
+        android:layout_height="wrap_content">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/equipment_button_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="@dimen/app_margin">
+            <TextView
+                android:id="@+id/equipment_button_attack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="@dimen/app_margin"
+                android:paddingTop="@dimen/small_margin"
+                android:text="Attaquer"
+                android:textColor="@color/colorCatTitle"
+                android:background="@drawable/shape_rond_button"/>
+            <TextView
+                android:id="@+id/equipment_button_block"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="@dimen/app_margin"
+                android:paddingTop="@dimen/small_margin"
+                android:text="Bloquer"
+                android:textColor="@color/colorCatTitle"
+                android:background="@drawable/shape_rond_button"/>
+            <TextView
+                android:id="@+id/equipment_button_esc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="@dimen/app_margin"
+                android:paddingTop="@dimen/small_margin"
+                android:text="Esquiver"
+                android:textColor="@color/colorCatTitle"
+                android:background="@drawable/shape_rond_button"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/equipment_weapons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/equipment_button_layout">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                android:id="@+id/equipment_left_hand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingEnd="@dimen/txt_margin"
+                android:paddingVertical="@dimen/small_margin"
+                android:paddingStart="@dimen/small_margin"/>
+                <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                    android:id="@+id/equipment_right_hand"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingEnd="@dimen/small_margin"/>
+            </LinearLayout>
+            <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                android:id="@+id/equipment_shield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="@dimen/small_margin"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/equipment_armor_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/equipment_weapons_layout">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                    android:id="@+id/equipment_hat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingEnd="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingStart="@dimen/small_margin"/>
+                <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                    android:id="@+id/equipment_chest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingEnd="@dimen/small_margin"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                    android:id="@+id/equipment_gloves"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingEnd="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingStart="@dimen/small_margin"/>
+                <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                    android:id="@+id/equipment_greaves"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingStart="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingEnd="@dimen/small_margin"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/big_margin"
+            app:layout_constraintTop_toBottomOf="@+id/equipment_armor_layout"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
+</ScrollView>

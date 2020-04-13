@@ -35,10 +35,9 @@
     <string name="mana_min">Mana</string>
     <string name="constitution">CONST</string>
 
-    <string name="handLeft">Main gauche</string>
-    <string name="handRight">Main droite</string>
     <string name="damages">Dégats</string>
     <string name="affinity">Affinité</string>
+    <string name="affinity_short">Aff</string>
     <string name="status">Statut</string>
     <string name="bonus_for">Bonus FOR</string>
     <string name="bonus_dex">Bonus DEX</string>
@@ -46,18 +45,27 @@
     <string name="bonus_foi">Bonus FOI</string>
     <string name="boost">Boost</string>
     <string name="block">Blocage</string>
+    <string name="block_short">Bloc</string>
     <string name="res">Résistance(s)</string>
+    <string name="res_short">Rés</string>
     <string name="def">Défense</string>
+    <string name="def_short">Déf</string>
     <string name="fai">Faiblesse(s)</string>
+    <string name="fai_short">Fai</string>
     <string name="immun">Immunité(s)</string>
+    <string name="immun_short">Immu</string>
     <string name="effect">Effet</string>
     <string name="equip">Equipé</string>
     <string name="desc">Description</string>
     <string name="quantity">Quantité</string>
+    <string name="nb">NB</string>
 
     <string name="weapon">Armes</string>
+    <string name="left_hand">Main gauche</string>
+    <string name="right_hand">Main droite</string>
+    <string name="shield">Bouclier</string>
     <string name="armor">Armure</string>
-    <string name="hat">Chapeau</string>
+    <string name="hat">Casque</string>
     <string name="chestplate">Plastron</string>
     <string name="gloves">Gants</string>
     <string name="greaves">Jambières</string>
@@ -72,6 +80,8 @@
     <string name="cast_spell">Lancer\nle sort</string>
     <string name="total_damage">Dégats totaux</string>
     <string name="known_spells">Sorts connus</string>
+
+    <string name="roll_dice">Lancer le dé</string>
     
     
     <!-- TODO: Remove or change this placeholder text -->

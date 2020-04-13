@@ -16,6 +16,8 @@ import com.rphelper.cecib.rphelper.fragments.FightFragment;
 import com.rphelper.cecib.rphelper.fragments.SpellFragment;
 import com.rphelper.cecib.rphelper.fragments.StatsFragment;
 
+import static android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED;
+
 public class MainActivity extends FragmentActivity{
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -76,6 +78,8 @@ public class MainActivity extends FragmentActivity{
         fragmentTransaction.commit();
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation.setItemHorizontalTranslationEnabled(false);
+        navigation.setLabelVisibilityMode(LABEL_VISIBILITY_UNLABELED);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 

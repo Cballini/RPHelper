@@ -4,14 +4,13 @@
     android:id="@+id/cat_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/app_margin"
-    android:background="@drawable/category_txt_shape">
+    android:layout_marginStart="@dimen/app_margin">
 
     <TextView
         android:id="@+id/cat_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/category_shape"
+        android:background="@drawable/shape_category"
         android:text="Catégorie :"
         android:textColor="@color/colorCatTitle"
         android:textSize="@dimen/cat_txt"
@@ -21,12 +20,12 @@
         android:id="@+id/cat_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/txt_margin"
-        android:paddingBottom="3dp"
-        android:paddingStart="2dp"
+        android:paddingVertical="3dp"
+        android:paddingStart="@dimen/txt_margin"
         android:text="Text"
         android:textColor="@color/colorTxt"
         android:textSize="@dimen/cat_txt"
+        android:background="@drawable/shape_category_txt"
         app:layout_constraintBottom_toBottomOf="@+id/cat_title"
         app:layout_constraintLeft_toRightOf="@+id/cat_title" />
 </android.support.constraint.ConstraintLayout>

@@ -146,7 +146,7 @@
                 android:id="@+id/stat_table"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_shape"
+                android:background="@drawable/shape_border"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
@@ -156,25 +156,25 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:background="@drawable/border_shape"
+                        android:background="@drawable/shape_border"
                         android:padding="10dip"
                         android:text="@string/vit"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
-                        android:background="@drawable/border_shape"
+                        android:background="@drawable/shape_border"
                         android:padding="10dip"
                         android:text="@string/vig"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
-                        android:background="@drawable/border_shape"
+                        android:background="@drawable/shape_border"
                         android:padding="10dip"
                         android:text="@string/strength"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
-                        android:background="@drawable/border_shape"
+                        android:background="@drawable/shape_border"
                         android:gravity="right"
                         android:padding="10dip"
                         android:text="@string/dex"
@@ -187,28 +187,28 @@
 
                     <TextView
                         android:id="@+id/stat_vit"
-                        android:background="@drawable/line_shape"
+                        android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:id="@+id/stat_vig"
-                        android:background="@drawable/line_shape"
+                        android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:id="@+id/stat_for"
-                        android:background="@drawable/line_shape"
+                        android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:id="@+id/stat_dex"
-                        android:background="@drawable/line_shape"
+                        android:background="@drawable/shape_line_top"
                         android:gravity="right"
                         android:padding="10dip"
                         android:text="10"
@@ -222,7 +222,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/app_margin"
-                android:background="@drawable/border_shape"
+                android:background="@drawable/shape_border"
                 android:textAlignment="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -233,26 +233,26 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:background="@drawable/border_shape"
+                        android:background="@drawable/shape_border"
                         android:padding="10dip"
                         android:text="@string/end"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:background="@drawable/border_shape"
+                        android:background="@drawable/shape_border"
                         android:padding="10dip"
                         android:text="@string/mem"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
-                        android:background="@drawable/border_shape"
+                        android:background="@drawable/shape_border"
                         android:padding="10dip"
                         android:text="@string/intel"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
-                        android:background="@drawable/border_shape"
+                        android:background="@drawable/shape_border"
                         android:gravity="right"
                         android:padding="10dip"
                         android:text="@string/faith"
@@ -265,28 +265,28 @@
 
                     <TextView
                         android:id="@+id/stat_end"
-                        android:background="@drawable/line_shape"
+                        android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:id="@+id/stat_mem"
-                        android:background="@drawable/line_shape"
+                        android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:id="@+id/stat_int"
-                        android:background="@drawable/line_shape"
+                        android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:id="@+id/stat_foi"
-                        android:background="@drawable/line_shape"
+                        android:background="@drawable/shape_line_top"
                         android:gravity="right"
                         android:padding="10dip"
                         android:text="10"
@@ -388,13 +388,13 @@
         android:background="@color/white"
         android:elevation="1dp"
         android:padding="@dimen/app_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/skill_layout">
         <com.rphelper.cecib.rphelper.component.IndicComponent
             android:id="@+id/don_cat"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
     </android.support.constraint.ConstraintLayout>
 

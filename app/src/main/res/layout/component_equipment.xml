@@ -1,0 +1,327 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/spell_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:id="@+id/equipment_type_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_indic"
+        android:padding="@dimen/txt_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/equipment_name">
+        <TextView
+            android:id="@+id/equipment_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type"
+            android:paddingHorizontal="@dimen/small_margin"
+            android:textColor="@color/colorCatTitle"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/equipment_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_indic"
+        android:padding="@dimen/small_margin"
+        android:text="Nom"
+        android:textAlignment="center"
+        android:maxLines="2"
+        android:textColor="@color/colorCatTitle"
+        android:textSize="@dimen/cat_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/equipment_type_layout" />
+
+    <LinearLayout
+        android:id="@+id/equipment_panel_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/colorCatTitle"
+        app:layout_constraintTop_toBottomOf="@+id/equipment_name">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/equipment_panel_first_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_border"
+                android:gravity="center"
+                android:paddingVertical="@dimen/txt_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/equipment_panel_first_panel_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/damages"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin"/>
+
+                <TextView
+                    android:id="@+id/equipment_panel_first_panel_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/txt_margin"
+                    android:text="0"
+                    android:textColor="@color/colorTxt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/equipment_panel_second_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_border"
+                android:gravity="center"
+                android:paddingVertical="@dimen/txt_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/equipment_panel_second_panel_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mana_min"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin"/>
+
+                <TextView
+                    android:id="@+id/equipment_panel_second_panel_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/txt_margin"
+                    android:text="0"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/equipment_panel_second_line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/equipment_panel_third_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_border"
+                android:gravity="center"
+                android:paddingVertical="@dimen/txt_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/equipment_panel_third_panel_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/damages"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin"/>
+
+                <TextView
+                    android:id="@+id/equipment_panel_third_panel_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/txt_margin"
+                    android:text="0"
+                    android:textColor="@color/colorTxt" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/equipment_panel_fourth_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_border"
+                android:gravity="center"
+                android:paddingVertical="@dimen/txt_margin"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/equipment_panel_fourth_panel_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mana_min"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin"/>
+
+                <TextView
+                    android:id="@+id/equipment_panel_fourth_panel_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/txt_margin"
+                    android:text="0"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/equipment_bonus_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/equipment_bonus_for_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:background="@drawable/shape_border">
+                <TextView
+                    android:id="@+id/equipment_bonus_for_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/strength"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin" />
+                <TextView
+                    android:id="@+id/equipment_bonus_for_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/equipment_bonus_dex_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:background="@drawable/shape_border">
+                <TextView
+                    android:id="@+id/equipment_bonus_dex_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dex"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin" />
+                <TextView
+                    android:id="@+id/equipment_bonus_dex_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/equipment_bonus_int_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/shape_border">
+                <TextView
+                    android:id="@+id/equipment_bonus_int_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/intel"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin" />
+                <TextView
+                    android:id="@+id/equipment_bonus_int_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/equipment_bonus_foi_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:background="@drawable/shape_border">
+                <TextView
+                    android:id="@+id/equipment_bonus_foi_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/faith"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin" />
+                <TextView
+                    android:id="@+id/equipment_bonus_foi_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/"
+                    android:textColor="@color/colorTxt"
+                    android:paddingVertical="@dimen/txt_margin" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/equipment_large_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_border"
+            android:gravity="center"
+            android:padding="@dimen/txt_margin"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/spell_stat_layout">
+            <TextView
+                android:id="@+id/equipment_large_panel_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/total_damage"
+                android:textColor="@color/colorTxt"
+                android:paddingVertical="@dimen/txt_margin"/>
+
+            <TextView
+                android:id="@+id/equipment_large_panel_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                android:text="0"
+                android:textColor="@color/colorTxt"
+                android:paddingVertical="@dimen/txt_margin"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/equipment_weight_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_indic_txt"
+        android:padding="@dimen/txt_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/equipment_panel_layout">
+        <TextView
+            android:id="@+id/equipment_weight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weight"
+            android:textColor="@color/colorTxt"
+            android:textSize="@dimen/medium_txt"/>
+        <TextView
+            android:id="@+id/equipment_weight_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/txt_margin"
+            android:text="2.1"
+            android:textColor="@color/colorTxt"
+            android:textSize="@dimen/medium_txt"/>
+    </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
