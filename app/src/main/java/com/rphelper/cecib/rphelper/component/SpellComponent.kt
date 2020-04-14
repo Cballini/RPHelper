@@ -24,6 +24,8 @@ class SpellComponent @JvmOverloads constructor(
     var spellUse2 : TextView
     var spellUseValue2 : TextView
 
+    var spellButton : TextView
+
     init {
         LayoutInflater.from(context).inflate(R.layout.component_spell, this, true)
 
@@ -37,5 +39,7 @@ class SpellComponent @JvmOverloads constructor(
         spellUseLayout2 = findViewById(R.id.spell_use_layout2)
         spellUse2 = findViewById(R.id.spell_use2)
         spellUseValue2 = findViewById(R.id.spell_use_value2)
+
+        spellButton = findViewById(R.id.spell_button)
     }
 }

@@ -12,7 +12,6 @@ class EquipmentComponent @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
-
     var equipmentType : TextView
     var equipmentName : TextView
 

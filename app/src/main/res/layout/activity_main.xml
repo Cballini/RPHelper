@@ -33,7 +33,7 @@
         android:layout_height="60dp"
         android:padding="15dp"
         android:src="@drawable/bang_white"
-        android:background="@drawable/circle_menu"
+        android:background="@drawable/circle_accent"
         android:elevation="2dp"
         app:layout_constraintStart_toStartOf="parent"
         android:contentDescription="@string/bottom_sheet_behavior"

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.EquipmentComponent
 import com.rphelper.cecib.rphelper.enums.Bonus
@@ -19,6 +20,10 @@ class EquipmentFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_equipment, container, false)
+
+        view.findViewById<TextView>(R.id.equipment_button_attack).setOnClickListener {  }
+        view.findViewById<TextView>(R.id.equipment_button_block).setOnClickListener {  }
+        view.findViewById<TextView>(R.id.equipment_button_esc).setOnClickListener {  }
 
         /******** Left hand **********/
         view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentType.text = getString(R.string.left_hand)

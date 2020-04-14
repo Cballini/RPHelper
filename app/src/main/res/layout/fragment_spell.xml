@@ -29,7 +29,9 @@
                     android:id="@+id/spell_first_equip"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/app_margin"
+                    android:paddingEnd="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingStart="@dimen/small_margin"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/spell_second_equip"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -38,7 +40,9 @@
                     android:id="@+id/spell_second_equip"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/app_margin"
+                    android:paddingEnd="@dimen/small_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingStart="@dimen/txt_margin"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toEndOf="@id/spell_first_equip"
                     app:layout_constraintEnd_toEndOf="parent"/>
@@ -55,14 +59,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/app_margin"></com.rphelper.cecib.rphelper.component.SpellComponent>
+                    android:paddingEnd="@dimen/txt_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingStart="@dimen/small_margin"/>
 
                 <com.rphelper.cecib.rphelper.component.SpellComponent
                     android:id="@+id/spell_fourth_equip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:padding="@dimen/app_margin"></com.rphelper.cecib.rphelper.component.SpellComponent>
+                    android:paddingEnd="@dimen/small_margin"
+                    android:paddingVertical="@dimen/small_margin"
+                    android:paddingStart="@dimen/txt_margin"/>
             </LinearLayout>
 
         </LinearLayout>
