@@ -12,30 +12,29 @@ import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.ObjectAdapter
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.dto.Object
+import com.rphelper.cecib.rphelper.viewmodel.InventoryViewModel
 import java.util.ArrayList
 
 
-class BagFragment : Fragment() {
+class InventoryFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var viewModel: InventoryViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_bag, container, false)
+        val view = inflater.inflate(R.layout.fragment_inventory, container, false)
+
+        viewModel = InventoryViewModel(context!!)
 
         //Money
         view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTitle.text = getString(R.string.money)
-        view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.text = "50 po"
+        view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.text = viewModel.money.value!!.toString() + " po"
 
         //Objects
-        var carriedObjects = ArrayList<Object>()
-        var carriedObject = Object("Talisman", 1, "Pour lancer miracles", false, 0.4F)
-        var carriedObject2 = Object("Bague d'Oolacile", 1, "+20 mana max", true)
-        carriedObjects.add(carriedObject)
-        carriedObjects.add(carriedObject2)
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = ObjectAdapter(carriedObjects)
+        viewAdapter = ObjectAdapter(ArrayList(viewModel.objects.value!!))
 
         recyclerView = view.findViewById<RecyclerView>(R.id.bag_recycler).apply {
             // use this setting to improve performance if you know that changes

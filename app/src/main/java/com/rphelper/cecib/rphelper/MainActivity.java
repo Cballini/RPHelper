@@ -5,12 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.support.v4.app.FragmentActivity;
 
 
-import com.rphelper.cecib.rphelper.fragments.BagFragment;
+import com.rphelper.cecib.rphelper.fragments.InventoryFragment;
 import com.rphelper.cecib.rphelper.fragments.EquipmentFragment;
 import com.rphelper.cecib.rphelper.fragments.FightFragment;
 import com.rphelper.cecib.rphelper.fragments.SpellFragment;
@@ -48,9 +47,9 @@ public class MainActivity extends FragmentActivity{
                     spellTransaction.commit();
                     return true;
                 case R.id.navigation_inventory:
-                    BagFragment bagFragment = new BagFragment();
+                    InventoryFragment inventoryFragment = new InventoryFragment();
                     FragmentTransaction bagTransaction = getSupportFragmentManager().beginTransaction();
-                    bagTransaction.replace(R.id.fragment_container, bagFragment);
+                    bagTransaction.replace(R.id.fragment_container, inventoryFragment);
                     bagTransaction.addToBackStack(null);
                     bagTransaction.commit();
                     return true;

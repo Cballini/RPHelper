@@ -1,0 +1,43 @@
+{
+  "leftHand": {
+    "name": "Rapière",
+    "damage": "95",
+    "bonusFor": "E",
+    "bonusDex": "C",
+    "weight": "2"
+  },
+  "rightHand": {
+    "name": "Sceptre du roi",
+    "damage": "96",
+    "boost": "140",
+    "bonusFor": "E",
+    "bonusInt": "A",
+    "weight": "10"
+  },
+  "shield": {
+  },
+  "hat": {
+    "name": "Sorcier",
+    "def": "1",
+    "res": ["ALL"],
+    "weight": "1.4"
+  },
+  "chest": {
+    "name": "Sorcier",
+    "def": "5",
+    "res": ["ALL"],
+    "weight": "4.1"
+  },
+  "gloves": {
+    "name": "Sorcier",
+    "def": "1",
+    "res": ["ALL"],
+    "weight": "1.3"
+  },
+  "greaves": {
+    "name": "Sorcier",
+    "def": "4",
+    "res": ["ALL"],
+    "weight": "3.2"
+  }
+}

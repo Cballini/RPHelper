@@ -29,11 +29,11 @@ class SpellKnownAdapter (val mDataset: ArrayList<Spell>) :RecyclerView.Adapter<S
         holder!!.spellKnown.findViewById<TextView>(R.id.line_spell_mana_txt).text = mDataset[position].mana.toString()
         holder!!.spellKnown.findViewById<TextView>(R.id.line_spell_use).text = mDataset[position].use
         holder!!.spellKnown.findViewById<TextView>(R.id.line_spell_use_txt).text = mDataset[position].useValue.toString()
-        if (mDataset[position].use2.isNotEmpty()){
+        mDataset[position].use2.let {
             holder!!.spellKnown.findViewById<LinearLayout>(R.id.line_spell_use_layout2).visibility = View.VISIBLE
             holder!!.spellKnown.findViewById<TextView>(R.id.line_spell_use2).text = mDataset[position].use2
             holder!!.spellKnown.findViewById<TextView>(R.id.line_spell_use_txt2).text = mDataset[position].useValue2.toString()
-        }else{
+        }?.run{
             holder!!.spellKnown.findViewById<LinearLayout>(R.id.line_spell_use_layout2).visibility = View.GONE
         }
     }

@@ -83,7 +83,7 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:id="@+id/indic_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -91,44 +91,50 @@
             android:background="@color/white"
             android:elevation="1dp"
             android:padding="@dimen/app_margin"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_layout">
 
-            <com.rphelper.cecib.rphelper.component.IndicComponent
-                android:id="@+id/indic_life"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toStartOf="@id/indic_const"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:orientation="horizontal">
+                <com.rphelper.cecib.rphelper.component.IndicComponent
+                    android:id="@+id/indic_life"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="@dimen/small_margin"/>
 
-            <com.rphelper.cecib.rphelper.component.IndicComponent
-                android:id="@+id/indic_const"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/big_margin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/indic_life" />
+                <com.rphelper.cecib.rphelper.component.IndicComponent
+                    android:id="@+id/indic_const"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingHorizontal="@dimen/small_margin"/>
+            </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/app_margin">
             <com.rphelper.cecib.rphelper.component.IndicComponent
                 android:id="@+id/indic_mana"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/app_margin"
-                app:layout_constraintEnd_toStartOf="@id/indic_weight"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/indic_life" />
+                android:layout_weight="1"
+                android:paddingHorizontal="@dimen/small_margin"/>
 
             <com.rphelper.cecib.rphelper.component.IndicComponent
                 android:id="@+id/indic_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/big_margin"
-                android:layout_marginTop="@dimen/app_margin"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/indic_mana"
-                app:layout_constraintTop_toBottomOf="@+id/indic_const" />
-        </android.support.constraint.ConstraintLayout>
+                android:layout_weight="1"
+                android:paddingHorizontal="@dimen/small_margin"/>
+        </LinearLayout>
+        </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/stat_layout"
@@ -190,6 +196,7 @@
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
+                        android:gravity="center"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
@@ -197,6 +204,7 @@
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
+                        android:gravity="center"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
@@ -204,12 +212,13 @@
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:text="10"
+                        android:gravity="center"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:id="@+id/stat_dex"
                         android:background="@drawable/shape_line_top"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:padding="10dip"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
@@ -267,6 +276,7 @@
                         android:id="@+id/stat_end"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
+                        android:gravity="center"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
@@ -274,6 +284,7 @@
                         android:id="@+id/stat_mem"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
+                        android:gravity="center"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
@@ -281,13 +292,14 @@
                         android:id="@+id/stat_int"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
+                        android:gravity="center"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
                     <TextView
                         android:id="@+id/stat_foi"
                         android:background="@drawable/shape_line_top"
-                        android:gravity="right"
+                        android:gravity="center"
                         android:padding="10dip"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
@@ -391,7 +403,7 @@
         app:layout_constraintTop_toBottomOf="@+id/skill_layout">
         <com.rphelper.cecib.rphelper.component.IndicComponent
             android:id="@+id/don_cat"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>

@@ -9,12 +9,14 @@
     <TextView
         android:id="@+id/cat_title"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:background="@drawable/shape_category"
         android:text="Catégorie :"
+        android:gravity="center"
         android:textColor="@color/colorCatTitle"
         android:textSize="@dimen/cat_txt"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/cat_txt"
+        app:layout_constraintBottom_toBottomOf="@+id/cat_txt" />
 
     <TextView
         android:id="@+id/cat_txt"
@@ -25,7 +27,8 @@
         android:text="Text"
         android:textColor="@color/colorTxt"
         android:textSize="@dimen/cat_txt"
+        android:maxEms="5"
         android:background="@drawable/shape_category_txt"
-        app:layout_constraintBottom_toBottomOf="@+id/cat_title"
+
         app:layout_constraintLeft_toRightOf="@+id/cat_title" />
 </android.support.constraint.ConstraintLayout>

@@ -6,33 +6,38 @@
     android:layout_marginVertical="@dimen/txt_margin"
     android:layout_marginHorizontal="@dimen/small_margin">
 
-    <TextView
-        android:id="@+id/line_object_name"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="@string/name"
-        android:textColor="@color/colorCatTitle"
-        android:padding="@dimen/txt_margin"
-        android:background="@drawable/shape_category_light"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/line_object_note"
-        app:layout_constraintBottom_toBottomOf="@id/line_object_note"
-        app:layout_constraintEnd_toStartOf="@id/line_spell_note"/>
-
-    <TextView
-        android:id="@+id/line_object_note"
+    <LinearLayout
+        android:id="@+id/line_object_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorCatTitle"
-        android:paddingVertical="@dimen/txt_margin"
-        android:paddingHorizontal="@dimen/small_margin"
-        android:text="Description
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/line_object_equip">
+        <TextView
+            android:id="@+id/line_object_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/name"
+            android:textColor="@color/colorCatTitle"
+            android:paddingHorizontal="@dimen/small_margin"
+            android:background="@drawable/shape_category_light"
+            android:gravity="center"
+            android:maxEms="6"/>
+
+        <TextView
+            android:id="@+id/line_object_note"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorCatTitle"
+            android:paddingVertical="@dimen/txt_margin"
+            android:paddingHorizontal="@dimen/small_margin"
+            android:text="Description
 2 lignes"
-        android:maxLines="10"
-        android:textColor="@color/colorTxt"
-        app:layout_constraintStart_toEndOf="@+id/line_object_name"
-        app:layout_constraintEnd_toStartOf="@+id/line_object_equip" />
+            android:maxEms="10"
+            android:textColor="@color/colorTxt"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:id="@+id/line_object_equip"
@@ -42,9 +47,10 @@
         android:gravity="center"
         android:background="@color/colorCatTitle"
         android:paddingHorizontal="@dimen/txt_margin"
-        app:layout_constraintTop_toTopOf="@id/line_object_name"
-        app:layout_constraintBottom_toBottomOf="@id/line_object_name"
-        app:layout_constraintEnd_toStartOf="@+id/line_object_weight_layout">
+        app:layout_constraintStart_toEndOf="@id/line_object_layout"
+        app:layout_constraintEnd_toStartOf="@+id/line_object_weight_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
         <ImageView
             android:id="@+id/line_object_equip_img"
             android:layout_width="wrap_content"
@@ -53,15 +59,15 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/line_object_weight_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="40dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center"
         android:background="@color/colorCatTitle"
         android:paddingHorizontal="@dimen/txt_margin"
-        app:layout_constraintTop_toTopOf="@id/line_object_name"
-        app:layout_constraintBottom_toBottomOf="@id/line_object_name"
-        app:layout_constraintEnd_toStartOf="@id/line_object_quantity_layout">
+        app:layout_constraintEnd_toStartOf="@id/line_object_quantity_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
         <TextView
             android:id="@+id/line_object_weight"
             android:layout_width="wrap_content"
@@ -79,15 +85,15 @@
     </LinearLayout>
     <LinearLayout
         android:id="@+id/line_object_quantity_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="24dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center"
         android:background="@drawable/shape_category_light_txt"
         android:paddingHorizontal="@dimen/txt_margin"
-        app:layout_constraintTop_toTopOf="@id/line_object_name"
-        app:layout_constraintBottom_toBottomOf="@id/line_object_name"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
         <TextView
             android:id="@+id/line_object_quantity"
             android:layout_width="wrap_content"
@@ -103,6 +109,5 @@
             android:text="5"
             android:textColor="@color/colorTxt"/>
     </LinearLayout>
-
 
 </android.support.constraint.ConstraintLayout>

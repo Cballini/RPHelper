@@ -53,7 +53,7 @@
             <LinearLayout
                 android:id="@+id/equipment_panel_first_panel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/shape_border"
                 android:gravity="center"
@@ -64,6 +64,7 @@
                     android:id="@+id/equipment_panel_first_panel_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/txt_margin"
                     android:text="@string/damages"
                     android:textColor="@color/colorTxt"
                     android:paddingVertical="@dimen/txt_margin"/>
@@ -81,7 +82,7 @@
             <LinearLayout
                 android:id="@+id/equipment_panel_second_panel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/shape_border"
                 android:gravity="center"
@@ -93,6 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/mana_min"
+                    android:paddingStart="@dimen/txt_margin"
                     android:textColor="@color/colorTxt"
                     android:paddingVertical="@dimen/txt_margin"/>
 
@@ -102,6 +104,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/txt_margin"
                     android:text="0"
+                    android:maxLines="4"
                     android:textColor="@color/colorTxt"
                     android:paddingVertical="@dimen/txt_margin"/>
             </LinearLayout>
@@ -116,7 +119,7 @@
             <LinearLayout
                 android:id="@+id/equipment_panel_third_panel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/shape_border"
                 android:gravity="center"
@@ -127,6 +130,7 @@
                     android:id="@+id/equipment_panel_third_panel_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/txt_margin"
                     android:text="@string/damages"
                     android:textColor="@color/colorTxt"
                     android:paddingVertical="@dimen/txt_margin"/>
@@ -144,7 +148,7 @@
             <LinearLayout
                 android:id="@+id/equipment_panel_fourth_panel"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/shape_border"
                 android:gravity="center"
@@ -155,6 +159,7 @@
                     android:id="@+id/equipment_panel_fourth_panel_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/txt_margin"
                     android:text="@string/mana_min"
                     android:textColor="@color/colorTxt"
                     android:paddingVertical="@dimen/txt_margin"/>

@@ -9,73 +9,143 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.SpellKnownAdapter
 import com.rphelper.cecib.rphelper.component.SpellComponent
 import com.rphelper.cecib.rphelper.dto.Spell
+import com.rphelper.cecib.rphelper.viewmodel.SpellViewModel
+import kotlinx.android.synthetic.main.component_spell.view.*
 import java.util.ArrayList
 
 class SpellFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var viewModel: SpellViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_spell, container, false)
 
+        viewModel = SpellViewModel(context!!)
+
         /********* Equip spells ********/
         //First spell
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellName.text = "Piqure puissante d'Oolacile"
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellDamage.text = "22"
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellMana.text = "4"
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellTotal.text = "242"
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellEffect.text = "Lance une grande aiguille magique."
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUse.text = getString(R.string.intel)
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUseValue.text = "23"
-        /*if (2use){
-        view.findViewById<LinearLayout>(R.id.spell_first_equip).spellUseLayout2.visibility = View.GONE
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUse2.text = getString(R.string.intel)
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUseValue2.text = "23"}
-        else{view.findViewById<LinearLayout>(R.id.spell_first_equip).spellUseLayout2.visibility = View.VISIBLE}*/
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.setOnClickListener {  }
+        viewModel.firstEquipSpell.value?.let {
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellName.text = viewModel.firstEquipSpell.value!!.name
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellDamage.text = viewModel.firstEquipSpell.value!!.damage.toString()
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellMana.text = viewModel.firstEquipSpell.value!!.mana.toString()
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellTotal.text = "242" //TODO calcul
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellEffect.text = viewModel.firstEquipSpell.value!!.effect
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUse.text = viewModel.firstEquipSpell.value!!.use
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUseValue.text = viewModel.firstEquipSpell.value!!.useValue.toString()
+            if(viewModel.firstEquipSpell.value!!.use2.isNullOrEmpty())
+            { view.findViewById<LinearLayout>(R.id.spell_first_equip).spell_use_layout2.visibility = View.GONE }
+            else{
+                view.findViewById<LinearLayout>(R.id.spell_first_equip).spell_use_layout2.visibility = View.VISIBLE
+                view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUse2.text = viewModel.firstEquipSpell.value!!.use2
+                view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUseValue2.text = viewModel.firstEquipSpell.value!!.useValue2.toString()
+            }
+        }?:run{
+            view.findViewById<LinearLayout>(R.id.spell_first_equip).spell_use_layout2.visibility = View.GONE
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellName.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellDamage.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellMana.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellTotal.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellEffect.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUse.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_first_equip).spellUseValue.text = "0"
+        }
+        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.setOnClickListener { }
 
         //Second spell
-        view.findViewById<SpellComponent>(R.id.spell_second_equip).spellName.text = "Epée d'Oolacile"
-        view.findViewById<SpellComponent>(R.id.spell_second_equip).spellDamage.text = "20"
-        view.findViewById<SpellComponent>(R.id.spell_second_equip).spellMana.text = "4"
-        view.findViewById<SpellComponent>(R.id.spell_second_equip).spellTotal.text = "240"
-        view.findViewById<SpellComponent>(R.id.spell_second_equip).spellEffect.text = "Forme une rapière spectrale sur le sceptre. Attaque au càc."
-        view.findViewById<SpellComponent>(R.id.spell_second_equip).spellUse.text = getString(R.string.intel)
-        view.findViewById<SpellComponent>(R.id.spell_second_equip).spellUseValue.text = "23"
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.setOnClickListener {  }
+        viewModel.secondEquipSpell.value?.let {
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellName.text = viewModel.secondEquipSpell.value!!.name
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellDamage.text = viewModel.secondEquipSpell.value!!.damage.toString()
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellMana.text = viewModel.secondEquipSpell.value!!.mana.toString()
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellTotal.text = "242" //TODO calcul
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellEffect.text = viewModel.secondEquipSpell.value!!.effect
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellUse.text = viewModel.secondEquipSpell.value!!.use
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellUseValue.text = viewModel.secondEquipSpell.value!!.useValue.toString()
+            if(viewModel.secondEquipSpell.value!!.use2.isNullOrEmpty())
+            { view.findViewById<LinearLayout>(R.id.spell_second_equip).spell_use_layout2.visibility = View.GONE }
+            else{
+                view.findViewById<LinearLayout>(R.id.spell_second_equip).spell_use_layout2.visibility = View.VISIBLE
+                view.findViewById<SpellComponent>(R.id.spell_second_equip).spellUse2.text = viewModel.secondEquipSpell.value!!.use2
+                view.findViewById<SpellComponent>(R.id.spell_second_equip).spellUseValue2.text = viewModel.secondEquipSpell.value!!.useValue2.toString()
+            }
+        }?:run{
+            view.findViewById<LinearLayout>(R.id.spell_second_equip).spell_use_layout2.visibility = View.GONE
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellName.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellDamage.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellMana.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellTotal.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellEffect.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellUse.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_second_equip).spellUseValue.text = "0"
+        }
+        view.findViewById<SpellComponent>(R.id.spell_second_equip).spellButton.setOnClickListener { }
 
         //Third spell
-        view.findViewById<SpellComponent>(R.id.spell_third_equip).spellName.text = "Pluie de cristaux"
-        view.findViewById<SpellComponent>(R.id.spell_third_equip).spellDamage.text = "14"
-        view.findViewById<SpellComponent>(R.id.spell_third_equip).spellMana.text = "19"
-        view.findViewById<SpellComponent>(R.id.spell_third_equip).spellTotal.text = "229"
-        view.findViewById<SpellComponent>(R.id.spell_third_equip).spellEffect.text = "Lance 5 éclats magiques dans un cône jusqu'à 18m. Chaque éclat à 50% de chance de toucher la même cible."
-        view.findViewById<SpellComponent>(R.id.spell_third_equip).spellUse.text = getString(R.string.intel)
-        view.findViewById<SpellComponent>(R.id.spell_third_equip).spellUseValue.text = "18"
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.setOnClickListener {  }
+        viewModel.thirdEquipSpell.value?.let {
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellName.text = viewModel.thirdEquipSpell.value!!.name
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellDamage.text = viewModel.thirdEquipSpell.value!!.damage.toString()
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellMana.text = viewModel.thirdEquipSpell.value!!.mana.toString()
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellTotal.text = "242" //TODO calcul
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellEffect.text = viewModel.thirdEquipSpell.value!!.effect
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellUse.text = viewModel.thirdEquipSpell.value!!.use
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellUseValue.text = viewModel.thirdEquipSpell.value!!.useValue.toString()
+            if(viewModel.thirdEquipSpell.value!!.use2.isNullOrEmpty())
+            { view.findViewById<LinearLayout>(R.id.spell_third_equip).spell_use_layout2.visibility = View.GONE }
+            else{
+                view.findViewById<LinearLayout>(R.id.spell_third_equip).spell_use_layout2.visibility = View.VISIBLE
+                view.findViewById<SpellComponent>(R.id.spell_third_equip).spellUse2.text = viewModel.thirdEquipSpell.value!!.use2
+                view.findViewById<SpellComponent>(R.id.spell_third_equip).spellUseValue2.text = viewModel.thirdEquipSpell.value!!.useValue2.toString()
+            }
+        }?:run{
+            view.findViewById<LinearLayout>(R.id.spell_third_equip).spell_use_layout2.visibility = View.GONE
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellName.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellDamage.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellMana.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellTotal.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellEffect.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellUse.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_third_equip).spellUseValue.text = "0"
+        }
+        view.findViewById<SpellComponent>(R.id.spell_third_equip).spellButton.setOnClickListener { }
 
         //Fourth spell
-        view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellName.text = "Guèpe magique"
-        view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellDamage.text = "20"
-        view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellMana.text = "20"
-        view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellTotal.text = "235"
-        view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellEffect.text = "Active 3 boules magiques qui s'activent si un ennemi approche à moins de 3m (possibilité d'activer les boules une par une)."
-        view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellUse.text = getString(R.string.intel)
-        view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellUseValue.text = "20"
-        view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.setOnClickListener {  }
+        viewModel.fourthEquipSpell.value?.let {
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellName.text = viewModel.fourthEquipSpell.value!!.name
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellDamage.text = viewModel.fourthEquipSpell.value!!.damage.toString()
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellMana.text = viewModel.fourthEquipSpell.value!!.mana.toString()
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellTotal.text = "242" //TODO calcul
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellEffect.text = viewModel.fourthEquipSpell.value!!.effect
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellUse.text = viewModel.fourthEquipSpell.value!!.use
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellUseValue.text = viewModel.fourthEquipSpell.value!!.useValue.toString()
+            if(viewModel.fourthEquipSpell.value!!.use2.isNullOrEmpty())
+            { view.findViewById<LinearLayout>(R.id.spell_fourth_equip).spell_use_layout2.visibility = View.GONE }
+            else{
+                view.findViewById<LinearLayout>(R.id.spell_fourth_equip).spell_use_layout2.visibility = View.VISIBLE
+                view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellUse2.text = viewModel.fourthEquipSpell.value!!.use2
+                view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellUseValue2.text = viewModel.fourthEquipSpell.value!!.useValue2.toString()
+            }
+        }?:run{
+            view.findViewById<LinearLayout>(R.id.spell_fourth_equip).spell_use_layout2.visibility = View.GONE
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellName.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellDamage.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellMana.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellTotal.text = "0"
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellEffect.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellUse.text = ""
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellUseValue.text = "0"
+        }
+        view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellButton.setOnClickListener { }
 
         /********** Spell known *******/
-        var spellsKnown = ArrayList<Spell>()
-        var spell = Spell("Luciole", 0, 20, "Créer une boule de lumière éclairante.", getString(R.string.intel), 10, false)
-        spellsKnown.add(spell)
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = SpellKnownAdapter(spellsKnown)
+        viewAdapter = SpellKnownAdapter(ArrayList(viewModel._knownSpells.value))
 
         recyclerView = view.findViewById<RecyclerView>(R.id.spell_known_recycler).apply {
             // use this setting to improve performance if you know that changes

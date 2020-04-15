@@ -35,28 +35,33 @@
             app:layout_constraintTop_toBottomOf="@+id/fight_roll_dice">
             <com.rphelper.cecib.rphelper.component.DamageComponent
                 android:id="@+id/fight_brut_damage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:padding="@dimen/small_margin"/>
             <com.rphelper.cecib.rphelper.component.DamageComponent
                 android:id="@+id/fight_elem_armor_damage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:padding="@dimen/small_margin"/>
             <com.rphelper.cecib.rphelper.component.DamageComponent
                 android:id="@+id/fight_block_damage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:padding="@dimen/small_margin"/>
             <com.rphelper.cecib.rphelper.component.DamageComponent
                 android:id="@+id/fight_elem_block_damage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:padding="@dimen/small_margin"/>
             <com.rphelper.cecib.rphelper.component.DamageComponent
                 android:id="@+id/fight_weak_damage"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:padding="@dimen/small_margin"/>
         </LinearLayout>
 

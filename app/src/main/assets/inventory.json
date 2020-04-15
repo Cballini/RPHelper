@@ -1,0 +1,88 @@
+{
+  "money": "50",
+  "item": [
+    {
+      "name": "Sachet de thé de Till",
+      "effect": "soigne le statut poison",
+      "quantity": "4"
+    },
+    {
+      "name": "Petit bracelet tressé de Catarina",
+      "effect": "tressé par la fille de Catarina",
+      "equip": "false",
+      "quantity": "1"
+    },
+    {
+      "name": "Talisman",
+      "effect": "",
+      "equip": "false",
+      "weight": "0.5",
+      "quantity": "1"
+    },
+    {
+      "name": "Tiges de Bellvine",
+      "effect": "Rituel = 5 tiges = +20 mana max pendant une journée",
+      "quantity": "20"
+    },
+    {
+      "name": "Racine constitution",
+      "effect": "Constitution infinie pendant 1 combat",
+      "quantity": "1"
+    },
+    {
+      "name": "Bombes de feu",
+      "effect": "100 dgt de feu",
+      "quantity": "3"
+    },
+    {
+      "name": "Kukri",
+      "effect": "180dgt + 20% chance de BLEED",
+      "quantity": "9"
+    },
+    {
+      "name": "Corne de gardien du sanctuaire",
+      "effect": "",
+      "quantity": "1"
+    },
+    {
+      "name": "Bague de Vytram",
+      "effect": "+1 INT",
+      "equip": "true",
+      "quantity": "1"
+    },
+    {
+      "name": "Bague d'Oolacile",
+      "effect": "+20 mana max",
+      "equip": "true",
+      "quantity": "1"
+    },
+    {
+      "name": "Bouclier",
+      "effect": "0.2 res magique",
+      "equip": "false",
+      "weight": "2.5",
+      "quantity": "1"
+    },
+    {
+      "name": "Enduit corompu",
+      "effect": "Ajoute une affinité poison sur l'arme pendant un combat (30%).",
+      "quantity": "10"
+    },
+    {
+      "name": "Ecaille de titanite",
+      "effect": "voir amélioration arme",
+      "quantity": "1"
+    },
+    {
+      "name": "Résine de pin",
+      "effect": "Ajoute une affinité foudre sur l'arme pendant un combat.",
+      "quantity": "11"
+    },
+    {
+      "name": "Os de queue de wyvern",
+      "effect": "",
+      "weight": "4",
+      "quantity": "1"
+    }
+  ]
+}

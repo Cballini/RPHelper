@@ -36,6 +36,7 @@
     <string name="constitution">CONST</string>
 
     <string name="damages">Dégats</string>
+    <string name="damages_short">Dgts</string>
     <string name="affinity">Affinité</string>
     <string name="affinity_short">Aff</string>
     <string name="status">Statut</string>
@@ -83,10 +84,11 @@
 
     <string name="roll_dice">Lancer le dé</string>
     <string name="brut_dmg">Dégats bruts</string>
-    <string name="elem_armor_dmg">Dégats élémentaires armure</string>
+    <string name="elem_armor_dmg">Dégats élém armure</string>
     <string name="block_dmg">Dégats bouclier</string>
-    <string name="elem_block_dmg">Dégats élémentaires bouclier</string>
+    <string name="elem_block_dmg">Dégats élém bouclier</string>
     <string name="weak_dmg">Dégats faiblesse</string>
     <string name="submit">SUBIR</string>
 
+    <string name="empty_json">{}</string>
 </resources>

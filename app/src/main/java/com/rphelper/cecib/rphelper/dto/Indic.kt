@@ -1,5 +1,5 @@
 package com.rphelper.cecib.rphelper.dto
 
-class Indic (name: String, value: Int, var maxValue:String) : Stat(name, value) {
+class Indic (var value: Float, var maxValue:Int) {
 
 }
