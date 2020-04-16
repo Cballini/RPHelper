@@ -16,6 +16,17 @@
         android:background="@drawable/shape_indic"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/indic_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_edit"
+        android:tint="@color/colorCatTitle"
+        android:paddingVertical="@dimen/txt_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/indic_title"
+        app:layout_constraintBottom_toBottomOf="@+id/indic_title"/>
+
     <LinearLayout
         android:id="@+id/indic_stats"
         android:layout_width="match_parent"

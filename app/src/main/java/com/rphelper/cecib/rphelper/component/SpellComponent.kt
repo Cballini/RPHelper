@@ -13,6 +13,7 @@ class SpellComponent @JvmOverloads constructor(
         attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs){
 
+    var spellPlace : TextView
     var spellName : TextView
     var spellDamage : TextView
     var spellMana : TextView
@@ -29,6 +30,7 @@ class SpellComponent @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.component_spell, this, true)
 
+        spellPlace = findViewById(R.id.spell_place)
         spellName = findViewById(R.id.spell_name)
         spellDamage = findViewById(R.id.spell_damage_value)
         spellMana = findViewById(R.id.spell_mana_value)

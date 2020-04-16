@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.EquipmentComponent
+import com.rphelper.cecib.rphelper.dto.Armor
+import com.rphelper.cecib.rphelper.dto.Weapon
 import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.Status
@@ -31,46 +33,51 @@ class EquipmentFragment : Fragment() {
         view.findViewById<TextView>(R.id.equipment_button_esc).setOnClickListener {  }
 
         /******** Left hand **********/
-        viewModel.leftHand.value!!?.let {
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentType.text = getString(R.string.left_hand)
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipment_name.text = viewModel.leftHand.value!!.name
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentFirstPanelTitle.text = getString(R.string.damages_short)
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentFirstPanelTxt.text = viewModel.leftHand.value!!.damage.toString()
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentSecondPanelTitle.text = getString(R.string.boost)
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentSecondPanelTxt.text = viewModel.leftHand.value!!.boost.toString()
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentThirdPanelTitle.text = if (null!=viewModel.leftHand.value!!.status && !viewModel.leftHand.value!!.status.equals(Status.NOTHING)) viewModel.leftHand.value!!.status.toString() else getString(R.string.status)
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentThirdPanelTxt.text = if (null!=viewModel.leftHand.value!!.statusValue && viewModel.leftHand.value!!.statusValue != 0F) viewModel.leftHand.value!!.statusValue.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentFourthPanelTitle.text = getString(R.string.affinity_short)
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentFourthPanelTxt.text = if (null!=viewModel.leftHand.value!!.affinity && !viewModel.leftHand.value!!.affinity.equals(Elem.NOTHING)) viewModel.leftHand.value!!.affinity.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentBonusForTxt.text = if (null!=viewModel.leftHand.value!!.bonusFor && !viewModel.leftHand.value!!.bonusFor.equals(Bonus.NOTHING)) viewModel.leftHand.value!!.bonusFor.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentBonusDexTxt.text = if (null!=viewModel.leftHand.value!!.bonusDex && !viewModel.leftHand.value!!.bonusDex.equals(Bonus.NOTHING)) viewModel.leftHand.value!!.bonusDex.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentBonusIntTxt.text = if (null!=viewModel.leftHand.value!!.bonusInt && !viewModel.leftHand.value!!.bonusInt.equals(Bonus.NOTHING)) viewModel.leftHand.value!!.bonusInt.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentBonusFoiTxt.text = if (null!=viewModel.leftHand.value!!.bonusFoi && !viewModel.leftHand.value!!.bonusFoi.equals(Bonus.NOTHING)) viewModel.leftHand.value!!.bonusFoi.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentLargePanelTxt.text = "215" //TODO calc
-            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentWeightTxt.text = viewModel.leftHand.value!!.weight.toString()
-        }
+        initWeaponView(view, R.id.equipment_left_hand, getString(R.string.left_hand), viewModel.leftHand.value)
 
         /******** Right hand **********/
-        viewModel.rightHand.value!!?.let {
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentType.text = getString(R.string.right_hand)
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipment_name.text = viewModel.rightHand.value!!.name
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentFirstPanelTitle.text = getString(R.string.damages_short)
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentFirstPanelTxt.text = viewModel.rightHand.value!!.damage.toString()
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentSecondPanelTitle.text = getString(R.string.boost)
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentSecondPanelTxt.text = viewModel.rightHand.value!!.boost.toString()
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentThirdPanelTitle.text = if (null!=viewModel.rightHand.value!!.status && !viewModel.rightHand.value!!.status.equals(Status.NOTHING)) viewModel.rightHand.value!!.status.toString() else getString(R.string.status)
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentThirdPanelTxt.text = if (null!=viewModel.rightHand.value!!.statusValue && viewModel.rightHand.value!!.statusValue != 0F) viewModel.rightHand.value!!.statusValue.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentFourthPanelTitle.text = getString(R.string.affinity_short)
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentFourthPanelTxt.text = if (null!=viewModel.rightHand.value!!.affinity && !viewModel.rightHand.value!!.affinity.equals(Elem.NOTHING)) viewModel.rightHand.value!!.affinity.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentBonusForTxt.text = if (null!=viewModel.rightHand.value!!.bonusFor && !viewModel.rightHand.value!!.bonusFor.equals(Bonus.NOTHING)) viewModel.rightHand.value!!.bonusFor.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentBonusDexTxt.text = if (null!=viewModel.rightHand.value!!.bonusDex && !viewModel.rightHand.value!!.bonusDex.equals(Bonus.NOTHING)) viewModel.rightHand.value!!.bonusDex.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentBonusIntTxt.text = if (null!=viewModel.rightHand.value!!.bonusInt && !viewModel.rightHand.value!!.bonusInt.equals(Bonus.NOTHING)) viewModel.rightHand.value!!.bonusInt.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentBonusFoiTxt.text = if (null!=viewModel.rightHand.value!!.bonusFoi && !viewModel.rightHand.value!!.bonusFoi.equals(Bonus.NOTHING)) viewModel.rightHand.value!!.bonusFoi.toString() else "/"
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentLargePanelTxt.text = "215" //TODO calc
-            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentWeightTxt.text = viewModel.rightHand.value!!.weight.toString()
-        }
+        initWeaponView(view, R.id.equipment_right_hand, getString(R.string.right_hand), viewModel.rightHand.value)
 
         /******** Shield **********/
+        initShieldView(view)
+
+        /******** Hat **********/
+        initArmorView(view, R.id.equipment_hat, getString(R.string.hat), viewModel.hat.value)
+
+        /******** Chest **********/
+        initArmorView(view, R.id.equipment_chest, getString(R.string.chestplate), viewModel.chest.value)
+
+        /******** Gloves **********/
+        initArmorView(view, R.id.equipment_gloves, getString(R.string.gloves), viewModel.gloves.value)
+
+        /******** Greaves **********/
+        initArmorView(view, R.id.equipment_greaves, getString(R.string.greaves), viewModel.greaves.value)
+
+        return view
+    }
+
+    fun initWeaponView(view :View, id :Int, type :String, weapon: Weapon?){
+        weapon?.let {
+            view!!.findViewById<EquipmentComponent>(id).equipmentType.text = type
+            view!!.findViewById<EquipmentComponent>(id).equipment_name.text = weapon.name
+            view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.damages_short)
+            view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTxt.text = weapon.damage.toString()
+            view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTitle.text = getString(R.string.boost)
+            view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = weapon.boost.toString()
+            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = if (null!=weapon.status && !weapon.status.equals(Status.NOTHING)) weapon.status.toString() else getString(R.string.status)
+            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = if (null!=weapon.statusValue && weapon.statusValue != 0F) weapon.statusValue.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTitle.text = getString(R.string.affinity_short)
+            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = if (null!=weapon.affinity && !weapon.affinity.equals(Elem.NOTHING)) weapon.affinity.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentBonusForTxt.text = if (null!=weapon.bonusFor && !weapon.bonusFor.equals(Bonus.NOTHING)) weapon.bonusFor.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentBonusDexTxt.text = if (null!=weapon.bonusDex && !weapon.bonusDex.equals(Bonus.NOTHING)) weapon.bonusDex.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentBonusIntTxt.text = if (null!=weapon.bonusInt && !weapon.bonusInt.equals(Bonus.NOTHING)) weapon.bonusInt.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentBonusFoiTxt.text = if (null!=weapon.bonusFoi && !weapon.bonusFoi.equals(Bonus.NOTHING)) weapon.bonusFoi.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentLargePanelTxt.text = "215" //TODO calc
+            view!!.findViewById<EquipmentComponent>(id).equipmentWeightTxt.text = weapon.weight.toString()
+        }
+    }
+
+    fun initShieldView(view:View){
         view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentType.text = getString(R.string.shield)
         viewModel.shield.value?.let {
             view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipment_name.text = viewModel.shield.value!!.name
@@ -99,141 +106,40 @@ class EquipmentFragment : Fragment() {
             view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentLargePanelLayout.visibility = View.GONE
             view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentWeightTxt.text = "0"
         }
-
-        /******** Hat **********/
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentType.text = getString(R.string.hat)
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipment_name.text = viewModel.hat.value!!.name
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentFirstPanelTitle.text = getString(R.string.def_short)
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentFirstPanelTxt.text = viewModel.hat.value!!.def.toString()
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentSecondPanelTitle.text = getString(R.string.res_short)
-        if (null!=viewModel.hat.value!!.res && viewModel.hat.value!!.res.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.hat.value!!.res){ stringRes += res.toString() + " " }
-            view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentSecondPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentSecondPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentThirdPanelTitle.text = getString(R.string.fai_short)
-        if (null!=viewModel.hat.value!!.weak && viewModel.hat.value!!.weak.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.hat.value!!.weak){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentThirdPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentThirdPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentFourthPanelTitle.text = getString(R.string.immun_short)
-        if (null!=viewModel.hat.value!!.immun && viewModel.hat.value!!.immun.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.hat.value!!.immun){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentFourthPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentFourthPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentBonusLayout.visibility = View.GONE
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentLargePanelLayout.visibility = View.GONE
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentWeightTxt.text = viewModel.hat.value!!.weight.toString()
-
-        /******** Chest **********/
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentType.text = getString(R.string.chestplate)
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipment_name.text = viewModel.chest.value!!.name
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentFirstPanelTitle.text = getString(R.string.def_short)
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentFirstPanelTxt.text = viewModel.chest.value!!.def.toString()
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentSecondPanelTitle.text = getString(R.string.res_short)
-        if (null!=viewModel.chest.value!!.res && viewModel.chest.value!!.res.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.chest.value!!.res){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentSecondPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentSecondPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentThirdPanelTitle.text = getString(R.string.fai_short)
-        if (null!=viewModel.chest.value!!.weak && viewModel.chest.value!!.weak.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.chest.value!!.weak){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentThirdPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentThirdPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentFourthPanelTitle.text = getString(R.string.immun_short)
-        if (null!=viewModel.chest.value!!.immun && viewModel.chest.value!!.immun.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.chest.value!!.immun){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentFourthPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentFourthPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentBonusLayout.visibility = View.GONE
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentLargePanelLayout.visibility = View.GONE
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentWeightTxt.text = viewModel.chest.value!!.weight.toString()
-
-        /******** Gloves **********/
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentType.text = getString(R.string.gloves)
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipment_name.text = viewModel.gloves.value!!.name
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentFirstPanelTitle.text = getString(R.string.def_short)
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentFirstPanelTxt.text = viewModel.gloves.value!!.def.toString()
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentSecondPanelTitle.text = getString(R.string.res_short)
-        if (null!=viewModel.gloves.value!!.res && viewModel.gloves.value!!.res.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.gloves.value!!.res){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentSecondPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentSecondPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentThirdPanelTitle.text = getString(R.string.fai_short)
-        if (null!=viewModel.gloves.value!!.weak && viewModel.gloves.value!!.weak.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.gloves.value!!.weak){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentThirdPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentThirdPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentFourthPanelTitle.text = getString(R.string.immun_short)
-        if (null!=viewModel.gloves.value!!.immun && viewModel.gloves.value!!.immun.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.gloves.value!!.immun){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentFourthPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentFourthPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentBonusLayout.visibility = View.GONE
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentLargePanelLayout.visibility = View.GONE
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentWeightTxt.text = viewModel.gloves.value!!.weight.toString()
-
-        /******** Greaves **********/
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentType.text = getString(R.string.greaves)
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipment_name.text = viewModel.greaves.value!!.name
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentFirstPanelTitle.text = getString(R.string.def_short)
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentFirstPanelTxt.text = viewModel.greaves.value!!.def.toString()
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentSecondPanelTitle.text = getString(R.string.res_short)
-        if (null!=viewModel.greaves.value!!.res && viewModel.greaves.value!!.res.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.greaves.value!!.res){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentSecondPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentSecondPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentThirdPanelTitle.text = getString(R.string.fai_short)
-        if (null!=viewModel.greaves.value!!.weak && viewModel.greaves.value!!.weak.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.greaves.value!!.weak){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentThirdPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentThirdPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentFourthPanelTitle.text = getString(R.string.immun_short)
-        if (null!=viewModel.greaves.value!!.immun && viewModel.greaves.value!!.immun.isNotEmpty()) {
-            var stringRes = ""
-            for (res in viewModel.greaves.value!!.immun){ stringRes += res.toString() +"\n" }
-            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentFourthPanelTxt.text = stringRes
-        }else{
-            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentFourthPanelTxt.text = "/"
-        }
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentBonusLayout.visibility = View.GONE
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentLargePanelLayout.visibility = View.GONE
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentWeightTxt.text = viewModel.greaves.value!!.weight.toString()
-
-        return view
     }
 
+    fun initArmorView(view :View, id :Int, type :String, armor: Armor?){
+        view!!.findViewById<EquipmentComponent>(id).equipmentType.text = type
+        view!!.findViewById<EquipmentComponent>(id).equipment_name.text = armor!!.name
+        view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.def_short)
+        view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTxt.text = armor!!.def.toString()
+        view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTitle.text = getString(R.string.res_short)
+        if (null!=armor!!.res && armor!!.res.isNotEmpty()) {
+            var stringRes = ""
+            for (res in armor!!.res){ stringRes += res.toString() + " " }
+            view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = stringRes
+        }else{
+            view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = "/"
+        }
+        view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = getString(R.string.fai_short)
+        if (null!=armor!!.weak && armor!!.weak.isNotEmpty()) {
+            var stringRes = ""
+            for (res in armor!!.weak){ stringRes += res.toString() +"\n" }
+            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = stringRes
+        }else{
+            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = "/"
+        }
+        view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTitle.text = getString(R.string.immun_short)
+        if (null!=armor!!.immun && armor!!.immun.isNotEmpty()) {
+            var stringRes = ""
+            for (res in armor!!.immun){ stringRes += res.toString() +"\n" }
+            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = stringRes
+        }else{
+            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = "/"
+        }
+        view!!.findViewById<EquipmentComponent>(id).equipmentBonusLayout.visibility = View.GONE
+        view!!.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.visibility = View.GONE
+        view!!.findViewById<EquipmentComponent>(id).equipmentWeightTxt.text = armor!!.weight.toString()
+    }
 
 }
