@@ -7,5 +7,5 @@ enum class Bonus (val value: Float){
     C(1.5F),
     D(1F),
     E(0.5F),
-    NOTHING(0F)
+    NOTHING(0F);
 }

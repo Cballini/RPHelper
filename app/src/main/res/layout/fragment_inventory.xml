@@ -18,6 +18,7 @@
             android:background="@color/white"
             android:elevation="1dp"
             android:orientation="vertical"
+            android:gravity="center"
             app:layout_constraintTop_toTopOf="parent">
             <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
                 android:id="@+id/bag_money"
@@ -31,7 +32,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/small_margin"
-                tools:listitem="@layout/component_line_object"/>
+                tools:listitem="@layout/component_line_item"/>
+            <ImageView
+                android:id="@+id/bag_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/txt_margin"
+                android:src="@drawable/ic_add_box"
+                android:tint="@color/green"/>
         </LinearLayout>
 
         <View

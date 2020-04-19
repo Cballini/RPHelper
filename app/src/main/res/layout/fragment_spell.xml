@@ -83,6 +83,7 @@
             android:background="@color/white"
             android:elevation="1dp"
             android:orientation="vertical"
+            android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/spell_equip_layout">
 
             <TextView
@@ -98,7 +99,15 @@
                 android:id="@+id/spell_known_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/component_line_spell"/>
+                tools:listitem="@layout/component_line_spell"
+                android:scrollbars="vertical"/>
+            <ImageView
+                android:id="@+id/spell_known_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/txt_margin"
+                android:src="@drawable/ic_add_box"
+                android:tint="@color/green"/>
         </LinearLayout>
 
         <View

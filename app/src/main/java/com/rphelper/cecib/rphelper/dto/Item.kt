@@ -1,6 +1,6 @@
 package com.rphelper.cecib.rphelper.dto
 
-class Object (var name:String, var quantity:Int, var effect:String, var equip:Boolean){
+class Item (var name:String, var quantity:Int, var effect:String, var equip:Boolean){
     var weight : Float = 0F
     /*var bonusStat
     var bonus*/

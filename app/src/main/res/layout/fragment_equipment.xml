@@ -52,6 +52,64 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/equipment_stat_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/equipment_button_layout">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginHorizontal="@dimen/small_margin"
+                android:orientation="horizontal">
+                <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                    android:id="@+id/equipment_stat_damages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+                <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                    android:id="@+id/equipment_stat_defense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginHorizontal="@dimen/small_margin"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                    android:id="@+id/equipment_stat_res"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                    android:id="@+id/equipment_stat_immun"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                    android:id="@+id/equipment_stat_weak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/equipment_weapons_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,11 +117,8 @@
             android:background="@color/white"
             android:elevation="1dp"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/equipment_button_layout">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            app:layout_constraintTop_toBottomOf="@+id/equipment_stat_layout">
+
             <com.rphelper.cecib.rphelper.component.EquipmentComponent
                 android:id="@+id/equipment_left_hand"
                 android:layout_width="match_parent"
@@ -80,7 +135,15 @@
                     android:paddingStart="@dimen/txt_margin"
                     android:paddingVertical="@dimen/small_margin"
                     android:paddingEnd="@dimen/small_margin"/>
-            </LinearLayout>
+            <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                android:id="@+id/equipment_catalyst"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingStart="@dimen/txt_margin"
+                android:paddingVertical="@dimen/small_margin"
+                android:paddingEnd="@dimen/small_margin"/>
+
             <com.rphelper.cecib.rphelper.component.EquipmentComponent
                 android:id="@+id/equipment_shield"
                 android:layout_width="match_parent"
@@ -98,10 +161,7 @@
             android:elevation="1dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/equipment_weapons_layout">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+
                 <com.rphelper.cecib.rphelper.component.EquipmentComponent
                     android:id="@+id/equipment_hat"
                     android:layout_width="match_parent"
@@ -118,11 +178,8 @@
                     android:paddingStart="@dimen/txt_margin"
                     android:paddingVertical="@dimen/small_margin"
                     android:paddingEnd="@dimen/small_margin"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+
+
                 <com.rphelper.cecib.rphelper.component.EquipmentComponent
                     android:id="@+id/equipment_gloves"
                     android:layout_width="match_parent"
@@ -139,8 +196,8 @@
                     android:paddingStart="@dimen/txt_margin"
                     android:paddingVertical="@dimen/small_margin"
                     android:paddingEnd="@dimen/small_margin"/>
-            </LinearLayout>
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

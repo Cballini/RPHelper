@@ -218,36 +218,44 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/stat_vit"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
+                        android:inputType="number"
                         android:text="10"
+                        android:textSize="@dimen/cat_txt"
                         android:gravity="center"
                         android:textColor="@color/colorTxt" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/stat_vig"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
+                        android:inputType="number"
                         android:text="10"
+                        android:textSize="@dimen/cat_txt"
                         android:gravity="center"
                         android:textColor="@color/colorTxt" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/stat_for"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
+                        android:inputType="number"
                         android:text="10"
+                        android:textSize="@dimen/cat_txt"
                         android:gravity="center"
                         android:textColor="@color/colorTxt" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/stat_dex"
                         android:background="@drawable/shape_line_top"
                         android:gravity="center"
                         android:padding="10dip"
+                        android:inputType="number"
                         android:text="10"
+                        android:textSize="@dimen/cat_txt"
                         android:textColor="@color/colorTxt" />
                 </TableRow>
 
@@ -300,36 +308,44 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <TextView
+                    <EditText
                         android:id="@+id/stat_end"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:gravity="center"
+                        android:textSize="@dimen/cat_txt"
+                        android:inputType="number"
                         android:text="10"
                         android:textColor="@color/colorTxt" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/stat_mem"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:gravity="center"
+                        android:inputType="number"
                         android:text="10"
+                        android:textSize="@dimen/cat_txt"
                         android:textColor="@color/colorTxt" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/stat_int"
                         android:background="@drawable/shape_line_top"
                         android:padding="10dip"
                         android:gravity="center"
+                        android:inputType="number"
                         android:text="10"
+                        android:textSize="@dimen/cat_txt"
                         android:textColor="@color/colorTxt" />
 
-                    <TextView
+                    <EditText
                         android:id="@+id/stat_foi"
                         android:background="@drawable/shape_line_top"
                         android:gravity="center"
                         android:padding="10dip"
+                        android:inputType="number"
                         android:text="10"
+                        android:textSize="@dimen/cat_txt"
                         android:textColor="@color/colorTxt" />
                 </TableRow>
             </TableLayout>

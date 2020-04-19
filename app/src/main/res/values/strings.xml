@@ -37,14 +37,17 @@
 
     <string name="damages">Dégats</string>
     <string name="damages_short">Dgts</string>
+    <string name="spell_use">Stat(s) nécéssaire(s)</string>
     <string name="affinity">Affinité</string>
     <string name="affinity_short">Aff</string>
     <string name="status">Statut</string>
+    <string name="bonus">Bonus</string>
     <string name="bonus_for">Bonus FOR</string>
     <string name="bonus_dex">Bonus DEX</string>
     <string name="bonus_int">Bonus INT</string>
     <string name="bonus_foi">Bonus FOI</string>
     <string name="boost">Boost</string>
+    <string name="proc">Proc</string>
     <string name="block">Blocage</string>
     <string name="block_short">Bloc</string>
     <string name="res">Résistance(s)</string>
@@ -57,6 +60,8 @@
     <string name="immun_short">Immu</string>
     <string name="effect">Effet</string>
     <string name="equip">Equipé</string>
+    <string name="equiper">Equiper</string>
+    <string name="item">Objet</string>
     <string name="desc">Description</string>
     <string name="quantity">Quantité</string>
     <string name="nb">NB</string>
@@ -64,6 +69,7 @@
     <string name="weapon">Armes</string>
     <string name="left_hand">Main gauche</string>
     <string name="right_hand">Main droite</string>
+    <string name="catalyst">Cataliseur</string>
     <string name="shield">Bouclier</string>
     <string name="armor">Armure</string>
     <string name="hat">Casque</string>
@@ -85,6 +91,7 @@
     <string name="cast_spell">Lancer\nle sort</string>
     <string name="total_damage">Dégats totaux</string>
     <string name="known_spells">Sorts connus</string>
+    <string name="choose_equip">Choisissez l\'emplacement où équiper votre sort</string>
 
     <string name="roll_dice">Lancer le dé</string>
     <string name="brut_dmg">Dégats bruts</string>
@@ -94,5 +101,19 @@
     <string name="weak_dmg">Dégats faiblesse</string>
     <string name="submit">SUBIR</string>
 
-    <string name="empty_json">{}</string>
+    <string name="edit">Modifier</string>
+    <string name="delete">Supprimer</string>
+    <string name="cancel">Annuler</string>
+    <string name="save">Enregistrer</string>
+    <string name="disequip">Déséquiper</string>
+    <string name="ok">OK</string>
+
+    <string name="file_character">character.json</string>
+    <string name="file_equipment">equipment.json</string>
+    <string name="file_spells">spells.json</string>
+    <string name="file_inventory">inventory.json</string>
+    <string name="file_empty_character">empty_character.json</string>
+    <string name="file_empty_equipment">empty_equipment.json</string>
+    <string name="file_empty_spells">empty_spells.json</string>
+    <string name="file_empty_inventory">empty_inventory.json</string>
 </resources>

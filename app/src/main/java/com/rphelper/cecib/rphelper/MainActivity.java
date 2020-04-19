@@ -14,6 +14,7 @@ import com.rphelper.cecib.rphelper.fragments.EquipmentFragment;
 import com.rphelper.cecib.rphelper.fragments.FightFragment;
 import com.rphelper.cecib.rphelper.fragments.SpellFragment;
 import com.rphelper.cecib.rphelper.fragments.StatsFragment;
+import com.rphelper.cecib.rphelper.utils.KeyboardUtils;
 
 import static android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED;
 
@@ -80,6 +81,6 @@ public class MainActivity extends FragmentActivity{
         navigation.setItemHorizontalTranslationEnabled(false);
         navigation.setLabelVisibilityMode(LABEL_VISIBILITY_UNLABELED);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
+        }
 
 }

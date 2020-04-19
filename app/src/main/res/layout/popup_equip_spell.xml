@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/app_margin">
+    <ImageView
+        android:id="@+id/equip_cancel_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_close"
+        android:padding="@dimen/txt_margin" />
+
+    <TextView
+        android:id="@+id/equip_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/small_margin"
+        android:text="@string/equiper"
+        android:textColor="@color/colorTxt"
+        android:textSize="@dimen/title_txt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/equip_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_equip"
+        android:textColor="@color/colorTxt"
+        android:layout_marginTop="@dimen/app_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/equip_title"/>
+
+    <RadioGroup
+        android:id="@+id/equip_radioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/app_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/equip_exp">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/equip_spell1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/spell1"
+
+                android:layout_marginEnd="@dimen/small_margin"/>
+            <RadioButton
+                android:id="@+id/equip_spell2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/spell2" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/small_margin">
+            <RadioButton
+                android:id="@+id/equip_spell3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/spell3"
+                android:layout_marginEnd="@dimen/small_margin"/>
+            <RadioButton
+                android:id="@+id/equip_spell4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/spell4" />
+        </LinearLayout>
+
+    </RadioGroup>
+    <TextView
+        android:id="@+id/equip_save_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ok"
+        android:layout_margin="@dimen/app_margin"
+        android:textColor="@color/colorCatTitle"
+        android:paddingVertical="@dimen/txt_margin"
+        android:paddingHorizontal="@dimen/small_margin"
+        android:background="@color/green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/equip_radioGroup"/>
+
+
+</android.support.constraint.ConstraintLayout>

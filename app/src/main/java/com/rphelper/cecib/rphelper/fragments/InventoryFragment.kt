@@ -1,6 +1,7 @@
 package com.rphelper.cecib.rphelper.fragments
 
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -9,9 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.rphelper.cecib.rphelper.R
-import com.rphelper.cecib.rphelper.adapter.ObjectAdapter
+import com.rphelper.cecib.rphelper.adapter.ItemAdapter
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
-import com.rphelper.cecib.rphelper.dto.Object
 import com.rphelper.cecib.rphelper.viewmodel.InventoryViewModel
 import java.util.ArrayList
 
@@ -30,11 +30,17 @@ class InventoryFragment : Fragment() {
 
         //Money
         view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTitle.text = getString(R.string.money)
-        view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.text = viewModel.money.value!!.toString() + " po"
+        viewModel.money.observe(viewLifecycleOwner, Observer {
+            val money = it!!.toString() + " po"
+            view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.setText(it.toString())
+        })
 
         //Objects
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = ObjectAdapter(ArrayList(viewModel.objects.value!!))
+        viewAdapter = ItemAdapter(ArrayList(viewModel.items.value!!))
+        viewModel.items.observe(viewLifecycleOwner, Observer {
+            viewAdapter = ItemAdapter(ArrayList(it!!))
+        })
 
         recyclerView = view.findViewById<RecyclerView>(R.id.bag_recycler).apply {
             // use this setting to improve performance if you know that changes

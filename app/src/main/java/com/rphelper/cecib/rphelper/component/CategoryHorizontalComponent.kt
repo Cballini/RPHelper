@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.EditText
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
 
@@ -13,7 +14,7 @@ class CategoryHorizontalComponent @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs){
 
     var catTitle :TextView
-    var catTxt :TextView
+    var catTxt :EditText
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_category_horizontal, this, true)

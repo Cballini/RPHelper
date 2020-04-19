@@ -4,75 +4,71 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.rphelper.cecib.rphelper.R
+import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Spell
-import com.rphelper.cecib.rphelper.utils.FileUtils
 
 class SpellViewModel(val context: Context) : ViewModel() {
 
     val _firstEquipSpell = MutableLiveData<Spell>()
     val firstEquipSpell : LiveData<Spell> get() = _firstEquipSpell
     init {
-        val listEquipSpells = getListOfEquipSpells()
-        if (listEquipSpells.isNotEmpty()) _firstEquipSpell.value = listEquipSpells[0]
+        getSpell1()
     }
 
     val _secondEquipSpell = MutableLiveData<Spell>()
     val secondEquipSpell : LiveData<Spell> get() = _secondEquipSpell
     init {
-        val listEquipSpells = getListOfEquipSpells()
-        if (listEquipSpells.size>1) _secondEquipSpell.value = listEquipSpells[1]
+        getSpell2()
     }
 
     val _thirdEquipSpell = MutableLiveData<Spell>()
     val thirdEquipSpell : LiveData<Spell> get() = _thirdEquipSpell
     init {
-        val listEquipSpells = getListOfEquipSpells()
-        if (listEquipSpells.size>2) _thirdEquipSpell.value = listEquipSpells[2]
+        getSpell3()
     }
 
     val _fourthEquipSpell = MutableLiveData<Spell>()
     val fourthEquipSpell : LiveData<Spell> get() = _fourthEquipSpell
     init {
-        val listEquipSpells = getListOfEquipSpells()
-        if (listEquipSpells.size == 4) _fourthEquipSpell.value = listEquipSpells[3]
+        getSpell4()
     }
 
-    val _knownSpells = MutableLiveData<List<Spell>>()
-    val knownSpells : LiveData<List<Spell>> get() = _knownSpells
+    val _knownSpells = MutableLiveData<ArrayList<Spell>>()
+    val knownSpells : LiveData<ArrayList<Spell>> get() = _knownSpells
     init {
-        _knownSpells.value = getListOfNotEquipSpells()
+        _knownSpells.value = Services.getListOfNotEquipSpells(context)
     }
 
-    fun getListOfEquipSpells(): List<Spell> {
-        var equipSpells = ArrayList<Spell>()
-        val allSpells = getListOfSpells()
-        allSpells.let {
-            for (spell in allSpells!!) {
-                if (spell.equip) equipSpells.add(spell)
-            }
-        }
-        return equipSpells
+    fun editSpells(){
+        val spellsList = ArrayList<Spell>()
+        spellsList.add(firstEquipSpell.value!!)
+        spellsList.add(secondEquipSpell.value!!)
+        spellsList.add(thirdEquipSpell.value!!)
+        spellsList.add(fourthEquipSpell.value!!)
+        spellsList.addAll(knownSpells.value!!)
+        Services.editSpells(context, spellsList)
+        getSpell1()
+        getSpell2()
+        getSpell3()
+        getSpell4()
+        _knownSpells.value = Services.getListOfNotEquipSpells(context)
     }
 
-    fun getListOfNotEquipSpells(): List<Spell> {
-        var notEquipSpells = ArrayList<Spell>()
-        val allSpells = getListOfSpells()
-        allSpells.let {
-            for (spell in allSpells!!) {
-                if (!spell.equip) notEquipSpells.add(spell)
-            }
-        }
-        return notEquipSpells
+    fun getSpell1(){
+        if (Services.getListOfEquipSpells(context).isNotEmpty()) _firstEquipSpell.value = Services.getListOfEquipSpells(context)[0]
+        else _firstEquipSpell.value = Spell()
     }
-
-    fun getListOfSpells(): List<Spell>? {
-        val sType = object : TypeToken<List<Spell>>() { }.type
-        return Gson().fromJson<List<Spell>>(getSpellsString(), sType)
+    fun getSpell2(){
+        if (Services.getListOfEquipSpells(context).size>1) _secondEquipSpell.value = Services.getListOfEquipSpells(context)[1]
+        else _secondEquipSpell.value = Spell()
     }
-
-    fun getSpellsString(): String {
-        return FileUtils.readJsonAsset(context, "spells.json")
+    fun getSpell3(){
+        if (Services.getListOfEquipSpells(context).size>2) _thirdEquipSpell.value = Services.getListOfEquipSpells(context)[2]
+        else _thirdEquipSpell.value = Spell()
+    }
+    fun getSpell4(){
+        if (Services.getListOfEquipSpells(context).size==4) _fourthEquipSpell.value = Services.getListOfEquipSpells(context)[3]
+        else _fourthEquipSpell.value = Spell()
     }
 }

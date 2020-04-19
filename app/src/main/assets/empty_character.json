@@ -1,0 +1,32 @@
+{
+	"name" : "",
+  "race" : "",
+  "origin" : "",
+  "religion" : "",
+  "level" : "0",
+  "don" : "",
+  "life" : {
+    "value" : "0",
+    "maxValue" : "0"
+  },
+  "const" : {
+    "value" : "0",
+    "maxValue" : "0"
+  },
+  "mana" : {
+    "value" : "0",
+    "maxValue" : "0"
+  },
+  "weight" : {
+    "value" : "0",
+    "maxValue" : "0"
+  },
+  "vitality" : "0",
+  "vigor" : "0",
+  "strength" : "0",
+  "dexterity" : "0",
+  "endurance" : "0",
+  "memory" : "0",
+  "intelligence" : "0",
+  "faith" : "0"
+}

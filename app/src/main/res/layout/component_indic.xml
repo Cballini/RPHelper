@@ -36,12 +36,15 @@
         android:paddingVertical="@dimen/txt_margin"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/indic_title">
-    <TextView
+    <EditText
         android:id="@+id/indic_current"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/small_margin"
+        android:paddingHorizontal="@dimen/small_margin"
         android:text="300"
+        android:textSize="@dimen/cat_txt"
+        android:inputType="textMultiLine"
+        android:background="@android:color/transparent"
         android:textColor="@color/colorTxt" />
 
     <TextView
@@ -52,12 +55,15 @@
         android:text="/"
         android:textColor="@color/colorTxt"/>
 
-    <TextView
+    <EditText
         android:id="@+id/indic_max"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="400"
+        android:inputType="number"
+        android:textSize="@dimen/cat_txt"
         android:textColor="@color/colorTxt"
+        android:background="@android:color/transparent"
         android:layout_marginStart="@dimen/txt_margin"
         android:paddingRight="@dimen/small_margin"/>
     </LinearLayout>

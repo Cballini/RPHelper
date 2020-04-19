@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
@@ -14,9 +15,11 @@ class IndicComponent @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs){
 
     var indicTitle : TextView
-    var indicCurrent : TextView
-    var indicMax : TextView
+    var indicCurrent : EditText
+    var indicMax : EditText
     var indicEdit : ImageView
+
+    var indicSpare : TextView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_indic, this, true)
@@ -25,5 +28,7 @@ class IndicComponent @JvmOverloads constructor(
         indicCurrent = findViewById(R.id.indic_current)
         indicMax = findViewById(R.id.indic_max)
         indicEdit = findViewById(R.id.indic_edit)
+
+        indicSpare= findViewById(R.id.indic_spare)
     }
 }
