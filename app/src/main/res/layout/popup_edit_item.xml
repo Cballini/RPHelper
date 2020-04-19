@@ -7,7 +7,8 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/app_margin">
         <ImageView
             android:id="@+id/item_cancel_button"
             android:layout_width="wrap_content"
@@ -85,7 +86,7 @@
                 android:textColor="@color/colorTxt" />
 
             <EditText
-                android:id="@+id/item_mana_txt"
+                android:id="@+id/item_quantity_txt"
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/txt_margin"
@@ -105,7 +106,7 @@
 
         <LinearLayout
             android:id="@+id/item_effect_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_margin"
             android:orientation="vertical"
@@ -118,15 +119,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/desc"
-                android:textColor="@color/colorTxt"
-                android:layout_marginBottom="@dimen/txt_margin"/>
+                android:textColor="@color/colorTxt"/>
             <EditText
                 android:id="@+id/item_effect_txt"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/small_margin"
                 android:layout_marginStart="@dimen/txt_margin"
-                android:minLines="3"
                 android:scrollbars="vertical"
                 android:inputType="textMultiLine" />
         </LinearLayout>
@@ -141,15 +140,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
-            <TextView
-                android:id="@+id/item_delete_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:textColor="@color/colorCatTitle"
-                android:padding="@dimen/txt_margin"
-                android:background="@color/red"
-                android:layout_marginEnd="@dimen/app_margin"/>
+
             <TextView
                 android:id="@+id/item_save_button"
                 android:layout_width="wrap_content"

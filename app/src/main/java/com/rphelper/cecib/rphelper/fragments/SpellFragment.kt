@@ -153,6 +153,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             dialog .setContentView(R.layout.popup_edit_spell)
             dialog.findViewById<TextView>(R.id.spell_type).text = place
             fillSpellEdit(dialog, spell)
+        dialog.findViewById<EditText>(R.id.spell_name_txt).setSelection(dialog.findViewById<EditText>(R.id.spell_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.spell_cancel_button).setOnClickListener { dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.spell_disequip_button).setOnClickListener {
                 spell.equip = false

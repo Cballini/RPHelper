@@ -61,6 +61,7 @@
     <string name="effect">Effet</string>
     <string name="equip">Equipé</string>
     <string name="equiper">Equiper</string>
+    <string name="equip_disequip">Equiper/déséquiper</string>
     <string name="item">Objet</string>
     <string name="desc">Description</string>
     <string name="quantity">Quantité</string>

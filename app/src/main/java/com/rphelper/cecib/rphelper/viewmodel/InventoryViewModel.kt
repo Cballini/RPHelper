@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
 import com.rphelper.cecib.rphelper.Services
+import com.rphelper.cecib.rphelper.dto.Inventory
 import com.rphelper.cecib.rphelper.dto.Item
 
 class InventoryViewModel (val context: Context) : ViewModel(){
@@ -14,9 +15,16 @@ class InventoryViewModel (val context: Context) : ViewModel(){
          _money.value = Services.getMoney(context)
     }
 
-    val _items = MutableLiveData<List<Item>>()
-    val items : LiveData<List<Item>> get() = _items
+    val _items = MutableLiveData<ArrayList<Item>>()
+    val items : LiveData<ArrayList<Item>> get() = _items
     init {
+        _items.value = Services.getItems(context)
+    }
+
+    fun editInventory(){
+        val inventory = Inventory(money.value!!, items.value!!)
+        Services.editInventory(context, inventory)
+        _money.value = Services.getMoney(context)
         _items.value = Services.getItems(context)
     }
 

@@ -11,6 +11,6 @@
         android:icon="@drawable/ic_close"/>
     <item
         android:id="@+id/action_equip"
-        android:title="@string/equiper"
+        android:title="@string/equip_disequip"
         android:icon="@drawable/circle_green"/>
 </menu>

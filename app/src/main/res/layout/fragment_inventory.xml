@@ -20,12 +20,23 @@
             android:orientation="vertical"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="parent">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
             <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
                 android:id="@+id/bag_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:padding="@dimen/small_margin"/>
+                <ImageView
+                    android:id="@+id/bag_money_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"
+                    android:layout_gravity="center" />
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/bag_recycler"

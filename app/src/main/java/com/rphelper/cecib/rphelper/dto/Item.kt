@@ -8,4 +8,6 @@ class Item (var name:String, var quantity:Int, var effect:String, var equip:Bool
     constructor(name:String, quantity:Int, effect:String, equip:Boolean, weight: Float) : this(name, quantity, effect, equip) {
         this.weight = weight
     }
+
+    constructor():this("", 0, "", false)
 }

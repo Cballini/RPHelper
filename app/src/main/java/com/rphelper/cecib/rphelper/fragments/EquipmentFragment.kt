@@ -228,6 +228,7 @@ class EquipmentFragment : Fragment() {
             dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).setAdapter(ArrayAdapter<String>(context
                     , android.R.layout.simple_list_item_1, getListStringBonus()));
             fillWeaponEdit(dialog, weapon)
+            dialog.findViewById<EditText>(R.id.weapon_name_txt).setSelection(dialog.findViewById<EditText>(R.id.weapon_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.weapon_cancel_button).setOnClickListener { dialog.dismiss() }
             //TODO desequiper
             dialog.findViewById<TextView>(R.id.weapon_delete_button).setOnClickListener {
@@ -375,7 +376,7 @@ class EquipmentFragment : Fragment() {
             dialog .setContentView(R.layout.popup_edit_shield)
             dialog.findViewById<TextView>(R.id.shield_type).text = getString(R.string.shield)
             fillShieldEdit(dialog)
-
+            dialog.findViewById<EditText>(R.id.shield_name_txt).setSelection(dialog.findViewById<EditText>(R.id.shield_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.shield_cancel_button).setOnClickListener { dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.shield_delete_button).setOnClickListener {
                 viewModel.shield.value?.let { viewModel.shield.value!!.reinit() }
@@ -448,6 +449,7 @@ class EquipmentFragment : Fragment() {
             dialog .setContentView(R.layout.popup_edit_armor)
             dialog.findViewById<TextView>(R.id.armor_type).text = type
             fillArmorEdit(dialog, armor)
+            dialog.findViewById<EditText>(R.id.armor_name_txt).setSelection(dialog.findViewById<EditText>(R.id.armor_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.armor_cancel_button).setOnClickListener { dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.armor_delete_button).setOnClickListener {
                 armor?.let { armor.reinit() }

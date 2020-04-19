@@ -10,8 +10,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.dto.Item
+import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 
-class ItemAdapter(val mDataset: ArrayList<Item>) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+class ItemAdapter(val mDataset: ArrayList<Item>, callback : RecyclerViewClickListener) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+    final private var callback = callback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val item = LayoutInflater.from(parent!!.context)
@@ -38,6 +40,9 @@ class ItemAdapter(val mDataset: ArrayList<Item>) : RecyclerView.Adapter<ItemAdap
             holder!!.lineObject.findViewById<LinearLayout>(R.id.line_item_weight_layout).visibility = View.GONE
         }
         holder!!.lineObject.findViewById<TextView>(R.id.line_item_quantity_txt).text = mDataset[position].quantity.toString()
+        holder.lineObject.setOnClickListener {
+            callback.onItemClicked(position, holder.lineObject)
+        }
     }
 
     class ViewHolder(val lineObject: ConstraintLayout) : RecyclerView.ViewHolder(lineObject)

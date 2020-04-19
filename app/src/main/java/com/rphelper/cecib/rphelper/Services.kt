@@ -73,10 +73,10 @@ object Services {
     }
 
     @JvmStatic
-    fun getItems(context: Context): List<Item> {
+    fun getItems(context: Context): ArrayList<Item> {
         val objectsString = JSONObject(FileUtils.readJsonFile(context,"inventory.json")).get("item").toString()
-        val sType = object : TypeToken<List<Item>>() { }.type
-        return Gson().fromJson<List<Item>>(objectsString, sType)
+        val sType = object : TypeToken<ArrayList<Item>>() { }.type
+        return Gson().fromJson<ArrayList<Item>>(objectsString, sType)
     }
 
     /******** EDIT *******/
