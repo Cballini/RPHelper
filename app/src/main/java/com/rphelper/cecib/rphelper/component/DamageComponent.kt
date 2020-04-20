@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
@@ -15,7 +16,7 @@ class DamageComponent @JvmOverloads constructor(
     var damageType :TextView
     var damageReceived :EditText
     var damageResult :TextView
-    var damageButton :TextView
+    var damageButton :Button
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_damage_calc, this, true)

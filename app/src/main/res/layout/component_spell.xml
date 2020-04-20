@@ -19,9 +19,16 @@
             android:id="@+id/spell_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""
+            android:text="place"
             android:paddingHorizontal="@dimen/small_margin"
             android:textColor="@color/colorCatTitle"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/colorCatTitle"
+            android:paddingVertical="2dp"
+            android:layout_gravity="end"/>
     </LinearLayout>
     <TextView
         android:id="@+id/spell_name"
@@ -206,7 +213,7 @@
                 android:textSize="@dimen/small_txt" />
         </LinearLayout>
     </LinearLayout>
-    <TextView
+    <Button
         android:id="@+id/spell_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -216,7 +223,9 @@
         android:paddingBottom="@dimen/small_margin"
         android:paddingEnd="@dimen/app_margin"
         android:paddingStart="@dimen/app_margin"
-        android:background="@drawable/shape_rond_button"
+        android:backgroundTint="@color/colorAccent"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spell_note_layout"/>

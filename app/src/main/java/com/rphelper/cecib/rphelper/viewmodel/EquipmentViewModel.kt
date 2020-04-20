@@ -207,4 +207,16 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         _immun.value = getImmun()
         _weak.value = getWeak()
     }
+
+    fun attackOrBlock(){
+        val char = Services.getCharacter(context)
+        char.const.value -= 80
+        Services.editCharacter(context, char)
+    }
+    fun dodge(){
+        val char = Services.getCharacter(context)
+        char.const.value -= 30
+        Services.editCharacter(context, char)
+    }
+
 }

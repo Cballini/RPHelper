@@ -91,6 +91,7 @@ class StatsFragment : Fragment() {
         })
         //Weight
         view.findViewById<IndicComponent>(R.id.indic_weight).indicTitle.text = getString(R.string.weight)
+        view.findViewById<IndicComponent>(R.id.indic_weight).indicReload.visibility = View.GONE
         viewModel.weight.observe(viewLifecycleOwner, Observer {
             view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setText(viewModel.weight.value.toString())
         })
@@ -134,6 +135,7 @@ class StatsFragment : Fragment() {
         view.findViewById<IndicComponent>(R.id.don_cat).indicTitle.text = getString(R.string.don)
         view.findViewById<IndicComponent>(R.id.don_cat).indicSpare.visibility = View.GONE
         view.findViewById<IndicComponent>(R.id.don_cat).indicMax.visibility = View.GONE
+        view.findViewById<IndicComponent>(R.id.don_cat).indicReload.visibility = View.GONE
 
         /************ EDIT ***********/
         view.findViewById<ImageView>(R.id.profile_edit).setOnClickListener {
@@ -184,6 +186,10 @@ class StatsFragment : Fragment() {
                 view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
+        view.findViewById<IndicComponent>(R.id.indic_life).indicReload.setOnClickListener {
+            viewModel.character.value!!.life.value = viewModel.lifeMax.value!!.toFloat()
+            viewModel.editCharacter()
+        }
 
         view.findViewById<IndicComponent>(R.id.indic_const).indicEdit.setOnClickListener {
             if (constIsOnEdit){
@@ -200,6 +206,10 @@ class StatsFragment : Fragment() {
                 view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
+        view.findViewById<IndicComponent>(R.id.indic_const).indicReload.setOnClickListener {
+            viewModel.character.value!!.const.value = viewModel.constMax.value!!.toFloat()
+            viewModel.editCharacter()
+        }
 
         view.findViewById<IndicComponent>(R.id.indic_mana).indicEdit.setOnClickListener {
             if (manaIsOnEdit){
@@ -215,6 +225,10 @@ class StatsFragment : Fragment() {
                 view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.setEnabled(true)
                 view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
             }
+        }
+        view.findViewById<IndicComponent>(R.id.indic_mana).indicReload.setOnClickListener {
+            viewModel.character.value!!.mana.value = viewModel.manaMax.value!!.toFloat()
+            viewModel.editCharacter()
         }
 
         view.findViewById<IndicComponent>(R.id.indic_weight).indicEdit.setOnClickListener {

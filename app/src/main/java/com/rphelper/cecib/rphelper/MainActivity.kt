@@ -1,5 +1,7 @@
 package com.rphelper.cecib.rphelper
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.FragmentManager
@@ -16,9 +18,12 @@ import com.rphelper.cecib.rphelper.fragments.StatsFragment
 import com.rphelper.cecib.rphelper.utils.KeyboardUtils
 
 import android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.View
 
 class MainActivity : FragmentActivity() {
+    private val WRITE_EXTERNAL_STORAGE_CODE = 1
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -70,6 +75,18 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    WRITE_EXTERNAL_STORAGE_CODE)
+        }
+        else{
+            initView()
+        }
+    }
+
+    fun initView(){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val fragment = StatsFragment()
@@ -82,4 +99,19 @@ class MainActivity : FragmentActivity() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>, grantResults: IntArray) {
+        when (requestCode) {
+            WRITE_EXTERNAL_STORAGE_CODE -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    // permission was granted, yay!
+                    initView()
+                } else {
+                    this.finish()
+                }
+                return
+            }
+        }
+    }
 }

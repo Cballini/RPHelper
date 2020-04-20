@@ -18,6 +18,7 @@ class IndicComponent @JvmOverloads constructor(
     var indicCurrent : EditText
     var indicMax : EditText
     var indicEdit : ImageView
+    var indicReload :ImageView
 
     var indicSpare : TextView
 
@@ -28,7 +29,7 @@ class IndicComponent @JvmOverloads constructor(
         indicCurrent = findViewById(R.id.indic_current)
         indicMax = findViewById(R.id.indic_max)
         indicEdit = findViewById(R.id.indic_edit)
-
+        indicReload = findViewById(R.id.indic_reload)
         indicSpare= findViewById(R.id.indic_spare)
     }
 }

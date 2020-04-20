@@ -82,4 +82,11 @@ class SpellViewModel(val context: Context) : ViewModel() {
         }
         return dmg
     }
+
+    fun attack(spell: Spell){
+        val char = Services.getCharacter(context)
+        char.const.value -= 30
+        char.mana.value -= spell.mana
+        Services.editCharacter(context, char)
+    }
 }

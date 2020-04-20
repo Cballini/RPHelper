@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
@@ -25,7 +26,7 @@ class SpellComponent @JvmOverloads constructor(
     var spellUse2 : TextView
     var spellUseValue2 : TextView
 
-    var spellButton : TextView
+    var spellButton : Button
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_spell, this, true)

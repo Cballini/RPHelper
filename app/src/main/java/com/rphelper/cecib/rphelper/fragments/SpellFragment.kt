@@ -134,6 +134,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                 view!!.findViewById<SpellComponent>(id).spellUse2.text = spell!!.use2
                 view!!.findViewById<SpellComponent>(id).spellUseValue2.text = spell!!.useValue2.toString()
             }
+            view!!.findViewById<SpellComponent>(id).spellButton.setOnClickListener { viewModel.attack(spell)}
         }else{
             view!!.findViewById<LinearLayout>(id).spell_use_layout2.visibility = View.GONE
             view!!.findViewById<SpellComponent>(id).spellName.text = ""
@@ -143,7 +144,6 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             view!!.findViewById<SpellComponent>(id).spellEffect.text = ""
             view!!.findViewById<SpellComponent>(id).spellUse.text = ""
             view!!.findViewById<SpellComponent>(id).spellUseValue.text = "0"
-            view!!.findViewById<SpellComponent>(id).spellButton.setOnClickListener { }
         }
     }
 

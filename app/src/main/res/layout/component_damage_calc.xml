@@ -58,7 +58,7 @@
         android:padding="@dimen/small_margin"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:text="127"
+        android:text="0"
         android:textColor="@color/colorCatTitle"
         android:textSize="@dimen/cat_txt"
         android:textStyle="bold"
@@ -66,16 +66,16 @@
     </LinearLayout>
 
 
-    <TextView
+    <Button
         android:id="@+id/damage_button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_rond_button"
         android:gravity="center"
         android:paddingVertical="@dimen/small_margin"
         android:paddingHorizontal="@dimen/double_app_margin"
         android:text="@string/submit"
         android:textColor="@color/colorCatTitle"
+        android:backgroundTint="@color/colorAccent"
         app:layout_constraintTop_toBottomOf="@+id/result_layout"
         app:layout_constraintStart_toStartOf="@+id/result_layout"
         app:layout_constraintEnd_toEndOf="@+id/result_layout"/>

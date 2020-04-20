@@ -16,39 +16,36 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_margin="@dimen/app_margin">
-            <TextView
+            <Button
                 android:id="@+id/equipment_button_attack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingBottom="@dimen/app_margin"
-                android:paddingTop="@dimen/small_margin"
+                android:paddingVertical="@dimen/app_margin"
                 android:text="Attaquer"
                 android:textColor="@color/colorCatTitle"
-                android:background="@drawable/shape_rond_button"/>
-            <TextView
+                android:backgroundTint="@color/colorAccent"/>
+            <Button
                 android:id="@+id/equipment_button_block"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingBottom="@dimen/app_margin"
-                android:paddingTop="@dimen/small_margin"
+                android:paddingVertical="@dimen/app_margin"
                 android:text="Bloquer"
                 android:textColor="@color/colorCatTitle"
-                android:background="@drawable/shape_rond_button"/>
-            <TextView
-                android:id="@+id/equipment_button_esc"
+                android:backgroundTint="@color/colorAccent"/>
+            <Button
+                android:id="@+id/equipment_button_dodge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:paddingBottom="@dimen/app_margin"
-                android:paddingTop="@dimen/small_margin"
+                android:paddingVertical="@dimen/app_margin"
                 android:text="Esquiver"
                 android:textColor="@color/colorCatTitle"
-                android:background="@drawable/shape_rond_button"/>
+                android:backgroundTint="@color/colorAccent"/>
         </LinearLayout>
 
         <LinearLayout
