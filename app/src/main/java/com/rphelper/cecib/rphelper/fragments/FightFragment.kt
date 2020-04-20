@@ -17,7 +17,10 @@ class FightFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_fight, container, false)
 
-        view.findViewById<TextView>(R.id.fight_roll_dice).setOnClickListener {  }
+        view.findViewById<TextView>(R.id.fight_roll_dice).setOnClickListener {
+            val random = Math.random()*100
+            view.findViewById<TextView>(R.id.fight_roll_dice).text = random.toInt().toString()
+        }
 
         //Brut damage
         view.findViewById<DamageComponent>(R.id.fight_brut_damage).damageType.text = getString(R.string.brut_dmg)
@@ -25,23 +28,17 @@ class FightFragment : Fragment() {
         view.findViewById<DamageComponent>(R.id.fight_brut_damage).damageResult.text = "100"
         view.findViewById<DamageComponent>(R.id.fight_brut_damage).damageButton.setOnClickListener {  }
 
-        //Elem armor damage
-        view.findViewById<DamageComponent>(R.id.fight_elem_armor_damage).damageType.text = getString(R.string.elem_armor_dmg)
-        //view.findViewById<DamageComponent>(R.id.fight_elem_armor_damage).damageReceived
-        view.findViewById<DamageComponent>(R.id.fight_elem_armor_damage).damageResult.text = "100"
-        view.findViewById<DamageComponent>(R.id.fight_elem_armor_damage).damageButton.setOnClickListener {  }
+        //Elem res damage
+        view.findViewById<DamageComponent>(R.id.fight_elem_res_damage).damageType.text = getString(R.string.elem_res_dmg)
+        //view.findViewById<DamageComponent>(R.id.fight_elem_res_damage).damageReceived
+        view.findViewById<DamageComponent>(R.id.fight_elem_res_damage).damageResult.text = "100"
+        view.findViewById<DamageComponent>(R.id.fight_elem_res_damage).damageButton.setOnClickListener {  }
 
         //Block damage
         view.findViewById<DamageComponent>(R.id.fight_block_damage).damageType.text = getString(R.string.block_dmg)
         //view.findViewById<DamageComponent>(R.id.fight_block_damage).damageReceived
         view.findViewById<DamageComponent>(R.id.fight_block_damage).damageResult.text = "100"
         view.findViewById<DamageComponent>(R.id.fight_block_damage).damageButton.setOnClickListener {  }
-
-        //Elem block damage
-        view.findViewById<DamageComponent>(R.id.fight_elem_block_damage).damageType.text = getString(R.string.elem_block_dmg)
-        //view.findViewById<DamageComponent>(R.id.fight_elem_block_damage).damageReceived
-        view.findViewById<DamageComponent>(R.id.fight_elem_block_damage).damageResult.text = "100"
-        view.findViewById<DamageComponent>(R.id.fight_elem_block_damage).damageButton.setOnClickListener {  }
 
         //Weak damage
         view.findViewById<DamageComponent>(R.id.fight_weak_damage).damageType.text = getString(R.string.weak_dmg)

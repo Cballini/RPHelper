@@ -45,22 +45,27 @@ class EquipmentFragment : Fragment() {
 
         /********** Stats **********/
         view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).cat_title.text = getString(R.string.damages)
+        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).catTxt.setEnabled(false)
         viewModel.damages.observe(viewLifecycleOwner, Observer {
             view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).catTxt.setText(it.toString())
         })
         view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_defense).cat_title.text = getString(R.string.def)
+        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_defense).catTxt.setEnabled(false)
         viewModel.defense.observe(viewLifecycleOwner, Observer {
             view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_defense).catTxt.setText(it.toString())
         })
         view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_res).cat_title.text = getString(R.string.res)
+        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_res).catTxt.setEnabled(false)
         viewModel.res.observe(viewLifecycleOwner, Observer {
             view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_res).catTxt.setText(it.toString())
         })
         view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_immun).cat_title.text = getString(R.string.immun)
+        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_immun).catTxt.setEnabled(false)
         viewModel.immun.observe(viewLifecycleOwner, Observer {
             view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_immun).catTxt.setText(it.toString())
         })
         view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_weak).cat_title.text = getString(R.string.fai)
+        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_weak).catTxt.setEnabled(false)
         viewModel.weak.observe(viewLifecycleOwner, Observer {
             view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_weak).catTxt.setText(it.toString())
         })
@@ -102,14 +107,24 @@ class EquipmentFragment : Fragment() {
 
 
         /*********** EDIT **********/
-        editWeapon(view, R.id.equipment_left_hand, getString(R.string.left_hand), viewModel.leftHand.value)
-        editWeapon(view, R.id.equipment_right_hand, getString(R.string.right_hand), viewModel.rightHand.value)
-        editWeapon(view, R.id.equipment_catalyst, getString(R.string.catalyst), viewModel.catalyst.value)
+        view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentTypeLayout.setOnClickListener {
+            editWeapon(getString(R.string.left_hand), viewModel.leftHand.value!!)
+        }
+        view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentTypeLayout.setOnClickListener {
+        editWeapon(getString(R.string.right_hand), viewModel.rightHand.value!!)}
+        view.findViewById<EquipmentComponent>(R.id.equipment_catalyst).equipmentTypeLayout.setOnClickListener {
+            editWeapon(getString(R.string.catalyst), viewModel.catalyst.value!!)
+        }
         editShield(view)
-        editArmor(view, R.id.equipment_hat, getString(R.string.hat), viewModel.hat.value)
-        editArmor(view, R.id.equipment_chest, getString(R.string.chestplate), viewModel.chest.value)
-        editArmor(view, R.id.equipment_gloves, getString(R.string.gloves), viewModel.gloves.value)
-        editArmor(view, R.id.equipment_greaves, getString(R.string.greaves), viewModel.greaves.value)
+        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentTypeLayout.setOnClickListener {
+            editArmor(getString(R.string.hat), viewModel.hat.value!!)
+        }
+        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentTypeLayout.setOnClickListener {
+        editArmor(getString(R.string.chestplate), viewModel.chest.value!!)}
+        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentTypeLayout.setOnClickListener {
+        editArmor(getString(R.string.gloves), viewModel.gloves.value!!)}
+        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentTypeLayout.setOnClickListener {
+        editArmor(getString(R.string.greaves), viewModel.greaves.value!!)}
 
         return view
     }
@@ -124,6 +139,7 @@ class EquipmentFragment : Fragment() {
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTitle.text = getString(R.string.boost)
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = weapon.boost.toString()
                 view.findViewById<EquipmentComponent>(id).equipmentSecondLine.visibility = View.GONE
+                view.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.visibility = View.GONE
             }else{
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.visibility = View.VISIBLE
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.damages)
@@ -134,12 +150,13 @@ class EquipmentFragment : Fragment() {
                 view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTitle.text = getString(R.string.affinity)
                 view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = if (null!=weapon.affinity && !weapon.affinity.equals(Elem.NOTHING)) weapon.affinity.toString() else "/"
                 view.findViewById<EquipmentComponent>(id).equipmentSecondLine.visibility = View.VISIBLE
+                view.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.visibility = View.VISIBLE
+                view.findViewById<EquipmentComponent>(id).equipmentLargePanelTxt.text = viewModel.getTotalDamage(weapon).toString()
             }
             view!!.findViewById<EquipmentComponent>(id).equipmentBonusForTxt.text = if (null!=weapon.bonusFor && !weapon.bonusFor.equals(Bonus.NOTHING)) weapon.bonusFor.toString() else "/"
             view!!.findViewById<EquipmentComponent>(id).equipmentBonusDexTxt.text = if (null!=weapon.bonusDex && !weapon.bonusDex.equals(Bonus.NOTHING)) weapon.bonusDex.toString() else "/"
             view!!.findViewById<EquipmentComponent>(id).equipmentBonusIntTxt.text = if (null!=weapon.bonusInt && !weapon.bonusInt.equals(Bonus.NOTHING)) weapon.bonusInt.toString() else "/"
             view!!.findViewById<EquipmentComponent>(id).equipmentBonusFoiTxt.text = if (null!=weapon.bonusFoi && !weapon.bonusFoi.equals(Bonus.NOTHING)) weapon.bonusFoi.toString() else "/"
-            view!!.findViewById<EquipmentComponent>(id).equipmentLargePanelTxt.text = "215" //TODO calc
             view!!.findViewById<EquipmentComponent>(id).equipmentWeightTxt.text = weapon.weight.toString()
         }
     }
@@ -213,8 +230,8 @@ class EquipmentFragment : Fragment() {
         view!!.findViewById<EquipmentComponent>(id).equipmentWeightTxt.text = armor!!.weight.toString()
     }
 
-    fun editWeapon(view: View, id: Int, type: String, weapon: Weapon?){
-        view.findViewById<EquipmentComponent>(id).equipmentTypeLayout.setOnClickListener {
+    fun editWeapon( type: String, weapon: Weapon){
+
             val dialog = Dialog(activity)
             dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog .setContentView(R.layout.popup_edit_weapon)
@@ -232,12 +249,12 @@ class EquipmentFragment : Fragment() {
             dialog.findViewById<ImageView>(R.id.weapon_cancel_button).setOnClickListener { dialog.dismiss() }
             //TODO desequiper
             dialog.findViewById<TextView>(R.id.weapon_delete_button).setOnClickListener {
-                weapon?.let { weapon.reinit() }
+                weapon.reinit()
                 viewModel.editEquipment()
                 dialog.dismiss()
             }
             dialog.findViewById<TextView>(R.id.weapon_save_button).setOnClickListener {
-                weapon!!.name = dialog.findViewById<EditText>(R.id.weapon_name_txt).text.toString()
+                weapon.name = dialog.findViewById<EditText>(R.id.weapon_name_txt).text.toString()
                 if (dialog.findViewById<EditText>(R.id.weapon_damage_txt).text.toString().isNotEmpty()){
                     weapon.damage = dialog.findViewById<EditText>(R.id.weapon_damage_txt).text.toString().toInt()
                 }else{
@@ -313,7 +330,6 @@ class EquipmentFragment : Fragment() {
             }
 
             dialog .show()
-        }
     }
 
     fun fillWeaponEdit(dialog: Dialog, weapon: Weapon?){
@@ -427,23 +443,24 @@ class EquipmentFragment : Fragment() {
         viewModel.shield.value?.let{
             dialog.findViewById<EditText>(R.id.shield_name_txt).setText(viewModel.shield.value!!.name)
             dialog.findViewById<EditText>(R.id.shield_block_txt).setText(viewModel.shield.value!!.block.toString())
-                if(viewModel.shield.value!!.res.contains(Elem.FIRE)) dialog.findViewById<CheckBox>(R.id.shield_res_fire).isChecked = true
-                if(viewModel.shield.value!!.res.contains(Elem.DARKNESS)) dialog.findViewById<CheckBox>(R.id.shield_res_dark).isChecked = true
-                if(viewModel.shield.value!!.res.contains(Elem.LIGHTNING))  dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked = true
-                if(viewModel.shield.value!!.res.contains(Elem.MAGIC))  dialog.findViewById<CheckBox>(R.id.shield_res_magic).isChecked = true
-                if(viewModel.shield.value!!.res.contains(Elem.ALL))  {
+            viewModel.shield.value!!.res?.let {
+                if (viewModel.shield.value!!.res.contains(Elem.FIRE)) dialog.findViewById<CheckBox>(R.id.shield_res_fire).isChecked = true
+                if (viewModel.shield.value!!.res.contains(Elem.DARKNESS)) dialog.findViewById<CheckBox>(R.id.shield_res_dark).isChecked = true
+                if (viewModel.shield.value!!.res.contains(Elem.LIGHTNING)) dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked = true
+                if (viewModel.shield.value!!.res.contains(Elem.MAGIC)) dialog.findViewById<CheckBox>(R.id.shield_res_magic).isChecked = true
+                if (viewModel.shield.value!!.res.contains(Elem.ALL)) {
                     dialog.findViewById<CheckBox>(R.id.shield_res_fire).isChecked = true
                     dialog.findViewById<CheckBox>(R.id.shield_res_dark).isChecked = true
                     dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked = true
                     dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked = true
                 }
+            }
 
             dialog.findViewById<EditText>(R.id.shield_weight_txt).setText(viewModel.shield.value!!.weight.toString())
         }
     }
 
-    fun editArmor(view: View, id: Int, type: String, armor: Armor?){
-        view.findViewById<EquipmentComponent>(id).equipmentTypeLayout.setOnClickListener {
+    fun editArmor(type: String, armor: Armor){
             val dialog = Dialog(activity)
             dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog .setContentView(R.layout.popup_edit_armor)
@@ -452,12 +469,12 @@ class EquipmentFragment : Fragment() {
             dialog.findViewById<EditText>(R.id.armor_name_txt).setSelection(dialog.findViewById<EditText>(R.id.armor_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.armor_cancel_button).setOnClickListener { dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.armor_delete_button).setOnClickListener {
-                armor?.let { armor.reinit() }
+                armor.reinit()
                 viewModel.editEquipment()
                 dialog.dismiss()
             }
             dialog.findViewById<TextView>(R.id.armor_save_button).setOnClickListener {
-                armor!!.name = dialog.findViewById<EditText>(R.id.armor_name_txt).text.toString()
+                armor.name = dialog.findViewById<EditText>(R.id.armor_name_txt).text.toString()
                 if (dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().isNotEmpty()){
                     armor.def = dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().toFloat()
                 }else{
@@ -523,7 +540,7 @@ class EquipmentFragment : Fragment() {
             }
 
             dialog .show()
-        }
+
     }
 
     fun fillArmorEdit(dialog: Dialog, armor: Armor?){

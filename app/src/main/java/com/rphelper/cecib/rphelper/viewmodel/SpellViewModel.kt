@@ -71,4 +71,15 @@ class SpellViewModel(val context: Context) : ViewModel() {
         if (Services.getListOfEquipSpells(context).size==4) _fourthEquipSpell.value = Services.getListOfEquipSpells(context)[3]
         else _fourthEquipSpell.value = Spell()
     }
+
+    fun getTotalDamage(spell: Spell):Int{
+        var dmg = 0
+        val cata = Services.getWeapon(context, "catalyst")
+        val character = Services.getCharacter(context)
+        if (cata.name.isNotEmpty()){
+            dmg = spell.damage + cata.boost
+            dmg += (character.intelligence*cata.bonusInt.value + character.faith*cata.bonusFoi.value).toInt()
+        }
+        return dmg
+    }
 }

@@ -123,7 +123,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             view!!.findViewById<SpellComponent>(id).spellName.text = spell!!.name
             view!!.findViewById<SpellComponent>(id).spellDamage.text = spell!!.damage.toString()
             view!!.findViewById<SpellComponent>(id).spellMana.text = spell!!.mana.toString()
-            view!!.findViewById<SpellComponent>(id).spellTotal.text = "242" //TODO calcul
+            view!!.findViewById<SpellComponent>(id).spellTotal.text = viewModel.getTotalDamage(spell!!).toString()
             view!!.findViewById<SpellComponent>(id).spellEffect.text = spell!!.effect
             view!!.findViewById<SpellComponent>(id).spellUse.text = spell!!.use
             view!!.findViewById<SpellComponent>(id).spellUseValue.text = spell!!.useValue.toString()
@@ -173,22 +173,20 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                     spell.mana = 0
                 }
                 spell.use = when(true){
-                    dialog.findViewById<RadioButton>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
-                    dialog.findViewById<RadioButton>(R.id.spell_use_foi).isChecked -> getString(R.string.faith)
+                    dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
                     else -> ""
                 }
-                if (dialog.findViewById<EditText>(R.id.spell_use_txt).text.toString().isNotEmpty()){
-                    spell.useValue = dialog.findViewById<EditText>(R.id.spell_use_txt).text.toString().toInt()
+                if (dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().isNotEmpty()){
+                    spell.useValue = dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().toInt()
                 }else{
                     spell.useValue = 0
                 }
                 spell.use2 = when(true){
-                    dialog.findViewById<RadioButton>(R.id.spell_use2_int).isChecked -> getString(R.string.intel)
-                    dialog.findViewById<RadioButton>(R.id.spell_use2_foi).isChecked -> getString(R.string.faith)
+                    dialog.findViewById<CheckBox>(R.id.spell_use_foi).isChecked -> getString(R.string.faith)
                     else -> ""
                 }
-                if (dialog.findViewById<EditText>(R.id.spell_use2_txt).text.toString().isNotEmpty()){
-                    spell.useValue2 = dialog.findViewById<EditText>(R.id.spell_use2_txt).text.toString().toInt()
+                if (dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().isNotEmpty()){
+                    spell.useValue2 = dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().toInt()
                 }else{
                     spell.useValue2 = 0
                 }
@@ -233,22 +231,20 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                     spell.mana = 0
                 }
                 spell.use = when(true){
-                    dialog.findViewById<RadioButton>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
-                    dialog.findViewById<RadioButton>(R.id.spell_use_foi).isChecked -> getString(R.string.faith)
+                    dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
                     else -> ""
                 }
-                if (dialog.findViewById<EditText>(R.id.spell_use_txt).text.toString().isNotEmpty()){
-                    spell.useValue = dialog.findViewById<EditText>(R.id.spell_use_txt).text.toString().toInt()
+                if (dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().isNotEmpty()){
+                    spell.useValue = dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().toInt()
                 }else{
                     spell.useValue = 0
                 }
                 spell.use2 = when(true){
-                    dialog.findViewById<RadioButton>(R.id.spell_use2_int).isChecked -> getString(R.string.intel)
-                    dialog.findViewById<RadioButton>(R.id.spell_use2_foi).isChecked -> getString(R.string.faith)
+                    dialog.findViewById<CheckBox>(R.id.spell_use_foi).isChecked -> getString(R.string.faith)
                     else -> ""
                 }
-                if (dialog.findViewById<EditText>(R.id.spell_use2_txt).text.toString().isNotEmpty()){
-                    spell.useValue2 = dialog.findViewById<EditText>(R.id.spell_use2_txt).text.toString().toInt()
+                if (dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().isNotEmpty()){
+                    spell.useValue2 = dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().toInt()
                 }else{
                     spell.useValue2 = 0
                 }
@@ -275,18 +271,16 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             dialog.findViewById<EditText>(R.id.spell_mana_txt).setText(spell.mana.toString())
             if (spell.use.isNotEmpty()){
                 when(spell.use){
-                    context!!.getString(R.string.intel) -> dialog.findViewById<RadioButton>(R.id.spell_use_int).isChecked = true
-                    context!!.getString(R.string.faith) -> dialog.findViewById<RadioButton>(R.id.spell_use_foi).isChecked = true
+                    context!!.getString(R.string.intel) -> dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked = true
                 }
             }
-            if(0!=spell.useValue)dialog.findViewById<EditText>(R.id.spell_use_txt).setText(spell.useValue.toString())
+            if(0!=spell.useValue)dialog.findViewById<EditText>(R.id.spell_use_int_txt).setText(spell.useValue.toString())
             if (spell.use2.isNotEmpty()){
                 when(spell.use2){
-                    context!!.getString(R.string.intel) -> dialog.findViewById<RadioButton>(R.id.spell_use2_int).isChecked = true
-                    context!!.getString(R.string.faith) -> dialog.findViewById<RadioButton>(R.id.spell_use2_foi).isChecked = true
+                    context!!.getString(R.string.faith) -> dialog.findViewById<CheckBox>(R.id.spell_use_foi).isChecked = true
                 }
             }
-            if(0!=spell.useValue2)dialog.findViewById<EditText>(R.id.spell_use2_txt).setText(spell.useValue2.toString())
+            if(0!=spell.useValue2)dialog.findViewById<EditText>(R.id.spell_use_foi_txt).setText(spell.useValue2.toString())
             dialog.findViewById<EditText>(R.id.spell_effect_txt).setText(spell.effect)
         }
     }

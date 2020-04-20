@@ -17,6 +17,11 @@ object Services {
     }
 
     @JvmStatic
+    fun getEquipment(context: Context): Equipment {
+        return Gson().fromJson<Equipment>(FileUtils.readJsonFile(context,context.getString(R.string.file_equipment)), Equipment::class.java)
+    }
+
+    @JvmStatic
     fun getWeapon(context: Context, type : String): Weapon {
         val weaponString = JSONObject(FileUtils.readJsonFile(context,"equipment.json")).get(type).toString()
         return Gson().fromJson<Weapon>(weaponString, Weapon::class.java)

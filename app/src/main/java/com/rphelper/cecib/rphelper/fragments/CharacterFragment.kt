@@ -45,13 +45,8 @@ class StatsFragment : Fragment() {
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt.setText(it!!.level.toString())
 
             view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.setText(it!!.life.value.toString())
-            view.findViewById<IndicComponent>(R.id.indic_life).indicMax.setText(it!!.life.maxValue.toString())
             view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.setText(it!!.const.value.toString())
-            view.findViewById<IndicComponent>(R.id.indic_const).indicMax.setText(it!!.const.maxValue.toString())
             view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.setText(it!!.mana.value.toString())
-            view.findViewById<IndicComponent>(R.id.indic_mana).indicMax.setText(it!!.mana.maxValue.toString())
-            view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setText(it!!.weight.value.toString())
-            view.findViewById<IndicComponent>(R.id.indic_weight).indicMax.setText(it!!.weight.maxValue.toString())
 
             view.findViewById<TextView>(R.id.stat_vit).text = it!!.vitality.toString()
             view.findViewById<TextView>(R.id.stat_vig).text = it!!.vigor.toString()
@@ -62,7 +57,7 @@ class StatsFragment : Fragment() {
             view.findViewById<TextView>(R.id.stat_int).text = it!!.intelligence.toString()
             view.findViewById<TextView>(R.id.stat_foi).text = it!!.faith.toString()
 
-            view.findViewById<IndicComponent>(R.id.don_cat).indicCurrent.setText(it!!.don)
+            if(it!!.don.isNotEmpty())view.findViewById<IndicComponent>(R.id.don_cat).indicCurrent.setText(it!!.don)
         })
 
         //Name
@@ -81,12 +76,27 @@ class StatsFragment : Fragment() {
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_speed).catTxt.setText(it.toString()) })
         //Life
         view.findViewById<IndicComponent>(R.id.indic_life).indicTitle.text = getString(R.string.pv)
+        viewModel.lifeMax.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicComponent>(R.id.indic_life).indicMax.setText(viewModel.lifeMax.value.toString())
+        })
         //Const
         view.findViewById<IndicComponent>(R.id.indic_const).indicTitle.text = getString(R.string.constitution)
+        viewModel.constMax.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicComponent>(R.id.indic_const).indicMax.setText(viewModel.constMax.value.toString())
+        })
         //Mana
         view.findViewById<IndicComponent>(R.id.indic_mana).indicTitle.text = getString(R.string.mana)
+        viewModel.manaMax.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicComponent>(R.id.indic_mana).indicMax.setText(viewModel.manaMax.value.toString())
+        })
         //Weight
         view.findViewById<IndicComponent>(R.id.indic_weight).indicTitle.text = getString(R.string.weight)
+        viewModel.weight.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setText(viewModel.weight.value.toString())
+        })
+        viewModel.weightMax.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicComponent>(R.id.indic_weight).indicMax.setText(viewModel.weightMax.value.toString())
+        })
 
         /********* Skills ******/
         //Diplo
@@ -210,7 +220,7 @@ class StatsFragment : Fragment() {
         view.findViewById<IndicComponent>(R.id.indic_weight).indicEdit.setOnClickListener {
             if (weightIsOnEdit){
                 weightIsOnEdit = false
-                viewModel.character.value!!.weight.value = if (view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.text.toString().isNotEmpty())
+                viewModel._weight.value = if (view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.text.toString().isNotEmpty())
                     view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.text.toString().toFloat() else 0F
                 view.findViewById<IndicComponent>(R.id.indic_weight).indicEdit.setImageResource(R.drawable.ic_edit)
                 view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setEnabled(false)
@@ -268,15 +278,16 @@ class StatsFragment : Fragment() {
         }
 
         view.findViewById<IndicComponent>(R.id.don_cat).indicEdit.setOnClickListener {
-            if (weightIsOnEdit){
-                weightIsOnEdit = false
+            if (donIsOnEdit){
+                donIsOnEdit = false
                 viewModel.character.value!!.don = view.findViewById<IndicComponent>(R.id.don_cat).indicCurrent.text.toString()
                 view.findViewById<IndicComponent>(R.id.don_cat).indicEdit.setImageResource(R.drawable.ic_edit)
                 view.findViewById<IndicComponent>(R.id.don_cat).indicCurrent.setEnabled(false)
                 viewModel.editCharacter()
             }else{
-                weightIsOnEdit = true
+                donIsOnEdit = true
                 view.findViewById<IndicComponent>(R.id.don_cat).indicEdit.setImageResource(R.drawable.ic_check)
+                view.findViewById<IndicComponent>(R.id.don_cat).indicCurrent.hint = "Entrez vos dons"
                 view.findViewById<IndicComponent>(R.id.don_cat).indicCurrent.setEnabled(true)
             }
         }

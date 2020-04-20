@@ -14,6 +14,8 @@ class Weapon (var name:String, var damage:Int, var weight:Float){
     var status : Status = Status.NOTHING
     var statusValue : Float = 0F
 
+    constructor():this("", 0, 0F)
+
     fun reinit(){
         this.name = ""
         this.damage = 0

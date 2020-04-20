@@ -9,9 +9,12 @@ import com.google.gson.JsonObject
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Armor
+import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.dto.Shield
 import com.rphelper.cecib.rphelper.dto.Weapon
+import com.rphelper.cecib.rphelper.enums.Elem
+import com.rphelper.cecib.rphelper.enums.Status
 import com.rphelper.cecib.rphelper.utils.FileUtils
 import org.json.JSONObject
 
@@ -68,33 +71,127 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
     val _damages = MutableLiveData<Int>()
     val damages : LiveData<Int> get() = _damages
     init {
-        _damages.value = 0 //Todo calcul
+        _damages.value = getDamages()
     }
 
-    val _defense = MutableLiveData<Int>()
-    val defense : LiveData<Int> get() = _defense
+    val _defense = MutableLiveData<Float>()
+    val defense : LiveData<Float> get() = _defense
     init {
-        _defense.value = 0 //Todo calcul
+        _defense.value = getDef()
     }
 
     val _res = MutableLiveData<String>()
     val res : LiveData<String> get() = _res
     init {
-        _res.value = "" //Todo concat list res
+        _res.value = getRes()
     }
     val _immun = MutableLiveData<String>()
     val immun : LiveData<String> get() = _immun
     init {
-        _immun.value = "" //Todo concat list immun
+        _immun.value = getImmun()
     }
     val _weak = MutableLiveData<String>()
     val weak : LiveData<String> get() = _weak
     init {
-        _weak.value = "" //Todo concat list weaknesses
+        _weak.value = getWeak()
+    }
+
+    fun getDamages():Int{
+        val character = Services.getCharacter(context)
+        return 90 + 2*character.strength + character.dexterity
+    }
+    fun getDef() : Float {
+        val character = Services.getCharacter(context)
+        var def = 50F
+        def += hat.value!!.def + chest.value!!.def + gloves.value!!.def + greaves.value!!.def
+        def += (character.vitality/2 + character.memory/2 + character.endurance/2 + character.vigor
+                + character.strength/2 + character.dexterity/2 + character.intelligence/2 + character.faith/2)
+        return def
+    }
+    fun getRes():String{
+        var res = "/"
+        if (null != hat.value!!.res && null != chest.value!!.res && null != gloves.value!!.res && null != greaves.value!!.res) {
+            res=""
+            if (hat.value!!.res.contains(Elem.FIRE) && chest.value!!.res.contains(Elem.FIRE)
+                    && gloves.value!!.res.contains(Elem.FIRE) && greaves.value!!.res.contains(Elem.FIRE)) res += Elem.FIRE.toString()
+            if (hat.value!!.res.contains(Elem.MAGIC) && chest.value!!.res.contains(Elem.MAGIC)
+                    && gloves.value!!.res.contains(Elem.MAGIC) && greaves.value!!.res.contains(Elem.MAGIC)) {
+                if(res.isNotEmpty())res += "\n"
+                res +=  Elem.MAGIC.toString()
+            }
+            if (hat.value!!.res.contains(Elem.LIGHTNING) && chest.value!!.res.contains(Elem.LIGHTNING)
+                    && gloves.value!!.res.contains(Elem.LIGHTNING) && greaves.value!!.res.contains(Elem.LIGHTNING)) {
+                if(res.isNotEmpty())res += "\n"
+                res += Elem.LIGHTNING.toString()
+            }
+            if (hat.value!!.res.contains(Elem.DARKNESS) && chest.value!!.res.contains(Elem.DARKNESS)
+                    && gloves.value!!.res.contains(Elem.DARKNESS) && greaves.value!!.res.contains(Elem.DARKNESS)){
+                if(res.isNotEmpty())res += "\n"
+                res += Elem.DARKNESS.toString()
+            }
+            if (hat.value!!.res.contains(Elem.ALL) && chest.value!!.res.contains(Elem.ALL)
+                    && gloves.value!!.res.contains(Elem.ALL) && greaves.value!!.res.contains(Elem.ALL)){
+                res += Elem.ALL.toString()
+            }
+        }
+        return res
+    }
+    fun getWeak():String {
+        var weak = "/"
+        if (null != hat.value!!.weak && null != chest.value!!.weak && null != gloves.value!!.weak && null != greaves.value!!.weak){
+            weak=""
+            if (hat.value!!.weak.contains(Elem.FIRE) && chest.value!!.weak.contains(Elem.FIRE)
+                    && gloves.value!!.weak.contains(Elem.FIRE) && greaves.value!!.weak.contains(Elem.FIRE)) weak += Elem.FIRE.toString()
+        if (hat.value!!.weak.contains(Elem.MAGIC) && chest.value!!.weak.contains(Elem.MAGIC)
+                && gloves.value!!.weak.contains(Elem.MAGIC) && greaves.value!!.weak.contains(Elem.MAGIC)){
+            if (weak.isNotEmpty())weak += "\n"
+            weak += Elem.MAGIC.toString()
+        }
+        if (hat.value!!.weak.contains(Elem.LIGHTNING) && chest.value!!.weak.contains(Elem.LIGHTNING)
+                && gloves.value!!.weak.contains(Elem.LIGHTNING) && greaves.value!!.weak.contains(Elem.LIGHTNING)){
+            if (weak.isNotEmpty())weak += "\n"
+            weak +=Elem.LIGHTNING.toString()
+        }
+        if (hat.value!!.weak.contains(Elem.DARKNESS) && chest.value!!.weak.contains(Elem.DARKNESS)
+                && gloves.value!!.weak.contains(Elem.DARKNESS) && greaves.value!!.weak.contains(Elem.DARKNESS)){
+            if (weak.isNotEmpty())weak += "\n"
+            weak += Elem.DARKNESS.toString()
+        }
+            if (hat.value!!.weak.contains(Elem.ALL) && chest.value!!.weak.contains(Elem.ALL)
+                    && gloves.value!!.weak.contains(Elem.ALL) && greaves.value!!.weak.contains(Elem.ALL)) weak += Elem.FIRE.toString()
+    }
+        return weak
+    }
+
+    fun getImmun():String{
+        var immun = "/"
+        if (null != hat.value!!.immun && null != chest.value!!.immun && null != gloves.value!!.immun && null != greaves.value!!.immun) {
+            immun=""
+            if (hat.value!!.immun.contains(Status.BLEED) && chest.value!!.immun.contains(Status.BLEED)
+                    && gloves.value!!.immun.contains(Status.BLEED) && greaves.value!!.immun.contains(Status.BLEED)) immun += Status.BLEED.toString()
+            if (hat.value!!.immun.contains(Status.FROST) && chest.value!!.immun.contains(Status.FROST)
+                    && gloves.value!!.immun.contains(Status.FROST) && greaves.value!!.immun.contains(Status.FROST)){
+                if (immun.isNotEmpty())immun += "\n"
+                immun +=Status.FROST.toString()
+            }
+            if (hat.value!!.immun.contains(Status.POISON) && chest.value!!.immun.contains(Status.POISON)
+                    && gloves.value!!.immun.contains(Status.POISON) && greaves.value!!.immun.contains(Status.POISON)){
+                if (immun.isNotEmpty())immun += "\n"
+                immun += Status.POISON.toString()
+            }
+        }
+        return immun
+    }
+
+    fun getTotalDamage(weapon: Weapon):Int{
+        val character = Services.getCharacter(context)
+        var dmg = damages.value!! + weapon.damage
+        dmg += (character.strength*weapon.bonusFor.value + character.dexterity*weapon.bonusDex.value).toInt()
+        return dmg
     }
 
     fun editEquipment(){
-        val equipment = Equipment(leftHand.value!!, rightHand.value!!, shield.value!!, hat.value!!, chest.value!!, gloves.value!!, greaves.value!!)
+        val equipment = Equipment(leftHand.value!!, rightHand.value!!, catalyst.value!!, shield.value!!, hat.value!!, chest.value!!, gloves.value!!, greaves.value!!)
         Services.editEquipment(context, equipment)
         _leftHand.value = Services.getWeapon(context, "leftHand")
         _rightHand.value = Services.getWeapon(context, "rightHand")
@@ -104,5 +201,10 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         _chest.value = Services.getArmor(context, "chest")
         _gloves.value = Services.getArmor(context, "gloves")
         _greaves.value = Services.getArmor(context, "greaves")
+        _damages.value = getDamages()
+        _defense.value = getDef()
+        _res.value = getRes()
+        _immun.value = getImmun()
+        _weak.value = getWeak()
     }
 }

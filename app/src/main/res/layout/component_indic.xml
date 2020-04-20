@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/small_margin"
-        android:text="300"
+        android:minHeight="@dimen/double_app_margin"
         android:textSize="@dimen/cat_txt"
         android:inputType="textMultiLine"
         android:background="@android:color/transparent"
