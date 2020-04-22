@@ -12,4 +12,16 @@ class Shield (var name:String, var weight:Float){
         this.block = 1F
         this.res = ArrayList<Elem>()
     }
+
+    fun getDescription() :String{
+        var desc = ""
+        if (block!=0F) desc = "blocage: " + block.toString()
+        if(res.isNotEmpty()) {
+            desc += ", resistance(s): "
+            for (r in res){
+                desc += r.name + " "
+            }
+        }
+        return desc
+    }
 }

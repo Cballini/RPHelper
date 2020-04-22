@@ -23,26 +23,26 @@ object Services {
 
     @JvmStatic
     fun getWeapon(context: Context, type : String): Weapon {
-        val weaponString = JSONObject(FileUtils.readJsonFile(context,"equipment.json")).get(type).toString()
+        val weaponString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_equipment))).get(type).toString()
         return Gson().fromJson<Weapon>(weaponString, Weapon::class.java)
     }
 
     @JvmStatic
     fun getShield(context: Context): Shield {
-        val shieldString = JSONObject(FileUtils.readJsonFile(context,"equipment.json")).get("shield").toString()
+        val shieldString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_equipment))).get("shield").toString()
         return Gson().fromJson<Shield>(shieldString, Shield::class.java)
     }
 
     @JvmStatic
     fun getArmor(context: Context, type : String): Armor {
-        val armorString = JSONObject(FileUtils.readJsonFile(context,"equipment.json")).get(type).toString()
+        val armorString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_equipment))).get(type).toString()
         return Gson().fromJson<Armor>(armorString, Armor::class.java)
     }
 
     @JvmStatic
     fun getSpells(context: Context): ArrayList<Spell> {
         val sType = object : TypeToken<ArrayList<Spell>>() { }.type
-        return Gson().fromJson<ArrayList<Spell>>(FileUtils.readJsonFile(context, "spells.json"), sType)
+        return Gson().fromJson<ArrayList<Spell>>(FileUtils.readJsonFile(context, context.getString(R.string.file_spells)), sType)
     }
 
     @JvmStatic
@@ -72,14 +72,19 @@ object Services {
     }
 
     @JvmStatic
+    fun getInventory(context: Context): Inventory {
+        return Gson().fromJson<Inventory>(FileUtils.readJsonFile(context,context.getString(R.string.file_inventory)), Inventory::class.java)
+    }
+
+    @JvmStatic
     fun getMoney(context: Context): Int {
-        val moneyString = JSONObject(FileUtils.readJsonFile(context,"inventory.json")).get("money").toString()
+        val moneyString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_inventory))).get("money").toString()
         return Gson().fromJson<Int>(moneyString, Int::class.java)
     }
 
     @JvmStatic
     fun getItems(context: Context): ArrayList<Item> {
-        val objectsString = JSONObject(FileUtils.readJsonFile(context,"inventory.json")).get("item").toString()
+        val objectsString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_inventory))).get("item").toString()
         val sType = object : TypeToken<ArrayList<Item>>() { }.type
         return Gson().fromJson<ArrayList<Item>>(objectsString, sType)
     }

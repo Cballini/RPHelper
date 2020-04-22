@@ -30,10 +30,14 @@
     <string name="vig">VIG</string>
     <string name="weight">POIDS</string>
     <string name="weight_min">Poids</string>
+    <string name="weight_max">Poids max</string>
     <string name="pv">VIE</string>
+    <string name="pv_max">Vie max</string>
     <string name="mana">MANA</string>
     <string name="mana_min">Mana</string>
+    <string name="mana_max">Mana max</string>
     <string name="constitution">CONST</string>
+    <string name="const_max">Const max</string>
 
     <string name="damages">Dégats</string>
     <string name="damages_short">Dgts</string>
@@ -93,6 +97,11 @@
     <string name="total_damage">Dégats totaux</string>
     <string name="known_spells">Sorts connus</string>
     <string name="choose_equip">Choisissez l\'emplacement où équiper votre sort</string>
+
+    <string name="inventory_title">Inventaire (15kg max)</string>
+    <string name="ask_item_equip">L\'objet que vous équipez modifie t\'il une ou plusieurs de ces stats ? Si oui cochez la/les case(s) correspondantes et entrez la valeur de cette modification. </string>
+    <string name="ask_item_disequip">L\'objet que vous déséquipez modifiait t\'il une ou plusieurs de ces stats ? Si oui cochez la/les case(s) correspondantes et entrez la valeur de cette modification. </string>
+
 
     <string name="roll_dice">Lancer le dé</string>
     <string name="brut_dmg">Dégats bruts</string>

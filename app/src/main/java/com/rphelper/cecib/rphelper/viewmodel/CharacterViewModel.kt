@@ -2,7 +2,14 @@ package com.rphelper.cecib.rphelper.viewmodel
 
 import android.arch.lifecycle.*
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.gson.Gson
+import com.rphelper.cecib.rphelper.Preferences
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_CONST_MAX
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_LIFE_MAX
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_MANA_MAX
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_WEIGHT_MAX
+import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Indic
@@ -89,15 +96,31 @@ class CharacterViewModel(val context: Context) : ViewModel(){
     }
 
     fun getSpeed() = weightMax.value!! - weight.value!!
-    fun getWeightMax()= 40 + _character.value!!.vigor
+    fun getWeightMax() : Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_WEIGHT_MAX, PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(PREF_MODIFIER_WEIGHT_MAX, 0)
+        return 40 + _character.value!!.vigor + prefValue
+    }
     fun getWeight():Float{
         val equipment = Services.getEquipment(context)
         return (equipment.leftHand.weight + equipment.rightHand.weight + equipment.catalyst.weight + equipment.shield.weight
         + equipment.hat.weight + equipment.chest.weight + equipment.gloves.weight + equipment.greaves.weight)
     }
-    fun getLifeMax() = 200 + 20*character.value!!.vitality
-    fun getManaMax() = 40 + 5*character.value!!.memory
-    fun getConstMax() = 60 + 20*character.value!!.endurance
+    fun getLifeMax():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_LIFE_MAX, PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(PREF_MODIFIER_LIFE_MAX, 0)
+        return 200 + 20*character.value!!.vitality + prefValue
+    }
+    fun getManaMax() : Int {
+        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_MANA_MAX, PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(PREF_MODIFIER_MANA_MAX, 0)
+        return 40 + 5*character.value!!.memory + prefValue
+    }
+    fun getConstMax():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_CONST_MAX, PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(PREF_MODIFIER_CONST_MAX, 0)
+        return 60 + 20*character.value!!.endurance + prefValue
+    }
     fun getDiplo() =35 + _character.value!!.intelligence + _character.value!!.memory
     fun getPsy() = 35 + _character.value!!.faith + _character.value!!.dexterity
     fun getKnow() =30 + _character.value!!.intelligence + _character.value!!.memory

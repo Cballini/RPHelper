@@ -29,4 +29,17 @@ class Weapon (var name:String, var damage:Int, var weight:Float){
         this.status = Status.NOTHING
         this.statusValue = 0F
     }
+
+    fun getDescription():String{
+        var desc = ""
+        if (damage!=0) desc = "dgt = " + damage.toString()
+        if (boost!=0) desc = "boost = " + boost.toString()
+        if (!status.equals(Status.NOTHING)) desc += ", " + status.name + ": " + statusValue.toString()
+        if (!affinity.equals(Elem.NOTHING)) desc += ", affinité :" + affinity.name
+        if (!bonusFor.equals(Bonus.NOTHING)) desc += ", bonus FOR : " + bonusFor
+        if (!bonusDex.equals(Bonus.NOTHING)) desc += ", bonus DEX : " + bonusDex
+        if (!bonusInt.equals(Bonus.NOTHING)) desc += ", bonus INT : " + bonusInt
+        if (!bonusFoi.equals(Bonus.NOTHING)) desc += ", bonus FOI : " + bonusFoi
+        return desc
+    }
 }

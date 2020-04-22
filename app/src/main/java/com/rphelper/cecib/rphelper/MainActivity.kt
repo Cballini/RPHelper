@@ -25,6 +25,34 @@ import android.view.View
 class MainActivity : FragmentActivity() {
     private val WRITE_EXTERNAL_STORAGE_CODE = 1
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    WRITE_EXTERNAL_STORAGE_CODE)
+        }
+        else{
+            initView()
+        }
+    }
+
+    fun initView(){
+        val fragmentManager = supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        val fragment = StatsFragment()
+        fragmentTransaction.add(R.id.fragment_container, fragment)
+        fragmentTransaction.commit()
+
+        val navigation = findViewById<BottomNavigationView>(R.id.navigation)
+        navigation.isItemHorizontalTranslationEnabled = false
+        navigation.labelVisibilityMode = LABEL_VISIBILITY_UNLABELED
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_profil -> {
@@ -69,34 +97,6 @@ class MainActivity : FragmentActivity() {
             }
         }
         false
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    WRITE_EXTERNAL_STORAGE_CODE)
-        }
-        else{
-            initView()
-        }
-    }
-
-    fun initView(){
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        val fragment = StatsFragment()
-        fragmentTransaction.add(R.id.fragment_container, fragment)
-        fragmentTransaction.commit()
-
-        val navigation = findViewById<BottomNavigationView>(R.id.navigation)
-        navigation.isItemHorizontalTranslationEnabled = false
-        navigation.labelVisibilityMode = LABEL_VISIBILITY_UNLABELED
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,

@@ -16,4 +16,28 @@ class Armor(var name: String, var def: Float, var weight: Float) {
         this.weak = ArrayList<Elem>()
         this.immun = ArrayList<Status>()
     }
+
+    fun getDescription() :String{
+        var desc = ""
+        desc = "defense: " + def.toString()
+        if(res.isNotEmpty()){
+            desc += ", resistance(s): "
+            for(r in res){
+                desc += r.name + " "
+            }
+        }
+        if(immun.isNotEmpty()){
+            desc += ", immunité(s): "
+            for(i in immun){
+                desc += i.name + " "
+            }
+        }
+        if(weak.isNotEmpty()){
+            desc += ", faiblesse(s): "
+            for(w in weak){
+                desc += w.name + " "
+            }
+        }
+        return desc
+    }
 }

@@ -4,15 +4,16 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.rphelper.cecib.rphelper.Preferences
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DAMAGES
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DEFENSE
+import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
-import com.rphelper.cecib.rphelper.dto.Armor
-import com.rphelper.cecib.rphelper.dto.Character
-import com.rphelper.cecib.rphelper.dto.Equipment
-import com.rphelper.cecib.rphelper.dto.Shield
-import com.rphelper.cecib.rphelper.dto.Weapon
+import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.Status
 import com.rphelper.cecib.rphelper.utils.FileUtils
@@ -98,11 +99,15 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
 
     fun getDamages():Int{
         val character = Services.getCharacter(context)
-        return 90 + 2*character.strength + character.dexterity
+        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_DAMAGES, PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(PREF_MODIFIER_DAMAGES, 0)
+        return 90 + 2*character.strength + character.dexterity + prefValue
     }
     fun getDef() : Float {
         val character = Services.getCharacter(context)
-        var def = 50F
+        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_DEFENSE, PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(PREF_MODIFIER_DEFENSE, 0)
+        var def = 50F + prefValue
         def += hat.value!!.def + chest.value!!.def + gloves.value!!.def + greaves.value!!.def
         def += (character.vitality/2 + character.memory/2 + character.endurance/2 + character.vigor
                 + character.strength/2 + character.dexterity/2 + character.intelligence/2 + character.faith/2)
@@ -217,6 +222,42 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         val char = Services.getCharacter(context)
         char.const.value -= 30
         Services.editCharacter(context, char)
+    }
+
+    fun weaponToItem(type :String, weapon: Weapon){
+        val item = Item(weapon.name, 1, weapon.getDescription(), false, weapon.weight)
+        when(type){
+            context.getString(R.string.left_hand)-> leftHand.value!!.reinit()
+            context.getString(R.string.right_hand)-> rightHand.value!!.reinit()
+            context.getString(R.string.catalyst)-> catalyst.value!!.reinit()
+        }
+        editEquipment()
+        val inventory = Services.getInventory(context)
+        inventory.item.add(item)
+        Services.editInventory(context, inventory)
+    }
+
+    fun shieldToItem(shield: Shield){
+        val item = Item(shield.name, 1, shield.getDescription(), false, shield.weight)
+        shield.reinit()
+        editEquipment()
+        val inventory = Services.getInventory(context)
+        inventory.item.add(item)
+        Services.editInventory(context, inventory)
+    }
+
+    fun armorToItem(type :String, armor: Armor){
+        val item = Item(armor.name, 1, armor.getDescription(), false, armor.weight)
+        when(type){
+            context.getString(R.string.hat)-> hat.value!!.reinit()
+            context.getString(R.string.chestplate)-> chest.value!!.reinit()
+            context.getString(R.string.gloves)-> gloves.value!!.reinit()
+            context.getString(R.string.greaves)-> greaves.value!!.reinit()
+        }
+        editEquipment()
+        val inventory = Services.getInventory(context)
+        inventory.item.add(item)
+        Services.editInventory(context, inventory)
     }
 
 }

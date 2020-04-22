@@ -44,6 +44,7 @@ class EquipmentFragment : Fragment() {
         }
         view.findViewById<Button>(R.id.equipment_button_block).setOnClickListener { viewModel.attackOrBlock()  }
         view.findViewById<Button>(R.id.equipment_button_dodge).setOnClickListener { viewModel.dodge()  }
+        view.findViewById<Button>(R.id.equipment_button_dodge).setOnClickListener { viewModel.dodge()  }
 
         /********** Stats **********/
         view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).cat_title.text = getString(R.string.damages)
@@ -249,7 +250,9 @@ class EquipmentFragment : Fragment() {
             fillWeaponEdit(dialog, weapon)
             dialog.findViewById<EditText>(R.id.weapon_name_txt).setSelection(dialog.findViewById<EditText>(R.id.weapon_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.weapon_cancel_button).setOnClickListener { dialog.dismiss() }
-            //TODO desequiper
+            dialog.findViewById<TextView>(R.id.weapon_disequip_button).setOnClickListener {
+                viewModel.weaponToItem(type, weapon)
+                dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.weapon_delete_button).setOnClickListener {
                 weapon.reinit()
                 viewModel.editEquipment()
@@ -396,6 +399,9 @@ class EquipmentFragment : Fragment() {
             fillShieldEdit(dialog)
             dialog.findViewById<EditText>(R.id.shield_name_txt).setSelection(dialog.findViewById<EditText>(R.id.shield_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.shield_cancel_button).setOnClickListener { dialog.dismiss() }
+            dialog.findViewById<TextView>(R.id.shield_disequip_button).setOnClickListener {
+                viewModel.shieldToItem(viewModel.shield.value!!)
+                dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.shield_delete_button).setOnClickListener {
                 viewModel.shield.value?.let { viewModel.shield.value!!.reinit() }
                 viewModel.editEquipment()
@@ -470,6 +476,9 @@ class EquipmentFragment : Fragment() {
             fillArmorEdit(dialog, armor)
             dialog.findViewById<EditText>(R.id.armor_name_txt).setSelection(dialog.findViewById<EditText>(R.id.armor_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.armor_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<TextView>(R.id.armor_disequip_button).setOnClickListener {
+            viewModel.armorToItem(type, armor)
+            dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.armor_delete_button).setOnClickListener {
                 armor.reinit()
                 viewModel.editEquipment()
