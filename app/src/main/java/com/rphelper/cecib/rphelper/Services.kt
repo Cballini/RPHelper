@@ -89,6 +89,18 @@ object Services {
         return Gson().fromJson<ArrayList<Item>>(objectsString, sType)
     }
 
+    @JvmStatic
+    fun getBleed(context: Context): Int {
+        val bleedString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_fight))).get("bleed").toString()
+        return Gson().fromJson<Int>(bleedString, Int::class.java)
+    }
+
+    @JvmStatic
+    fun getFrost(context: Context): Boolean {
+        val frostString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_fight))).get("frost").toString()
+        return Gson().fromJson<Boolean>(frostString, Boolean::class.java)
+    }
+
     /******** EDIT *******/
 
     @JvmStatic
@@ -114,5 +126,11 @@ object Services {
     fun editInventory(context: Context, inventory : Inventory) {
         val inventoryString = Gson().toJson(inventory)
         FileUtils.editJsonFile(context, context.getString(R.string.file_inventory), inventoryString)
+    }
+
+    @JvmStatic
+    fun editFight(context: Context, fight : Fight) {
+        val fightString = Gson().toJson(fight)
+        FileUtils.editJsonFile(context, context.getString(R.string.file_fight), fightString)
     }
 }

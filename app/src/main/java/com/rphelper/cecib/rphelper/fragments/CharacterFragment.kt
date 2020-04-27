@@ -18,7 +18,7 @@ import com.rphelper.cecib.rphelper.component.IndicComponent
 import com.rphelper.cecib.rphelper.utils.KeyboardUtils
 import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
 
-class StatsFragment : Fragment() {
+class CharacterFragment : Fragment() {
 
     lateinit var viewModel : CharacterViewModel
     var profileIsOnEdit = false

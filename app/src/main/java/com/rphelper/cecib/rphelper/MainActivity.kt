@@ -10,17 +10,13 @@ import android.view.MenuItem
 import android.support.v4.app.FragmentActivity
 
 
-import com.rphelper.cecib.rphelper.fragments.InventoryFragment
-import com.rphelper.cecib.rphelper.fragments.EquipmentFragment
-import com.rphelper.cecib.rphelper.fragments.FightFragment
-import com.rphelper.cecib.rphelper.fragments.SpellFragment
-import com.rphelper.cecib.rphelper.fragments.StatsFragment
 import com.rphelper.cecib.rphelper.utils.KeyboardUtils
 
 import android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.view.View
+import com.rphelper.cecib.rphelper.fragments.*
 
 class MainActivity : FragmentActivity() {
     private val WRITE_EXTERNAL_STORAGE_CODE = 1
@@ -43,7 +39,7 @@ class MainActivity : FragmentActivity() {
     fun initView(){
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
-        val fragment = StatsFragment()
+        val fragment = CharacterFragment()
         fragmentTransaction.add(R.id.fragment_container, fragment)
         fragmentTransaction.commit()
 
@@ -56,9 +52,9 @@ class MainActivity : FragmentActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_profil -> {
-                val statFragment = StatsFragment()
+                val charFragment = CharacterFragment()
                 val statTransaction = supportFragmentManager.beginTransaction()
-                statTransaction.replace(R.id.fragment_container, statFragment)
+                statTransaction.replace(R.id.fragment_container, charFragment)
                 statTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }

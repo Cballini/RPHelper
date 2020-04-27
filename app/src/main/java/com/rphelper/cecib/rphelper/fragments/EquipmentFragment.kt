@@ -39,13 +39,6 @@ class EquipmentFragment : Fragment() {
 
         initViewDisabled(view)
 
-        view.findViewById<Button>(R.id.equipment_button_attack).setOnClickListener {
-            viewModel.attackOrBlock()
-        }
-        view.findViewById<Button>(R.id.equipment_button_block).setOnClickListener { viewModel.attackOrBlock()  }
-        view.findViewById<Button>(R.id.equipment_button_dodge).setOnClickListener { viewModel.dodge()  }
-        view.findViewById<Button>(R.id.equipment_button_dodge).setOnClickListener { viewModel.dodge()  }
-
         /********** Stats **********/
         view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).cat_title.text = getString(R.string.damages)
         view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).catTxt.setEnabled(false)

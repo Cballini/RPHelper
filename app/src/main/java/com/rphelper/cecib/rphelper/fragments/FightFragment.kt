@@ -1,6 +1,7 @@
 package com.rphelper.cecib.rphelper.fragments
 
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.Editable
@@ -8,8 +9,11 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.TextView
+import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.DamageComponent
 import com.rphelper.cecib.rphelper.viewmodel.FightViewModel
@@ -113,6 +117,33 @@ class FightFragment : Fragment() {
             view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.setOnClickListener { viewModel.recoverMana(recovery)} }
         }
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.text = getString(R.string.recover)
+
+        /********* ACTIONS *************/
+        view.findViewById<Button>(R.id.fight_action_attack).setOnClickListener { viewModel.attackOrBlock() }
+        view.findViewById<Button>(R.id.fight_action_twin).setOnClickListener { viewModel.twin() }
+        view.findViewById<Button>(R.id.fight_action_block).setOnClickListener { viewModel.attackOrBlock() }
+        view.findViewById<Button>(R.id.fight_action_dodge).setOnClickListener { viewModel.dodge() }
+        view.findViewById<EditText>(R.id.fight_action_bleed_txt).setText(viewModel.bleed.value.toString())
+        view.findViewById<Button>(R.id.fight_action_bleed).setOnClickListener {
+            var damage = 0
+            if (view.findViewById<EditText>(R.id.fight_action_bleed_txt).text.isNotBlank()) damage = view.findViewById<EditText>(R.id.fight_action_bleed_txt).text.toString().toInt()
+            viewModel.bleed(damage) }
+        view.findViewById<Button>(R.id.fight_action_poison).setOnClickListener { viewModel.poison() }
+        if(viewModel.frost.value!!){
+            view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.annul_frost)
+        }else{
+            view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.activ_frost)
+        }
+        view.findViewById<Button>(R.id.fight_action_frost).setOnClickListener {
+            viewModel.frost()
+            if(viewModel.frost.value!!){
+                view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.annul_frost)
+
+            }else{
+                view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.activ_frost)
+            }
+        }
+
 
 
         return view

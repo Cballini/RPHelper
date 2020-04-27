@@ -10,7 +10,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/fight_roll_dice"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/double_app_margin"
+            android:background="@drawable/circle_primary"
+            android:gravity="center"
+            android:padding="@dimen/txt_margin"
+            android:text="@string/roll_dice"
+            android:textColor="@color/colorCatTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
+            android:id="@+id/fight_calc_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/app_margin"
@@ -36,19 +51,124 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/fight_roll_dice"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+        <LinearLayout
+            android:id="@+id/fight_action_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/app_margin"
             android:layout_marginTop="@dimen/double_app_margin"
-            android:background="@drawable/circle_primary"
-            android:gravity="center"
-            android:padding="@dimen/txt_margin"
-            android:text="@string/roll_dice"
-            android:textColor="@color/colorCatTitle"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/fight_calc_layout">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/fight_action_attack"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Attaquer"
+                    android:textColor="@color/colorCatTitle"
+                    android:backgroundTint="@color/colorAccent"/>
+                <Button
+                    android:id="@+id/fight_action_twin"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Attaque twin"
+                    android:textColor="@color/colorCatTitle"
+                    android:backgroundTint="@color/colorAccent"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <Button
+                    android:id="@+id/fight_action_block"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Bloquer"
+                    android:textColor="@color/colorCatTitle"
+                    android:backgroundTint="@color/colorAccent"/>
+                <Button
+                    android:id="@+id/fight_action_dodge"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Esquiver"
+                    android:textColor="@color/colorCatTitle"
+                    android:backgroundTint="@color/colorAccent"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/fight_action_bleed_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Bleed :"
+                    android:textSize="@dimen/title_txt"
+                    android:textColor="@color/colorTxt"/>
+                <EditText
+                    android:id="@+id/fight_action_bleed_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="@color/colorTxt"
+                    android:inputType="number"/>
+                <Button
+                    android:id="@+id/fight_action_bleed"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/submit"
+                    android:textColor="@color/colorCatTitle"
+                    android:backgroundTint="@color/colorAccent"/>
+            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center">
+            <Button
+                android:id="@+id/fight_action_poison"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Poison"
+                android:textColor="@color/colorCatTitle"
+                android:backgroundTint="@color/colorAccent"/>
+            <Button
+                android:id="@+id/fight_action_frost"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Frost"
+                android:textColor="@color/colorCatTitle"
+                android:backgroundTint="@color/colorAccent"/>
+        </LinearLayout>
+
+        </LinearLayout>
+
+
 
 
     </android.support.constraint.ConstraintLayout>

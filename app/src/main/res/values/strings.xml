@@ -113,6 +113,8 @@
     <string name="submit">SUBIR</string>
     <string name="recovery">Récupération</string>
     <string name="recover">Récupérer</string>
+    <string name="activ_frost">Activer frost</string>
+    <string name="annul_frost">Désactiver frost</string>
 
     <string name="edit">Modifier</string>
     <string name="delete">Supprimer</string>

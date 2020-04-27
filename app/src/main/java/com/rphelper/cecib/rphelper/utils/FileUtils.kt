@@ -44,5 +44,4 @@ object FileUtils {
         var fileObject = File(directory, fileName)
         fileObject.writeText(content)
     }
-
 }

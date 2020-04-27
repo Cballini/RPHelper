@@ -1,6 +1,7 @@
 {
   "damage": [],
   "heal" : [],
-  "status" : [],
-  "round" : []
+  "round" : [],
+  "frost" : "false",
+  "bleed" : "0"
 }
