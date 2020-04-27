@@ -45,17 +45,16 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         viewModel = InventoryViewModel(context!!)
 
         //Money
-        view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTitle.text = getString(R.string.money)
-        view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.setEnabled(false)
+        view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTitle.text = getString(R.string.money)
+        view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setEnabled(false)
         viewModel.money.observe(viewLifecycleOwner, Observer {
-            val money = it!!.toString() + " po"
-            view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.setText(it.toString())
+            view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setText(it!!.toString())
         })
 
         //Objects
         viewManager = LinearLayoutManager(this.context)
         viewAdapter = ItemAdapter(ArrayList(viewModel.items.value!!), this)
-        recyclerView = view.findViewById<RecyclerView>(R.id.bag_recycler).apply {
+        recyclerView = view.findViewById<RecyclerView>(R.id.inventory_recycler).apply {
             // use a linear layout manager
             layoutManager = viewManager
 
@@ -64,7 +63,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         }
         viewModel.items.observe(viewLifecycleOwner, Observer {
             viewAdapter = ItemAdapter(ArrayList(it!!), this)
-            recyclerView = view.findViewById<RecyclerView>(R.id.bag_recycler).apply {
+            recyclerView = view.findViewById<RecyclerView>(R.id.inventory_recycler).apply {
                 // use a linear layout manager
                 layoutManager = viewManager
 
@@ -73,22 +72,33 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             }
         })
 
+        //Weight
+        viewModel.weight.observe(viewLifecycleOwner, Observer {
+            val weight = it!!.toString() + getString(R.string.inventory_max_weight)
+            if(it>15){
+                view.findViewById<TextView>(R.id.inventory_weight).setTextColor(resources.getColor(R.color.red))
+            }else{
+                view.findViewById<TextView>(R.id.inventory_weight).setTextColor(resources.getColor(R.color.colorTxt))
+            }
+            view.findViewById<TextView>(R.id.inventory_weight).text = weight
+        })
+
         /***** EDIT ********/
-        view.findViewById<ImageView>(R.id.bag_money_edit).setOnClickListener {
+        view.findViewById<ImageView>(R.id.inventory_money_edit).setOnClickListener {
             if (isOnMoneyEdit) {
                 isOnMoneyEdit = false
-                view.findViewById<ImageView>(R.id.bag_money_edit).setImageResource(R.drawable.ic_edit)
-                view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.setEnabled(false)
-                if (view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.text.toString().isNotEmpty()) viewModel._money.value = view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.text.toString().toInt()
+                view.findViewById<ImageView>(R.id.inventory_money_edit).setImageResource(R.drawable.ic_edit)
+                view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setEnabled(false)
+                if (view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.text.toString().isNotEmpty()) viewModel._money.value = view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.text.toString().toInt()
                 viewModel.editInventory()
             } else {
                 isOnMoneyEdit = true
-                view.findViewById<ImageView>(R.id.bag_money_edit).setImageResource(R.drawable.ic_check)
-                view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.setEnabled(true)
-                view.findViewById<CategoryHorizontalComponent>(R.id.bag_money).catTxt.inputType = InputType.TYPE_CLASS_NUMBER
+                view.findViewById<ImageView>(R.id.inventory_money_edit).setImageResource(R.drawable.ic_check)
+                view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setEnabled(true)
+                view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
-        view.findViewById<ImageView>(R.id.bag_add).setOnClickListener {
+        view.findViewById<ImageView>(R.id.inventory_add).setOnClickListener {
             addItem()
         }
 

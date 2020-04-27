@@ -117,6 +117,9 @@
     <string name="disequip">Déséquiper</string>
     <string name="ok">OK</string>
 
+    <string name="po"> po</string>
+    <string name="inventory_max_weight">/15kg</string>
+
     <string name="file_character">character.json</string>
     <string name="file_equipment">equipment.json</string>
     <string name="file_spells">spells.json</string>

@@ -12,7 +12,7 @@ class InventoryViewModel (val context: Context) : ViewModel(){
     val _money = MutableLiveData<Int>()
     val money : LiveData<Int> get() = _money
     init {
-         _money.value = Services.getMoney(context)
+        _money.value = Services.getMoney(context)
     }
 
     val _items = MutableLiveData<ArrayList<Item>>()
@@ -21,11 +21,26 @@ class InventoryViewModel (val context: Context) : ViewModel(){
         _items.value = Services.getItems(context)
     }
 
+    val _weight = MutableLiveData<Float>()
+    val weight : LiveData<Float> get() = _weight
+    init {
+        _weight.value =getInventoryWeight()
+    }
+
     fun editInventory(){
         val inventory = Inventory(money.value!!, items.value!!)
         Services.editInventory(context, inventory)
         _money.value = Services.getMoney(context)
         _items.value = Services.getItems(context)
+        _weight.value =getInventoryWeight()
+    }
+
+    fun getInventoryWeight():Float{
+        var weight = 0F
+        for (item in items.value!!){
+            weight += item.weight
+        }
+        return weight
     }
 
 }
