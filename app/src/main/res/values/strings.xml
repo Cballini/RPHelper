@@ -125,6 +125,7 @@
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
     <string name="disequip">Déséquiper</string>
+    <string name="disequip_equipment_msg">est maintenant dans votre inventaire.</string>
     
     <string name="warning">Attention</string>
     <string name="warning_life">Vos points de vie sont tombés en dessous de 20%.</string>

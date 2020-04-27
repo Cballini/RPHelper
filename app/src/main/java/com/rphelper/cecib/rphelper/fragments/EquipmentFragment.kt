@@ -4,6 +4,7 @@ package com.rphelper.cecib.rphelper.fragments
 import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -240,8 +241,10 @@ class EquipmentFragment : Fragment() {
             dialog.findViewById<EditText>(R.id.weapon_name_txt).setSelection(dialog.findViewById<EditText>(R.id.weapon_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.weapon_cancel_button).setOnClickListener { dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.weapon_disequip_button).setOnClickListener {
+                displayMsg(weapon.name)
                 viewModel.weaponToItem(type, weapon)
-                dialog.dismiss() }
+                dialog.dismiss()
+            }
             dialog.findViewById<TextView>(R.id.weapon_delete_button).setOnClickListener {
                 weapon.reinit()
                 viewModel.editEquipment()
@@ -389,8 +392,10 @@ class EquipmentFragment : Fragment() {
             dialog.findViewById<EditText>(R.id.shield_name_txt).setSelection(dialog.findViewById<EditText>(R.id.shield_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.shield_cancel_button).setOnClickListener { dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.shield_disequip_button).setOnClickListener {
+                displayMsg(viewModel.shield.value!!.name)
                 viewModel.shieldToItem(viewModel.shield.value!!)
-                dialog.dismiss() }
+                dialog.dismiss()
+            }
             dialog.findViewById<TextView>(R.id.shield_delete_button).setOnClickListener {
                 viewModel.shield.value?.let { viewModel.shield.value!!.reinit() }
                 viewModel.editEquipment()
@@ -466,8 +471,10 @@ class EquipmentFragment : Fragment() {
             dialog.findViewById<EditText>(R.id.armor_name_txt).setSelection(dialog.findViewById<EditText>(R.id.armor_name_txt).text.length)
             dialog.findViewById<ImageView>(R.id.armor_cancel_button).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<TextView>(R.id.armor_disequip_button).setOnClickListener {
+            displayMsg(armor.name)
             viewModel.armorToItem(type, armor)
-            dialog.dismiss() }
+            dialog.dismiss()
+        }
             dialog.findViewById<TextView>(R.id.armor_delete_button).setOnClickListener {
                 armor.reinit()
                 viewModel.editEquipment()
@@ -598,5 +605,11 @@ class EquipmentFragment : Fragment() {
         list.add(Bonus.D.name)
         list.add(Bonus.E.name)
         return list
+    }
+
+    fun displayMsg(name: String){
+        var snackMsg =""
+        snackMsg = name + " " + getString(R.string.disequip_equipment_msg)
+        Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_SHORT).show()
     }
 }
