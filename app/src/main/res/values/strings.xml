@@ -115,6 +115,10 @@
     <string name="recover">Récupérer</string>
     <string name="activ_frost">Activer frost</string>
     <string name="annul_frost">Désactiver frost</string>
+    <string name="posture">Posture</string>
+    <string name="offensive">Offensive</string>
+    <string name="defensive">Défensive</string>
+    <string name="reflex">Réflexe</string>
 
     <string name="edit">Modifier</string>
     <string name="delete">Supprimer</string>

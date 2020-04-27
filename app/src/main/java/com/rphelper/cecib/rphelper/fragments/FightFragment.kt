@@ -9,10 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.TextView
+import android.widget.*
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.DamageComponent
@@ -33,6 +30,30 @@ class FightFragment : Fragment() {
         view.findViewById<TextView>(R.id.fight_roll_dice).setOnClickListener {
             val random = Math.random()*100
             view.findViewById<TextView>(R.id.fight_roll_dice).text = random.toInt().toString()
+        }
+
+        /********** Posture *********/
+        view.findViewById<RadioButton>(R.id.fight_posture_offensive).setOnCheckedChangeListener { compoundButton, b ->
+            if(view.findViewById<RadioButton>(R.id.fight_posture_offensive).isChecked) {
+                view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.VISIBLE
+                view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.GONE
+            }
+        }
+        view.findViewById<RadioButton>(R.id.fight_posture_defensive).setOnCheckedChangeListener { compoundButton, b ->
+            if(view.findViewById<RadioButton>(R.id.fight_posture_defensive).isChecked) {
+                view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.GONE
+                view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.VISIBLE
+                view.findViewById<Button>(R.id.fight_action_dodge).visibility = View.GONE
+                view.findViewById<Button>(R.id.fight_action_block).visibility = View.VISIBLE
+            }
+        }
+        view.findViewById<RadioButton>(R.id.fight_posture_reflex).setOnCheckedChangeListener { compoundButton, b ->
+            if(view.findViewById<RadioButton>(R.id.fight_posture_reflex).isChecked) {
+                view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.GONE
+                view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.VISIBLE
+                view.findViewById<Button>(R.id.fight_action_dodge).visibility = View.VISIBLE
+                view.findViewById<Button>(R.id.fight_action_block).visibility = View.GONE
+            }
         }
 
         //Calc damages
