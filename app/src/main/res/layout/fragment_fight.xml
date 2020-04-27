@@ -33,42 +33,13 @@
             android:background="@color/white"
             android:elevation="1dp"
             app:layout_constraintTop_toBottomOf="@+id/fight_roll_dice">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+
                 <com.rphelper.cecib.rphelper.component.DamageComponent
-                    android:id="@+id/fight_brut_damage"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/fight_calc_damage"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:padding="@dimen/small_margin"/>
-                <com.rphelper.cecib.rphelper.component.DamageComponent
-                    android:id="@+id/fight_block_damage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/small_margin"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-                <com.rphelper.cecib.rphelper.component.DamageComponent
-                    android:id="@+id/fight_elem_res_damage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/small_margin"/>
-                <com.rphelper.cecib.rphelper.component.DamageComponent
-                    android:id="@+id/fight_weak_damage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="@dimen/small_margin"/>
-            </LinearLayout>
+                    android:padding="@dimen/txt_margin"/>
 
         </LinearLayout>
 

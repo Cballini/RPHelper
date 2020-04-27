@@ -1,29 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_border"
+    android:padding="@dimen/txt_margin">
+    <TextView
+        android:id="@+id/damage_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTxt"
+        android:textSize="@dimen/title_txt"
+        android:text="@string/damages"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
-    <LinearLayout
-        android:id="@+id/damage_layout"
-        android:layout_width="wrap_content"
+    <RadioGroup
+        android:id="@+id/damage_radio_group"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/damage_title">
+        <RadioButton
+            android:id="@+id/damage_button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/damages"
+            android:textColor="@color/colorTxt"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/damage_button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/damages"
+            android:textColor="@color/colorTxt"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/damage_button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/damages"
+            android:textColor="@color/colorTxt"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/damage_button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/damages"
+            android:textColor="@color/colorTxt"
+            android:layout_weight="1"/>
+    </RadioGroup>
 
-            <TextView
-                android:id="@+id/damage_type"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:paddingVertical="@dimen/small_margin"
-                android:text="@string/damages"
-                android:textColor="@color/colorCatTitle"
-                android:minWidth="100dp"
-                android:maxEms="8"
-                android:layout_weight="1"/>
+    <LinearLayout
+        android:id="@+id/damage_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/damage_radio_group">
+
             <EditText
                 android:id="@+id/damage_received"
                 android:layout_width="0dp"
@@ -32,15 +70,6 @@
                 android:gravity="bottom"
                 android:inputType="number"
                 android:layout_weight="1"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/result_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@+id/damage_layout"
-        app:layout_constraintEnd_toEndOf="@+id/damage_layout"
-        app:layout_constraintTop_toBottomOf="@+id/damage_layout">
     <TextView
         android:id="@+id/damage_equal"
         android:layout_width="0dp"
@@ -56,29 +85,20 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:padding="@dimen/small_margin"
-        android:background="@color/colorPrimary"
         android:gravity="center"
         android:text="0"
-        android:textColor="@color/colorCatTitle"
+        android:textColor="@color/colorTxt"
         android:textSize="@dimen/cat_txt"
         android:textStyle="bold"
         android:layout_weight="1"/>
+        <Button
+            android:id="@+id/damage_submit"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="@dimen/txt_margin"
+            android:text="@string/submit"
+            android:textColor="@color/colorCatTitle"
+            android:backgroundTint="@color/colorAccent"
+            android:layout_weight="1"/>
     </LinearLayout>
-
-
-    <Button
-        android:id="@+id/damage_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingVertical="@dimen/small_margin"
-        android:paddingHorizontal="@dimen/double_app_margin"
-        android:text="@string/submit"
-        android:textColor="@color/colorCatTitle"
-        android:backgroundTint="@color/colorAccent"
-        app:layout_constraintTop_toBottomOf="@+id/result_layout"
-        app:layout_constraintStart_toStartOf="@+id/result_layout"
-        app:layout_constraintEnd_toEndOf="@+id/result_layout"/>
-
-
 </android.support.constraint.ConstraintLayout>

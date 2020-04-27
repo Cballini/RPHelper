@@ -104,10 +104,10 @@
 
 
     <string name="roll_dice">Lancer le dé</string>
-    <string name="brut_dmg">Dégats bruts</string>
-    <string name="elem_res_dmg">Dégats res</string>
-    <string name="block_dmg">Dégats parade</string>
-    <string name="weak_dmg">Dégats faiblesse</string>
+    <string name="brut_dmg">brut</string>
+    <string name="elem_res_dmg">res</string>
+    <string name="block_dmg">parade</string>
+    <string name="weak_dmg">faiblesse</string>
     <string name="submit">SUBIR</string>
 
     <string name="edit">Modifier</string>
