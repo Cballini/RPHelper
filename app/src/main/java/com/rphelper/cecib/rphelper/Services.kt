@@ -101,6 +101,13 @@ object Services {
         return Gson().fromJson<Boolean>(frostString, Boolean::class.java)
     }
 
+    @JvmStatic
+    fun getDamages(context: Context): ArrayList<Int> {
+        val frostString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_fight))).get("damage").toString()
+        val sType = object : TypeToken<ArrayList<Int>>() { }.type
+        return Gson().fromJson<ArrayList<Int>>(frostString, sType)
+    }
+
     /******** EDIT *******/
 
     @JvmStatic

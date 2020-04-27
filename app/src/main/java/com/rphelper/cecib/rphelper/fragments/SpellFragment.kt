@@ -381,7 +381,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                 show()
             }
         } else {
-            Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_LONG).show()
+            Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_SHORT).show()
         }
     }
 

@@ -24,11 +24,20 @@ class FightViewModel(val context: Context) :ViewModel(){
         _bleed.value = Services.getBleed(context)
     }
 
+    val _lastDamage = MutableLiveData<Int>()
+    val lastDamage : LiveData<Int> get() = _lastDamage
+    init {
+        _lastDamage.value = getLastDamage()
+    }
+
     fun saveFight(){
-        val fight = Fight(ArrayList(), ArrayList(), ArrayList(), frost.value!!, bleed.value!!)
+        var damagesList = ArrayList<Int>()
+        damagesList.add(lastDamage.value!!)
+        val fight = Fight(damagesList, ArrayList(), ArrayList(), frost.value!!, bleed.value!!)
         Services.editFight(context, fight)
         _frost.value = Services.getFrost(context)
         _bleed.value = Services.getBleed(context)
+        _lastDamage.value = getLastDamage()
     }
 
     fun getDef():Float{
@@ -54,6 +63,8 @@ class FightViewModel(val context: Context) :ViewModel(){
         val maxLife = CalcUtils.getLifeMax(context, char)
         if (char.life.value>maxLife) char.life.value = maxLife.toFloat()
         Services.editCharacter(context, char)
+        _lastDamage.value = damages
+        saveFight()
     }
 
     fun recoverLife(heal:Int) = submit(-heal)
@@ -141,5 +152,13 @@ class FightViewModel(val context: Context) :ViewModel(){
         if(char.const.value<test) check = true
         return check
     }
+
+    fun getLastDamage():Int{
+        var last = 0
+        val list = Services.getDamages(context)
+        if (list.isNotEmpty()) last = list.get(0)
+        return last
+    }
+
 
 }

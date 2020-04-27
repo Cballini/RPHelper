@@ -61,7 +61,7 @@ class FightFragment : Fragment() {
         view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton2.text = getString(R.string.elem_res_dmg)
         view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton3.text = getString(R.string.block_dmg)
         view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton4.text = getString(R.string.weak_dmg)
-
+        viewModel.lastDamage.observe(viewLifecycleOwner, Observer {view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text = it.toString()})
         var dmg = 0
         view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageReceived.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
@@ -100,7 +100,11 @@ class FightFragment : Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {}
         })
-        view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageSubmit.setOnClickListener { viewModel.submit(dmg); checkAndDisplayAlert(getString(R.string.pv), dmg)}
+        view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageSubmit.setOnClickListener {
+            val result = view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text.toString().toInt()
+            viewModel.submit(result)
+            checkAndDisplayAlert(getString(R.string.pv), result)
+        }
 
         //Calc heal
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageTitle.text = getString(R.string.recovery)
@@ -202,7 +206,7 @@ class FightFragment : Fragment() {
             getString(R.string.constitution) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de constitution."
             getString(R.string.mana) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de mana."
         }
-        Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_SHORT).show()
     }
 
 }
