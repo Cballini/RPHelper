@@ -1,10 +1,10 @@
 package com.rphelper.cecib.rphelper.fragments
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.arch.lifecycle.Observer
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -20,7 +20,7 @@ import com.rphelper.cecib.rphelper.dto.Spell
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 import com.rphelper.cecib.rphelper.viewmodel.SpellViewModel
 import kotlinx.android.synthetic.main.component_spell.view.*
-import java.util.ArrayList
+import java.util.*
 
 class SpellFragment : Fragment(), RecyclerViewClickListener {
     private lateinit var recyclerView: RecyclerView
@@ -86,7 +86,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             editSpell(getString(R.string.spell2), viewModel.secondEquipSpell.value!!)
         }
         view.findViewById<SpellComponent>(R.id.spell_third_equip).spellPlaceLayout.setOnClickListener {
-        editSpell(getString(R.string.spell3), viewModel.thirdEquipSpell.value!!)
+            editSpell(getString(R.string.spell3), viewModel.thirdEquipSpell.value!!)
         }
         view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellPlaceLayout.setOnClickListener {
             editSpell(getString(R.string.spell4), viewModel.fourthEquipSpell.value!!)
@@ -98,17 +98,17 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
     }
 
     override fun onItemClicked(position: Int, v: View) {
-        val popupMenu = PopupMenu(context,v)
-        popupMenu.menuInflater.inflate(R.menu.menu_item,popupMenu.menu)
+        val popupMenu = PopupMenu(context, v)
+        popupMenu.menuInflater.inflate(R.menu.menu_item, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-            when(item.itemId) {
+            when (item.itemId) {
                 R.id.action_edit -> editSpell(getString(R.string.known_spells), viewModel.knownSpells.value!![position])
                 R.id.action_delete -> {
                     val spell = viewModel.knownSpells.value!![position]
                     viewModel.knownSpells.value!!.remove(spell)
                     viewModel.editSpells()
                 }
-                R.id.action_equip ->{
+                R.id.action_equip -> {
                     equipSpell(viewModel.knownSpells.value!![position])
                 }
             }
@@ -117,9 +117,9 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         popupMenu.show()
     }
 
-    fun initSpellView(view : View, id: Int, place :String, spell: Spell?){
+    fun initSpellView(view: View, id: Int, place: String, spell: Spell?) {
         view!!.findViewById<SpellComponent>(id).spellPlace.text = place
-        if(spell!!.name.isNotBlank()){
+        if (spell!!.name.isNotBlank()) {
             view!!.findViewById<SpellComponent>(id).spellName.text = spell!!.name
             view!!.findViewById<SpellComponent>(id).spellDamage.text = spell!!.damage.toString()
             view!!.findViewById<SpellComponent>(id).spellMana.text = spell!!.mana.toString()
@@ -127,15 +127,15 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             view!!.findViewById<SpellComponent>(id).spellEffect.text = spell!!.effect
             view!!.findViewById<SpellComponent>(id).spellUse.text = spell!!.use
             view!!.findViewById<SpellComponent>(id).spellUseValue.text = spell!!.useValue.toString()
-            if(spell.use2.isNullOrEmpty())
-            { view!!.findViewById<LinearLayout>(id).spell_use_layout2.visibility = View.GONE }
-            else{
+            if (spell.use2.isNullOrEmpty()) {
+                view!!.findViewById<LinearLayout>(id).spell_use_layout2.visibility = View.GONE
+            } else {
                 view!!.findViewById<LinearLayout>(id).spell_use_layout2.visibility = View.VISIBLE
                 view!!.findViewById<SpellComponent>(id).spellUse2.text = spell!!.use2
                 view!!.findViewById<SpellComponent>(id).spellUseValue2.text = spell!!.useValue2.toString()
             }
-            view!!.findViewById<SpellComponent>(id).spellButton.setOnClickListener { viewModel.attack(spell)}
-        }else{
+            view!!.findViewById<SpellComponent>(id).spellButton.setOnClickListener { viewModel.attack(spell); checkAndDisplayAlert(spell.mana) }
+        } else {
             view!!.findViewById<LinearLayout>(id).spell_use_layout2.visibility = View.GONE
             view!!.findViewById<SpellComponent>(id).spellName.text = ""
             view!!.findViewById<SpellComponent>(id).spellDamage.text = "0"
@@ -147,111 +147,111 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         }
     }
 
-    fun editSpell(place :String, spell: Spell){
-            val dialog = Dialog(activity)
-            dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog .setContentView(R.layout.popup_edit_spell)
-            dialog.findViewById<TextView>(R.id.spell_type).text = place
-            fillSpellEdit(dialog, spell)
+    fun editSpell(place: String, spell: Spell) {
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_edit_spell)
+        dialog.findViewById<TextView>(R.id.spell_type).text = place
+        fillSpellEdit(dialog, spell)
         dialog.findViewById<EditText>(R.id.spell_name_txt).setSelection(dialog.findViewById<EditText>(R.id.spell_name_txt).text.length)
-            dialog.findViewById<ImageView>(R.id.spell_cancel_button).setOnClickListener { dialog.dismiss() }
-            dialog.findViewById<TextView>(R.id.spell_disequip_button).setOnClickListener {
-                spell.equip = false
-                viewModel.editSpells()
-                dialog.dismiss()
+        dialog.findViewById<ImageView>(R.id.spell_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<TextView>(R.id.spell_disequip_button).setOnClickListener {
+            spell.equip = false
+            viewModel.editSpells()
+            dialog.dismiss()
+        }
+        dialog.findViewById<TextView>(R.id.spell_save_button).setOnClickListener {
+            spell.name = dialog.findViewById<EditText>(R.id.spell_name_txt).text.toString()
+            if (dialog.findViewById<EditText>(R.id.spell_damage_txt).text.toString().isNotEmpty()) {
+                spell.damage = dialog.findViewById<EditText>(R.id.spell_damage_txt).text.toString().toInt()
+            } else {
+                spell.damage = 0
             }
-            dialog.findViewById<TextView>(R.id.spell_save_button).setOnClickListener {
-                spell.name = dialog.findViewById<EditText>(R.id.spell_name_txt).text.toString()
-                if (dialog.findViewById<EditText>(R.id.spell_damage_txt).text.toString().isNotEmpty()){
-                    spell.damage = dialog.findViewById<EditText>(R.id.spell_damage_txt).text.toString().toInt()
-                }else{
-                    spell.damage = 0
-                }
-                if (dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().isNotEmpty()){
-                    spell.mana = dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().toInt()
-                }else{
-                    spell.mana = 0
-                }
-                spell.use = when(true){
-                    dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
-                    else -> ""
-                }
-                if (dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().isNotEmpty()){
-                    spell.useValue = dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().toInt()
-                }else{
-                    spell.useValue = 0
-                }
-                spell.use2 = when(true){
-                    dialog.findViewById<CheckBox>(R.id.spell_use_foi).isChecked -> getString(R.string.faith)
-                    else -> ""
-                }
-                if (dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().isNotEmpty()){
-                    spell.useValue2 = dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().toInt()
-                }else{
-                    spell.useValue2 = 0
-                }
-
-                if (dialog.findViewById<EditText>(R.id.spell_effect_txt).text.toString().isNotEmpty()){
-                    spell.effect = dialog.findViewById<EditText>(R.id.spell_effect_txt).text.toString()
-                }else{
-                    spell.effect = ""
-                }
-
-                viewModel.editSpells()
-                dialog.dismiss()
+            if (dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().isNotEmpty()) {
+                spell.mana = dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().toInt()
+            } else {
+                spell.mana = 0
+            }
+            spell.use = when (true) {
+                dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
+                else -> ""
+            }
+            if (dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().isNotEmpty()) {
+                spell.useValue = dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().toInt()
+            } else {
+                spell.useValue = 0
+            }
+            spell.use2 = when (true) {
+                dialog.findViewById<CheckBox>(R.id.spell_use_foi).isChecked -> getString(R.string.faith)
+                else -> ""
+            }
+            if (dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().isNotEmpty()) {
+                spell.useValue2 = dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().toInt()
+            } else {
+                spell.useValue2 = 0
             }
 
-            dialog .show()
+            if (dialog.findViewById<EditText>(R.id.spell_effect_txt).text.toString().isNotEmpty()) {
+                spell.effect = dialog.findViewById<EditText>(R.id.spell_effect_txt).text.toString()
+            } else {
+                spell.effect = ""
+            }
+
+            viewModel.editSpells()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
-    fun addSpell(view: View, id: Int, place :String){
+    fun addSpell(view: View, id: Int, place: String) {
         view.findViewById<ImageView>(id).setOnClickListener {
             val dialog = Dialog(activity)
-            dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog .setContentView(R.layout.popup_edit_spell)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.popup_edit_spell)
             dialog.findViewById<TextView>(R.id.spell_type).text = place
             dialog.findViewById<ImageView>(R.id.spell_cancel_button).setOnClickListener { dialog.dismiss() }
             dialog.findViewById<TextView>(R.id.spell_disequip_button).visibility = View.GONE
             dialog.findViewById<TextView>(R.id.spell_save_button).setOnClickListener {
                 val spell = Spell()
                 spell.name = dialog.findViewById<EditText>(R.id.spell_name_txt).text.toString()
-                if (dialog.findViewById<EditText>(R.id.spell_damage_txt).text.toString().isNotEmpty()){
+                if (dialog.findViewById<EditText>(R.id.spell_damage_txt).text.toString().isNotEmpty()) {
                     spell.damage = dialog.findViewById<EditText>(R.id.spell_damage_txt).text.toString().toInt()
-                }else{
+                } else {
                     spell.damage = 0
                 }
-                if (dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().isNotEmpty()){
+                if (dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().isNotEmpty()) {
                     spell.mana = dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().toInt()
-                }else{
+                } else {
                     spell.mana = 0
                 }
-                if (dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().isNotEmpty()){
+                if (dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().isNotEmpty()) {
                     spell.mana = dialog.findViewById<EditText>(R.id.spell_mana_txt).text.toString().toInt()
-                }else{
+                } else {
                     spell.mana = 0
                 }
-                spell.use = when(true){
+                spell.use = when (true) {
                     dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
                     else -> ""
                 }
-                if (dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().isNotEmpty()){
+                if (dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().isNotEmpty()) {
                     spell.useValue = dialog.findViewById<EditText>(R.id.spell_use_int_txt).text.toString().toInt()
-                }else{
+                } else {
                     spell.useValue = 0
                 }
-                spell.use2 = when(true){
+                spell.use2 = when (true) {
                     dialog.findViewById<CheckBox>(R.id.spell_use_foi).isChecked -> getString(R.string.faith)
                     else -> ""
                 }
-                if (dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().isNotEmpty()){
+                if (dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().isNotEmpty()) {
                     spell.useValue2 = dialog.findViewById<EditText>(R.id.spell_use_foi_txt).text.toString().toInt()
-                }else{
+                } else {
                     spell.useValue2 = 0
                 }
 
-                if (dialog.findViewById<EditText>(R.id.spell_effect_txt).text.toString().isNotEmpty()){
+                if (dialog.findViewById<EditText>(R.id.spell_effect_txt).text.toString().isNotEmpty()) {
                     spell.effect = dialog.findViewById<EditText>(R.id.spell_effect_txt).text.toString()
-                }else{
+                } else {
                     spell.effect = ""
                 }
                 spell.equip = false
@@ -260,41 +260,41 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                 dialog.dismiss()
             }
 
-            dialog .show()
+            dialog.show()
         }
     }
 
-    fun fillSpellEdit(dialog: Dialog, spell: Spell){
-        if(spell.name.isNotEmpty()) {
+    fun fillSpellEdit(dialog: Dialog, spell: Spell) {
+        if (spell.name.isNotEmpty()) {
             dialog.findViewById<EditText>(R.id.spell_name_txt).setText(spell.name)
             dialog.findViewById<EditText>(R.id.spell_damage_txt).setText(spell.damage.toString())
             dialog.findViewById<EditText>(R.id.spell_mana_txt).setText(spell.mana.toString())
-            if (spell.use.isNotEmpty()){
-                when(spell.use){
+            if (spell.use.isNotEmpty()) {
+                when (spell.use) {
                     context!!.getString(R.string.intel) -> dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked = true
                 }
             }
-            if(0!=spell.useValue)dialog.findViewById<EditText>(R.id.spell_use_int_txt).setText(spell.useValue.toString())
-            if (spell.use2.isNotEmpty()){
-                when(spell.use2){
+            if (0 != spell.useValue) dialog.findViewById<EditText>(R.id.spell_use_int_txt).setText(spell.useValue.toString())
+            if (spell.use2.isNotEmpty()) {
+                when (spell.use2) {
                     context!!.getString(R.string.faith) -> dialog.findViewById<CheckBox>(R.id.spell_use_foi).isChecked = true
                 }
             }
-            if(0!=spell.useValue2)dialog.findViewById<EditText>(R.id.spell_use_foi_txt).setText(spell.useValue2.toString())
+            if (0 != spell.useValue2) dialog.findViewById<EditText>(R.id.spell_use_foi_txt).setText(spell.useValue2.toString())
             dialog.findViewById<EditText>(R.id.spell_effect_txt).setText(spell.effect)
         }
     }
 
-    fun equipSpell(spell: Spell){
+    fun equipSpell(spell: Spell) {
         val dialog = Dialog(activity)
-        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog .setContentView(R.layout.popup_equip_spell)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_equip_spell)
         dialog.findViewById<ImageView>(R.id.equip_cancel_button).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<TextView>(R.id.equip_save_button).setOnClickListener {
             spell.equip = true
-            when(true){
-                dialog.findViewById<RadioButton>(R.id.equip_spell1).isChecked ->{
-                    if(viewModel.firstEquipSpell.value!!.name.isNotEmpty()){
+            when (true) {
+                dialog.findViewById<RadioButton>(R.id.equip_spell1).isChecked -> {
+                    if (viewModel.firstEquipSpell.value!!.name.isNotEmpty()) {
                         viewModel.firstEquipSpell.value!!.equip = false
                         viewModel.knownSpells.value!!.add(Spell(viewModel.firstEquipSpell.value!!))
                     }
@@ -308,8 +308,8 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                     viewModel.firstEquipSpell.value!!.useValue2 = spell.useValue2
                     viewModel.firstEquipSpell.value!!.equip = spell.equip
                 }
-                dialog.findViewById<RadioButton>(R.id.equip_spell2).isChecked ->{
-                    if(viewModel.secondEquipSpell.value!!.name.isNotEmpty()){
+                dialog.findViewById<RadioButton>(R.id.equip_spell2).isChecked -> {
+                    if (viewModel.secondEquipSpell.value!!.name.isNotEmpty()) {
                         viewModel.secondEquipSpell.value!!.equip = false
                         viewModel.knownSpells.value!!.add(Spell(viewModel.secondEquipSpell.value!!))
                     }
@@ -323,8 +323,8 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                     viewModel.secondEquipSpell.value!!.useValue2 = spell.useValue2
                     viewModel.secondEquipSpell.value!!.equip = spell.equip
                 }
-                dialog.findViewById<RadioButton>(R.id.equip_spell3).isChecked ->{
-                    if(viewModel.thirdEquipSpell.value!!.name.isNotEmpty()){
+                dialog.findViewById<RadioButton>(R.id.equip_spell3).isChecked -> {
+                    if (viewModel.thirdEquipSpell.value!!.name.isNotEmpty()) {
                         viewModel.thirdEquipSpell.value!!.equip = false
                         viewModel.knownSpells.value!!.add(Spell(viewModel.thirdEquipSpell.value!!))
                     }
@@ -338,8 +338,8 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                     viewModel.thirdEquipSpell.value!!.useValue2 = spell.useValue2
                     viewModel.thirdEquipSpell.value!!.equip = spell.equip
                 }
-                dialog.findViewById<RadioButton>(R.id.equip_spell4).isChecked ->{
-                    if(viewModel.fourthEquipSpell.value!!.name.isNotEmpty()){
+                dialog.findViewById<RadioButton>(R.id.equip_spell4).isChecked -> {
+                    if (viewModel.fourthEquipSpell.value!!.name.isNotEmpty()) {
                         viewModel.fourthEquipSpell.value!!.equip = false
                         viewModel.knownSpells.value!!.add(Spell(viewModel.fourthEquipSpell.value!!))
                     }
@@ -358,7 +358,31 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             viewModel.editSpells()
             dialog.dismiss()
         }
-        dialog .show()
+        dialog.show()
+    }
+
+    fun checkAndDisplayAlert(value: Int) {
+        var msg = ""
+        var snackMsg = ""
+
+        if (viewModel.checkMana()) {
+            msg = getString(R.string.warning_mana)
+        } else {
+            snackMsg = getString(R.string.lost_msg) + " " + value + " points de mana."
+        }
+
+        if (msg.isNotEmpty()) {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(getString(R.string.warning))
+                setMessage(msg)
+                setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
+                show()
+            }
+        } else {
+            Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_LONG).show()
+        }
     }
 
 }

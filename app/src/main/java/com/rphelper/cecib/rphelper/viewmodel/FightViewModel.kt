@@ -72,22 +72,25 @@ class FightViewModel(val context: Context) :ViewModel(){
         Services.editCharacter(context, char)
     }
 
-    fun attackOrBlock(){
+    fun attackOrBlock() : Int{
         val char = Services.getCharacter(context)
         char.const.value -= 80
         Services.editCharacter(context, char)
+        return 80
     }
 
-    fun dodge(){
+    fun dodge():Int{
         val char = Services.getCharacter(context)
         char.const.value -= 30
         Services.editCharacter(context, char)
+        return 30
     }
 
-    fun twin(){
+    fun twin():Int{
         val char = Services.getCharacter(context)
         char.const.value -= 120
         Services.editCharacter(context, char)
+        return 120
     }
 
     fun bleed(damages: Int){
@@ -98,10 +101,12 @@ class FightViewModel(val context: Context) :ViewModel(){
         saveFight()
     }
 
-    fun poison(){
+    fun getPoison():Int{
         val char = Services.getCharacter(context)
-        char.life.value -= (CalcUtils.getLifeMax(context, char)*0.2).toInt()
+        val damages = (CalcUtils.getLifeMax(context, char)*0.2).toInt()
+        char.life.value -= damages
         Services.editCharacter(context, char)
+        return damages
     }
 
     fun frost(){
@@ -123,4 +128,18 @@ class FightViewModel(val context: Context) :ViewModel(){
         Services.editCharacter(context, char)
         saveFight()
     }
+
+    fun checkLife():Boolean{
+        var check = false
+        val char = Services.getCharacter(context)
+        if(char.life.value<CalcUtils.getLifeMax(context, char)*0.2) check = true
+        return check
+    }
+    fun checkConst(test : Int):Boolean{
+        var check = false
+        val char = Services.getCharacter(context)
+        if(char.const.value<test) check = true
+        return check
+    }
+
 }

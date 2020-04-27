@@ -4,18 +4,12 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
-import android.view.MenuItem
 import android.support.v4.app.FragmentActivity
 
-
-import com.rphelper.cecib.rphelper.utils.KeyboardUtils
 
 import android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
-import android.view.View
 import com.rphelper.cecib.rphelper.fragments.*
 
 class MainActivity : FragmentActivity() {

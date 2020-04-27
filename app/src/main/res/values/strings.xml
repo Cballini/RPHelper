@@ -125,6 +125,14 @@
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
     <string name="disequip">Déséquiper</string>
+    
+    <string name="warning">Attention</string>
+    <string name="warning_life">Vos points de vie sont tombés en dessous de 20%.</string>
+    <string name="warning_const80">Votre constitution est passée en dessous de 80. Vous ne pouvez plus attaquer avec une arme. Vous pouvez encore bloquer une attaque.</string>
+    <string name="warning_const30">Votre constitution est passée en dessous de 30. Vous ne pouvez plus lancer de sorts ni esquiver.</string>
+    <string name="warning_mana">Votre mana est tombé en dessous de 20%.</string>
+    <string name="lost_msg">Vous avez perdu</string>
+    <string name="win_msg">Vous avez gagné</string>
     <string name="ok">OK</string>
 
     <string name="po"> po</string>

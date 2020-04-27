@@ -1,12 +1,9 @@
 package com.rphelper.cecib.rphelper.fragments
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.InputType
-import android.text.method.KeyListener
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +12,6 @@ import android.widget.TextView
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.IndicComponent
-import com.rphelper.cecib.rphelper.utils.KeyboardUtils
 import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
 
 class CharacterFragment : Fragment() {

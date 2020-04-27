@@ -7,6 +7,7 @@ import android.content.Context
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Spell
+import com.rphelper.cecib.rphelper.utils.CalcUtils
 
 class SpellViewModel(val context: Context) : ViewModel() {
 
@@ -88,5 +89,12 @@ class SpellViewModel(val context: Context) : ViewModel() {
         char.const.value -= 30
         char.mana.value -= spell.mana
         Services.editCharacter(context, char)
+    }
+
+    fun checkMana():Boolean{
+        var check = false
+        val char = Services.getCharacter(context)
+        if(char.mana.value< CalcUtils.getManaMax(context, char)*0.2) check = true
+        return check
     }
 }

@@ -3,15 +3,12 @@ package com.rphelper.cecib.rphelper.fragments
 
 import android.app.Dialog
 import android.arch.lifecycle.Observer
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat.getSystemService
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
@@ -21,7 +18,6 @@ import com.rphelper.cecib.rphelper.dto.Weapon
 import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.Status
-import com.rphelper.cecib.rphelper.utils.KeyboardUtils
 import com.rphelper.cecib.rphelper.viewmodel.EquipmentViewModel
 import kotlinx.android.synthetic.main.component_category_horizontal.view.*
 import kotlinx.android.synthetic.main.component_equipment.view.*
