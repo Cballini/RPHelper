@@ -18,7 +18,6 @@ object FileUtils {
 
     @JvmStatic
     fun readJsonFile(context: Context, fileName : String): String {
-        //TODO pop up autorisation
         val directory = context.filesDir
         var fileObject = File(directory, fileName)
         // create a new file
@@ -26,6 +25,7 @@ object FileUtils {
             when(fileName){
                 context.getString(R.string.file_character) -> fileObject.writeText(readJsonAsset(context, context.getString(R.string.file_empty_character)))
                 context.getString(R.string.file_equipment) -> fileObject.writeText(readJsonAsset(context, context.getString(R.string.file_empty_equipment)))
+                context.getString(R.string.file_fight) -> fileObject.writeText(readJsonAsset(context, context.getString(R.string.file_empty_fight)))
                 context.getString(R.string.file_spells) -> fileObject.writeText(readJsonAsset(context, context.getString(R.string.file_empty_spells)))
                 context.getString(R.string.file_inventory) -> fileObject.writeText(readJsonAsset(context, context.getString(R.string.file_empty_inventory)))
                 else -> fileObject.writeText("{}")

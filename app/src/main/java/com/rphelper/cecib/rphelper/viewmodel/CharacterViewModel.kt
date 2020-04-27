@@ -13,6 +13,7 @@ import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Indic
+import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.utils.FileUtils
 
 class CharacterViewModel(val context: Context) : ViewModel(){
@@ -26,37 +27,37 @@ class CharacterViewModel(val context: Context) : ViewModel(){
     val _weightMax = MutableLiveData<Int>()
     val weightMax : LiveData<Int> get() = _weightMax
     init {
-        _weightMax.value = getWeightMax()
+        _weightMax.value = CalcUtils.getWeightMax(context, character.value!!)
     }
 
     val _weight = MutableLiveData<Float>()
     val weight : LiveData<Float> get() = _weight
     init {
-        _weight.value = getWeight()
+        _weight.value = CalcUtils.getWeight(context, Services.getEquipment(context))
     }
 
     val _lifeMax = MutableLiveData<Int>()
     val lifeMax : LiveData<Int> get() = _lifeMax
     init {
-        _lifeMax.value = getLifeMax()
+        _lifeMax.value = CalcUtils.getLifeMax(context, character.value!!)
     }
 
     val _manaMax = MutableLiveData<Int>()
     val manaMax : LiveData<Int> get() = _manaMax
     init {
-        _manaMax.value = getManaMax()
+        _manaMax.value = CalcUtils.getManaMax(context, character.value!!)
     }
 
     val _constMax = MutableLiveData<Int>()
     val constMax : LiveData<Int> get() = _constMax
     init {
-        _constMax.value = getConstMax()
+        _constMax.value = CalcUtils.getConstMax(context, character.value!!)
     }
 
     val _speed = MutableLiveData<Float>()
     val speed : LiveData<Float> get() = _speed
     init {
-        _speed.value = getSpeed()
+        _speed.value = CalcUtils.getSpeed(context, character.value!!, Services.getEquipment(context))
     }
 
     val _diplo = MutableLiveData<Int>()
@@ -94,33 +95,6 @@ class CharacterViewModel(val context: Context) : ViewModel(){
     init {
         _craft.value = getCraft()
     }
-
-    fun getSpeed() = weightMax.value!! - weight.value!!
-    fun getWeightMax() : Int{
-        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_WEIGHT_MAX, PRIVATE_MODE)
-        val prefValue = sharedPref.getInt(PREF_MODIFIER_WEIGHT_MAX, 0)
-        return 40 + _character.value!!.vigor + prefValue
-    }
-    fun getWeight():Float{
-        val equipment = Services.getEquipment(context)
-        return (equipment.leftHand.weight + equipment.rightHand.weight + equipment.catalyst.weight + equipment.shield.weight
-        + equipment.hat.weight + equipment.chest.weight + equipment.gloves.weight + equipment.greaves.weight)
-    }
-    fun getLifeMax():Int{
-        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_LIFE_MAX, PRIVATE_MODE)
-        val prefValue = sharedPref.getInt(PREF_MODIFIER_LIFE_MAX, 0)
-        return 200 + 20*character.value!!.vitality + prefValue
-    }
-    fun getManaMax() : Int {
-        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_MANA_MAX, PRIVATE_MODE)
-        val prefValue = sharedPref.getInt(PREF_MODIFIER_MANA_MAX, 0)
-        return 40 + 5*character.value!!.memory + prefValue
-    }
-    fun getConstMax():Int{
-        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_CONST_MAX, PRIVATE_MODE)
-        val prefValue = sharedPref.getInt(PREF_MODIFIER_CONST_MAX, 0)
-        return 60 + 20*character.value!!.endurance + prefValue
-    }
     fun getDiplo() =35 + _character.value!!.intelligence + _character.value!!.memory
     fun getPsy() = 35 + _character.value!!.faith + _character.value!!.dexterity
     fun getKnow() =30 + _character.value!!.intelligence + _character.value!!.memory
@@ -131,12 +105,12 @@ class CharacterViewModel(val context: Context) : ViewModel(){
     fun editCharacter(){
         Services.editCharacter(context, character.value!!)
         _character.value = Services.getCharacter(context)
-        _lifeMax.value = getLifeMax()
-        _manaMax.value = getManaMax()
-        _constMax.value = getConstMax()
-        _weightMax.value = getWeightMax()
-        _weight.value = getWeight()
-        _speed.value = getSpeed()
+        _lifeMax.value = CalcUtils.getLifeMax(context, character.value!!)
+        _manaMax.value = CalcUtils.getManaMax(context, character.value!!)
+        _constMax.value = CalcUtils.getConstMax(context, character.value!!)
+        _weightMax.value = CalcUtils.getWeightMax(context, character.value!!)
+        _weight.value = CalcUtils.getWeight(context, Services.getEquipment(context))
+        _speed.value = CalcUtils.getSpeed(context, character.value!!, Services.getEquipment(context))
         _diplo.value = getDiplo()
         _psy.value = getPsy()
         _know.value = getKnow()

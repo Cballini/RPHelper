@@ -20,6 +20,7 @@ class DamageComponent @JvmOverloads constructor(
     var damageButton3 : RadioButton
     var damageButton4 : RadioButton
     var damageReceived :EditText
+    var damageEqual :TextView
     var damageResult :TextView
     var damageSubmit :Button
 
@@ -31,6 +32,7 @@ class DamageComponent @JvmOverloads constructor(
         damageButton3=findViewById(R.id.damage_button3)
         damageButton4=findViewById(R.id.damage_button4)
         damageReceived=findViewById(R.id.damage_received)
+        damageEqual=findViewById(R.id.damage_equal)
         damageResult=findViewById(R.id.damage_result)
         damageSubmit=findViewById(R.id.damage_submit)
     }

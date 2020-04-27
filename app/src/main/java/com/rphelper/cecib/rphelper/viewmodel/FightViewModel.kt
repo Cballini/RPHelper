@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.Services
+import com.rphelper.cecib.rphelper.utils.CalcUtils
 
 class FightViewModel(val context: Context) :ViewModel(){
 
@@ -25,11 +26,27 @@ class FightViewModel(val context: Context) :ViewModel(){
         return equipment.shield.block
     }
 
-    fun submit(damages:Float){
-        if (damages>0) {
-            val char = Services.getCharacter(context)
-            char.life.value -= damages.toInt()
-            Services.editCharacter(context, char)
-        }
+    fun submit(damages:Int){
+        val char = Services.getCharacter(context)
+        char.life.value -= damages
+        val maxLife = CalcUtils.getLifeMax(context, char)
+        if (char.life.value>maxLife) char.life.value = maxLife.toFloat()
+        Services.editCharacter(context, char)
+    }
+
+    fun recoverLife(heal:Int) = submit(-heal)
+    fun recoverMana(heal:Int){
+        val char = Services.getCharacter(context)
+        char.mana.value += heal
+        val maxMana = CalcUtils.getManaMax(context, char)
+        if (char.mana.value>maxMana) char.mana.value = maxMana.toFloat()
+        Services.editCharacter(context, char)
+    }
+    fun recoverConst(heal:Int){
+        val char = Services.getCharacter(context)
+        char.const.value += heal
+        val maxConst = CalcUtils.getConstMax(context, char)
+        if (char.const.value>maxConst) char.const.value = maxConst.toFloat()
+        Services.editCharacter(context, char)
     }
 }

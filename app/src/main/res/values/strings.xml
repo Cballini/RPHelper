@@ -32,11 +32,13 @@
     <string name="weight_min">Poids</string>
     <string name="weight_max">Poids max</string>
     <string name="pv">VIE</string>
+    <string name="pv_min">Vie</string>
     <string name="pv_max">Vie max</string>
     <string name="mana">MANA</string>
     <string name="mana_min">Mana</string>
     <string name="mana_max">Mana max</string>
     <string name="constitution">CONST</string>
+    <string name="const_min">Const</string>
     <string name="const_max">Const max</string>
 
     <string name="damages">Dégats</string>
@@ -104,11 +106,13 @@
 
 
     <string name="roll_dice">Lancer le dé</string>
-    <string name="brut_dmg">brut</string>
-    <string name="elem_res_dmg">res</string>
-    <string name="block_dmg">parade</string>
-    <string name="weak_dmg">faiblesse</string>
+    <string name="brut_dmg">Brut</string>
+    <string name="elem_res_dmg">Res</string>
+    <string name="block_dmg">Parade</string>
+    <string name="weak_dmg">Faiblesse</string>
     <string name="submit">SUBIR</string>
+    <string name="recovery">Récupération</string>
+    <string name="recover">Récupérer</string>
 
     <string name="edit">Modifier</string>
     <string name="delete">Supprimer</string>
@@ -122,10 +126,12 @@
 
     <string name="file_character">character.json</string>
     <string name="file_equipment">equipment.json</string>
+    <string name="file_fight">fight.json</string>
     <string name="file_spells">spells.json</string>
     <string name="file_inventory">inventory.json</string>
     <string name="file_empty_character">empty_character.json</string>
     <string name="file_empty_equipment">empty_equipment.json</string>
+    <string name="file_empty_fight">empty_fight.json</string>
     <string name="file_empty_spells">empty_spells.json</string>
     <string name="file_empty_inventory">empty_inventory.json</string>
 </resources>
