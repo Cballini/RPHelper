@@ -59,7 +59,6 @@ class MainActivity : FragmentActivity() {
                 val statFragment = StatsFragment()
                 val statTransaction = supportFragmentManager.beginTransaction()
                 statTransaction.replace(R.id.fragment_container, statFragment)
-                statTransaction.addToBackStack(null)
                 statTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
@@ -67,7 +66,6 @@ class MainActivity : FragmentActivity() {
                 val equipFragment = EquipmentFragment()
                 val equipTransaction = supportFragmentManager.beginTransaction()
                 equipTransaction.replace(R.id.fragment_container, equipFragment)
-                equipTransaction.addToBackStack(null)
                 equipTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
@@ -75,7 +73,6 @@ class MainActivity : FragmentActivity() {
                 val spellFragment = SpellFragment()
                 val spellTransaction = supportFragmentManager.beginTransaction()
                 spellTransaction.replace(R.id.fragment_container, spellFragment)
-                spellTransaction.addToBackStack(null)
                 spellTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
@@ -83,7 +80,6 @@ class MainActivity : FragmentActivity() {
                 val inventoryFragment = InventoryFragment()
                 val bagTransaction = supportFragmentManager.beginTransaction()
                 bagTransaction.replace(R.id.fragment_container, inventoryFragment)
-                bagTransaction.addToBackStack(null)
                 bagTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
@@ -91,7 +87,6 @@ class MainActivity : FragmentActivity() {
                 val fightFragment = FightFragment()
                 val fightTransaction = supportFragmentManager.beginTransaction()
                 fightTransaction.replace(R.id.fragment_container, fightFragment)
-                fightTransaction.addToBackStack(null)
                 fightTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
