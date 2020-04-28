@@ -3,5 +3,6 @@
   "heal" : [],
   "round" : [],
   "frost" : "false",
-  "bleed" : "0"
+  "bleed" : "0",
+  "posture" : ""
 }

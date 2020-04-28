@@ -1,11 +1,16 @@
 package com.rphelper.cecib.rphelper
 
 import android.content.Context
+import android.content.res.Resources
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.utils.FileUtils
 import org.json.JSONObject
+import java.lang.Exception
+import java.lang.reflect.InvocationTargetException
+import java.util.*
+import kotlin.collections.ArrayList
 
 object Services {
 
@@ -106,6 +111,19 @@ object Services {
         val frostString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_fight))).get("damage").toString()
         val sType = object : TypeToken<ArrayList<Int>>() { }.type
         return Gson().fromJson<ArrayList<Int>>(frostString, sType)
+    }
+
+    @JvmStatic
+    fun getPosture(context: Context): String? {
+        var postureObject :Any?
+        var postureString  =""
+        try{
+            postureObject = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_fight))).get("posture")
+        }catch (e : Exception){
+            postureObject = null
+        }
+        postureString = postureObject?.let{postureObject.toString()}?:run{""}
+        return Gson().fromJson<String>(postureString, String::class.java)?.let{ Gson().fromJson<String>(postureString, String::class.java) }?:run{""}
     }
 
     /******** EDIT *******/

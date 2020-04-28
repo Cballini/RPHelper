@@ -30,14 +30,21 @@ class FightViewModel(val context: Context) :ViewModel(){
         _lastDamage.value = getLastDamage()
     }
 
+    val _posture = MutableLiveData<String>()
+    val posture : LiveData<String> get() = _posture
+    init {
+        _posture.value = Services.getPosture(context)
+    }
+
     fun saveFight(){
         var damagesList = ArrayList<Int>()
         damagesList.add(lastDamage.value!!)
-        val fight = Fight(damagesList, ArrayList(), ArrayList(), frost.value!!, bleed.value!!)
+        val fight = Fight(damagesList, ArrayList(), ArrayList(), frost.value!!, bleed.value!!, posture.value!!)
         Services.editFight(context, fight)
         _frost.value = Services.getFrost(context)
         _bleed.value = Services.getBleed(context)
         _lastDamage.value = getLastDamage()
+        _posture.value = Services.getPosture(context)
     }
 
     fun getDef():Float{

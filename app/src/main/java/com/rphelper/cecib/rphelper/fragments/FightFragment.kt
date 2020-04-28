@@ -32,26 +32,45 @@ class FightFragment : Fragment() {
         }
 
         /********** Posture *********/
+        viewModel.posture.observe(viewLifecycleOwner, Observer {
+            when(it){
+                getString(R.string.offensive) ->{
+                    view.findViewById<RadioButton>(R.id.fight_posture_offensive).isChecked = true
+                    view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.VISIBLE
+                    view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.GONE
+                }
+                getString(R.string.defensive) ->{
+                    view.findViewById<RadioButton>(R.id.fight_posture_defensive).isChecked = true
+                    view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.GONE
+                    view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.VISIBLE
+                    view.findViewById<Button>(R.id.fight_action_dodge).visibility = View.GONE
+                    view.findViewById<Button>(R.id.fight_action_block).visibility = View.VISIBLE
+                }
+                getString(R.string.reflex) -> {
+                    view.findViewById<RadioButton>(R.id.fight_posture_reflex).isChecked = true
+                    view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.GONE
+                    view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.VISIBLE
+                    view.findViewById<Button>(R.id.fight_action_dodge).visibility = View.VISIBLE
+                    view.findViewById<Button>(R.id.fight_action_block).visibility = View.GONE
+                }
+            }
+        })
         view.findViewById<RadioButton>(R.id.fight_posture_offensive).setOnCheckedChangeListener { compoundButton, b ->
             if(view.findViewById<RadioButton>(R.id.fight_posture_offensive).isChecked) {
-                view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.VISIBLE
-                view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.GONE
+                viewModel._posture.value = getString(R.string.offensive)
+                viewModel.saveFight()
             }
         }
         view.findViewById<RadioButton>(R.id.fight_posture_defensive).setOnCheckedChangeListener { compoundButton, b ->
             if(view.findViewById<RadioButton>(R.id.fight_posture_defensive).isChecked) {
-                view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.GONE
-                view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.VISIBLE
-                view.findViewById<Button>(R.id.fight_action_dodge).visibility = View.GONE
-                view.findViewById<Button>(R.id.fight_action_block).visibility = View.VISIBLE
+                viewModel._posture.value = getString(R.string.defensive)
+                viewModel.saveFight()
             }
         }
         view.findViewById<RadioButton>(R.id.fight_posture_reflex).setOnCheckedChangeListener { compoundButton, b ->
             if(view.findViewById<RadioButton>(R.id.fight_posture_reflex).isChecked) {
-                view.findViewById<LinearLayout>(R.id.fight_action_offensive_layout).visibility = View.GONE
-                view.findViewById<LinearLayout>(R.id.fight_action_def_ref_layout).visibility = View.VISIBLE
-                view.findViewById<Button>(R.id.fight_action_dodge).visibility = View.VISIBLE
-                view.findViewById<Button>(R.id.fight_action_block).visibility = View.GONE
+                viewModel._posture.value = getString(R.string.reflex)
+                viewModel.saveFight()
             }
         }
 
