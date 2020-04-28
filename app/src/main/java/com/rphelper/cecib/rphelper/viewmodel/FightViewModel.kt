@@ -70,7 +70,7 @@ class FightViewModel(val context: Context) :ViewModel(){
         val maxLife = CalcUtils.getLifeMax(context, char)
         if (char.life.value>maxLife) char.life.value = maxLife.toFloat()
         Services.editCharacter(context, char)
-        _lastDamage.value = damages
+        if(damages>=0) _lastDamage.value = damages
         saveFight()
     }
 
