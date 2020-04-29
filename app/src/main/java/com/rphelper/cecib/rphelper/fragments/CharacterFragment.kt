@@ -88,11 +88,11 @@ class CharacterFragment : Fragment() {
         //Weight
         view.findViewById<IndicComponent>(R.id.indic_weight).indicTitle.text = getString(R.string.weight)
         view.findViewById<IndicComponent>(R.id.indic_weight).indicReload.visibility = View.GONE
-        viewModel.weight.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setText(viewModel.weight.value.toString())
-        })
         viewModel.weightMax.observe(viewLifecycleOwner, Observer {
             view.findViewById<IndicComponent>(R.id.indic_weight).indicMax.setText(viewModel.weightMax.value.toString())
+        })
+        viewModel.weight.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setText(viewModel.weight.value.toString())
         })
 
         /********* Skills ******/

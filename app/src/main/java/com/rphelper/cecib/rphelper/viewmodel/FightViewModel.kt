@@ -129,20 +129,19 @@ class FightViewModel(val context: Context) :ViewModel(){
 
     fun frost(){
         val char = Services.getCharacter(context)
-        val maxConst = CalcUtils.getConstMax(context, char)
+        var maxConst = CalcUtils.getConstMax(context, char)
         val sharedPref: SharedPreferences = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_CONST_MAX, 0)
         val editor = sharedPref.edit()
-        if (_frost.value!!){
+        if (_frost.value!!){ //no frost
             var value = maxConst+prefValue
             editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, value)
-        }else{
+        }else{ //frost
             var value = -(maxConst/2) + prefValue
             editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, value)
-            if (char.const.value >maxConst) char.const.value = maxConst.toFloat()
         }
-        _frost.value = !frost.value!!
         editor.apply()
+        _frost.value = !frost.value!!
         Services.editCharacter(context, char)
         saveFight()
     }

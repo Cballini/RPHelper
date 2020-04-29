@@ -24,34 +24,34 @@ class CharacterViewModel(val context: Context) : ViewModel(){
         _character.value = Services.getCharacter(context)
     }
 
-    val _weightMax = MutableLiveData<Int>()
-    val weightMax : LiveData<Int> get() = _weightMax
-    init {
-        _weightMax.value = CalcUtils.getWeightMax(context, character.value!!)
-    }
-
     val _weight = MutableLiveData<Float>()
     val weight : LiveData<Float> get() = _weight
     init {
         _weight.value = CalcUtils.getWeight(context, Services.getEquipment(context))
     }
 
+    val _weightMax = MutableLiveData<Int>()
+    val weightMax : LiveData<Int> get() = _weightMax
+    init {
+        _weightMax.value = getWeightMax()
+    }
+
     val _lifeMax = MutableLiveData<Int>()
     val lifeMax : LiveData<Int> get() = _lifeMax
     init {
-        _lifeMax.value = CalcUtils.getLifeMax(context, character.value!!)
+        _lifeMax.value = getLifeMax()
     }
 
     val _manaMax = MutableLiveData<Int>()
     val manaMax : LiveData<Int> get() = _manaMax
     init {
-        _manaMax.value = CalcUtils.getManaMax(context, character.value!!)
+        _manaMax.value = getManaMax()
     }
 
     val _constMax = MutableLiveData<Int>()
     val constMax : LiveData<Int> get() = _constMax
     init {
-        _constMax.value = CalcUtils.getConstMax(context, character.value!!)
+        _constMax.value = getConstMax()
     }
 
     val _speed = MutableLiveData<Float>()
@@ -102,14 +102,37 @@ class CharacterViewModel(val context: Context) : ViewModel(){
     fun getSneak() =35 + _character.value!!.dexterity + _character.value!!.endurance
     fun getCraft() =35 + _character.value!!.intelligence + _character.value!!.dexterity
 
+    fun getLifeMax():Int{
+        val max = CalcUtils.getLifeMax(context, character.value!!)
+        if(character.value!!.life.value>max) character.value!!.life.value = max.toFloat()
+        return max
+    }
+
+    fun getConstMax():Int{
+        val max = CalcUtils.getConstMax(context, character.value!!)
+        if(character.value!!.const.value>max) character.value!!.const.value = max.toFloat()
+        return max
+    }
+    fun getManaMax():Int{
+        val max = CalcUtils.getManaMax(context, character.value!!)
+        if(character.value!!.mana.value>max) character.value!!.mana.value = max.toFloat()
+        return max
+    }
+
+    fun getWeightMax():Int{
+        val max = CalcUtils.getWeightMax(context, character.value!!)
+        if(weight.value!!>max) _weight.value = max.toFloat()
+        return max
+    }
+
     fun editCharacter(){
         Services.editCharacter(context, character.value!!)
         _character.value = Services.getCharacter(context)
-        _lifeMax.value = CalcUtils.getLifeMax(context, character.value!!)
-        _manaMax.value = CalcUtils.getManaMax(context, character.value!!)
-        _constMax.value = CalcUtils.getConstMax(context, character.value!!)
-        _weightMax.value = CalcUtils.getWeightMax(context, character.value!!)
+        _lifeMax.value = getLifeMax()
+        _manaMax.value = getManaMax()
+        _constMax.value = getConstMax()
         _weight.value = CalcUtils.getWeight(context, Services.getEquipment(context))
+        _weightMax.value = getWeightMax()
         _speed.value = CalcUtils.getSpeed(context, character.value!!, Services.getEquipment(context))
         _diplo.value = getDiplo()
         _psy.value = getPsy()
