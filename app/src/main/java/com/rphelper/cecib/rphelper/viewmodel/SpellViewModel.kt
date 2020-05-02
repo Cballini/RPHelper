@@ -77,7 +77,7 @@ class SpellViewModel(val context: Context) : ViewModel() {
         var dmg = 0
         val cata = Services.getWeapon(context, "catalyst")
         val character = Services.getCharacter(context)
-        if (cata.name.isNotEmpty()){
+        if (cata.name.isNotEmpty() && spell.damage!=0){
             dmg = spell.damage + cata.boost
             dmg += (character.intelligence*cata.bonusInt.value + character.faith*cata.bonusFoi.value).toInt()
         }

@@ -67,8 +67,6 @@ class FightViewModel(val context: Context) :ViewModel(){
     fun submit(damages:Int){
         val char = Services.getCharacter(context)
         char.life.value -= damages
-        val maxLife = CalcUtils.getLifeMax(context, char)
-        if (char.life.value>maxLife) char.life.value = maxLife.toFloat()
         Services.editCharacter(context, char)
         if(damages>=0) _lastDamage.value = damages
         saveFight()
@@ -78,15 +76,11 @@ class FightViewModel(val context: Context) :ViewModel(){
     fun recoverMana(heal:Int){
         val char = Services.getCharacter(context)
         char.mana.value += heal
-        val maxMana = CalcUtils.getManaMax(context, char)
-        if (char.mana.value>maxMana) char.mana.value = maxMana.toFloat()
         Services.editCharacter(context, char)
     }
     fun recoverConst(heal:Int){
         val char = Services.getCharacter(context)
         char.const.value += heal
-        val maxConst = CalcUtils.getConstMax(context, char)
-        if (char.const.value>maxConst) char.const.value = maxConst.toFloat()
         Services.editCharacter(context, char)
     }
 

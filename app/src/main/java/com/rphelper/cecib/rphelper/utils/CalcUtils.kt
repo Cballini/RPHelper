@@ -6,6 +6,7 @@ import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
+import kotlin.math.roundToInt
 
 object CalcUtils {
     @JvmStatic
@@ -29,7 +30,7 @@ object CalcUtils {
     }
 
     @JvmStatic
-    fun getSpeed(context: Context, character: Character, equipment: Equipment) = getWeightMax(context, character) - getWeight(context, equipment)
+    fun getSpeed(context: Context, character: Character, equipment: Equipment) = round1decimal(getWeightMax(context, character) - getWeight(context, equipment)).toFloat()
 
     @JvmStatic
     fun getManaMax(context: Context, character :Character) : Int {
@@ -44,4 +45,7 @@ object CalcUtils {
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_CONST_MAX, 0)
         return 60 + 20*character.endurance + prefValue
     }
+
+    @JvmStatic
+    fun round1decimal(number : Float) = Math.round(number * 10.0) / 10.0
 }
