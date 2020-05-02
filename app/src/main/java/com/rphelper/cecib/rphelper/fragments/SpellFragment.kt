@@ -172,6 +172,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             } else {
                 spell.mana = 0
             }
+            if(dialog.findViewById<CheckBox>(R.id.spell_rapidfire).isChecked) spell.rapidFire = true
             spell.use = when (true) {
                 dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
                 else -> ""
@@ -230,6 +231,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                 } else {
                     spell.mana = 0
                 }
+                if(dialog.findViewById<CheckBox>(R.id.spell_rapidfire).isChecked) spell.rapidFire = true
                 spell.use = when (true) {
                     dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
                     else -> ""
@@ -269,6 +271,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             dialog.findViewById<EditText>(R.id.spell_name_txt).setText(spell.name)
             dialog.findViewById<EditText>(R.id.spell_damage_txt).setText(spell.damage.toString())
             dialog.findViewById<EditText>(R.id.spell_mana_txt).setText(spell.mana.toString())
+            if(spell.rapidFire) dialog.findViewById<CheckBox>(R.id.spell_rapidfire).isChecked = true
             if (spell.use.isNotEmpty()) {
                 when (spell.use) {
                     context!!.getString(R.string.intel) -> dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked = true
@@ -294,64 +297,16 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             spell.equip = true
             when (true) {
                 dialog.findViewById<RadioButton>(R.id.equip_spell1).isChecked -> {
-                    if (viewModel.firstEquipSpell.value!!.name.isNotEmpty()) {
-                        viewModel.firstEquipSpell.value!!.equip = false
-                        viewModel.knownSpells.value!!.add(Spell(viewModel.firstEquipSpell.value!!))
-                    }
-                    viewModel.firstEquipSpell.value!!.name = spell.name
-                    viewModel.firstEquipSpell.value!!.damage = spell.damage
-                    viewModel.firstEquipSpell.value!!.mana = spell.mana
-                    viewModel.firstEquipSpell.value!!.effect = spell.effect
-                    viewModel.firstEquipSpell.value!!.use = spell.use
-                    viewModel.firstEquipSpell.value!!.useValue = spell.useValue
-                    viewModel.firstEquipSpell.value!!.use2 = spell.use2
-                    viewModel.firstEquipSpell.value!!.useValue2 = spell.useValue2
-                    viewModel.firstEquipSpell.value!!.equip = spell.equip
+                    fillOneSpell(viewModel.firstEquipSpell.value!!, spell)
                 }
                 dialog.findViewById<RadioButton>(R.id.equip_spell2).isChecked -> {
-                    if (viewModel.secondEquipSpell.value!!.name.isNotEmpty()) {
-                        viewModel.secondEquipSpell.value!!.equip = false
-                        viewModel.knownSpells.value!!.add(Spell(viewModel.secondEquipSpell.value!!))
-                    }
-                    viewModel.secondEquipSpell.value!!.name = spell.name
-                    viewModel.secondEquipSpell.value!!.damage = spell.damage
-                    viewModel.secondEquipSpell.value!!.mana = spell.mana
-                    viewModel.secondEquipSpell.value!!.effect = spell.effect
-                    viewModel.secondEquipSpell.value!!.use = spell.use
-                    viewModel.secondEquipSpell.value!!.useValue = spell.useValue
-                    viewModel.secondEquipSpell.value!!.use2 = spell.use2
-                    viewModel.secondEquipSpell.value!!.useValue2 = spell.useValue2
-                    viewModel.secondEquipSpell.value!!.equip = spell.equip
+                    fillOneSpell(viewModel.secondEquipSpell.value!!, spell)
                 }
                 dialog.findViewById<RadioButton>(R.id.equip_spell3).isChecked -> {
-                    if (viewModel.thirdEquipSpell.value!!.name.isNotEmpty()) {
-                        viewModel.thirdEquipSpell.value!!.equip = false
-                        viewModel.knownSpells.value!!.add(Spell(viewModel.thirdEquipSpell.value!!))
-                    }
-                    viewModel.thirdEquipSpell.value!!.name = spell.name
-                    viewModel.thirdEquipSpell.value!!.damage = spell.damage
-                    viewModel.thirdEquipSpell.value!!.mana = spell.mana
-                    viewModel.thirdEquipSpell.value!!.effect = spell.effect
-                    viewModel.thirdEquipSpell.value!!.use = spell.use
-                    viewModel.thirdEquipSpell.value!!.useValue = spell.useValue
-                    viewModel.thirdEquipSpell.value!!.use2 = spell.use2
-                    viewModel.thirdEquipSpell.value!!.useValue2 = spell.useValue2
-                    viewModel.thirdEquipSpell.value!!.equip = spell.equip
+                    fillOneSpell(viewModel.thirdEquipSpell.value!!, spell)
                 }
                 dialog.findViewById<RadioButton>(R.id.equip_spell4).isChecked -> {
-                    if (viewModel.fourthEquipSpell.value!!.name.isNotEmpty()) {
-                        viewModel.fourthEquipSpell.value!!.equip = false
-                        viewModel.knownSpells.value!!.add(Spell(viewModel.fourthEquipSpell.value!!))
-                    }
-                    viewModel.fourthEquipSpell.value!!.name = spell.name
-                    viewModel.fourthEquipSpell.value!!.damage = spell.damage
-                    viewModel.fourthEquipSpell.value!!.mana = spell.mana
-                    viewModel.fourthEquipSpell.value!!.effect = spell.effect
-                    viewModel.fourthEquipSpell.value!!.use = spell.use
-                    viewModel.fourthEquipSpell.value!!.useValue = spell.useValue
-                    viewModel.fourthEquipSpell.value!!.use2 = spell.use2
-                    viewModel.fourthEquipSpell.value!!.useValue2 = spell.useValue2
-                    viewModel.fourthEquipSpell.value!!.equip = spell.equip
+                    fillOneSpell(viewModel.fourthEquipSpell.value!!, spell)
                 }
             }
 
@@ -361,6 +316,23 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         dialog.show()
     }
 
+    fun fillOneSpell(spellToFill : Spell, spell : Spell){
+        if (spellToFill.name.isNotEmpty()) {
+            spellToFill.equip = false
+            viewModel.knownSpells.value!!.add(Spell(spellToFill))
+        }
+        spellToFill.name = spell.name
+        spellToFill.damage = spell.damage
+        spellToFill.rapidFire = spell.rapidFire
+        spellToFill.mana = spell.mana
+        spellToFill.effect = spell.effect
+        spellToFill.use = spell.use
+        spellToFill.useValue = spell.useValue
+        spellToFill.use2 = spell.use2
+        spellToFill.useValue2 = spell.useValue2
+        spellToFill.equip = spell.equip
+    }
+
     fun checkAndDisplayAlert(value: Int) {
         var msg = ""
         var snackMsg = ""
@@ -368,7 +340,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         if (viewModel.checkMana()) {
             msg = getString(R.string.warning_mana)
         } else {
-            snackMsg = getString(R.string.lost_msg) + " " + value + " points de mana."
+            snackMsg = getString(R.string.lost_msg) + " " + value + " points de mana et 30 points de constitution."
         }
 
         if (msg.isNotEmpty()) {

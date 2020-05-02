@@ -13,6 +13,7 @@ class Weapon (var name:String, var damage:Int, var weight:Float){
     var boost : Int = 0
     var status : Status = Status.NOTHING
     var statusValue : Float = 0F
+    var rapidFire = false
 
     constructor():this("", 0, 0F)
 
@@ -34,6 +35,7 @@ class Weapon (var name:String, var damage:Int, var weight:Float){
         var desc = ""
         if (damage!=0) desc = "dgt = " + damage.toString()
         if (boost!=0) desc = "boost = " + boost.toString()
+        if(rapidFire) desc += ", rapid fire"
         if (!status.equals(Status.NOTHING)) desc += ", " + status.name + ": " + statusValue.toString()
         if (!affinity.equals(Elem.NOTHING)) desc += ", affinité :" + affinity.name
         if (!bonusFor.equals(Bonus.NOTHING)) desc += ", bonus FOR : " + bonusFor

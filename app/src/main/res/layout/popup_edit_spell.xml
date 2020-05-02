@@ -95,13 +95,31 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/spell_stat_layout"
+            android:id="@+id/spell_rapidfire_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_margin"
             android:orientation="vertical"
             android:gravity="center"
             app:layout_constraintTop_toBottomOf="@+id/spell_indic_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <CheckBox
+                android:id="@+id/spell_rapidfire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorTxt"
+                android:text="@string/rapidfire"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/spell_stat_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:orientation="vertical"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/spell_rapidfire_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
             <TextView

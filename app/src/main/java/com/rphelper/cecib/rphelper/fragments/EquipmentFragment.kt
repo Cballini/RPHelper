@@ -262,6 +262,8 @@ class EquipmentFragment : Fragment() {
                 }else{
                     weapon.boost = 0
                 }
+                if(dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked) weapon.rapidFire = true
+                if(dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked) weapon.rapidFire = true
                 if (dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).text.toString().isNotEmpty()){
                     weapon.statusValue = dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).text.toString().toFloat()
                 }else{
@@ -335,6 +337,7 @@ class EquipmentFragment : Fragment() {
             dialog.findViewById<EditText>(R.id.weapon_damage_txt).setText(weapon.damage.toString())
             dialog.findViewById<EditText>(R.id.weapon_boost_txt).setText(weapon.boost.toString())
             dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).setText(weapon.statusValue.toString())
+            if(weapon.rapidFire)dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked = true
             when(weapon.status){
                 Status.BLEED -> dialog.findViewById<CheckBox>(R.id.weapon_status_bleed).isChecked = true
                 Status.POISON -> dialog.findViewById<CheckBox>(R.id.weapon_status_poison).isChecked = true

@@ -192,6 +192,10 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         val character = Services.getCharacter(context)
         var dmg = damages.value!! + weapon.damage
         dmg += (character.strength*weapon.bonusFor.value + character.dexterity*weapon.bonusDex.value).toInt()
+        if (weapon.rapidFire) {
+            val dmgTot = dmg
+            dmg = dmgTot + dmgTot/2 + dmgTot/4
+        }
         return dmg
     }
 

@@ -3,6 +3,7 @@ package com.rphelper.cecib.rphelper.dto
 data class Spell (var name:String, var damage:Int, var mana:Int, var effect:String, var use:String, var useValue:Int, var equip:Boolean){
     var use2 : String = ""
     var useValue2 : Int = 0
+    var rapidFire = false
 
     constructor(name:String, damage:Int, mana:Int, effect:String, use:String, useValue:Int, equip:Boolean, use2 :String, useValue2 :Int)
             :this(name, damage, mana, effect, use, useValue, equip){
