@@ -4,10 +4,7 @@ import android.content.Context
 import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.widget.Button
-import android.widget.EditText
-import android.widget.RadioButton
-import android.widget.TextView
+import android.widget.*
 import com.rphelper.cecib.rphelper.R
 
 class DamageComponent @JvmOverloads constructor(
@@ -19,6 +16,8 @@ class DamageComponent @JvmOverloads constructor(
     var damageButton2 : RadioButton
     var damageButton3 : RadioButton
     var damageButton4 : RadioButton
+    var damageButton5 : RadioButton
+    var damageButtonSecondLine : LinearLayout
     var damageReceived :EditText
     var damageEqual :TextView
     var damageResult :TextView
@@ -31,6 +30,8 @@ class DamageComponent @JvmOverloads constructor(
         damageButton2=findViewById(R.id.damage_button2)
         damageButton3=findViewById(R.id.damage_button3)
         damageButton4=findViewById(R.id.damage_button4)
+        damageButton5=findViewById(R.id.damage_button5)
+        damageButtonSecondLine = findViewById(R.id.damage_button_second_line)
         damageReceived=findViewById(R.id.damage_received)
         damageEqual=findViewById(R.id.damage_equal)
         damageResult=findViewById(R.id.damage_result)

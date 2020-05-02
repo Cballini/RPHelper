@@ -9,7 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
 
-class IndicComponent @JvmOverloads constructor(
+class CategoryVerticalComponent @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs){
@@ -23,7 +23,7 @@ class IndicComponent @JvmOverloads constructor(
     var indicSpare : TextView
 
     init {
-        LayoutInflater.from(context).inflate(R.layout.component_indic, this, true)
+        LayoutInflater.from(context).inflate(R.layout.component_category_vertical, this, true)
 
         indicTitle = findViewById(R.id.indic_title)
         indicCurrent = findViewById(R.id.indic_current)

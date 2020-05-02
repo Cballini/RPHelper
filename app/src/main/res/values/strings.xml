@@ -107,9 +107,10 @@
 
 
     <string name="roll_dice">Lancer le dé</string>
-    <string name="brut_dmg">Brut</string>
+    <string name="brut_dmg">Physique (brut)</string>
     <string name="elem_res_dmg">Res</string>
     <string name="block_dmg">Parade</string>
+    <string name="elem_brut_dmg">Elem (brut)</string>
     <string name="weak_dmg">Faiblesse</string>
     <string name="submit">SUBIR</string>
     <string name="recovery">Récupération</string>

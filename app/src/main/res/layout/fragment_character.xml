@@ -117,14 +117,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <com.rphelper.cecib.rphelper.component.IndicComponent
+                <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
                     android:id="@+id/indic_life"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingHorizontal="@dimen/small_margin"/>
 
-                <com.rphelper.cecib.rphelper.component.IndicComponent
+                <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
                     android:id="@+id/indic_const"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -137,14 +137,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="@dimen/app_margin">
-            <com.rphelper.cecib.rphelper.component.IndicComponent
+            <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
                 android:id="@+id/indic_mana"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingHorizontal="@dimen/small_margin"/>
 
-            <com.rphelper.cecib.rphelper.component.IndicComponent
+            <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
                 android:id="@+id/indic_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -445,7 +445,7 @@
         android:elevation="1dp"
         android:padding="@dimen/app_margin"
         app:layout_constraintTop_toBottomOf="@+id/skill_layout">
-        <com.rphelper.cecib.rphelper.component.IndicComponent
+        <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
             android:id="@+id/don_cat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -80,6 +80,8 @@ class FightFragment : Fragment() {
         view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton2.text = getString(R.string.elem_res_dmg)
         view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton3.text = getString(R.string.block_dmg)
         view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton4.text = getString(R.string.weak_dmg)
+        view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton5.text = getString(R.string.elem_brut_dmg)
+        view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButtonSecondLine.visibility = View.VISIBLE
         viewModel.lastDamage.observe(viewLifecycleOwner, Observer {view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text = it.toString()})
         var dmg = 0
         view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageReceived.addTextChangedListener(object : TextWatcher {
@@ -110,6 +112,12 @@ class FightFragment : Fragment() {
                             dmg = (s.toString().toInt() * 2)
                         }
                     }
+                    //Elem brut
+                    view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton5.isChecked ->{
+                        if(s.toString().isNotEmpty()) {
+                            dmg = s.toString().toInt()
+                        }
+                    }
                 }
                 if (dmg<0) dmg = 0
                 view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text = dmg.toString()
@@ -130,7 +138,7 @@ class FightFragment : Fragment() {
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton1.text = getString(R.string.pv_min)
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton2.text = getString(R.string.const_min)
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton3.text = getString(R.string.mana_min)
-        view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton4.visibility = View.GONE
+        view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButtonSecondLine.visibility = View.GONE
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageResult.visibility = View.GONE
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageEqual.visibility = View.GONE
 

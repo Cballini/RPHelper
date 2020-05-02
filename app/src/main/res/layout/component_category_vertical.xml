@@ -1,0 +1,81 @@
+<android.support.constraint.ConstraintLayout android:id="@+id/life_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/indic_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/txt_margin"
+        android:text="@string/don"
+        android:textAlignment="center"
+        android:textSize="@dimen/cat_txt"
+        android:textColor="@color/colorCatTitle"
+        android:background="@drawable/shape_indic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/indic_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_edit"
+        android:tint="@color/colorCatTitle"
+        android:paddingVertical="@dimen/txt_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/indic_title"
+        app:layout_constraintBottom_toBottomOf="@+id/indic_title"/>
+
+    <ImageView
+        android:id="@+id/indic_reload"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_reload"
+        android:tint="@color/colorCatTitle"
+        android:paddingVertical="@dimen/txt_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/indic_title"
+        app:layout_constraintBottom_toBottomOf="@+id/indic_title"/>
+
+    <LinearLayout
+        android:id="@+id/indic_stats"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_indic_txt"
+        android:paddingVertical="@dimen/txt_margin"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/indic_title">
+    <EditText
+        android:id="@+id/indic_current"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/small_margin"
+        android:minHeight="@dimen/double_app_margin"
+        android:textSize="@dimen/cat_txt"
+        android:inputType="textMultiLine"
+        android:background="@android:color/transparent"
+        android:textColor="@color/colorTxt" />
+
+    <TextView
+        android:id="@+id/indic_spare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/txt_margin"
+        android:text="/"
+        android:textColor="@color/colorTxt"/>
+
+    <EditText
+        android:id="@+id/indic_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="400"
+        android:inputType="number"
+        android:textSize="@dimen/cat_txt"
+        android:textColor="@color/colorTxt"
+        android:background="@android:color/transparent"
+        android:layout_marginStart="@dimen/txt_margin"
+        android:paddingRight="@dimen/small_margin"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

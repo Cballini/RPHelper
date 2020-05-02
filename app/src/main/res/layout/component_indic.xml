@@ -1,81 +1,121 @@
-<android.support.constraint.ConstraintLayout android:id="@+id/life_layout"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/indic_drop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/txt_margin"
+        android:src="@drawable/ic_arrow_drop_down"
+        android:tint="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/indic_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/txt_margin"
-        android:text="INDIC"
-        android:textAlignment="center"
-        android:textSize="@dimen/cat_txt"
-        android:textColor="@color/colorCatTitle"
-        android:background="@drawable/shape_indic"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/indic_edit"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:src="@drawable/ic_edit"
-        android:tint="@color/colorCatTitle"
-        android:paddingVertical="@dimen/txt_margin"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/indic_title"
-        app:layout_constraintBottom_toBottomOf="@+id/indic_title"/>
-
-    <ImageView
-        android:id="@+id/indic_reload"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:src="@drawable/ic_reload"
-        android:tint="@color/colorCatTitle"
-        android:paddingVertical="@dimen/txt_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/indic_title"
-        app:layout_constraintBottom_toBottomOf="@+id/indic_title"/>
-
-    <LinearLayout
-        android:id="@+id/indic_stats"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/shape_indic_txt"
-        android:paddingVertical="@dimen/txt_margin"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/indic_title">
-    <EditText
+        android:background="@drawable/shape_category_light"
+        android:paddingHorizontal="@dimen/small_margin"
+        android:paddingVertical="@dimen/txt_margin"
+        android:text="@string/pv"
+        android:textColor="@color/colorCatTitle"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/indic_drop"
+        app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
+
+    <TextView
         android:id="@+id/indic_current"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/small_margin"
-        android:minHeight="@dimen/double_app_margin"
-        android:textSize="@dimen/cat_txt"
-        android:inputType="textMultiLine"
-        android:background="@android:color/transparent"
-        android:textColor="@color/colorTxt" />
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="200"
+        android:textColor="@color/colorTxt"
+        android:background="@color/colorCatTitle"
+        android:padding="@dimen/txt_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/indic_title"
+        app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
     <TextView
         android:id="@+id/indic_spare"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/txt_margin"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:text="/"
-        android:textColor="@color/colorTxt"/>
+        android:textColor="@color/colorTxt"
+        android:background="@color/colorCatTitle"
+        android:padding="@dimen/txt_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/indic_current"
+        app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
-    <EditText
+    <TextView
         android:id="@+id/indic_max"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="400"
-        android:inputType="number"
-        android:textSize="@dimen/cat_txt"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="500"
         android:textColor="@color/colorTxt"
-        android:background="@android:color/transparent"
-        android:layout_marginStart="@dimen/txt_margin"
-        android:paddingRight="@dimen/small_margin"/>
+        android:background="@drawable/shape_category_light_txt"
+        android:padding="@dimen/txt_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/indic_spare"
+        app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
+
+    <TextView
+        android:id="@+id/indic_bonus"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:text="+20"
+        android:textColor="@color/bonus"
+        android:background="@drawable/shape_dotted"
+        android:padding="@dimen/txt_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/indic_max"
+        app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_indic_txt"
+        app:layout_constraintTop_toBottomOf="@id/indic_current"
+        app:layout_constraintStart_toStartOf="@id/indic_current"
+        app:layout_constraintEnd_toEndOf="@id/indic_bonus">
+        <ImageView
+            android:id="@+id/indic_reset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/txt_margin"
+            android:src="@drawable/ic_reload"
+            android:tint="@color/colorPrimaryDark"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/indic_modif"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/txt_margin"
+            android:src="@drawable/ic_edit"
+            android:tint="@color/colorPrimaryDark"
+            android:layout_weight="1"/>
+
+        <ImageView
+            android:id="@+id/indic_edit_bonus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/txt_margin"
+            android:src="@drawable/ic_minus_plus"
+            android:tint="@color/bonus"
+            android:layout_weight="1"/>
     </LinearLayout>
+
+
+
 </android.support.constraint.ConstraintLayout>
