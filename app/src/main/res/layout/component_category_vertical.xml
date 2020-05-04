@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
-        android:id="@+id/indic_title"
+        android:id="@+id/cat_vertical_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/txt_margin"
@@ -17,38 +17,27 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/indic_edit"
+        android:id="@+id/cat_vertical_edit"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:src="@drawable/ic_edit"
         android:tint="@color/colorCatTitle"
         android:paddingVertical="@dimen/txt_margin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/indic_title"
-        app:layout_constraintBottom_toBottomOf="@+id/indic_title"/>
-
-    <ImageView
-        android:id="@+id/indic_reload"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:src="@drawable/ic_reload"
-        android:tint="@color/colorCatTitle"
-        android:paddingVertical="@dimen/txt_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/indic_title"
-        app:layout_constraintBottom_toBottomOf="@+id/indic_title"/>
+        app:layout_constraintTop_toTopOf="@+id/cat_vertical_title"
+        app:layout_constraintBottom_toBottomOf="@+id/cat_vertical_title"/>
 
     <LinearLayout
-        android:id="@+id/indic_stats"
+        android:id="@+id/cat_vertical_stats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/shape_indic_txt"
         android:paddingVertical="@dimen/txt_margin"
         android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/indic_title">
+        app:layout_constraintTop_toBottomOf="@id/cat_vertical_title">
     <EditText
-        android:id="@+id/indic_current"
+        android:id="@+id/cat_vertical_current"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingHorizontal="@dimen/small_margin"
@@ -57,25 +46,5 @@
         android:inputType="textMultiLine"
         android:background="@android:color/transparent"
         android:textColor="@color/colorTxt" />
-
-    <TextView
-        android:id="@+id/indic_spare"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/txt_margin"
-        android:text="/"
-        android:textColor="@color/colorTxt"/>
-
-    <EditText
-        android:id="@+id/indic_max"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="400"
-        android:inputType="number"
-        android:textSize="@dimen/cat_txt"
-        android:textColor="@color/colorTxt"
-        android:background="@android:color/transparent"
-        android:layout_marginStart="@dimen/txt_margin"
-        android:paddingRight="@dimen/small_margin"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

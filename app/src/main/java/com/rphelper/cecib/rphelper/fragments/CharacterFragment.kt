@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
+import com.rphelper.cecib.rphelper.component.IndicComponent
 import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
 
 class CharacterFragment : Fragment() {
@@ -40,9 +41,9 @@ class CharacterFragment : Fragment() {
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_religion).catTxt.setText(it!!.religion)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt.setText(it!!.level.toString())
 
-            view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicCurrent.setText(it!!.life.value.toString())
-            view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicCurrent.setText(it!!.const.value.toString())
-            view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicCurrent.setText(it!!.mana.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.setText(it!!.life.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.setText(it!!.const.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.setText(it!!.mana.value.toString())
 
             view.findViewById<TextView>(R.id.stat_vit).text = it!!.vitality.toString()
             view.findViewById<TextView>(R.id.stat_vig).text = it!!.vigor.toString()
@@ -53,7 +54,7 @@ class CharacterFragment : Fragment() {
             view.findViewById<TextView>(R.id.stat_int).text = it!!.intelligence.toString()
             view.findViewById<TextView>(R.id.stat_foi).text = it!!.faith.toString()
 
-            if(it!!.don.isNotEmpty())view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicCurrent.setText(it!!.don)
+            if(it!!.don.isNotEmpty())view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setText(it!!.don)
         })
 
         //Name
@@ -71,28 +72,32 @@ class CharacterFragment : Fragment() {
         viewModel.speed.observe(viewLifecycleOwner, Observer {
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_speed).catTxt.setText(it.toString()) })
         //Life
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicTitle.text = getString(R.string.pv)
+        view.findViewById<IndicComponent>(R.id.indic_life).indicTitle.text = getString(R.string.pv)
+        setOnClickListenerIndicDrop(R.id.indic_life, view)
         viewModel.lifeMax.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicMax.setText(viewModel.lifeMax.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_life).indicMax.setText(viewModel.lifeMax.value.toString())
         })
         //Const
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicTitle.text = getString(R.string.constitution)
+        view.findViewById<IndicComponent>(R.id.indic_const).indicTitle.text = getString(R.string.constitution)
+        setOnClickListenerIndicDrop(R.id.indic_const, view)
         viewModel.constMax.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicMax.setText(viewModel.constMax.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_const).indicMax.setText(viewModel.constMax.value.toString())
         })
         //Mana
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicTitle.text = getString(R.string.mana)
+        view.findViewById<IndicComponent>(R.id.indic_mana).indicTitle.text = getString(R.string.mana)
+        setOnClickListenerIndicDrop(R.id.indic_mana, view)
         viewModel.manaMax.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicMax.setText(viewModel.manaMax.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_mana).indicMax.setText(viewModel.manaMax.value.toString())
         })
         //Weight
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicTitle.text = getString(R.string.weight)
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicReload.visibility = View.GONE
+        view.findViewById<IndicComponent>(R.id.indic_weight).indicTitle.text = getString(R.string.weight)
+        view.findViewById<IndicComponent>(R.id.indic_weight).indicReset.visibility = View.GONE
+        setOnClickListenerIndicDrop(R.id.indic_weight, view)
         viewModel.weightMax.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicMax.setText(viewModel.weightMax.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_weight).indicMax.setText(viewModel.weightMax.value.toString())
         })
         viewModel.weight.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicCurrent.setText(viewModel.weight.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setText(viewModel.weight.value.toString())
         })
 
         /********* Skills ******/
@@ -128,10 +133,7 @@ class CharacterFragment : Fragment() {
         })
 
         //Don
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicTitle.text = getString(R.string.don)
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicSpare.visibility = View.GONE
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicMax.visibility = View.GONE
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicReload.visibility = View.GONE
+        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalTitle.text = getString(R.string.don)
 
         /************ EDIT ***********/
         view.findViewById<ImageView>(R.id.profile_edit).setOnClickListener {
@@ -167,79 +169,79 @@ class CharacterFragment : Fragment() {
             }
         }
 
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicEdit.setOnClickListener {
+        view.findViewById<IndicComponent>(R.id.indic_life).indicEdit.setOnClickListener {
             if (lifeIsOnEdit){
                 lifeIsOnEdit = false
-                viewModel.character.value!!.life.value = if(view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicCurrent.text.toString().isNotEmpty())
-                    view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicCurrent.text.toString().toFloat() else 0F
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicEdit.setImageResource(R.drawable.ic_edit)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicCurrent.setEnabled(false)
+                viewModel.character.value!!.life.value = if(view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.text.toString().isNotEmpty())
+                    view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.text.toString().toFloat() else 0F
+                view.findViewById<IndicComponent>(R.id.indic_life).indicEdit.setImageResource(R.drawable.ic_edit)
+                view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.setEnabled(false)
                 viewModel.editCharacter()
             }else{
                 lifeIsOnEdit = true
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicEdit.setImageResource(R.drawable.ic_check)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicCurrent.setEnabled(true)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
+                view.findViewById<IndicComponent>(R.id.indic_life).indicEdit.setImageResource(R.drawable.ic_check)
+                view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.setEnabled(true)
+                view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicReload.setOnClickListener {
+        view.findViewById<IndicComponent>(R.id.indic_life).indicReset.setOnClickListener {
             viewModel.character.value!!.life.value = viewModel.lifeMax.value!!.toFloat()
             viewModel.editCharacter()
         }
 
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicEdit.setOnClickListener {
+        view.findViewById<IndicComponent>(R.id.indic_const).indicEdit.setOnClickListener {
             if (constIsOnEdit){
                 constIsOnEdit = false
-                viewModel.character.value!!.const.value = if (view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicCurrent.text.toString().isNotEmpty())
-                    view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicCurrent.text.toString().toFloat() else 0F
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicEdit.setImageResource(R.drawable.ic_edit)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicCurrent.setEnabled(false)
+                viewModel.character.value!!.const.value = if (view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.text.toString().isNotEmpty())
+                    view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.text.toString().toFloat() else 0F
+                view.findViewById<IndicComponent>(R.id.indic_const).indicEdit.setImageResource(R.drawable.ic_edit)
+                view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.setEnabled(false)
                 viewModel.editCharacter()
             }else{
                 constIsOnEdit = true
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicEdit.setImageResource(R.drawable.ic_check)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicCurrent.setEnabled(true)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
+                view.findViewById<IndicComponent>(R.id.indic_const).indicEdit.setImageResource(R.drawable.ic_check)
+                view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.setEnabled(true)
+                view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicReload.setOnClickListener {
+        view.findViewById<IndicComponent>(R.id.indic_const).indicReset.setOnClickListener {
             viewModel.character.value!!.const.value = viewModel.constMax.value!!.toFloat()
             viewModel.editCharacter()
         }
 
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicEdit.setOnClickListener {
+        view.findViewById<IndicComponent>(R.id.indic_mana).indicEdit.setOnClickListener {
             if (manaIsOnEdit){
                 manaIsOnEdit = false
-                viewModel.character.value!!.mana.value = if(view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicCurrent.text.toString().isNotEmpty())
-                    view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicCurrent.text.toString().toFloat() else 0F
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicEdit.setImageResource(R.drawable.ic_edit)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicCurrent.setEnabled(false)
+                viewModel.character.value!!.mana.value = if(view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.text.toString().isNotEmpty())
+                    view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.text.toString().toFloat() else 0F
+                view.findViewById<IndicComponent>(R.id.indic_mana).indicEdit.setImageResource(R.drawable.ic_edit)
+                view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.setEnabled(false)
                 viewModel.editCharacter()
             }else{
                 manaIsOnEdit = true
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicEdit.setImageResource(R.drawable.ic_check)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicCurrent.setEnabled(true)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
+                view.findViewById<IndicComponent>(R.id.indic_mana).indicEdit.setImageResource(R.drawable.ic_check)
+                view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.setEnabled(true)
+                view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicReload.setOnClickListener {
+        view.findViewById<IndicComponent>(R.id.indic_mana).indicReset.setOnClickListener {
             viewModel.character.value!!.mana.value = viewModel.manaMax.value!!.toFloat()
             viewModel.editCharacter()
         }
 
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicEdit.setOnClickListener {
+        view.findViewById<IndicComponent>(R.id.indic_weight).indicEdit.setOnClickListener {
             if (weightIsOnEdit){
                 weightIsOnEdit = false
-                viewModel._weight.value = if (view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicCurrent.text.toString().isNotEmpty())
-                    view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicCurrent.text.toString().toFloat() else 0F
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicEdit.setImageResource(R.drawable.ic_edit)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicCurrent.setEnabled(false)
+                viewModel._weight.value = if (view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.text.toString().isNotEmpty())
+                    view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.text.toString().toFloat() else 0F
+                view.findViewById<IndicComponent>(R.id.indic_weight).indicEdit.setImageResource(R.drawable.ic_edit)
+                view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setEnabled(false)
                 viewModel.editCharacter()
             }else{
                 weightIsOnEdit = true
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicEdit.setImageResource(R.drawable.ic_check)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicCurrent.setEnabled(true)
-                view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
+                view.findViewById<IndicComponent>(R.id.indic_weight).indicEdit.setImageResource(R.drawable.ic_check)
+                view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setEnabled(true)
+                view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
 
@@ -287,18 +289,18 @@ class CharacterFragment : Fragment() {
             }
         }
 
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicEdit.setOnClickListener {
+        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalEdit.setOnClickListener {
             if (donIsOnEdit){
                 donIsOnEdit = false
-                viewModel.character.value!!.don = view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicCurrent.text.toString()
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicEdit.setImageResource(R.drawable.ic_edit)
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicCurrent.setEnabled(false)
+                viewModel.character.value!!.don = view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.text.toString()
+                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalEdit.setImageResource(R.drawable.ic_edit)
+                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setEnabled(false)
                 viewModel.editCharacter()
             }else{
                 donIsOnEdit = true
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicEdit.setImageResource(R.drawable.ic_check)
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicCurrent.hint = "Entrez vos dons"
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicCurrent.setEnabled(true)
+                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalEdit.setImageResource(R.drawable.ic_check)
+                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.hint = "Entrez vos dons"
+                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setEnabled(true)
             }
         }
 
@@ -313,14 +315,14 @@ class CharacterFragment : Fragment() {
         view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt.setEnabled(false)
         view.findViewById<CategoryHorizontalComponent>(R.id.profile_speed).catTxt.setEnabled(false)
 
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicCurrent.setEnabled(false)
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_life).indicMax.setEnabled(false)
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicCurrent.setEnabled(false)
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_const).indicMax.setEnabled(false)
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicCurrent.setEnabled(false)
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_mana).indicMax.setEnabled(false)
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicCurrent.setEnabled(false)
-        view.findViewById<CategoryVerticalComponent>(R.id.indic_weight).indicMax.setEnabled(false)
+        view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.setEnabled(false)
+        view.findViewById<IndicComponent>(R.id.indic_life).indicMax.setEnabled(false)
+        view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.setEnabled(false)
+        view.findViewById<IndicComponent>(R.id.indic_const).indicMax.setEnabled(false)
+        view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.setEnabled(false)
+        view.findViewById<IndicComponent>(R.id.indic_mana).indicMax.setEnabled(false)
+        view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setEnabled(false)
+        view.findViewById<IndicComponent>(R.id.indic_weight).indicMax.setEnabled(false)
 
         view.findViewById<CategoryHorizontalComponent>(R.id.skill_diplo).catTxt.setEnabled(false)
         view.findViewById<CategoryHorizontalComponent>(R.id.skill_psy).catTxt.setEnabled(false)
@@ -338,7 +340,19 @@ class CharacterFragment : Fragment() {
         view.findViewById<TextView>(R.id.stat_int).setEnabled(false)
         view.findViewById<TextView>(R.id.stat_foi).setEnabled(false)
 
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).indicCurrent.setEnabled(false)
+        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setEnabled(false)
+    }
+
+    fun setOnClickListenerIndicDrop(id:Int, view: View){
+        view.findViewById<IndicComponent>(id).indicDrop.setOnClickListener {
+            if(view.findViewById<IndicComponent>(id).indicButtonsLayout.visibility == View.GONE){
+                view.findViewById<IndicComponent>(id).indicButtonsLayout.visibility = View.VISIBLE
+                view.findViewById<IndicComponent>(id).indicDrop.setImageResource(R.drawable.ic_arrow_drop_up)
+            }else{
+                view.findViewById<IndicComponent>(id).indicButtonsLayout.visibility = View.GONE
+                view.findViewById<IndicComponent>(id).indicDrop.setImageResource(R.drawable.ic_arrow_drop_down)
+            }
+        }
     }
 }
 

@@ -23,20 +23,23 @@
         android:paddingHorizontal="@dimen/small_margin"
         android:paddingVertical="@dimen/txt_margin"
         android:text="@string/pv"
+        android:textSize="@dimen/cat_txt"
         android:textColor="@color/colorCatTitle"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/indic_drop"
         app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
-    <TextView
+    <EditText
         android:id="@+id/indic_current"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
         android:text="200"
-        android:textColor="@color/colorTxt"
+        android:paddingHorizontal="@dimen/small_margin"
+        android:minHeight="@dimen/double_app_margin"
+        android:textSize="@dimen/cat_txt"
         android:background="@color/colorCatTitle"
-        android:padding="@dimen/txt_margin"
+        android:textColor="@color/colorTxt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/indic_title"
         app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
@@ -47,44 +50,52 @@
         android:layout_height="0dp"
         android:gravity="center"
         android:text="/"
-        android:textColor="@color/colorTxt"
+        android:paddingHorizontal="@dimen/small_margin"
+        android:minHeight="@dimen/double_app_margin"
+        android:textSize="@dimen/cat_txt"
         android:background="@color/colorCatTitle"
-        android:padding="@dimen/txt_margin"
+        android:textColor="@color/colorTxt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/indic_current"
         app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
-    <TextView
+    <EditText
         android:id="@+id/indic_max"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
         android:text="500"
+        android:paddingHorizontal="@dimen/small_margin"
+        android:minHeight="@dimen/double_app_margin"
+        android:textSize="@dimen/cat_txt"
+        android:background="@color/colorCatTitle"
         android:textColor="@color/colorTxt"
-        android:background="@drawable/shape_category_light_txt"
-        android:padding="@dimen/txt_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/indic_spare"
         app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
-    <TextView
+    <EditText
         android:id="@+id/indic_bonus"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="+20"
+        android:text="+0"
         android:textColor="@color/bonus"
         android:background="@drawable/shape_dotted"
-        android:padding="@dimen/txt_margin"
+        android:paddingHorizontal="@dimen/small_margin"
+        android:minHeight="@dimen/double_app_margin"
+        android:textSize="@dimen/cat_txt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/indic_max"
         app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
     <LinearLayout
+        android:id="@+id/indic_buttons_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/shape_indic_txt"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/indic_current"
         app:layout_constraintStart_toStartOf="@id/indic_current"
         app:layout_constraintEnd_toEndOf="@id/indic_bonus">
@@ -98,7 +109,7 @@
             android:layout_weight="1"/>
 
         <ImageView
-            android:id="@+id/indic_modif"
+            android:id="@+id/indic_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/txt_margin"

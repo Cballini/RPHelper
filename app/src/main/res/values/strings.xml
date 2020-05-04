@@ -91,6 +91,8 @@
     <string name="skill_sneak">Acrobatie / Discrétion</string>
     <string name="skill_craft">Artisanat / Sabotage</string>
 
+    <string name="ask_bonus">Veuillez saisir la valeur de votre bonus/malus.</string>
+
     <string name="spell1">Sort 1</string>
     <string name="spell2">Sort 2</string>
     <string name="spell3">Sort 3</string>
@@ -104,7 +106,6 @@
     <string name="inventory_title">Inventaire (15kg max)</string>
     <string name="ask_item_equip">L\'objet que vous équipez modifie t\'il une ou plusieurs de ces stats ? Si oui cochez la/les case(s) correspondantes et entrez la valeur de cette modification. </string>
     <string name="ask_item_disequip">L\'objet que vous déséquipez modifiait t\'il une ou plusieurs de ces stats ? Si oui cochez la/les case(s) correspondantes et entrez la valeur de cette modification. </string>
-
 
     <string name="roll_dice">Lancer le dé</string>
     <string name="brut_dmg">Physique (brut)</string>

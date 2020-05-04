@@ -14,22 +14,15 @@ class CategoryVerticalComponent @JvmOverloads constructor(
         attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs){
 
-    var indicTitle : TextView
-    var indicCurrent : EditText
-    var indicMax : EditText
-    var indicEdit : ImageView
-    var indicReload :ImageView
-
-    var indicSpare : TextView
+    var catVerticalTitle : TextView
+    var catVerticalCurrent : EditText
+    var catVerticalEdit : ImageView
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_category_vertical, this, true)
 
-        indicTitle = findViewById(R.id.indic_title)
-        indicCurrent = findViewById(R.id.indic_current)
-        indicMax = findViewById(R.id.indic_max)
-        indicEdit = findViewById(R.id.indic_edit)
-        indicReload = findViewById(R.id.indic_reload)
-        indicSpare= findViewById(R.id.indic_spare)
+        catVerticalTitle = findViewById(R.id.cat_vertical_title)
+        catVerticalCurrent = findViewById(R.id.cat_vertical_current)
+        catVerticalEdit = findViewById(R.id.cat_vertical_edit)
     }
 }

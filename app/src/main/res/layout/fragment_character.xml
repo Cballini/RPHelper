@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.StatsFragment">
+    tools:context=".fragments.CharacterFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -113,44 +113,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_layout">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
+                <com.rphelper.cecib.rphelper.component.IndicComponent
                     android:id="@+id/indic_life"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingHorizontal="@dimen/small_margin"/>
+                    android:padding="@dimen/txt_margin"/>
 
-                <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
+                <com.rphelper.cecib.rphelper.component.IndicComponent
                     android:id="@+id/indic_const"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingHorizontal="@dimen/small_margin"/>
-            </LinearLayout>
+                    android:padding="@dimen/txt_margin"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/app_margin">
-            <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
+            <com.rphelper.cecib.rphelper.component.IndicComponent
                 android:id="@+id/indic_mana"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingHorizontal="@dimen/small_margin"/>
+                android:padding="@dimen/txt_margin"/>
 
-            <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
+            <com.rphelper.cecib.rphelper.component.IndicComponent
                 android:id="@+id/indic_weight"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingHorizontal="@dimen/small_margin"/>
-        </LinearLayout>
+                android:padding="@dimen/txt_margin"/>
         </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -351,7 +336,7 @@
             </TableLayout>
         </android.support.constraint.ConstraintLayout>
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:id="@+id/skill_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -434,9 +419,9 @@
                 </TableRow>
             </TableLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:id="@+id/don_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -452,7 +437,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
 
         <View
             android:layout_width="match_parent"
