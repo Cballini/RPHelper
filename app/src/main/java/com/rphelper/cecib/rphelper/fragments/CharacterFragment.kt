@@ -181,7 +181,7 @@ class CharacterFragment : Fragment() {
                 lifeIsOnEdit = true
                 view.findViewById<IndicComponent>(R.id.indic_life).indicEdit.setImageResource(R.drawable.ic_check)
                 view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.setEnabled(true)
-                view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.inputType = InputType.TYPE_CLASS_NUMBER
+                view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.setCursorVisible(true)
             }
         }
         view.findViewById<IndicComponent>(R.id.indic_life).indicReset.setOnClickListener {

@@ -145,25 +145,25 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         var weak = "/"
         if (null != hat.value!!.weak && null != chest.value!!.weak && null != gloves.value!!.weak && null != greaves.value!!.weak){
             weak=""
-            if (hat.value!!.weak.contains(Elem.FIRE) && chest.value!!.weak.contains(Elem.FIRE)
-                    && gloves.value!!.weak.contains(Elem.FIRE) && greaves.value!!.weak.contains(Elem.FIRE)) weak += Elem.FIRE.toString()
-        if (hat.value!!.weak.contains(Elem.MAGIC) && chest.value!!.weak.contains(Elem.MAGIC)
-                && gloves.value!!.weak.contains(Elem.MAGIC) && greaves.value!!.weak.contains(Elem.MAGIC)){
+            if (hat.value!!.weak.contains(Elem.FIRE) || chest.value!!.weak.contains(Elem.FIRE)
+                    || gloves.value!!.weak.contains(Elem.FIRE) || greaves.value!!.weak.contains(Elem.FIRE)) weak += Elem.FIRE.toString()
+        if (hat.value!!.weak.contains(Elem.MAGIC) || chest.value!!.weak.contains(Elem.MAGIC)
+                || gloves.value!!.weak.contains(Elem.MAGIC) || greaves.value!!.weak.contains(Elem.MAGIC)){
             if (weak.isNotEmpty())weak += "\n"
             weak += Elem.MAGIC.toString()
         }
-        if (hat.value!!.weak.contains(Elem.LIGHTNING) && chest.value!!.weak.contains(Elem.LIGHTNING)
-                && gloves.value!!.weak.contains(Elem.LIGHTNING) && greaves.value!!.weak.contains(Elem.LIGHTNING)){
+        if (hat.value!!.weak.contains(Elem.LIGHTNING) || chest.value!!.weak.contains(Elem.LIGHTNING)
+                || gloves.value!!.weak.contains(Elem.LIGHTNING) || greaves.value!!.weak.contains(Elem.LIGHTNING)){
             if (weak.isNotEmpty())weak += "\n"
             weak +=Elem.LIGHTNING.toString()
         }
-        if (hat.value!!.weak.contains(Elem.DARKNESS) && chest.value!!.weak.contains(Elem.DARKNESS)
-                && gloves.value!!.weak.contains(Elem.DARKNESS) && greaves.value!!.weak.contains(Elem.DARKNESS)){
+        if (hat.value!!.weak.contains(Elem.DARKNESS) || chest.value!!.weak.contains(Elem.DARKNESS)
+                || gloves.value!!.weak.contains(Elem.DARKNESS) || greaves.value!!.weak.contains(Elem.DARKNESS)){
             if (weak.isNotEmpty())weak += "\n"
             weak += Elem.DARKNESS.toString()
         }
-            if (hat.value!!.weak.contains(Elem.ALL) && chest.value!!.weak.contains(Elem.ALL)
-                    && gloves.value!!.weak.contains(Elem.ALL) && greaves.value!!.weak.contains(Elem.ALL)) weak += Elem.FIRE.toString()
+            if (hat.value!!.weak.contains(Elem.ALL) || chest.value!!.weak.contains(Elem.ALL)
+                    || gloves.value!!.weak.contains(Elem.ALL) || greaves.value!!.weak.contains(Elem.ALL)) weak += Elem.FIRE.toString()
     }
         return weak
     }
