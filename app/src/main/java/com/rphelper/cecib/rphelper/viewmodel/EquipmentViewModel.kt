@@ -16,6 +16,7 @@ import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.Status
+import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.utils.FileUtils
 import org.json.JSONObject
 
@@ -78,7 +79,7 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
     val _defense = MutableLiveData<Float>()
     val defense : LiveData<Float> get() = _defense
     init {
-        _defense.value = getDef()
+        _defense.value = CalcUtils.getDef(context)
     }
 
     val _res = MutableLiveData<String>()
@@ -102,16 +103,6 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_DAMAGES, PRIVATE_MODE)
         val prefValue = sharedPref.getInt(PREF_MODIFIER_DAMAGES, 0)
         return 90 + 2*character.strength + character.dexterity + prefValue
-    }
-    fun getDef() : Float {
-        val character = Services.getCharacter(context)
-        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_DEFENSE, PRIVATE_MODE)
-        val prefValue = sharedPref.getInt(PREF_MODIFIER_DEFENSE, 0)
-        var def = 50F + prefValue
-        def += hat.value!!.def + chest.value!!.def + gloves.value!!.def + greaves.value!!.def
-        def += (character.vitality/2 + character.memory/2 + character.endurance/2 + character.vigor
-                + character.strength/2 + character.dexterity/2 + character.intelligence/2 + character.faith/2)
-        return def
     }
     fun getRes():String{
         var res = "/"
@@ -211,7 +202,7 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         _gloves.value = Services.getArmor(context, "gloves")
         _greaves.value = Services.getArmor(context, "greaves")
         _damages.value = getDamages()
-        _defense.value = getDef()
+        _defense.value = CalcUtils.getDef(context)
         _res.value = getRes()
         _immun.value = getImmun()
         _weak.value = getWeak()

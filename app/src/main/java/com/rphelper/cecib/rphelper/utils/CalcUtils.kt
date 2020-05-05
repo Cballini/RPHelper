@@ -47,5 +47,18 @@ object CalcUtils {
     }
 
     @JvmStatic
+    fun getDef(context: Context) : Float {
+        val character = Services.getCharacter(context)
+        val equipment = Services.getEquipment(context)
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DEFENSE, Preferences.PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_DEFENSE, 0)
+        var def = 50F + prefValue
+        def += equipment.hat.def + equipment.chest.def + equipment.gloves.def + equipment.greaves.def
+        def += (character.vitality.toFloat()/2 + character.memory.toFloat()/2 + character.endurance.toFloat()/2 + character.vigor
+                + character.strength.toFloat()/2 + character.dexterity.toFloat()/2 + character.intelligence.toFloat()/2 + character.faith.toFloat()/2)
+        return def
+    }
+
+    @JvmStatic
     fun round1decimal(number : Float) = Math.round(number * 10.0) / 10.0
 }
