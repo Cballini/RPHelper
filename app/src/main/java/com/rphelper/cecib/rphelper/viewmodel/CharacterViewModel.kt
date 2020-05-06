@@ -36,10 +36,22 @@ class CharacterViewModel(val context: Context) : ViewModel(){
         _weightMax.value = getWeightMax()
     }
 
+    val _weightBonus = MutableLiveData<Int>()
+    val weightBonus : LiveData<Int> get() = _weightBonus
+    init {
+        _weightBonus.value = getWeightBonus()
+    }
+
     val _lifeMax = MutableLiveData<Int>()
     val lifeMax : LiveData<Int> get() = _lifeMax
     init {
         _lifeMax.value = getLifeMax()
+    }
+
+    val _lifeBonus = MutableLiveData<Int>()
+    val lifeBonus : LiveData<Int> get() = _lifeBonus
+    init {
+        _lifeBonus.value = getLifeBonus()
     }
 
     val _manaMax = MutableLiveData<Int>()
@@ -48,10 +60,22 @@ class CharacterViewModel(val context: Context) : ViewModel(){
         _manaMax.value = getManaMax()
     }
 
+    val _manaBonus = MutableLiveData<Int>()
+    val manaBonus : LiveData<Int> get() = _manaBonus
+    init {
+        _manaBonus.value = getManaBonus()
+    }
+
     val _constMax = MutableLiveData<Int>()
     val constMax : LiveData<Int> get() = _constMax
     init {
         _constMax.value = getConstMax()
+    }
+
+    val _constBonus = MutableLiveData<Int>()
+    val constBonus : LiveData<Int> get() = _constBonus
+    init {
+        _constBonus.value = getConstBonus()
     }
 
     val _speed = MutableLiveData<Float>()
@@ -95,6 +119,23 @@ class CharacterViewModel(val context: Context) : ViewModel(){
     init {
         _craft.value = getCraft()
     }
+
+    fun getLifeBonus():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getInt(Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, 0)
+    }
+    fun getConstBonus():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getInt(Preferences.PREF_MODIFIER_CONST_MAX_TEMP, 0)
+    }
+    fun getManaBonus():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_MANA_MAX_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getInt(Preferences.PREF_MODIFIER_MANA_MAX_TEMP, 0)
+    }
+    fun getWeightBonus():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getInt(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, 0)
+    }
     fun getDiplo() =35 + _character.value!!.intelligence + _character.value!!.memory
     fun getPsy() = 35 + _character.value!!.faith + _character.value!!.dexterity
     fun getKnow() =30 + _character.value!!.intelligence + _character.value!!.memory
@@ -127,6 +168,10 @@ class CharacterViewModel(val context: Context) : ViewModel(){
 
     fun editCharacter(){
         Services.editCharacter(context, character.value!!)
+        updateCharacter()
+    }
+
+    fun updateCharacter(){
         _character.value = Services.getCharacter(context)
         _lifeMax.value = getLifeMax()
         _manaMax.value = getManaMax()
@@ -134,6 +179,10 @@ class CharacterViewModel(val context: Context) : ViewModel(){
         _weight.value = CalcUtils.getWeight(context, Services.getEquipment(context))
         _weightMax.value = getWeightMax()
         _speed.value = CalcUtils.getSpeed(context, character.value!!, Services.getEquipment(context))
+        _weightBonus.value = getWeightBonus()
+        _lifeBonus.value = getLifeBonus()
+        _manaBonus.value = getManaBonus()
+        _constBonus.value = getConstBonus()
         _diplo.value = getDiplo()
         _psy.value = getPsy()
         _know.value = getKnow()

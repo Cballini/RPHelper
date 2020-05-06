@@ -1,17 +1,321 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/app_margin">
+    android:layout_margin="@dimen/small_margin">
+
     <ImageView
         android:id="@+id/equip_item_cancel_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_close"
         android:padding="@dimen/txt_margin"
+        android:src="@drawable/ic_close"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/equip_item_stats_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/app_margin"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/equip_item_ask">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_pv_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pv_max"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_pv_max"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_cons_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:text="@string/const_max"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_const_max"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_mana_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mana_max"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_mana_max"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_weight_max"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:text="@string/weight_max"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_weight_max"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_damages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/damages"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_damages"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_defense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:text="@string/def"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_defense"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_vit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vit"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_vit"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_vig"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/vig"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_vig"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_for"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/strength"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_for"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_dex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dex"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_dex"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_end"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/end"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_end"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_mem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mem"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_mem"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_int"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/intel"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_int"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal">
+                <CheckBox
+                    android:id="@+id/equip_item_checkbox_foi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/faith"
+                    android:textColor="@color/colorTxt" />
+
+                <EditText
+                    android:id="@+id/equip_item_edit_foi"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberSigned" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/equip_item_ask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ask_item_equip"
+        android:textAlignment="center"
+        android:textColor="@color/colorTxt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/equip_item_title" />
+
 
     <TextView
         android:id="@+id/equip_item_title"
@@ -26,146 +330,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/equip_item_ask"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ask_item_equip"
-        android:textColor="@color/colorTxt"
-        android:textAlignment="center"
-        app:layout_constraintTop_toBottomOf="@+id/equip_item_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <LinearLayout
-        android:id="@+id/equip_item_stats_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="@dimen/app_margin"
-        app:layout_constraintTop_toBottomOf="@+id/equip_item_ask">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <CheckBox
-                android:id="@+id/equip_item_checkbox_pv_max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/pv_max"
-                android:textColor="@color/colorTxt"/>
-            <EditText
-                android:id="@+id/equip_item_edit_pv_max"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <CheckBox
-                android:id="@+id/equip_item_checkbox_cons_max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/const_max"
-                android:textColor="@color/colorTxt"
-                android:layout_marginStart="@dimen/small_margin"/>
-            <EditText
-                android:id="@+id/equip_item_edit_const_max"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-            <CheckBox
-                android:id="@+id/equip_item_checkbox_mana_max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/mana_max"
-                android:textColor="@color/colorTxt"/>
-            <EditText
-                android:id="@+id/equip_item_edit_mana_max"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <CheckBox
-                android:id="@+id/equip_item_checkbox_weight_max"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/weight_max"
-                android:textColor="@color/colorTxt"
-                android:layout_marginStart="@dimen/small_margin"/>
-            <EditText
-                android:id="@+id/equip_item_edit_weight_max"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-            <CheckBox
-                android:id="@+id/equip_item_checkbox_damages"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/damages"
-                android:textColor="@color/colorTxt"/>
-            <EditText
-                android:id="@+id/equip_item_edit_damages"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-            <CheckBox
-                android:id="@+id/equip_item_checkbox_defense"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/def"
-                android:textColor="@color/colorTxt"
-                android:layout_marginStart="@dimen/small_margin"/>
-            <EditText
-                android:id="@+id/equip_item_edit_defense"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:inputType="number"/>
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <TextView
         android:id="@+id/equip_item_save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/ok"
         android:layout_margin="@dimen/app_margin"
-        android:textColor="@color/colorCatTitle"
-        android:paddingVertical="@dimen/txt_margin"
-        android:paddingHorizontal="@dimen/small_margin"
-        android:background="@color/green"
         android:layout_marginVertical="@dimen/app_margin"
+        android:background="@color/green"
+        android:paddingHorizontal="@dimen/small_margin"
+        android:paddingVertical="@dimen/txt_margin"
+        android:text="@string/ok"
+        android:textColor="@color/colorCatTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/equip_item_stats_layout"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/equip_item_stats_layout" />
 
 
 </android.support.constraint.ConstraintLayout>

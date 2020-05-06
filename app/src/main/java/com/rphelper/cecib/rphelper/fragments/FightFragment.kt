@@ -90,7 +90,7 @@ class FightFragment : Fragment() {
                     //Brut damages
                     view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton1.isChecked -> {
                         if(s.toString().isNotEmpty()) {
-                            dmg = (s.toString().toInt() - viewModel.getDef()).toInt()
+                            dmg = (s.toString().toInt() - viewModel.getDef())
                         }
                     }
                     //Res elem
@@ -103,7 +103,7 @@ class FightFragment : Fragment() {
                     view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton3.isChecked ->{
                         if(s.toString().isNotEmpty()) {
                             dmg = (s.toString().toInt() * viewModel.getBlock()).toInt()
-                            dmg -= (viewModel.getDef()).toInt()
+                            dmg -= (viewModel.getDef())
                         }
                     }
                     //Weak

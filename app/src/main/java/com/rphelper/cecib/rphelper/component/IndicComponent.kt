@@ -16,9 +16,9 @@ class IndicComponent @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs){
     var indicDrop : ImageView
     var indicTitle : TextView
-    var indicCurrent : EditText
-    var indicMax : EditText
-    var indicBonus : EditText
+    var indicCurrent : TextView
+    var indicMax : TextView
+    var indicBonus : TextView
     var indicButtonsLayout : LinearLayout
     var indicReset : ImageView
     var indicEdit : ImageView

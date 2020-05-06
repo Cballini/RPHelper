@@ -18,8 +18,16 @@ import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_CONST_MAX
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DAMAGES
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DEFENSE
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DEX
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_END
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_FOI
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_FOR
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_INT
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_LIFE_MAX
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_MANA_MAX
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_MEM
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_VIG
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_VIT
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_WEIGHT_MAX
 import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.R
@@ -178,80 +186,77 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_equip_item)
 
-        if (!isAdd) {
-            item.equip = !item.equip
-            viewModel.editInventory()
-        }
-
         if (item.equip) {
-            dialog.findViewById<TextView>(R.id.equip_item_title).text = getString(R.string.equiper)
-            dialog.findViewById<TextView>(R.id.equip_item_ask).text = getString(R.string.ask_item_equip)
-        } else {
             dialog.findViewById<TextView>(R.id.equip_item_title).text = getString(R.string.disequip)
             dialog.findViewById<TextView>(R.id.equip_item_ask).text = getString(R.string.ask_item_disequip)
+        } else {
+            dialog.findViewById<TextView>(R.id.equip_item_title).text = getString(R.string.equiper)
+            dialog.findViewById<TextView>(R.id.equip_item_ask).text = getString(R.string.ask_item_equip)
         }
 
         dialog.findViewById<ImageView>(R.id.equip_item_cancel_button).setOnClickListener { dialog.dismiss() }
 
         dialog.findViewById<TextView>(R.id.equip_item_save_button).setOnClickListener {
+            if (!isAdd) {
+                item.equip = !item.equip
+                viewModel.editInventory()
+            }
             if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_pv_max).isChecked) {
-                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_LIFE_MAX, PRIVATE_MODE)
-                val prefValue = sharedPref.getInt(PREF_MODIFIER_LIFE_MAX, 0)
-                val editor = sharedPref.edit()
-                var value = 0
-                if (dialog.findViewById<EditText>(R.id.equip_item_edit_pv_max).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_pv_max).text.toString().toInt()
-                if (item.equip) editor.putInt(PREF_MODIFIER_LIFE_MAX, prefValue+value) else editor.putInt(PREF_MODIFIER_LIFE_MAX, prefValue-value)
-                editor.apply()
+                modifPref(PREF_MODIFIER_LIFE_MAX, dialog, item, R.id.equip_item_edit_pv_max)
             }
             if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_cons_max).isChecked) {
-                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_CONST_MAX, PRIVATE_MODE)
-                val prefValue = sharedPref.getInt(PREF_MODIFIER_CONST_MAX, 0)
-                val editor = sharedPref.edit()
-                var value = 0
-                if (dialog.findViewById<EditText>(R.id.equip_item_edit_const_max).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_const_max).text.toString().toInt()
-                if (item.equip) editor.putInt(PREF_MODIFIER_CONST_MAX, prefValue+value) else editor.putInt(PREF_MODIFIER_CONST_MAX, prefValue-value)
-                editor.apply()
+                modifPref(PREF_MODIFIER_CONST_MAX, dialog, item, R.id.equip_item_edit_const_max)
             }
             if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_mana_max).isChecked) {
-                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_MANA_MAX, PRIVATE_MODE)
-                val prefValue = sharedPref.getInt(PREF_MODIFIER_MANA_MAX, 0)
-                val editor = sharedPref.edit()
-                var value = 0
-                if (dialog.findViewById<EditText>(R.id.equip_item_edit_mana_max).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_mana_max).text.toString().toInt()
-                if (item.equip) editor.putInt(PREF_MODIFIER_MANA_MAX, prefValue+value) else editor.putInt(PREF_MODIFIER_MANA_MAX, prefValue-value)
-                editor.apply()
+                modifPref(PREF_MODIFIER_MANA_MAX, dialog, item, R.id.equip_item_edit_mana_max)
             }
             if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_weight_max).isChecked) {
-                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_WEIGHT_MAX, PRIVATE_MODE)
-                val prefValue = sharedPref.getInt(PREF_MODIFIER_WEIGHT_MAX, 0)
-                val editor = sharedPref.edit()
-                var value = 0
-                if (dialog.findViewById<EditText>(R.id.equip_item_edit_weight_max).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_weight_max).text.toString().toInt()
-                if (item.equip) editor.putInt(PREF_MODIFIER_WEIGHT_MAX, prefValue+value) else editor.putInt(PREF_MODIFIER_WEIGHT_MAX, prefValue-value)
-                editor.apply()
+                modifPref(PREF_MODIFIER_WEIGHT_MAX, dialog, item, R.id.equip_item_edit_weight_max)
             }
             if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_damages).isChecked) {
-                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_DAMAGES, PRIVATE_MODE)
-                val prefValue = sharedPref.getInt(PREF_MODIFIER_DAMAGES, 0)
-                val editor = sharedPref.edit()
-                var value = 0
-                if (dialog.findViewById<EditText>(R.id.equip_item_edit_damages).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_damages).text.toString().toInt()
-                if (item.equip) editor.putInt(PREF_MODIFIER_DAMAGES, prefValue+value) else editor.putInt(PREF_MODIFIER_DAMAGES, prefValue-value)
-                editor.apply()
+                modifPref(PREF_MODIFIER_DAMAGES, dialog, item, R.id.equip_item_edit_damages)
             }
             if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_defense).isChecked) {
-                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_DEFENSE, PRIVATE_MODE)
-                val prefValue = sharedPref.getInt(PREF_MODIFIER_DEFENSE, 0)
-                val editor = sharedPref.edit()
-                var value = 0
-                if (dialog.findViewById<EditText>(R.id.equip_item_edit_defense).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_defense).text.toString().toInt()
-                if (item.equip) editor.putInt(PREF_MODIFIER_DEFENSE, prefValue+value) else editor.putInt(PREF_MODIFIER_DEFENSE, prefValue-value)
-                editor.apply()
+                modifPref(PREF_MODIFIER_DEFENSE, dialog, item, R.id.equip_item_edit_defense)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_vit).isChecked) {
+                modifPref(PREF_MODIFIER_VIT, dialog, item, R.id.equip_item_edit_vit)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_vig).isChecked) {
+                modifPref(PREF_MODIFIER_VIG, dialog, item, R.id.equip_item_edit_vig)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_for).isChecked) {
+                modifPref(PREF_MODIFIER_FOR, dialog, item, R.id.equip_item_edit_for)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_dex).isChecked) {
+                modifPref(PREF_MODIFIER_DEX, dialog, item, R.id.equip_item_edit_dex)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_end).isChecked) {
+                modifPref(PREF_MODIFIER_END, dialog, item, R.id.equip_item_edit_end)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_mem).isChecked) {
+                modifPref(PREF_MODIFIER_MEM, dialog, item, R.id.equip_item_edit_mem)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_int).isChecked) {
+                modifPref(PREF_MODIFIER_INT, dialog, item, R.id.equip_item_edit_int)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_foi).isChecked) {
+                modifPref(PREF_MODIFIER_FOI, dialog, item, R.id.equip_item_edit_foi)
             }
 
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    fun modifPref(pref:String, dialog: Dialog, item: Item, id:Int){
+        val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(pref, 0)
+        val editor = sharedPref.edit()
+        var value = 0
+        if (dialog.findViewById<EditText>(id).text.isNotBlank()) value = dialog.findViewById<EditText>(id).text.toString().toInt()
+        if (item.equip) editor.putInt(pref, prefValue+value) else editor.putInt(pref, prefValue-value)
+        editor.apply()
     }
 
     fun fillEditItem(dialog: Dialog, item: Item) {

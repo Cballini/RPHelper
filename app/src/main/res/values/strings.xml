@@ -142,6 +142,22 @@
     <string name="po"> po</string>
     <string name="inventory_max_weight">/15kg</string>
 
+    <string name="lifeEditTitle">Modifier vos points de vie</string>
+    <string name="constEditTitle">Modifier vos points de constitution</string>
+    <string name="manaEditTitle">Modifier vos points de mana</string>
+    <string name="editIndicTxt">Veuillez entrer la valeur actuelle.</string>
+    <string name="bonusTitle">Modifier bonus/malus</string>
+    <string name="lifeBonusTxt">Veuillez entrer la valeur du bonus/malus temporaire sur vos points de vie max.</string>
+    <string name="constBonusTxt">Veuillez entrer la valeur du bonus/malus temporaire sur vos points de constitution max.</string>
+    <string name="manaBonusTxt">Veuillez entrer la valeur du bonus/malus temporaire sur vos points de mana max.</string>
+    <string name="weightBonusTxt">Veuillez entrer la valeur du bonus/malus temporaire sur votre poids max.</string>
+    <string name="damageBonusTxt">Veuillez entrer la valeur du bonus/malus temporaire sur vos dégats bruts.</string>
+    <string name="defBonusTxt">Veuillez entrer la valeur du bonus/malus temporaire sur votre défense brut.</string>
+    <string name="resBonusTxt">Veuillez sélectionner votre résistance temporaire.</string>
+    <string name="immunBonusTxt">Veuillez sélectionner votre immunité temporaire.</string>
+    <string name="weakBonusTxt">Veuillez sélectionner votre faiblesse temporaire.</string>
+    <string name="reset">Reset</string>
+
     <string name="file_character">character.json</string>
     <string name="file_equipment">equipment.json</string>
     <string name="file_fight">fight.json</string>

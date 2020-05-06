@@ -29,7 +29,7 @@
         app:layout_constraintStart_toEndOf="@+id/indic_drop"
         app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
-    <EditText
+    <TextView
         android:id="@+id/indic_current"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -59,7 +59,7 @@
         app:layout_constraintStart_toEndOf="@+id/indic_current"
         app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
-    <EditText
+    <TextView
         android:id="@+id/indic_max"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
@@ -74,12 +74,12 @@
         app:layout_constraintStart_toEndOf="@+id/indic_spare"
         app:layout_constraintBottom_toBottomOf="@+id/indic_drop"/>
 
-    <EditText
+    <TextView
         android:id="@+id/indic_bonus"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="+0"
+        android:text="(+0)"
         android:textColor="@color/bonus"
         android:background="@drawable/shape_dotted"
         android:paddingHorizontal="@dimen/small_margin"

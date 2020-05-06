@@ -13,14 +13,18 @@ object CalcUtils {
     fun getLifeMax(context: Context, character :Character) : Int{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_LIFE_MAX, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_LIFE_MAX, 0)
-        return 200 + 20*character.vitality + prefValue
+        val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, Preferences.PRIVATE_MODE)
+        val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, 0)
+        return 200 + 20*character.vitality + prefValue + prefValue2
     }
 
     @JvmStatic
     fun getWeightMax(context: Context, character :Character) : Int{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEIGHT_MAX, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_WEIGHT_MAX, 0)
-        return 40 + character.vigor + prefValue
+        val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, Preferences.PRIVATE_MODE)
+        val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, 0)
+        return 40 + character.vigor + prefValue + prefValue2
     }
 
     @JvmStatic
@@ -36,27 +40,33 @@ object CalcUtils {
     fun getManaMax(context: Context, character :Character) : Int {
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_MANA_MAX, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_MANA_MAX, 0)
-        return 40 + 5*character.memory + prefValue
+        val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_MANA_MAX_TEMP, Preferences.PRIVATE_MODE)
+        val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_MANA_MAX_TEMP, 0)
+        return 40 + 5*character.memory + prefValue + prefValue2
     }
 
     @JvmStatic
     fun getConstMax(context: Context, character :Character):Int{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_CONST_MAX, 0)
-        return 60 + 20*character.endurance + prefValue
+        val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX_TEMP, Preferences.PRIVATE_MODE)
+        val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_CONST_MAX_TEMP, 0)
+        return 60 + 20*character.endurance + prefValue + prefValue2
     }
 
     @JvmStatic
-    fun getDef(context: Context) : Float {
+    fun getDef(context: Context) : Int {
         val character = Services.getCharacter(context)
         val equipment = Services.getEquipment(context)
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DEFENSE, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_DEFENSE, 0)
-        var def = 50F + prefValue
+        val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DEFENSE_TEMP, Preferences.PRIVATE_MODE)
+        val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_DEFENSE_TEMP, 0)
+        var def = 50F + prefValue + prefValue2
         def += equipment.hat.def + equipment.chest.def + equipment.gloves.def + equipment.greaves.def
         def += (character.vitality.toFloat()/2 + character.memory.toFloat()/2 + character.endurance.toFloat()/2 + character.vigor
                 + character.strength.toFloat()/2 + character.dexterity.toFloat()/2 + character.intelligence.toFloat()/2 + character.faith.toFloat()/2)
-        return def
+        return def.toInt()
     }
 
     @JvmStatic

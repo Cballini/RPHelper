@@ -76,10 +76,22 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         _damages.value = getDamages()
     }
 
-    val _defense = MutableLiveData<Float>()
-    val defense : LiveData<Float> get() = _defense
+    val _damagesBonus = MutableLiveData<Int>()
+    val damagesBonus : LiveData<Int> get() = _damagesBonus
+    init {
+        _damagesBonus.value = getDamagesBonus()
+    }
+
+    val _defense = MutableLiveData<Int>()
+    val defense : LiveData<Int> get() = _defense
     init {
         _defense.value = CalcUtils.getDef(context)
+    }
+
+    val _defenseBonus = MutableLiveData<Int>()
+    val defenseBonus : LiveData<Int> get() = _defenseBonus
+    init {
+        _defenseBonus.value = getDefBonus()
     }
 
     val _res = MutableLiveData<String>()
@@ -98,36 +110,79 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         _weak.value = getWeak()
     }
 
+    val _resBonus = MutableLiveData<String>()
+    val resBonus : LiveData<String> get() = _resBonus
+    init {
+        _resBonus.value = getResBonus()
+    }
+    val _immunBonus = MutableLiveData<String>()
+    val immunBonus : LiveData<String> get() = _immunBonus
+    init {
+        _immunBonus.value = getImmunBonus()
+    }
+    val _weakBonus = MutableLiveData<String>()
+    val weakBonus : LiveData<String> get() = _weakBonus
+    init {
+        _weakBonus.value = getWeakBonus()
+    }
+
     fun getDamages():Int{
         val character = Services.getCharacter(context)
         val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_DAMAGES, PRIVATE_MODE)
         val prefValue = sharedPref.getInt(PREF_MODIFIER_DAMAGES, 0)
-        return 90 + 2*character.strength + character.dexterity + prefValue
+        val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DAMAGES_TEMP, Preferences.PRIVATE_MODE)
+        val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_DAMAGES_TEMP, 0)
+        return 90 + 2*character.strength + character.dexterity + prefValue + prefValue2
     }
+
+    fun getDamagesBonus():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DAMAGES_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getInt(Preferences.PREF_MODIFIER_DAMAGES_TEMP, 0)
+    }
+
+    fun getDefBonus():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DEFENSE_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getInt(Preferences.PREF_MODIFIER_DEFENSE_TEMP, 0)
+    }
+
+    fun getResBonus():String{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_RES_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getString(Preferences.PREF_MODIFIER_RES_TEMP, "")
+    }
+    fun getWeakBonus():String{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getString(Preferences.PREF_MODIFIER_WEAK_TEMP, "")
+    }
+    fun getImmunBonus():String{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_IMMUN_TEMP, Preferences.PRIVATE_MODE)
+        return sharedPref.getString(Preferences.PREF_MODIFIER_IMMUN_TEMP, "")
+    }
+
     fun getRes():String{
         var res = "/"
         if (null != hat.value!!.res && null != chest.value!!.res && null != gloves.value!!.res && null != greaves.value!!.res) {
             res=""
-            if (hat.value!!.res.contains(Elem.FIRE) && chest.value!!.res.contains(Elem.FIRE)
-                    && gloves.value!!.res.contains(Elem.FIRE) && greaves.value!!.res.contains(Elem.FIRE)) res += Elem.FIRE.toString()
-            if (hat.value!!.res.contains(Elem.MAGIC) && chest.value!!.res.contains(Elem.MAGIC)
-                    && gloves.value!!.res.contains(Elem.MAGIC) && greaves.value!!.res.contains(Elem.MAGIC)) {
+            val pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_RES_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_RES_TEMP,"")
+            if ((hat.value!!.res.contains(Elem.FIRE) && chest.value!!.res.contains(Elem.FIRE)
+                    && gloves.value!!.res.contains(Elem.FIRE) && greaves.value!!.res.contains(Elem.FIRE)) || pref.contains(Elem.FIRE.name)) res += Elem.FIRE.toString()
+            if ((hat.value!!.res.contains(Elem.MAGIC) && chest.value!!.res.contains(Elem.MAGIC)
+                    && gloves.value!!.res.contains(Elem.MAGIC) && greaves.value!!.res.contains(Elem.MAGIC)) || pref.contains(Elem.MAGIC.name)) {
                 if(res.isNotEmpty())res += "\n"
                 res +=  Elem.MAGIC.toString()
             }
-            if (hat.value!!.res.contains(Elem.LIGHTNING) && chest.value!!.res.contains(Elem.LIGHTNING)
-                    && gloves.value!!.res.contains(Elem.LIGHTNING) && greaves.value!!.res.contains(Elem.LIGHTNING)) {
+            if ((hat.value!!.res.contains(Elem.LIGHTNING) && chest.value!!.res.contains(Elem.LIGHTNING)
+                    && gloves.value!!.res.contains(Elem.LIGHTNING) && greaves.value!!.res.contains(Elem.LIGHTNING)) || pref.contains(Elem.LIGHTNING.name)) {
                 if(res.isNotEmpty())res += "\n"
                 res += Elem.LIGHTNING.toString()
             }
-            if (hat.value!!.res.contains(Elem.DARKNESS) && chest.value!!.res.contains(Elem.DARKNESS)
-                    && gloves.value!!.res.contains(Elem.DARKNESS) && greaves.value!!.res.contains(Elem.DARKNESS)){
+            if ((hat.value!!.res.contains(Elem.DARKNESS) && chest.value!!.res.contains(Elem.DARKNESS)
+                    && gloves.value!!.res.contains(Elem.DARKNESS) && greaves.value!!.res.contains(Elem.DARKNESS)) || pref.contains(Elem.DARKNESS.name)){
                 if(res.isNotEmpty())res += "\n"
                 res += Elem.DARKNESS.toString()
             }
             if (hat.value!!.res.contains(Elem.ALL) && chest.value!!.res.contains(Elem.ALL)
                     && gloves.value!!.res.contains(Elem.ALL) && greaves.value!!.res.contains(Elem.ALL)){
-                res += Elem.ALL.toString()
+                res = Elem.ALL.toString()
             }
         }
         return res
@@ -136,20 +191,21 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         var weak = "/"
         if (null != hat.value!!.weak && null != chest.value!!.weak && null != gloves.value!!.weak && null != greaves.value!!.weak){
             weak=""
-            if (hat.value!!.weak.contains(Elem.FIRE) || chest.value!!.weak.contains(Elem.FIRE)
-                    || gloves.value!!.weak.contains(Elem.FIRE) || greaves.value!!.weak.contains(Elem.FIRE)) weak += Elem.FIRE.toString()
-        if (hat.value!!.weak.contains(Elem.MAGIC) || chest.value!!.weak.contains(Elem.MAGIC)
-                || gloves.value!!.weak.contains(Elem.MAGIC) || greaves.value!!.weak.contains(Elem.MAGIC)){
+            val pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK_TEMP,"")
+            if ((hat.value!!.weak.contains(Elem.FIRE) || chest.value!!.weak.contains(Elem.FIRE)
+                    || gloves.value!!.weak.contains(Elem.FIRE) || greaves.value!!.weak.contains(Elem.FIRE)) || pref.contains(Elem.FIRE.name)) weak += Elem.FIRE.toString()
+        if ((hat.value!!.weak.contains(Elem.MAGIC) || chest.value!!.weak.contains(Elem.MAGIC)
+                || gloves.value!!.weak.contains(Elem.MAGIC) || greaves.value!!.weak.contains(Elem.MAGIC)) || pref.contains(Elem.MAGIC.name)){
             if (weak.isNotEmpty())weak += "\n"
             weak += Elem.MAGIC.toString()
         }
-        if (hat.value!!.weak.contains(Elem.LIGHTNING) || chest.value!!.weak.contains(Elem.LIGHTNING)
-                || gloves.value!!.weak.contains(Elem.LIGHTNING) || greaves.value!!.weak.contains(Elem.LIGHTNING)){
+        if ((hat.value!!.weak.contains(Elem.LIGHTNING) || chest.value!!.weak.contains(Elem.LIGHTNING)
+                || gloves.value!!.weak.contains(Elem.LIGHTNING) || greaves.value!!.weak.contains(Elem.LIGHTNING)) || pref.contains(Elem.LIGHTNING.name)){
             if (weak.isNotEmpty())weak += "\n"
             weak +=Elem.LIGHTNING.toString()
         }
-        if (hat.value!!.weak.contains(Elem.DARKNESS) || chest.value!!.weak.contains(Elem.DARKNESS)
-                || gloves.value!!.weak.contains(Elem.DARKNESS) || greaves.value!!.weak.contains(Elem.DARKNESS)){
+        if ((hat.value!!.weak.contains(Elem.DARKNESS) || chest.value!!.weak.contains(Elem.DARKNESS)
+                || gloves.value!!.weak.contains(Elem.DARKNESS) || greaves.value!!.weak.contains(Elem.DARKNESS)) || pref.contains(Elem.DARKNESS.name)){
             if (weak.isNotEmpty())weak += "\n"
             weak += Elem.DARKNESS.toString()
         }
@@ -163,15 +219,16 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         var immun = "/"
         if (null != hat.value!!.immun && null != chest.value!!.immun && null != gloves.value!!.immun && null != greaves.value!!.immun) {
             immun=""
-            if (hat.value!!.immun.contains(Status.BLEED) && chest.value!!.immun.contains(Status.BLEED)
-                    && gloves.value!!.immun.contains(Status.BLEED) && greaves.value!!.immun.contains(Status.BLEED)) immun += Status.BLEED.toString()
-            if (hat.value!!.immun.contains(Status.FROST) && chest.value!!.immun.contains(Status.FROST)
-                    && gloves.value!!.immun.contains(Status.FROST) && greaves.value!!.immun.contains(Status.FROST)){
+            val pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_IMMUN_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_IMMUN_TEMP,"")
+            if ((hat.value!!.immun.contains(Status.BLEED) && chest.value!!.immun.contains(Status.BLEED)
+                    && gloves.value!!.immun.contains(Status.BLEED) && greaves.value!!.immun.contains(Status.BLEED)) || pref.contains(Status.BLEED.name)) immun += Status.BLEED.toString()
+            if ((hat.value!!.immun.contains(Status.FROST) && chest.value!!.immun.contains(Status.FROST)
+                    && gloves.value!!.immun.contains(Status.FROST) && greaves.value!!.immun.contains(Status.FROST)) || pref.contains(Status.FROST.name)){
                 if (immun.isNotEmpty())immun += "\n"
                 immun +=Status.FROST.toString()
             }
-            if (hat.value!!.immun.contains(Status.POISON) && chest.value!!.immun.contains(Status.POISON)
-                    && gloves.value!!.immun.contains(Status.POISON) && greaves.value!!.immun.contains(Status.POISON)){
+            if ((hat.value!!.immun.contains(Status.POISON) && chest.value!!.immun.contains(Status.POISON)
+                    && gloves.value!!.immun.contains(Status.POISON) && greaves.value!!.immun.contains(Status.POISON)) || pref.contains(Status.POISON.name)){
                 if (immun.isNotEmpty())immun += "\n"
                 immun += Status.POISON.toString()
             }
@@ -193,6 +250,10 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
     fun editEquipment(){
         val equipment = Equipment(leftHand.value!!, rightHand.value!!, catalyst.value!!, shield.value!!, hat.value!!, chest.value!!, gloves.value!!, greaves.value!!)
         Services.editEquipment(context, equipment)
+        updateEquipment()
+    }
+
+    fun updateEquipment(){
         _leftHand.value = Services.getWeapon(context, "leftHand")
         _rightHand.value = Services.getWeapon(context, "rightHand")
         _catalyst.value = Services.getWeapon(context, "catalyst")
@@ -206,6 +267,11 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         _res.value = getRes()
         _immun.value = getImmun()
         _weak.value = getWeak()
+        _damagesBonus.value = getDamagesBonus()
+        _defenseBonus.value = getDefBonus()
+        _resBonus.value = getResBonus()
+        _weakBonus.value = getWeakBonus()
+        _immunBonus.value = getImmunBonus()
     }
 
     fun weaponToItem(type :String, weapon: Weapon){

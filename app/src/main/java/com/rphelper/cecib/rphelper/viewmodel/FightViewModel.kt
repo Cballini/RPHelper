@@ -47,7 +47,7 @@ class FightViewModel(val context: Context) :ViewModel(){
         _posture.value = Services.getPosture(context)
     }
 
-    fun getDef()=CalcUtils.getDef(context)
+    fun getDef():Int =CalcUtils.getDef(context)
 
     fun getBlock():Float{
         val equipment = Services.getEquipment(context)

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/indic_solo_drop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/txt_margin"
+        android:src="@drawable/ic_arrow_drop_down"
+        android:tint="@color/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <LinearLayout
+        android:id="@+id/indic_solo_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/indic_solo_drop">
+        <TextView
+            android:id="@+id/indic_solo_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@drawable/shape_category_light"
+            android:paddingHorizontal="@dimen/small_margin"
+            android:paddingVertical="@dimen/txt_margin"
+            android:text="@string/def"
+            android:textSize="@dimen/cat_txt"
+            android:textColor="@color/colorCatTitle"/>
+
+        <TextView
+            android:id="@+id/indic_solo_current"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="200"
+            android:maxEms="5"
+            android:paddingHorizontal="@dimen/small_margin"
+            android:minHeight="@dimen/double_app_margin"
+            android:textSize="@dimen/cat_txt"
+            android:background="@color/colorCatTitle"
+            android:textColor="@color/colorTxt"/>
+
+
+        <TextView
+            android:id="@+id/indic_solo_bonus"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="(+0)"
+            android:maxEms="5"
+            android:textColor="@color/bonus"
+            android:background="@drawable/shape_dotted"
+            android:paddingHorizontal="@dimen/small_margin"
+            android:minHeight="@dimen/double_app_margin"
+            android:textSize="@dimen/cat_txt"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/indic_solo_buttons_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_indic_txt"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/indic_solo_layout"
+        app:layout_constraintStart_toStartOf="@id/indic_solo_layout"
+        app:layout_constraintEnd_toEndOf="@id/indic_solo_layout">
+
+        <ImageView
+            android:id="@+id/indic_solo_edit_bonus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/txt_margin"
+            android:src="@drawable/ic_minus_plus"
+            android:tint="@color/bonus"
+            android:layout_weight="1"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

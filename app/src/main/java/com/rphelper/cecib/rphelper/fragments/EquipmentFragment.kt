@@ -1,8 +1,10 @@
 package com.rphelper.cecib.rphelper.fragments
 
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.arch.lifecycle.Observer
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -11,22 +13,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
-import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.component.EquipmentComponent
+import com.rphelper.cecib.rphelper.component.IndicSoloComponent
 import com.rphelper.cecib.rphelper.dto.Armor
 import com.rphelper.cecib.rphelper.dto.Weapon
 import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.Status
+import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.viewmodel.EquipmentViewModel
-import kotlinx.android.synthetic.main.component_category_horizontal.view.*
 import kotlinx.android.synthetic.main.component_equipment.view.*
 
 
 class EquipmentFragment : Fragment() {
 
-    private lateinit var viewModel : EquipmentViewModel
+    private lateinit var viewModel: EquipmentViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -34,38 +37,67 @@ class EquipmentFragment : Fragment() {
 
         viewModel = EquipmentViewModel(context!!)
 
-        initViewDisabled(view)
-
         /********** Stats **********/
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).cat_title.text = getString(R.string.damages)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).catTxt.setEnabled(false)
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloTitle.text = getString(R.string.damages)
+        setOnClickListenerIndicDrop(R.id.equipment_stat_damages, view)
         viewModel.damages.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).catTxt.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloCurrent.text = it.toString()
         })
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_defense).cat_title.text = getString(R.string.def)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_defense).catTxt.setEnabled(false)
+        viewModel.damagesBonus.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
+        })
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloEditBonus.setOnClickListener {
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.damageBonusTxt), Preferences.PREF_MODIFIER_DAMAGES_TEMP, { viewModel.updateEquipment() })
+        }
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloTitle.text = getString(R.string.def)
+        setOnClickListenerIndicDrop(R.id.equipment_stat_defense, view)
         viewModel.defense.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_defense).catTxt.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloCurrent.setText(it.toString())
         })
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_res).cat_title.text = getString(R.string.res)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_res).catTxt.setEnabled(false)
+        viewModel.defenseBonus.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
+        })
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloEditBonus.setOnClickListener {
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.defBonusTxt), Preferences.PREF_MODIFIER_DEFENSE_TEMP, { viewModel.updateEquipment() })
+        }
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloTitle.text = getString(R.string.res)
+        setOnClickListenerIndicDrop(R.id.equipment_stat_res, view)
         viewModel.res.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_res).catTxt.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloCurrent.setText(it.toString())
         })
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_immun).cat_title.text = getString(R.string.immun)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_immun).catTxt.setEnabled(false)
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloEditBonus.setOnClickListener {
+            displaySelectElemDialog(getString(R.string.resBonusTxt), Preferences.PREF_MODIFIER_RES_TEMP)
+        }
+        viewModel.resBonus.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
+        })
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloTitle.text = getString(R.string.immun)
+        setOnClickListenerIndicDrop(R.id.equipment_stat_immun, view)
         viewModel.immun.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_immun).catTxt.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloCurrent.setText(it.toString())
         })
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_weak).cat_title.text = getString(R.string.fai)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_weak).catTxt.setEnabled(false)
+        viewModel.immunBonus.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
+        })
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloEditBonus.setOnClickListener {
+            displaySelectStatusDialog(getString(R.string.immunBonusTxt), Preferences.PREF_MODIFIER_IMMUN_TEMP)
+        }
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloTitle.text = getString(R.string.fai)
+        setOnClickListenerIndicDrop(R.id.equipment_stat_weak, view)
         viewModel.weak.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_weak).catTxt.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloCurrent.setText(it.toString())
         })
+        viewModel.weakBonus.observe(viewLifecycleOwner, Observer {
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
+        })
+        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloEditBonus.setOnClickListener {
+            displaySelectElemDialog(getString(R.string.weakBonusTxt), Preferences.PREF_MODIFIER_WEAK_TEMP)
+        }
 
         /******** Left hand **********/
         viewModel.leftHand.observe(viewLifecycleOwner, Observer {
-            initWeaponView(view, R.id.equipment_left_hand, getString(R.string.left_hand), it) })
+            initWeaponView(view, R.id.equipment_left_hand, getString(R.string.left_hand), it)
+        })
 
         /******** Right hand **********/
         viewModel.rightHand.observe(viewLifecycleOwner, Observer {
@@ -92,11 +124,13 @@ class EquipmentFragment : Fragment() {
 
         /******** Gloves **********/
         viewModel.gloves.observe(viewLifecycleOwner, Observer {
-        initArmorView(view, R.id.equipment_gloves, getString(R.string.gloves), it)})
+            initArmorView(view, R.id.equipment_gloves, getString(R.string.gloves), it)
+        })
 
         /******** Greaves **********/
         viewModel.greaves.observe(viewLifecycleOwner, Observer {
-        initArmorView(view, R.id.equipment_greaves, getString(R.string.greaves), it)})
+            initArmorView(view, R.id.equipment_greaves, getString(R.string.greaves), it)
+        })
 
 
         /*********** EDIT **********/
@@ -104,7 +138,8 @@ class EquipmentFragment : Fragment() {
             editWeapon(getString(R.string.left_hand), viewModel.leftHand.value!!)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentTypeLayout.setOnClickListener {
-        editWeapon(getString(R.string.right_hand), viewModel.rightHand.value!!)}
+            editWeapon(getString(R.string.right_hand), viewModel.rightHand.value!!)
+        }
         view.findViewById<EquipmentComponent>(R.id.equipment_catalyst).equipmentTypeLayout.setOnClickListener {
             editWeapon(getString(R.string.catalyst), viewModel.catalyst.value!!)
         }
@@ -113,48 +148,51 @@ class EquipmentFragment : Fragment() {
             editArmor(getString(R.string.hat), viewModel.hat.value!!)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentTypeLayout.setOnClickListener {
-        editArmor(getString(R.string.chestplate), viewModel.chest.value!!)}
+            editArmor(getString(R.string.chestplate), viewModel.chest.value!!)
+        }
         view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentTypeLayout.setOnClickListener {
-        editArmor(getString(R.string.gloves), viewModel.gloves.value!!)}
+            editArmor(getString(R.string.gloves), viewModel.gloves.value!!)
+        }
         view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentTypeLayout.setOnClickListener {
-        editArmor(getString(R.string.greaves), viewModel.greaves.value!!)}
+            editArmor(getString(R.string.greaves), viewModel.greaves.value!!)
+        }
 
         return view
     }
 
-    fun initWeaponView(view :View, id :Int, type :String, weapon: Weapon?){
+    fun initWeaponView(view: View, id: Int, type: String, weapon: Weapon?) {
         weapon?.let {
             view!!.findViewById<EquipmentComponent>(id).equipmentType.text = type
             view!!.findViewById<EquipmentComponent>(id).equipment_name.text = weapon.name
-            if(type.equals(context!!.getString(R.string.catalyst))) {
+            if (type.equals(context!!.getString(R.string.catalyst))) {
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.visibility = View.GONE
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.visibility = View.VISIBLE
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTitle.text = getString(R.string.boost)
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = weapon.boost.toString()
                 view.findViewById<EquipmentComponent>(id).equipmentSecondLine.visibility = View.GONE
                 view.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.visibility = View.GONE
-            }else{
+            } else {
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.visibility = View.VISIBLE
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.damages)
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTxt.text = weapon.damage.toString()
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.visibility = View.GONE
-                view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = if (null!=weapon.status && !weapon.status.equals(Status.NOTHING)) weapon.status.toString() else getString(R.string.status)
-                view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = if (null!=weapon.statusValue && weapon.statusValue != 0F) weapon.statusValue.toString() else "/"
+                view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = if (null != weapon.status && !weapon.status.equals(Status.NOTHING)) weapon.status.toString() else getString(R.string.status)
+                view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = if (null != weapon.statusValue && weapon.statusValue != 0F) weapon.statusValue.toString() else "/"
                 view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTitle.text = getString(R.string.affinity)
-                view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = if (null!=weapon.affinity && !weapon.affinity.equals(Elem.NOTHING)) weapon.affinity.toString() else "/"
+                view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = if (null != weapon.affinity && !weapon.affinity.equals(Elem.NOTHING)) weapon.affinity.toString() else "/"
                 view.findViewById<EquipmentComponent>(id).equipmentSecondLine.visibility = View.VISIBLE
                 view.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.visibility = View.VISIBLE
                 view.findViewById<EquipmentComponent>(id).equipmentLargePanelTxt.text = viewModel.getTotalDamage(weapon).toString()
             }
-            view!!.findViewById<EquipmentComponent>(id).equipmentBonusForTxt.text = if (null!=weapon.bonusFor && !weapon.bonusFor.equals(Bonus.NOTHING)) weapon.bonusFor.toString() else "/"
-            view!!.findViewById<EquipmentComponent>(id).equipmentBonusDexTxt.text = if (null!=weapon.bonusDex && !weapon.bonusDex.equals(Bonus.NOTHING)) weapon.bonusDex.toString() else "/"
-            view!!.findViewById<EquipmentComponent>(id).equipmentBonusIntTxt.text = if (null!=weapon.bonusInt && !weapon.bonusInt.equals(Bonus.NOTHING)) weapon.bonusInt.toString() else "/"
-            view!!.findViewById<EquipmentComponent>(id).equipmentBonusFoiTxt.text = if (null!=weapon.bonusFoi && !weapon.bonusFoi.equals(Bonus.NOTHING)) weapon.bonusFoi.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentBonusForTxt.text = if (null != weapon.bonusFor && !weapon.bonusFor.equals(Bonus.NOTHING)) weapon.bonusFor.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentBonusDexTxt.text = if (null != weapon.bonusDex && !weapon.bonusDex.equals(Bonus.NOTHING)) weapon.bonusDex.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentBonusIntTxt.text = if (null != weapon.bonusInt && !weapon.bonusInt.equals(Bonus.NOTHING)) weapon.bonusInt.toString() else "/"
+            view!!.findViewById<EquipmentComponent>(id).equipmentBonusFoiTxt.text = if (null != weapon.bonusFoi && !weapon.bonusFoi.equals(Bonus.NOTHING)) weapon.bonusFoi.toString() else "/"
             view!!.findViewById<EquipmentComponent>(id).equipmentWeightTxt.text = weapon.weight.toString()
         }
     }
 
-    fun initShieldView(view:View){
+    fun initShieldView(view: View) {
         view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentType.text = getString(R.string.shield)
         viewModel.shield.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -189,33 +227,39 @@ class EquipmentFragment : Fragment() {
         })
     }
 
-    fun initArmorView(view :View, id :Int, type :String, armor: Armor?){
+    fun initArmorView(view: View, id: Int, type: String, armor: Armor?) {
         view!!.findViewById<EquipmentComponent>(id).equipmentType.text = type
         view!!.findViewById<EquipmentComponent>(id).equipment_name.text = armor!!.name
         view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.def)
         view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTxt.text = armor!!.def.toString()
         view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTitle.text = getString(R.string.res)
-        if (null!=armor!!.res && armor!!.res.isNotEmpty()) {
+        if (null != armor!!.res && armor!!.res.isNotEmpty()) {
             var stringRes = ""
-            for (res in armor!!.res){ stringRes += res.toString() + " " }
+            for (res in armor!!.res) {
+                stringRes += res.toString() + " "
+            }
             view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = stringRes
-        }else{
+        } else {
             view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = "/"
         }
         view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = getString(R.string.fai)
-        if (null!=armor!!.weak && armor!!.weak.isNotEmpty()) {
+        if (null != armor!!.weak && armor!!.weak.isNotEmpty()) {
             var stringRes = ""
-            for (res in armor!!.weak){ stringRes += res.toString() +"\n" }
+            for (res in armor!!.weak) {
+                stringRes += res.toString() + "\n"
+            }
             view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = stringRes
-        }else{
+        } else {
             view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = "/"
         }
         view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTitle.text = getString(R.string.immun)
-        if (null!=armor!!.immun && armor!!.immun.isNotEmpty()) {
+        if (null != armor!!.immun && armor!!.immun.isNotEmpty()) {
             var stringRes = ""
-            for (res in armor!!.immun){ stringRes += res.toString() +"\n" }
+            for (res in armor!!.immun) {
+                stringRes += res.toString() + "\n"
+            }
             view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = stringRes
-        }else{
+        } else {
             view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = "/"
         }
         view!!.findViewById<EquipmentComponent>(id).equipmentBonusLayout.visibility = View.GONE
@@ -223,133 +267,133 @@ class EquipmentFragment : Fragment() {
         view!!.findViewById<EquipmentComponent>(id).equipmentWeightTxt.text = armor!!.weight.toString()
     }
 
-    fun editWeapon( type: String, weapon: Weapon){
+    fun editWeapon(type: String, weapon: Weapon) {
 
-            val dialog = Dialog(activity)
-            dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog .setContentView(R.layout.popup_edit_weapon)
-            dialog.findViewById<TextView>(R.id.weapon_type).text = type
-            dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).setAdapter(ArrayAdapter<String>(context
-                    , android.R.layout.simple_list_item_1, getListStringBonus()));
-            dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).setAdapter(ArrayAdapter<String>(context
-                    , android.R.layout.simple_list_item_1, getListStringBonus()));
-            dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).setAdapter(ArrayAdapter<String>(context
-                    , android.R.layout.simple_list_item_1, getListStringBonus()));
-            dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).setAdapter(ArrayAdapter<String>(context
-                    , android.R.layout.simple_list_item_1, getListStringBonus()));
-            fillWeaponEdit(dialog, weapon)
-            dialog.findViewById<EditText>(R.id.weapon_name_txt).setSelection(dialog.findViewById<EditText>(R.id.weapon_name_txt).text.length)
-            dialog.findViewById<ImageView>(R.id.weapon_cancel_button).setOnClickListener { dialog.dismiss() }
-            dialog.findViewById<TextView>(R.id.weapon_disequip_button).setOnClickListener {
-                displayMsg(weapon.name)
-                viewModel.weaponToItem(type, weapon)
-                dialog.dismiss()
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_edit_weapon)
+        dialog.findViewById<TextView>(R.id.weapon_type).text = type
+        dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).setAdapter(ArrayAdapter<String>(context
+                , android.R.layout.simple_list_item_1, getListStringBonus()));
+        dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).setAdapter(ArrayAdapter<String>(context
+                , android.R.layout.simple_list_item_1, getListStringBonus()));
+        dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).setAdapter(ArrayAdapter<String>(context
+                , android.R.layout.simple_list_item_1, getListStringBonus()));
+        dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).setAdapter(ArrayAdapter<String>(context
+                , android.R.layout.simple_list_item_1, getListStringBonus()));
+        fillWeaponEdit(dialog, weapon)
+        dialog.findViewById<EditText>(R.id.weapon_name_txt).setSelection(dialog.findViewById<EditText>(R.id.weapon_name_txt).text.length)
+        dialog.findViewById<ImageView>(R.id.weapon_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<TextView>(R.id.weapon_disequip_button).setOnClickListener {
+            displayMsg(weapon.name)
+            viewModel.weaponToItem(type, weapon)
+            dialog.dismiss()
+        }
+        dialog.findViewById<TextView>(R.id.weapon_delete_button).setOnClickListener {
+            weapon.reinit()
+            viewModel.editEquipment()
+            dialog.dismiss()
+        }
+        dialog.findViewById<TextView>(R.id.weapon_save_button).setOnClickListener {
+            weapon.name = dialog.findViewById<EditText>(R.id.weapon_name_txt).text.toString()
+            if (dialog.findViewById<EditText>(R.id.weapon_damage_txt).text.toString().isNotEmpty()) {
+                weapon.damage = dialog.findViewById<EditText>(R.id.weapon_damage_txt).text.toString().toInt()
+            } else {
+                weapon.damage = 0
             }
-            dialog.findViewById<TextView>(R.id.weapon_delete_button).setOnClickListener {
-                weapon.reinit()
-                viewModel.editEquipment()
-                dialog.dismiss()
+            if (dialog.findViewById<EditText>(R.id.weapon_boost_txt).text.toString().isNotEmpty()) {
+                weapon.boost = dialog.findViewById<EditText>(R.id.weapon_boost_txt).text.toString().toInt()
+            } else {
+                weapon.boost = 0
             }
-            dialog.findViewById<TextView>(R.id.weapon_save_button).setOnClickListener {
-                weapon.name = dialog.findViewById<EditText>(R.id.weapon_name_txt).text.toString()
-                if (dialog.findViewById<EditText>(R.id.weapon_damage_txt).text.toString().isNotEmpty()){
-                    weapon.damage = dialog.findViewById<EditText>(R.id.weapon_damage_txt).text.toString().toInt()
-                }else{
-                    weapon.damage = 0
-                }
-                if (dialog.findViewById<EditText>(R.id.weapon_boost_txt).text.toString().isNotEmpty()){
-                    weapon.boost = dialog.findViewById<EditText>(R.id.weapon_boost_txt).text.toString().toInt()
-                }else{
-                    weapon.boost = 0
-                }
-                if(dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked) weapon.rapidFire = true
-                if(dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked) weapon.rapidFire = true
-                if (dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).text.toString().isNotEmpty()){
-                    weapon.statusValue = dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).text.toString().toFloat()
-                }else{
-                    weapon.statusValue = 0F
-                }
-                weapon.status = when(true){
-                    dialog.findViewById<CheckBox>(R.id.weapon_status_bleed).isChecked -> Status.BLEED
-                    dialog.findViewById<CheckBox>(R.id.weapon_status_poison).isChecked -> Status.POISON
-                    dialog.findViewById<CheckBox>(R.id.weapon_status_frost).isChecked -> Status.FROST
-                    else -> Status.NOTHING
-                }
-                weapon.affinity = when(true){
-                    dialog.findViewById<CheckBox>(R.id.weapon_affinity_fire).isChecked -> Elem.FIRE
-                    dialog.findViewById<CheckBox>(R.id.weapon_affinity_dark).isChecked -> Elem.DARKNESS
-                    dialog.findViewById<CheckBox>(R.id.weapon_affinity_light).isChecked -> Elem.LIGHTNING
-                    dialog.findViewById<CheckBox>(R.id.weapon_affinity_magic).isChecked -> Elem.MAGIC
-                    else -> Elem.NOTHING
-                }
-                weapon.bonusFor = when(true){
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.S.name) -> Bonus.S
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.A.name) -> Bonus.A
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.B.name) -> Bonus.B
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.C.name) -> Bonus.C
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.D.name) -> Bonus.D
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.E.name) -> Bonus.E
-                    else -> Bonus.NOTHING
-                }
-                weapon.bonusDex = when(true){
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.S.name) -> Bonus.S
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.A.name) -> Bonus.A
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.B.name) -> Bonus.B
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.C.name) -> Bonus.C
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.D.name) -> Bonus.D
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.E.name) -> Bonus.E
-                    else -> Bonus.NOTHING
-                }
-                weapon.bonusInt = when(true){
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.S.name) -> Bonus.S
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.A.name) -> Bonus.A
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.B.name) -> Bonus.B
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.C.name) -> Bonus.C
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.D.name) -> Bonus.D
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.E.name) -> Bonus.E
-                    else -> Bonus.NOTHING
-                }
-                weapon.bonusFoi = when(true){
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.S.name) -> Bonus.S
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.A.name) -> Bonus.A
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.B.name) -> Bonus.B
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.C.name) -> Bonus.C
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.D.name) -> Bonus.D
-                    dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.E.name) -> Bonus.E
-                    else -> Bonus.NOTHING
-                }
-
-                if (dialog.findViewById<EditText>(R.id.weapon_weight_txt).text.toString().isNotEmpty()){
-                    weapon.weight = dialog.findViewById<EditText>(R.id.weapon_weight_txt).text.toString().toFloat()
-                }else{
-                    weapon.weight = 0F
-                }
-                viewModel.editEquipment()
-                dialog.dismiss()
+            if (dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked) weapon.rapidFire = true
+            if (dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked) weapon.rapidFire = true
+            if (dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).text.toString().isNotEmpty()) {
+                weapon.statusValue = dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).text.toString().toFloat()
+            } else {
+                weapon.statusValue = 0F
+            }
+            weapon.status = when (true) {
+                dialog.findViewById<CheckBox>(R.id.weapon_status_bleed).isChecked -> Status.BLEED
+                dialog.findViewById<CheckBox>(R.id.weapon_status_poison).isChecked -> Status.POISON
+                dialog.findViewById<CheckBox>(R.id.weapon_status_frost).isChecked -> Status.FROST
+                else -> Status.NOTHING
+            }
+            weapon.affinity = when (true) {
+                dialog.findViewById<CheckBox>(R.id.weapon_affinity_fire).isChecked -> Elem.FIRE
+                dialog.findViewById<CheckBox>(R.id.weapon_affinity_dark).isChecked -> Elem.DARKNESS
+                dialog.findViewById<CheckBox>(R.id.weapon_affinity_light).isChecked -> Elem.LIGHTNING
+                dialog.findViewById<CheckBox>(R.id.weapon_affinity_magic).isChecked -> Elem.MAGIC
+                else -> Elem.NOTHING
+            }
+            weapon.bonusFor = when (true) {
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.S.name) -> Bonus.S
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.A.name) -> Bonus.A
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.B.name) -> Bonus.B
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.C.name) -> Bonus.C
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.D.name) -> Bonus.D
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).selectedItem.toString().equals(Bonus.E.name) -> Bonus.E
+                else -> Bonus.NOTHING
+            }
+            weapon.bonusDex = when (true) {
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.S.name) -> Bonus.S
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.A.name) -> Bonus.A
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.B.name) -> Bonus.B
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.C.name) -> Bonus.C
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.D.name) -> Bonus.D
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).selectedItem.toString().equals(Bonus.E.name) -> Bonus.E
+                else -> Bonus.NOTHING
+            }
+            weapon.bonusInt = when (true) {
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.S.name) -> Bonus.S
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.A.name) -> Bonus.A
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.B.name) -> Bonus.B
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.C.name) -> Bonus.C
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.D.name) -> Bonus.D
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).selectedItem.toString().equals(Bonus.E.name) -> Bonus.E
+                else -> Bonus.NOTHING
+            }
+            weapon.bonusFoi = when (true) {
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.S.name) -> Bonus.S
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.A.name) -> Bonus.A
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.B.name) -> Bonus.B
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.C.name) -> Bonus.C
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.D.name) -> Bonus.D
+                dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).selectedItem.toString().equals(Bonus.E.name) -> Bonus.E
+                else -> Bonus.NOTHING
             }
 
-            dialog .show()
+            if (dialog.findViewById<EditText>(R.id.weapon_weight_txt).text.toString().isNotEmpty()) {
+                weapon.weight = dialog.findViewById<EditText>(R.id.weapon_weight_txt).text.toString().toFloat()
+            } else {
+                weapon.weight = 0F
+            }
+            viewModel.editEquipment()
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
-    fun fillWeaponEdit(dialog: Dialog, weapon: Weapon?){
-        if(!weapon!!.name.isNullOrEmpty()){
+    fun fillWeaponEdit(dialog: Dialog, weapon: Weapon?) {
+        if (!weapon!!.name.isNullOrEmpty()) {
             dialog.findViewById<EditText>(R.id.weapon_name_txt).setText(weapon.name)
             dialog.findViewById<EditText>(R.id.weapon_damage_txt).setText(weapon.damage.toString())
             dialog.findViewById<EditText>(R.id.weapon_boost_txt).setText(weapon.boost.toString())
             dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).setText(weapon.statusValue.toString())
-            if(weapon.rapidFire)dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked = true
-            when(weapon.status){
+            if (weapon.rapidFire) dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked = true
+            when (weapon.status) {
                 Status.BLEED -> dialog.findViewById<CheckBox>(R.id.weapon_status_bleed).isChecked = true
                 Status.POISON -> dialog.findViewById<CheckBox>(R.id.weapon_status_poison).isChecked = true
                 Status.FROST -> dialog.findViewById<CheckBox>(R.id.weapon_status_frost).isChecked = true
             }
-            when(weapon.affinity){
+            when (weapon.affinity) {
                 Elem.MAGIC -> dialog.findViewById<CheckBox>(R.id.weapon_affinity_magic).isChecked = true
                 Elem.FIRE -> dialog.findViewById<CheckBox>(R.id.weapon_affinity_fire).isChecked = true
                 Elem.DARKNESS -> dialog.findViewById<CheckBox>(R.id.weapon_affinity_dark).isChecked = true
                 Elem.LIGHTNING -> dialog.findViewById<CheckBox>(R.id.weapon_affinity_light).isChecked = true
             }
-            when(weapon.bonusFor){
+            when (weapon.bonusFor) {
                 Bonus.S -> dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).setSelection(1)
                 Bonus.A -> dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).setSelection(2)
                 Bonus.B -> dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).setSelection(3)
@@ -357,7 +401,7 @@ class EquipmentFragment : Fragment() {
                 Bonus.D -> dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).setSelection(5)
                 Bonus.E -> dialog.findViewById<Spinner>(R.id.weapon_bonus_for_spinner).setSelection(6)
             }
-            when(weapon.bonusDex){
+            when (weapon.bonusDex) {
                 Bonus.S -> dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).setSelection(1)
                 Bonus.A -> dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).setSelection(2)
                 Bonus.B -> dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).setSelection(3)
@@ -365,7 +409,7 @@ class EquipmentFragment : Fragment() {
                 Bonus.D -> dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).setSelection(5)
                 Bonus.E -> dialog.findViewById<Spinner>(R.id.weapon_bonus_dex_spinner).setSelection(6)
             }
-            when(weapon.bonusInt){
+            when (weapon.bonusInt) {
                 Bonus.S -> dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).setSelection(1)
                 Bonus.A -> dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).setSelection(2)
                 Bonus.B -> dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).setSelection(3)
@@ -373,7 +417,7 @@ class EquipmentFragment : Fragment() {
                 Bonus.D -> dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).setSelection(5)
                 Bonus.E -> dialog.findViewById<Spinner>(R.id.weapon_bonus_int_spinner).setSelection(6)
             }
-            when(weapon.bonusFoi){
+            when (weapon.bonusFoi) {
                 Bonus.S -> dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).setSelection(1)
                 Bonus.A -> dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).setSelection(2)
                 Bonus.B -> dialog.findViewById<Spinner>(R.id.weapon_bonus_foi_spinner).setSelection(3)
@@ -385,11 +429,11 @@ class EquipmentFragment : Fragment() {
         }
     }
 
-    fun editShield(view: View){
+    fun editShield(view: View) {
         view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentTypeLayout.setOnClickListener {
             val dialog = Dialog(activity)
-            dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog .setContentView(R.layout.popup_edit_shield)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(R.layout.popup_edit_shield)
             dialog.findViewById<TextView>(R.id.shield_type).text = getString(R.string.shield)
             fillShieldEdit(dialog)
             dialog.findViewById<EditText>(R.id.shield_name_txt).setSelection(dialog.findViewById<EditText>(R.id.shield_name_txt).text.length)
@@ -406,17 +450,18 @@ class EquipmentFragment : Fragment() {
             }
             dialog.findViewById<TextView>(R.id.shield_save_button).setOnClickListener {
                 viewModel.shield.value!!.name = dialog.findViewById<EditText>(R.id.shield_name_txt).text.toString()
-                if (dialog.findViewById<EditText>(R.id.shield_block_txt).text.toString().isNotEmpty()){
+                if (dialog.findViewById<EditText>(R.id.shield_block_txt).text.toString().isNotEmpty()) {
                     viewModel.shield.value!!.block = dialog.findViewById<EditText>(R.id.shield_block_txt).text.toString().toFloat()
-                }else{
+                } else {
                     viewModel.shield.value!!.block = 0F
                 }
 
-                viewModel.shield.value!!.res?.let{  viewModel.shield.value!!.res.clear()}?:run{viewModel.shield.value!!.res = ArrayList<Elem>()}
+                viewModel.shield.value!!.res?.let { viewModel.shield.value!!.res.clear() }
+                        ?: run { viewModel.shield.value!!.res = ArrayList<Elem>() }
                 if (dialog.findViewById<CheckBox>(R.id.shield_res_fire).isChecked && dialog.findViewById<CheckBox>(R.id.shield_res_dark).isChecked
-                        && dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked && dialog.findViewById<CheckBox>(R.id.shield_res_magic).isChecked){
+                        && dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked && dialog.findViewById<CheckBox>(R.id.shield_res_magic).isChecked) {
                     viewModel.shield.value!!.res.add(Elem.ALL)
-                }else {
+                } else {
                     if (dialog.findViewById<CheckBox>(R.id.shield_res_fire).isChecked) {
                         viewModel.shield.value!!.res.add(Elem.FIRE)
                     }
@@ -431,21 +476,21 @@ class EquipmentFragment : Fragment() {
                     }
                 }
 
-                if (dialog.findViewById<EditText>(R.id.shield_weight_txt).text.toString().isNotEmpty()){
+                if (dialog.findViewById<EditText>(R.id.shield_weight_txt).text.toString().isNotEmpty()) {
                     viewModel.shield.value!!.weight = dialog.findViewById<EditText>(R.id.shield_weight_txt).text.toString().toFloat()
-                }else{
+                } else {
                     viewModel.shield.value!!.weight = 0F
                 }
                 viewModel.editEquipment()
                 dialog.dismiss()
             }
 
-            dialog .show()
+            dialog.show()
         }
     }
 
-    fun fillShieldEdit(dialog: Dialog){
-        viewModel.shield.value?.let{
+    fun fillShieldEdit(dialog: Dialog) {
+        viewModel.shield.value?.let {
             dialog.findViewById<EditText>(R.id.shield_name_txt).setText(viewModel.shield.value!!.name)
             dialog.findViewById<EditText>(R.id.shield_block_txt).setText(viewModel.shield.value!!.block.toString())
             viewModel.shield.value!!.res?.let {
@@ -465,140 +510,132 @@ class EquipmentFragment : Fragment() {
         }
     }
 
-    fun editArmor(type: String, armor: Armor){
-            val dialog = Dialog(activity)
-            dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-            dialog .setContentView(R.layout.popup_edit_armor)
-            dialog.findViewById<TextView>(R.id.armor_type).text = type
-            fillArmorEdit(dialog, armor)
-            dialog.findViewById<EditText>(R.id.armor_name_txt).setSelection(dialog.findViewById<EditText>(R.id.armor_name_txt).text.length)
-            dialog.findViewById<ImageView>(R.id.armor_cancel_button).setOnClickListener { dialog.dismiss() }
+    fun editArmor(type: String, armor: Armor) {
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_edit_armor)
+        dialog.findViewById<TextView>(R.id.armor_type).text = type
+        fillArmorEdit(dialog, armor)
+        dialog.findViewById<EditText>(R.id.armor_name_txt).setSelection(dialog.findViewById<EditText>(R.id.armor_name_txt).text.length)
+        dialog.findViewById<ImageView>(R.id.armor_cancel_button).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<TextView>(R.id.armor_disequip_button).setOnClickListener {
             displayMsg(armor.name)
             viewModel.armorToItem(type, armor)
             dialog.dismiss()
         }
-            dialog.findViewById<TextView>(R.id.armor_delete_button).setOnClickListener {
-                armor.reinit()
-                viewModel.editEquipment()
-                dialog.dismiss()
-            }
-            dialog.findViewById<TextView>(R.id.armor_save_button).setOnClickListener {
-                armor.name = dialog.findViewById<EditText>(R.id.armor_name_txt).text.toString()
-                if (dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().isNotEmpty()){
-                    armor.def = dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().toFloat()
-                }else{
-                    armor.def = 0F
-                }
-
-                armor.immun?.let{  armor.immun.clear()}?:run{armor.immun = ArrayList<Status>()}
-                if (dialog.findViewById<CheckBox>(R.id.armor_immun_frost).isChecked) {
-                    armor.immun.add(Status.FROST)
-                }
-                if (dialog.findViewById<CheckBox>(R.id.armor_immun_poison).isChecked) {
-                    armor.immun.add(Status.POISON)
-                }
-                if (dialog.findViewById<CheckBox>(R.id.armor_immun_bleed).isChecked) {
-                    armor.immun.add(Status.BLEED)
-                }
-
-                armor.res?.let{  armor.res.clear()}?:run{armor.res = ArrayList<Elem>()}
-                if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked
-                        && dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked){
-                    armor.res.add(Elem.ALL)
-                }else {
-                    if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked) {
-                        armor.res.add(Elem.FIRE)
-                    }
-                    if (dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked) {
-                        armor.res.add(Elem.DARKNESS)
-                    }
-                    if (dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked) {
-                        armor.res.add(Elem.LIGHTNING)
-                    }
-                    if (dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
-                        armor.res.add(Elem.MAGIC)
-                    }
-                }
-
-                armor.weak?.let{  armor.weak.clear()}?:run{armor.weak = ArrayList<Elem>()}
-                if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked
-                        && dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked){
-                    armor.weak.add(Elem.ALL)
-                }else {
-                    if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked) {
-                        armor.weak.add(Elem.FIRE)
-                    }
-                    if (dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked) {
-                        armor.weak.add(Elem.DARKNESS)
-                    }
-                    if (dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked) {
-                        armor.weak.add(Elem.LIGHTNING)
-                    }
-                    if (dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
-                        armor.weak.add(Elem.MAGIC)
-                    }
-                }
-
-                if (dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().isNotEmpty()){
-                    armor.weight = dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().toFloat()
-                }else{
-                    armor.weight = 0F
-                }
-                viewModel.editEquipment()
-                dialog.dismiss()
+        dialog.findViewById<TextView>(R.id.armor_delete_button).setOnClickListener {
+            armor.reinit()
+            viewModel.editEquipment()
+            dialog.dismiss()
+        }
+        dialog.findViewById<TextView>(R.id.armor_save_button).setOnClickListener {
+            armor.name = dialog.findViewById<EditText>(R.id.armor_name_txt).text.toString()
+            if (dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().isNotEmpty()) {
+                armor.def = dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().toFloat()
+            } else {
+                armor.def = 0F
             }
 
-            dialog .show()
+            armor.immun?.let { armor.immun.clear() } ?: run { armor.immun = ArrayList<Status>() }
+            if (dialog.findViewById<CheckBox>(R.id.armor_immun_frost).isChecked) {
+                armor.immun.add(Status.FROST)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.armor_immun_poison).isChecked) {
+                armor.immun.add(Status.POISON)
+            }
+            if (dialog.findViewById<CheckBox>(R.id.armor_immun_bleed).isChecked) {
+                armor.immun.add(Status.BLEED)
+            }
+
+            armor.res?.let { armor.res.clear() } ?: run { armor.res = ArrayList<Elem>() }
+            if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked
+                    && dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
+                armor.res.add(Elem.ALL)
+            } else {
+                if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked) {
+                    armor.res.add(Elem.FIRE)
+                }
+                if (dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked) {
+                    armor.res.add(Elem.DARKNESS)
+                }
+                if (dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked) {
+                    armor.res.add(Elem.LIGHTNING)
+                }
+                if (dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
+                    armor.res.add(Elem.MAGIC)
+                }
+            }
+
+            armor.weak?.let { armor.weak.clear() } ?: run { armor.weak = ArrayList<Elem>() }
+            if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked
+                    && dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
+                armor.weak.add(Elem.ALL)
+            } else {
+                if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked) {
+                    armor.weak.add(Elem.FIRE)
+                }
+                if (dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked) {
+                    armor.weak.add(Elem.DARKNESS)
+                }
+                if (dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked) {
+                    armor.weak.add(Elem.LIGHTNING)
+                }
+                if (dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
+                    armor.weak.add(Elem.MAGIC)
+                }
+            }
+
+            if (dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().isNotEmpty()) {
+                armor.weight = dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().toFloat()
+            } else {
+                armor.weight = 0F
+            }
+            viewModel.editEquipment()
+            dialog.dismiss()
+        }
+
+        dialog.show()
 
     }
 
-    fun fillArmorEdit(dialog: Dialog, armor: Armor?){
-        if(!armor!!.name.isNullOrEmpty()){
+    fun fillArmorEdit(dialog: Dialog, armor: Armor?) {
+        if (!armor!!.name.isNullOrEmpty()) {
             dialog.findViewById<EditText>(R.id.armor_name_txt).setText(armor.name)
             dialog.findViewById<EditText>(R.id.armor_def_txt).setText(armor.def.toString())
 
-                if(armor.immun.contains(Status.BLEED))dialog.findViewById<CheckBox>(R.id.armor_immun_bleed).isChecked = true
-                if(armor.immun.contains(Status.POISON))dialog.findViewById<CheckBox>(R.id.armor_immun_poison).isChecked = true
-                if(armor.immun.contains(Status.FROST))dialog.findViewById<CheckBox>(R.id.armor_immun_frost).isChecked = true
+            if (armor.immun.contains(Status.BLEED)) dialog.findViewById<CheckBox>(R.id.armor_immun_bleed).isChecked = true
+            if (armor.immun.contains(Status.POISON)) dialog.findViewById<CheckBox>(R.id.armor_immun_poison).isChecked = true
+            if (armor.immun.contains(Status.FROST)) dialog.findViewById<CheckBox>(R.id.armor_immun_frost).isChecked = true
 
 
-                if(armor.res.contains(Elem.MAGIC))dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked = true
-                if(armor.res.contains(Elem.FIRE))dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked = true
-                if(armor.res.contains(Elem.DARKNESS)) dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked = true
-                if(armor.res.contains(Elem.LIGHTNING)) dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked = true
-                if(armor.res.contains(Elem.ALL)){
-                    dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked = true
-                    dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked = true
-                    dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked = true
-                    dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked = true
-                }
+            if (armor.res.contains(Elem.MAGIC)) dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked = true
+            if (armor.res.contains(Elem.FIRE)) dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked = true
+            if (armor.res.contains(Elem.DARKNESS)) dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked = true
+            if (armor.res.contains(Elem.LIGHTNING)) dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked = true
+            if (armor.res.contains(Elem.ALL)) {
+                dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked = true
+                dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked = true
+                dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked = true
+                dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked = true
+            }
 
 
-                if(armor.weak.contains(Elem.MAGIC)) dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked = true
-                if(armor.weak.contains(Elem.FIRE)) dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked = true
-                if(armor.weak.contains(Elem.DARKNESS)) dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked = true
-                if(armor.weak.contains(Elem.LIGHTNING)) dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked = true
-                if(armor.weak.contains(Elem.ALL)){
-                    dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked = true
-                    dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked = true
-                    dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked = true
-                    dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked = true
-                }
+            if (armor.weak.contains(Elem.MAGIC)) dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked = true
+            if (armor.weak.contains(Elem.FIRE)) dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked = true
+            if (armor.weak.contains(Elem.DARKNESS)) dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked = true
+            if (armor.weak.contains(Elem.LIGHTNING)) dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked = true
+            if (armor.weak.contains(Elem.ALL)) {
+                dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked = true
+                dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked = true
+                dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked = true
+                dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked = true
+            }
 
             dialog.findViewById<EditText>(R.id.armor_weight_txt).setText(armor.weight.toString())
         }
     }
 
-    fun initViewDisabled(view: View){
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_damages).setEnabled(false)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_defense).setEnabled(false)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_res).setEnabled(false)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_immun).setEnabled(false)
-        view.findViewById<CategoryHorizontalComponent>(R.id.equipment_stat_weak).setEnabled(false)
-    }
-
-    fun getListStringBonus():ArrayList<String>{
+    fun getListStringBonus(): ArrayList<String> {
         var list = ArrayList<String>()
         list.add("/")
         list.add(Bonus.S.name)
@@ -610,9 +647,93 @@ class EquipmentFragment : Fragment() {
         return list
     }
 
-    fun displayMsg(name: String){
-        var snackMsg =""
+    fun displayMsg(name: String) {
+        var snackMsg = ""
         snackMsg = name + " " + getString(R.string.disequip_equipment_msg)
         Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_SHORT).show()
+    }
+
+    fun setOnClickListenerIndicDrop(id: Int, view: View) {
+        view.findViewById<IndicSoloComponent>(id).indicSoloDrop.setOnClickListener {
+            if (view.findViewById<IndicSoloComponent>(id).indicSoloButtonsLayout.visibility == View.GONE) {
+                view.findViewById<IndicSoloComponent>(id).indicSoloButtonsLayout.visibility = View.VISIBLE
+                view.findViewById<IndicSoloComponent>(id).indicSoloDrop.setImageResource(R.drawable.ic_arrow_drop_up)
+            } else {
+                view.findViewById<IndicSoloComponent>(id).indicSoloButtonsLayout.visibility = View.GONE
+                view.findViewById<IndicSoloComponent>(id).indicSoloDrop.setImageResource(R.drawable.ic_arrow_drop_down)
+            }
+        }
+    }
+
+    fun displaySelectElemDialog(txt: String, pref: String) {
+        val builder = AlertDialog.Builder(context)
+        val dialogLayout = LayoutInflater.from(context).inflate(R.layout.dialog_select_elem, null)
+        builder.setView(dialogLayout)
+        builder.setTitle(getString(R.string.bonusTitle))
+        val txtView = dialogLayout.findViewById<TextView>(R.id.select_elem_txt)
+        txtView.text = txt
+        val magic = dialogLayout.findViewById<CheckBox>(R.id.select_elem_magic)
+        val fire = dialogLayout.findViewById<CheckBox>(R.id.select_elem_fire)
+        val light = dialogLayout.findViewById<CheckBox>(R.id.select_elem_light)
+        val dark = dialogLayout.findViewById<CheckBox>(R.id.select_elem_dark)
+
+        builder.setPositiveButton(context!!.getString(R.string.ok)) { dialogInterface, i ->
+            dialogInterface.dismiss()
+            val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, Preferences.PRIVATE_MODE)
+            val editor = sharedPref.edit()
+            var value = ""
+            if (magic.isChecked) value+=Elem.MAGIC.name
+            if (fire.isChecked) value+=" " + Elem.FIRE.name
+            if (light.isChecked) value+=" " + Elem.LIGHTNING.name
+            if (dark.isChecked) value+=" " + Elem.DARKNESS.name
+            editor.putString(pref, value)
+            editor.apply()
+            viewModel.editEquipment()
+        }
+        builder.setNeutralButton(context!!.getString(R.string.reset)) { dialogInterface, i ->
+            dialogInterface.dismiss()
+            val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, Preferences.PRIVATE_MODE)
+            val editor = sharedPref.edit()
+            editor.putString(pref, "")
+            editor.apply()
+            viewModel.editEquipment()
+        }
+
+        builder.show()
+    }
+
+    fun displaySelectStatusDialog(txt: String, pref: String) {
+        val builder = AlertDialog.Builder(context)
+        val dialogLayout = LayoutInflater.from(context).inflate(R.layout.dialog_select_status, null)
+        builder.setView(dialogLayout)
+        builder.setTitle(getString(R.string.bonusTitle))
+        val txtView = dialogLayout.findViewById<TextView>(R.id.select_status_txt)
+        txtView.text = txt
+        val bleed = dialogLayout.findViewById<CheckBox>(R.id.select_status_bleed)
+        val poison = dialogLayout.findViewById<CheckBox>(R.id.select_status_poison)
+        val frost = dialogLayout.findViewById<CheckBox>(R.id.select_status_frost)
+
+        builder.setPositiveButton(context!!.getString(R.string.ok)) { dialogInterface, i ->
+            dialogInterface.dismiss()
+            val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, Preferences.PRIVATE_MODE)
+            val editor = sharedPref.edit()
+            var value = ""
+            if (bleed.isChecked) value+=Status.BLEED.name
+            if (poison.isChecked) value+=" " + Status.POISON.name
+            if (frost.isChecked) value+=" " + Status.FROST.name
+            editor.putString(pref, value)
+            editor.apply()
+            viewModel.editEquipment()
+        }
+        builder.setNeutralButton(context!!.getString(R.string.reset)) { dialogInterface, i ->
+            dialogInterface.dismiss()
+            val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, Preferences.PRIVATE_MODE)
+            val editor = sharedPref.edit()
+            editor.putString(pref, "")
+            editor.apply()
+            viewModel.editEquipment()
+        }
+
+        builder.show()
     }
 }
