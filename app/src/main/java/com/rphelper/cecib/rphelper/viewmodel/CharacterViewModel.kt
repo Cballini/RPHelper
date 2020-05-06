@@ -145,18 +145,21 @@ class CharacterViewModel(val context: Context) : ViewModel(){
 
     fun getLifeMax():Int{
         val max = CalcUtils.getLifeMax(context, character.value!!)
-        if(character.value!!.life.value>max) character.value!!.life.value = max.toFloat()
+        if(character.value!!.life.value>max){ character.value!!.life.value = max.toFloat(); Services.editCharacter(context, character.value!!)}
+        if(character.value!!.life.value<0){ character.value!!.life.value = 0F; Services.editCharacter(context, character.value!!)}
         return max
     }
 
     fun getConstMax():Int{
         val max = CalcUtils.getConstMax(context, character.value!!)
-        if(character.value!!.const.value>max) character.value!!.const.value = max.toFloat()
+        if(character.value!!.const.value>max){ character.value!!.const.value = max.toFloat(); Services.editCharacter(context, character.value!!)}
+        if(character.value!!.const.value<0) {character.value!!.const.value = 0F; Services.editCharacter(context, character.value!!)}
         return max
     }
     fun getManaMax():Int{
         val max = CalcUtils.getManaMax(context, character.value!!)
-        if(character.value!!.mana.value>max) character.value!!.mana.value = max.toFloat()
+        if(character.value!!.mana.value>max) {character.value!!.mana.value = max.toFloat(); Services.editCharacter(context, character.value!!)}
+        if(character.value!!.mana.value<0){ character.value!!.mana.value = 0F; Services.editCharacter(context, character.value!!)}
         return max
     }
 

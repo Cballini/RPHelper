@@ -145,7 +145,9 @@ class FightFragment : Fragment() {
         var recovery = 0
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageReceived.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                recovery = s.toString().toInt()
+                if (s.toString().isNotEmpty()) {
+                    recovery = s.toString().toInt()
+                }
             }
             override fun beforeTextChanged(s: CharSequence, start: Int,
                                            count: Int, after: Int) {}
