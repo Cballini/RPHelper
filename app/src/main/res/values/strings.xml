@@ -97,6 +97,8 @@
     <string name="spell2">Sort 2</string>
     <string name="spell3">Sort 3</string>
     <string name="spell4">Sort 4</string>
+    <string name="spell5">Sort 5</string>
+    <string name="spell6">Sort 6</string>
     <string name="cast_spell">Lancer\nle sort</string>
     <string name="total_damage">Dégats totaux</string>
     <string name="known_spells">Sorts connus</string>

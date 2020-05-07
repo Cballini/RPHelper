@@ -4,6 +4,8 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import android.content.Context
+import android.content.SharedPreferences
+import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Spell
@@ -35,6 +37,18 @@ class SpellViewModel(val context: Context) : ViewModel() {
         getSpell4()
     }
 
+    val _fifthEquipSpell = MutableLiveData<Spell>()
+    val fifthEquipSpell : LiveData<Spell> get() = _fifthEquipSpell
+    init {
+        getSpell5()
+    }
+
+    val _sixthEquipSpell = MutableLiveData<Spell>()
+    val sixthEquipSpell : LiveData<Spell> get() = _sixthEquipSpell
+    init {
+        getSpell6()
+    }
+
     val _knownSpells = MutableLiveData<ArrayList<Spell>>()
     val knownSpells : LiveData<ArrayList<Spell>> get() = _knownSpells
     init {
@@ -47,12 +61,16 @@ class SpellViewModel(val context: Context) : ViewModel() {
         spellsList.add(secondEquipSpell.value!!)
         spellsList.add(thirdEquipSpell.value!!)
         spellsList.add(fourthEquipSpell.value!!)
+        spellsList.add(fifthEquipSpell.value!!)
+        spellsList.add(sixthEquipSpell.value!!)
         spellsList.addAll(knownSpells.value!!)
         Services.editSpells(context, spellsList)
         getSpell1()
         getSpell2()
         getSpell3()
         getSpell4()
+        getSpell5()
+        getSpell6()
         _knownSpells.value = Services.getListOfNotEquipSpells(context)
     }
 
@@ -69,8 +87,33 @@ class SpellViewModel(val context: Context) : ViewModel() {
         else _thirdEquipSpell.value = Spell()
     }
     fun getSpell4(){
-        if (Services.getListOfEquipSpells(context).size==4) _fourthEquipSpell.value = Services.getListOfEquipSpells(context)[3]
+        if (Services.getListOfEquipSpells(context).size>3) _fourthEquipSpell.value = Services.getListOfEquipSpells(context)[3]
         else _fourthEquipSpell.value = Spell()
+    }
+    fun getSpell5(){
+        if (Services.getListOfEquipSpells(context).size>4) _fifthEquipSpell.value = Services.getListOfEquipSpells(context)[4]
+        else _fifthEquipSpell.value = Spell()
+    }
+    fun getSpell6(){
+        if (Services.getListOfEquipSpells(context).size>5) _sixthEquipSpell.value = Services.getListOfEquipSpells(context)[5]
+        else _sixthEquipSpell.value = Spell()
+    }
+
+    fun getMaxEquipSpells():Int{
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_MEM, Preferences.PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_MEM, 0)
+        val mem = Services.getCharacter(context).memory + prefValue
+        var max = 3
+        if(mem>=15){
+            max = 4
+        }
+        if(mem>=25){
+            max = 5
+        }
+        if(mem>=35){
+            max = 6
+        }
+        return  max
     }
 
     fun getTotalDamage(spell: Spell):Int{

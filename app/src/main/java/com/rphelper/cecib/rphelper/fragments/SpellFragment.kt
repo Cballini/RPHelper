@@ -36,6 +36,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
 
 
         /********* Equip spells ********/
+        val maxSpells = viewModel.getMaxEquipSpells()
         //First spell
         viewModel.firstEquipSpell.observe(viewLifecycleOwner, Observer {
             initSpellView(view, R.id.spell_first_equip, getString(R.string.spell1), it)
@@ -52,9 +53,28 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         })
 
         //Fourth spell
+        if (maxSpells<4){
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).visibility = View.GONE
+        }else{
         viewModel.fourthEquipSpell.observe(viewLifecycleOwner, Observer {
             initSpellView(view, R.id.spell_fourth_equip, getString(R.string.spell4), it)
-        })
+        })}
+
+        //Fifth spell
+        if (maxSpells<5){
+            view.findViewById<SpellComponent>(R.id.spell_fifth_equip).visibility = View.GONE
+        }else{
+        viewModel.fifthEquipSpell.observe(viewLifecycleOwner, Observer {
+            initSpellView(view, R.id.spell_fifth_equip, getString(R.string.spell5), it)
+        })}
+
+        //Sixth spell
+        if (maxSpells<6){
+            view.findViewById<SpellComponent>(R.id.spell_sixth_equip).visibility = View.GONE
+        }else{
+        viewModel.sixthEquipSpell.observe(viewLifecycleOwner, Observer {
+            initSpellView(view, R.id.spell_sixth_equip, getString(R.string.spell6), it)
+        })}
 
 
         /********** Spell known *******/
@@ -90,6 +110,12 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         }
         view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellPlaceLayout.setOnClickListener {
             editSpell(getString(R.string.spell4), viewModel.fourthEquipSpell.value!!)
+        }
+        view.findViewById<SpellComponent>(R.id.spell_fifth_equip).spellPlaceLayout.setOnClickListener {
+            editSpell(getString(R.string.spell5), viewModel.fifthEquipSpell.value!!)
+        }
+        view.findViewById<SpellComponent>(R.id.spell_sixth_equip).spellPlaceLayout.setOnClickListener {
+            editSpell(getString(R.string.spell6), viewModel.sixthEquipSpell.value!!)
         }
         addSpell(view, R.id.spell_known_add, getString(R.string.known_spells))
 
@@ -197,7 +223,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             } else {
                 spell.effect = ""
             }
-
+            viewModel.knownSpells.value!!.remove(spell)
             viewModel.editSpells()
             dialog.dismiss()
         }
@@ -292,6 +318,22 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_equip_spell)
+        val maxSpells = viewModel.getMaxEquipSpells()
+        when(maxSpells){
+            3 -> {
+                dialog.findViewById<RadioButton>(R.id.equip_spell4).visibility = View.GONE
+                dialog.findViewById<RadioButton>(R.id.equip_spell5).visibility = View.GONE
+                dialog.findViewById<RadioButton>(R.id.equip_spell6).visibility = View.GONE
+            }
+            4->{
+                dialog.findViewById<RadioButton>(R.id.equip_spell5).visibility = View.GONE
+                dialog.findViewById<RadioButton>(R.id.equip_spell6).visibility = View.GONE
+            }
+            5->{
+                dialog.findViewById<RadioButton>(R.id.equip_spell6).visibility = View.GONE
+            }
+        }
+
         dialog.findViewById<ImageView>(R.id.equip_cancel_button).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<TextView>(R.id.equip_save_button).setOnClickListener {
             spell.equip = true
@@ -303,10 +345,16 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                     fillOneSpell(viewModel.secondEquipSpell.value!!, spell)
                 }
                 dialog.findViewById<RadioButton>(R.id.equip_spell3).isChecked -> {
-                    fillOneSpell(viewModel.thirdEquipSpell.value!!, spell)
-                }
+                fillOneSpell(viewModel.thirdEquipSpell.value!!, spell)
+            }
                 dialog.findViewById<RadioButton>(R.id.equip_spell4).isChecked -> {
                     fillOneSpell(viewModel.fourthEquipSpell.value!!, spell)
+                }
+                dialog.findViewById<RadioButton>(R.id.equip_spell5).isChecked -> {
+                    fillOneSpell(viewModel.fifthEquipSpell.value!!, spell)
+                }
+                dialog.findViewById<RadioButton>(R.id.equip_spell6).isChecked -> {
+                    fillOneSpell(viewModel.sixthEquipSpell.value!!, spell)
                 }
             }
 
