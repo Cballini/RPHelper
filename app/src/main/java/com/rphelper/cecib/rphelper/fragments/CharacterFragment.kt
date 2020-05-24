@@ -20,6 +20,7 @@ import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
 import com.rphelper.cecib.rphelper.component.IndicComponent
+import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
 
@@ -49,45 +50,7 @@ class CharacterFragment : Fragment() {
             view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.setText(it!!.const.value.toString())
             view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.setText(it!!.mana.value.toString())
 
-            val vitPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_VIT, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_VIT, 0)
-            if(vitPref!=0) view.findViewById<TextView>(R.id.stat_vit).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            if(vitPref!=0) view.findViewById<TextView>(R.id.stat_vit).setTypeface(null, Typeface.BOLD);
-            view.findViewById<TextView>(R.id.stat_vit).text = (it!!.vitality + vitPref).toString()
-
-            val vigPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_VIG, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_VIG, 0)
-            if(vigPref!=0) view.findViewById<TextView>(R.id.stat_vig).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            if(vigPref!=0) view.findViewById<TextView>(R.id.stat_vig).setTypeface(null, Typeface.BOLD);
-            view.findViewById<TextView>(R.id.stat_vig).text = (it!!.vigor + vigPref).toString()
-
-            val forPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_FOR, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_FOR, 0)
-            if(forPref!=0) view.findViewById<TextView>(R.id.stat_for).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            if(forPref!=0) view.findViewById<TextView>(R.id.stat_for).setTypeface(null, Typeface.BOLD);
-            view.findViewById<TextView>(R.id.stat_for).text = (it!!.strength + forPref).toString()
-
-            val dexPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_DEX, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_DEX, 0)
-            if(dexPref!=0) view.findViewById<TextView>(R.id.stat_dex).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            if(dexPref!=0) view.findViewById<TextView>(R.id.stat_dex).setTypeface(null, Typeface.BOLD);
-            view.findViewById<TextView>(R.id.stat_dex).text = (it!!.dexterity + dexPref).toString()
-
-            val endPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_END, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_END, 0)
-            if(endPref!=0) view.findViewById<TextView>(R.id.stat_end).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            if(endPref!=0) view.findViewById<TextView>(R.id.stat_end).setTypeface(null, Typeface.BOLD);
-            view.findViewById<TextView>(R.id.stat_end).text = (it!!.endurance + endPref).toString()
-
-            val memPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_MEM, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_MEM, 0)
-            if(memPref!=0) view.findViewById<TextView>(R.id.stat_mem).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            if(memPref!=0) view.findViewById<TextView>(R.id.stat_mem).setTypeface(null, Typeface.BOLD);
-            view.findViewById<TextView>(R.id.stat_mem).text = (it!!.memory + memPref).toString()
-
-            val intPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_INT, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_INT, 0)
-            if(intPref!=0) view.findViewById<TextView>(R.id.stat_int).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            if(intPref!=0) view.findViewById<TextView>(R.id.stat_int).setTypeface(null, Typeface.BOLD);
-            view.findViewById<TextView>(R.id.stat_int).text = (it!!.intelligence + intPref).toString()
-
-            val foiPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_FOI, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_FOI, 0)
-            if(foiPref!=0) view.findViewById<TextView>(R.id.stat_foi).setTextColor(resources.getColor(R.color.colorPrimaryDark))
-            if(foiPref!=0) view.findViewById<TextView>(R.id.stat_foi).setTypeface(null, Typeface.BOLD);
-            view.findViewById<TextView>(R.id.stat_foi).text = (it!!.faith + foiPref).toString()
+            fillStatsWithBonus(view, it)
 
             if(it!!.don.isNotEmpty())view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setText(it!!.don)
         })
@@ -275,6 +238,7 @@ class CharacterFragment : Fragment() {
                     view.findViewById<TextView>(R.id.stat_foi).text.toString().toInt() else 0
 
                 view.findViewById<ImageView>(R.id.stat_edit).setImageResource(R.drawable.ic_edit)
+                fillStatsWithBonus(view, viewModel.character.value!!)
                 view.findViewById<TextView>(R.id.stat_vit).setEnabled(false)
                 view.findViewById<TextView>(R.id.stat_vig).setEnabled(false)
                 view.findViewById<TextView>(R.id.stat_for).setEnabled(false)
@@ -287,6 +251,7 @@ class CharacterFragment : Fragment() {
             }else{
                 statIsOnEdit = true
                 view.findViewById<ImageView>(R.id.stat_edit).setImageResource(R.drawable.ic_check)
+                fillStatsNoBonus(view)
                 view.findViewById<TextView>(R.id.stat_vit).setEnabled(true)
                 view.findViewById<TextView>(R.id.stat_vig).setEnabled(true)
                 view.findViewById<TextView>(R.id.stat_for).setEnabled(true)
@@ -390,6 +355,83 @@ class CharacterFragment : Fragment() {
         }
 
         builder.show()
+    }
+
+    fun fillStatsWithBonus(view: View, it : Character){
+        val vitPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_VIT, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_VIT, 0)
+        if(vitPref!=0) view.findViewById<TextView>(R.id.stat_vit).setTextColor(resources.getColor(R.color.colorPrimaryDark))
+        if(vitPref!=0) view.findViewById<TextView>(R.id.stat_vit).setTypeface(null, Typeface.BOLD);
+        view.findViewById<TextView>(R.id.stat_vit).text = (it.vitality + vitPref).toString()
+
+        val vigPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_VIG, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_VIG, 0)
+        if(vigPref!=0) view.findViewById<TextView>(R.id.stat_vig).setTextColor(resources.getColor(R.color.colorPrimaryDark))
+        if(vigPref!=0) view.findViewById<TextView>(R.id.stat_vig).setTypeface(null, Typeface.BOLD);
+        view.findViewById<TextView>(R.id.stat_vig).text = (it.vigor + vigPref).toString()
+
+        val forPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_FOR, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_FOR, 0)
+        if(forPref!=0) view.findViewById<TextView>(R.id.stat_for).setTextColor(resources.getColor(R.color.colorPrimaryDark))
+        if(forPref!=0) view.findViewById<TextView>(R.id.stat_for).setTypeface(null, Typeface.BOLD);
+        view.findViewById<TextView>(R.id.stat_for).text = (it.strength + forPref).toString()
+
+        val dexPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_DEX, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_DEX, 0)
+        if(dexPref!=0) view.findViewById<TextView>(R.id.stat_dex).setTextColor(resources.getColor(R.color.colorPrimaryDark))
+        if(dexPref!=0) view.findViewById<TextView>(R.id.stat_dex).setTypeface(null, Typeface.BOLD);
+        view.findViewById<TextView>(R.id.stat_dex).text = (it.dexterity + dexPref).toString()
+
+        val endPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_END, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_END, 0)
+        if(endPref!=0) view.findViewById<TextView>(R.id.stat_end).setTextColor(resources.getColor(R.color.colorPrimaryDark))
+        if(endPref!=0) view.findViewById<TextView>(R.id.stat_end).setTypeface(null, Typeface.BOLD);
+        view.findViewById<TextView>(R.id.stat_end).text = (it.endurance + endPref).toString()
+
+        val memPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_MEM, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_MEM, 0)
+        if(memPref!=0) view.findViewById<TextView>(R.id.stat_mem).setTextColor(resources.getColor(R.color.colorPrimaryDark))
+        if(memPref!=0) view.findViewById<TextView>(R.id.stat_mem).setTypeface(null, Typeface.BOLD);
+        view.findViewById<TextView>(R.id.stat_mem).text = (it.memory + memPref).toString()
+
+        val intPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_INT, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_INT, 0)
+        if(intPref!=0) view.findViewById<TextView>(R.id.stat_int).setTextColor(resources.getColor(R.color.colorPrimaryDark))
+        if(intPref!=0) view.findViewById<TextView>(R.id.stat_int).setTypeface(null, Typeface.BOLD);
+        view.findViewById<TextView>(R.id.stat_int).text = (it.intelligence + intPref).toString()
+
+        val foiPref = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_FOI, Preferences.PRIVATE_MODE).getInt(Preferences.PREF_MODIFIER_FOI, 0)
+        if(foiPref!=0) view.findViewById<TextView>(R.id.stat_foi).setTextColor(resources.getColor(R.color.colorPrimaryDark))
+        if(foiPref!=0) view.findViewById<TextView>(R.id.stat_foi).setTypeface(null, Typeface.BOLD);
+        view.findViewById<TextView>(R.id.stat_foi).text = (it.faith + foiPref).toString()
+    }
+
+    fun fillStatsNoBonus(view: View){
+        view.findViewById<ImageView>(R.id.stat_edit).setImageResource(R.drawable.ic_check)
+        view.findViewById<TextView>(R.id.stat_vit).setTextColor(resources.getColor(R.color.colorTxt))
+        view.findViewById<TextView>(R.id.stat_vit).setTypeface(null, Typeface.NORMAL);
+        view.findViewById<TextView>(R.id.stat_vit).setText(viewModel.character.value!!.vitality.toString())
+
+        view.findViewById<TextView>(R.id.stat_vig).setTextColor(resources.getColor(R.color.colorTxt))
+        view.findViewById<TextView>(R.id.stat_vig).setTypeface(null, Typeface.NORMAL);
+        view.findViewById<TextView>(R.id.stat_vig).setText(viewModel.character.value!!.vigor.toString())
+
+        view.findViewById<TextView>(R.id.stat_for).setTextColor(resources.getColor(R.color.colorTxt))
+        view.findViewById<TextView>(R.id.stat_for).setTypeface(null, Typeface.NORMAL);
+        view.findViewById<TextView>(R.id.stat_for).setText(viewModel.character.value!!.strength.toString())
+
+        view.findViewById<TextView>(R.id.stat_dex).setTextColor(resources.getColor(R.color.colorTxt))
+        view.findViewById<TextView>(R.id.stat_dex).setTypeface(null, Typeface.NORMAL);
+        view.findViewById<TextView>(R.id.stat_dex).setText(viewModel.character.value!!.dexterity.toString())
+
+        view.findViewById<TextView>(R.id.stat_end).setTextColor(resources.getColor(R.color.colorTxt))
+        view.findViewById<TextView>(R.id.stat_end).setTypeface(null, Typeface.NORMAL);
+        view.findViewById<TextView>(R.id.stat_end).setText(viewModel.character.value!!.endurance.toString())
+
+        view.findViewById<TextView>(R.id.stat_mem).setTextColor(resources.getColor(R.color.colorTxt))
+        view.findViewById<TextView>(R.id.stat_mem).setTypeface(null, Typeface.NORMAL);
+        view.findViewById<TextView>(R.id.stat_mem).setText(viewModel.character.value!!.memory.toString())
+
+        view.findViewById<TextView>(R.id.stat_int).setTextColor(resources.getColor(R.color.colorTxt))
+        view.findViewById<TextView>(R.id.stat_int).setTypeface(null, Typeface.NORMAL);
+        view.findViewById<TextView>(R.id.stat_int).setText(viewModel.character.value!!.intelligence.toString())
+
+        view.findViewById<TextView>(R.id.stat_foi).setTextColor(resources.getColor(R.color.colorTxt))
+        view.findViewById<TextView>(R.id.stat_foi).setTypeface(null, Typeface.NORMAL);
+        view.findViewById<TextView>(R.id.stat_foi).setText(viewModel.character.value!!.faith.toString())
     }
 }
 

@@ -6,12 +6,14 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.*
 import com.rphelper.cecib.rphelper.R
+import com.rphelper.cecib.rphelper.utils.MultiRowsRadioGroup
 
 class DamageComponent @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs){
     var damageTitle : TextView
+    var damageRadioGroup : MultiRowsRadioGroup
     var damageButton1 : RadioButton
     var damageButton2 : RadioButton
     var damageButton3 : RadioButton
@@ -26,6 +28,7 @@ class DamageComponent @JvmOverloads constructor(
     init {
         LayoutInflater.from(context).inflate(R.layout.component_damage_calc, this, true)
         damageTitle=findViewById(R.id.damage_title)
+        damageRadioGroup=findViewById(R.id.damage_radio_group)
         damageButton1=findViewById(R.id.damage_button1)
         damageButton2=findViewById(R.id.damage_button2)
         damageButton3=findViewById(R.id.damage_button3)

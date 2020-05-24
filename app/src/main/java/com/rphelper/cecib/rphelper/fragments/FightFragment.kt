@@ -84,53 +84,57 @@ class FightFragment : Fragment() {
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButtonSecondLine.visibility = View.VISIBLE
         viewModel.lastDamage.observe(viewLifecycleOwner, Observer {view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text = it.toString()})
         var dmg = 0
-        view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageReceived.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-                when(true){
-                    //Brut damages
-                    view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton1.isChecked -> {
-                        if(s.toString().isNotEmpty()) {
-                            dmg = (s.toString().toInt() - viewModel.getDef())
-                        }
-                    }
-                    //Res elem
-                    view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton2.isChecked -> {
-                        if(s.toString().isNotEmpty()) {
-                            dmg = (s.toString().toInt() * 0.2F).toInt()
-                        }
-                    }
-                    //Block
-                    view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton3.isChecked ->{
-                        if(s.toString().isNotEmpty()) {
-                            dmg = (s.toString().toInt() * viewModel.getBlock()).toInt()
-                            dmg -= (viewModel.getDef())
-                        }
-                    }
-                    //Weak
-                    view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton4.isChecked ->{
-                        if(s.toString().isNotEmpty()) {
-                            dmg = (s.toString().toInt() * 2)
-                        }
-                    }
-                    //Elem brut
-                    view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton5.isChecked ->{
-                        if(s.toString().isNotEmpty()) {
-                            dmg = s.toString().toInt()
-                        }
-                    }
+        view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            val s = view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageReceived.text
+            if (s.toString().isNotEmpty()) {
+                //Brut damages
+                if (view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton1.isChecked) dmg = (s.toString().toInt() - viewModel.getDef())
+                //Res elem
+                if (view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton2.isChecked) dmg = (s.toString().toInt() * 0.2F).toInt()
+                //Block
+                if (view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton3.isChecked) {
+                    dmg = (s.toString().toInt() * viewModel.getBlock()).toInt()
+                    dmg -= (viewModel.getDef())
                 }
-                if (dmg<0) dmg = 0
+                //Weak
+                if (view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton4.isChecked) dmg = (s.toString().toInt() * 2)
+                //Elem brut
+                if (view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton5.isChecked) dmg = s.toString().toInt()
+                if (dmg < 0) dmg = 0
                 view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text = dmg.toString()
             }
-            override fun beforeTextChanged(s: CharSequence, start: Int,
-                                           count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence, start: Int,
-                                       before: Int, count: Int) {}
-        })
-        view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageSubmit.setOnClickListener {
-            val result = view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text.toString().toInt()
-            viewModel.submit(result)
-            checkAndDisplayAlert(getString(R.string.pv), result)
+            view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageReceived.addTextChangedListener(object : TextWatcher {
+                override fun afterTextChanged(s: Editable) {
+                    if(s.toString().isNotEmpty()) {
+                        when (true) {
+                            //Brut damages
+                            view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton1.isChecked -> dmg = (s.toString().toInt() - viewModel.getDef())
+                            //Res elem
+                            view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton2.isChecked -> dmg = (s.toString().toInt() * 0.2F).toInt()
+                            //Block
+                            view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton3.isChecked -> {
+                                    dmg = (s.toString().toInt() * viewModel.getBlock()).toInt()
+                                    dmg -= (viewModel.getDef())
+                            }
+                            //Weak
+                            view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton4.isChecked -> dmg = (s.toString().toInt() * 2)
+                            //Elem brut
+                            view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageButton5.isChecked -> dmg = s.toString().toInt()
+                        }
+                    }
+                    if (dmg<0) dmg = 0
+                    view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text = dmg.toString()
+                }
+                override fun beforeTextChanged(s: CharSequence, start: Int,
+                                               count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence, start: Int,
+                                           before: Int, count: Int) {}
+            })
+            view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageSubmit.setOnClickListener {
+                val result = view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text.toString().toInt()
+                viewModel.submit(result)
+                checkAndDisplayAlert(getString(R.string.pv), result)
+            }
         }
 
         //Calc heal
@@ -143,33 +147,25 @@ class FightFragment : Fragment() {
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageEqual.visibility = View.GONE
 
         var recovery = 0
+       view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            val s = view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageReceived.text
+            if (s.toString().isNotEmpty()) recovery = s.toString().toInt()
+        }
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageReceived.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
-                if (s.toString().isNotEmpty()) {
-                    recovery = s.toString().toInt()
-                }
+                if (s.toString().isNotEmpty()) recovery = s.toString().toInt()
             }
             override fun beforeTextChanged(s: CharSequence, start: Int,
                                            count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int,
                                        before: Int, count: Int) {}
         })
-        //Life
-        view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton1.setOnCheckedChangeListener{
-            button, b ->  if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton1.isChecked){
-            view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.setOnClickListener { viewModel.recoverLife(recovery); msgHeal(getString(R.string.pv), recovery)} }
-        }
-        //Const
-        view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton2.setOnCheckedChangeListener{
-            button, b ->  if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton2.isChecked){
-            view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.setOnClickListener { viewModel.recoverConst(recovery); msgHeal(getString(R.string.constitution), recovery)} }
-        }
-        //Mana
-        view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton3.setOnCheckedChangeListener{
-            button, b ->  if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton3.isChecked){
-            view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.setOnClickListener { viewModel.recoverMana(recovery); msgHeal(getString(R.string.mana), recovery)} }
-        }
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.text = getString(R.string.recover)
+        view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.setOnClickListener {
+            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton1.isChecked){ viewModel.recoverLife(recovery); msgHeal(getString(R.string.pv), recovery)}
+            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton2.isChecked){viewModel.recoverConst(recovery); msgHeal(getString(R.string.constitution), recovery) }
+            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton3.isChecked){viewModel.recoverMana(recovery); msgHeal(getString(R.string.mana), recovery)}
+        }
 
         /********* ACTIONS *************/
         view.findViewById<Button>(R.id.fight_action_attack).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), viewModel.attackOrBlock()) }
