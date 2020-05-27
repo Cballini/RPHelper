@@ -1,4 +1,27 @@
 {
   "money": "0",
-  "item": []
+  "item": [{
+    "name" : "Sachet de thé de Till",
+    "effect" : "soigne le statut poison",
+    "quantity" : "4"
+  },
+    {
+      "name" : "Petit bracelet tressé de Catarina",
+      "effect" : "tressé par la fille de Catarina",
+      "equip" : "false",
+      "quantity" : "1"
+    }
+  ],
+  "weapons": [{
+    "name" : "Epée",
+    "damage" : "100",
+    "bonusFor" : "D",
+    "weight" : "4.2"
+  },
+    {
+      "name" : "Epée longue",
+      "damage" : "130",
+      "weight" : "7"
+    }
+  ]
 }

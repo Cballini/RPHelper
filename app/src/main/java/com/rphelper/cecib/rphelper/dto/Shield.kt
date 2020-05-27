@@ -2,9 +2,14 @@ package com.rphelper.cecib.rphelper.dto
 
 import com.rphelper.cecib.rphelper.enums.Elem
 
-class Shield (var name:String, var weight:Float){
+class Shield (name:String, weight:Float) : Stuff(name, weight){
     var block: Float = 1F
     var res = ArrayList<Elem>()
+    var equip = true
+
+    constructor():this("", 0F){
+        equip = false
+    }
 
     fun reinit(){
         this.name = ""

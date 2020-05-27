@@ -32,8 +32,7 @@
             android:background="@color/colorCatTitle"
             android:paddingVertical="@dimen/txt_margin"
             android:paddingHorizontal="@dimen/small_margin"
-            android:text="Description
-2 lignes"
+            android:text=""
             android:maxEms="10"
             android:textColor="@color/colorTxt"/>
     </LinearLayout>

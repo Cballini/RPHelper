@@ -274,8 +274,7 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         _immunBonus.value = getImmunBonus()
     }
 
-    fun weaponToItem(type :String, weapon: Weapon){
-        val item = Item(weapon.name, 1, weapon.getDescription(), false, weapon.weight)
+    fun weaponToInventory(type :String, weapon: Weapon){
         when(type){
             context.getString(R.string.left_hand)-> leftHand.value!!.reinit()
             context.getString(R.string.right_hand)-> rightHand.value!!.reinit()
@@ -283,21 +282,21 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         }
         editEquipment()
         val inventory = Services.getInventory(context)
-        inventory.item.add(item)
+        weapon.equip = false
+        inventory.weapons.add(weapon)
         Services.editInventory(context, inventory)
     }
 
-    fun shieldToItem(shield: Shield){
-        val item = Item(shield.name, 1, shield.getDescription(), false, shield.weight)
+    fun shieldToInventory(shield: Shield){
         shield.reinit()
         editEquipment()
         val inventory = Services.getInventory(context)
-        inventory.item.add(item)
+        shield.equip = false
+        inventory.shields.add(shield)
         Services.editInventory(context, inventory)
     }
 
-    fun armorToItem(type :String, armor: Armor){
-        val item = Item(armor.name, 1, armor.getDescription(), false, armor.weight)
+    fun armorToInventory(type :String, armor: Armor){
         when(type){
             context.getString(R.string.hat)-> hat.value!!.reinit()
             context.getString(R.string.chestplate)-> chest.value!!.reinit()
@@ -306,7 +305,8 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         }
         editEquipment()
         val inventory = Services.getInventory(context)
-        inventory.item.add(item)
+        armor.equip = false
+        inventory.armors.add(armor)
         Services.editInventory(context, inventory)
     }
 

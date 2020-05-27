@@ -73,6 +73,10 @@
     <string name="quantity">Quantité</string>
     <string name="nb">NB</string>
 
+    <string name="choose_type_item">Type d\'objet(s)</string>
+    <string name="type">Type</string>
+    <string name="jewel">Bijou</string>
+
     <string name="weapon">Armes</string>
     <string name="left_hand">Main gauche</string>
     <string name="right_hand">Main droite</string>
@@ -106,6 +110,7 @@
     <string name="rapidfire">Rapid fire</string>
 
     <string name="inventory_title">Inventaire (15kg max)</string>
+    <string name="ask_jewel">Cet objet modifie t\'il une ou plusieurs de ces stats ? Si oui cochez la/les case(s) correspondantes et entrez la valeur de cette modification.</string>
     <string name="ask_item_equip">L\'objet que vous équipez modifie t\'il une ou plusieurs de ces stats ? Si oui cochez la/les case(s) correspondantes et entrez la valeur de cette modification. </string>
     <string name="ask_item_disequip">L\'objet que vous déséquipez modifiait t\'il une ou plusieurs de ces stats ? Si oui cochez la/les case(s) correspondantes et entrez la valeur de cette modification. </string>
 
@@ -140,6 +145,7 @@
     <string name="lost_msg">Vous avez perdu</string>
     <string name="win_msg">Vous avez gagné</string>
     <string name="ok">OK</string>
+    <string name="validate">Valider</string>
 
     <string name="po"> po</string>
     <string name="inventory_max_weight">/15kg</string>

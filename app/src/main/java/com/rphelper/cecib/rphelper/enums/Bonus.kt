@@ -8,4 +8,19 @@ enum class Bonus (val value: Float){
     D(1F),
     E(0.5F),
     NOTHING(0F);
+
+    companion object{
+        @JvmStatic
+        fun getListStringBonus(): ArrayList<String> {
+            var list = ArrayList<String>()
+            list.add("/")
+            list.add(Bonus.S.name)
+            list.add(Bonus.A.name)
+            list.add(Bonus.B.name)
+            list.add(Bonus.C.name)
+            list.add(Bonus.D.name)
+            list.add(Bonus.E.name)
+            return list
+        }
+    }
 }

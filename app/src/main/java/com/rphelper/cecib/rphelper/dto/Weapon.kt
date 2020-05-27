@@ -4,7 +4,7 @@ import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.Status
 
-class Weapon (var name:String, var damage:Int, var weight:Float){
+class Weapon (name:String, var damage:Int, weight:Float) : Stuff(name, weight){
     var bonusFor :Bonus = Bonus.NOTHING
     var bonusDex :Bonus = Bonus.NOTHING
     var bonusInt :Bonus = Bonus.NOTHING
@@ -14,8 +14,11 @@ class Weapon (var name:String, var damage:Int, var weight:Float){
     var status : Status = Status.NOTHING
     var statusValue : Float = 0F
     var rapidFire = false
+    var equip = true
 
-    constructor():this("", 0, 0F)
+    constructor():this("", 0, 0F){
+        equip = false
+    }
 
     fun reinit(){
         this.name = ""

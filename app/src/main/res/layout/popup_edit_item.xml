@@ -14,7 +14,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close"
-            android:padding="@dimen/txt_margin" />
+            android:padding="@dimen/txt_margin"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/item_type"
@@ -93,15 +95,6 @@
                 android:inputType="number" />
         </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/item_equip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/small_margin"
-            android:text="@string/equip"
-            app:layout_constraintTop_toBottomOf="@+id/item_indic_layout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
 
         <LinearLayout
@@ -110,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_margin"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/item_equip"
+            app:layout_constraintTop_toBottomOf="@+id/item_indic_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -131,7 +124,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/weapon_buttons_layout"
+            android:id="@+id/item_buttons_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"

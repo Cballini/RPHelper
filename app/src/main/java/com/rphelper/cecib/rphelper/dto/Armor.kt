@@ -3,10 +3,15 @@ package com.rphelper.cecib.rphelper.dto
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.Status
 
-class Armor(var name: String, var def: Float, var weight: Float) {
+class Armor(name: String, var def: Float, weight: Float) : Stuff(name, weight){
     var res = ArrayList<Elem>()
     var weak = ArrayList<Elem>()
     var immun = ArrayList<Status>()
+    var equip = true
+
+    constructor():this("", 0F, 0F){
+        equip = false
+    }
 
     fun reinit(){
         this.name = ""

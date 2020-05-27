@@ -95,6 +95,73 @@ object Services {
     }
 
     @JvmStatic
+    fun getJewels(context: Context): ArrayList<Jewel>? {
+        var jewelObject :Any?
+        var jewelString  =""
+        try{
+            jewelObject = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_inventory))).get("jewels")
+        }catch (e : Exception){
+            jewelObject = null
+        }
+        jewelString = jewelObject?.let{jewelObject.toString()}?:run{""}
+        val sType = object : TypeToken<ArrayList<Jewel>>() { }.type
+        return Gson().fromJson<ArrayList<Jewel>>(jewelString, sType)?.let{Gson().fromJson<ArrayList<Jewel>>(jewelString, sType) }?:run{ArrayList<Jewel>()}
+    }
+
+    @JvmStatic
+    fun getWeapons(context: Context): ArrayList<Weapon>? {
+        var weaponObject :Any?
+        var weaponString  =""
+        try{
+            weaponObject = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_inventory))).get("weapons")
+        }catch (e : Exception){
+            weaponObject = null
+        }
+        weaponString = weaponObject?.let{weaponObject.toString()}?:run{""}
+        val sType = object : TypeToken<ArrayList<Weapon>>() { }.type
+        return Gson().fromJson<ArrayList<Weapon>>(weaponString, sType)?.let{Gson().fromJson<ArrayList<Weapon>>(weaponString, sType) }?:run{ArrayList<Weapon>()}
+    }
+
+    @JvmStatic
+    fun getShields(context: Context): ArrayList<Shield>? {
+        var shieldObject :Any?
+        var shieldString  =""
+        try{
+            shieldObject = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_inventory))).get("shields")
+        }catch (e : Exception){
+            shieldObject = null
+        }
+        shieldString = shieldObject?.let{shieldObject.toString()}?:run{""}
+        val sType = object : TypeToken<ArrayList<Shield>>() { }.type
+        return Gson().fromJson<ArrayList<Shield>>(shieldString, sType)?.let{Gson().fromJson<ArrayList<Shield>>(shieldString, sType) }?:run{ArrayList<Shield>()}
+    }
+
+    @JvmStatic
+    fun getArmors(context: Context): ArrayList<Armor>? {
+        var armorObject :Any?
+        var armorString  =""
+        try{
+            armorObject = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_inventory))).get("armors")
+        }catch (e : Exception){
+            armorObject = null
+        }
+        armorString = armorObject?.let{armorObject.toString()}?:run{""}
+        val sType = object : TypeToken<ArrayList<Armor>>() { }.type
+        return Gson().fromJson<ArrayList<Armor>>(armorString, sType)?.let{Gson().fromJson<ArrayList<Armor>>(armorString, sType) }?:run{ArrayList<Armor>()}
+    }
+
+    @JvmStatic
+    fun getStuff(context: Context) : ArrayList<Any>{
+        var stuff = ArrayList<Any>()
+        stuff.addAll(this!!.getWeapons(context)!!)
+        stuff.addAll(this!!.getShields(context)!!)
+        stuff.addAll(this!!.getArmors(context)!!)
+        stuff.addAll(this!!.getJewels(context)!!)
+        stuff.addAll(this!!.getItems(context)!!)
+        return stuff
+    }
+
+    @JvmStatic
     fun getBleed(context: Context): Int {
         val bleedString = JSONObject(FileUtils.readJsonFile(context,context.getString(R.string.file_fight))).get("bleed").toString()
         return Gson().fromJson<Int>(bleedString, Int::class.java)
