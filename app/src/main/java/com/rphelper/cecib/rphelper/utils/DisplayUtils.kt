@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -21,6 +22,7 @@ import com.rphelper.cecib.rphelper.dto.Weapon
 import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Bonus.Companion.getListStringBonus
 import com.rphelper.cecib.rphelper.enums.Elem
+import com.rphelper.cecib.rphelper.enums.PieceEquipment
 import com.rphelper.cecib.rphelper.enums.Status
 
 object DisplayUtils {
@@ -323,6 +325,7 @@ object DisplayUtils {
         dialog.setContentView(R.layout.popup_edit_armor)
         dialog.findViewById<TextView>(R.id.armor_type).text = type
         fillArmorEdit(dialog, armor)
+        if(!type.equals(context.getString(R.string.armor))) dialog.findViewById<LinearLayout>(R.id.armor_type_layout).visibility = View.GONE
         if(!armor.equip) dialog.findViewById<TextView>(R.id.armor_disequip_button).text = context.getString(R.string.equiper)
         dialog.findViewById<EditText>(R.id.armor_name_txt).setSelection(dialog.findViewById<EditText>(R.id.armor_name_txt).text.length)
         dialog.findViewById<ImageView>(R.id.armor_cancel_button).setOnClickListener { dialog.dismiss() }
@@ -335,78 +338,99 @@ object DisplayUtils {
             dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.armor_save_button).setOnClickListener {
-            armor.name = dialog.findViewById<EditText>(R.id.armor_name_txt).text.toString()
-            if (dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().isNotEmpty()) {
-                armor.def = dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().toFloat()
-            } else {
-                armor.def = 0F
-            }
+            if(type.equals(context.getString(R.string.armor)) && (dialog.findViewById<MultiRowsRadioGroup>(R.id.armor_type_radiogroup).checkedRadioButtonId ==-1)){
+                Snackbar.make(dialog.currentFocus, context.getString(R.string.warning_armor_type), Snackbar.LENGTH_LONG).show()
+            }else {
+                armor.name = dialog.findViewById<EditText>(R.id.armor_name_txt).text.toString()
 
-            armor.immun?.let { armor.immun.clear() } ?: run { armor.immun = ArrayList<Status>() }
-            if (dialog.findViewById<CheckBox>(R.id.armor_immun_frost).isChecked) {
-                armor.immun.add(Status.FROST)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.armor_immun_poison).isChecked) {
-                armor.immun.add(Status.POISON)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.armor_immun_bleed).isChecked) {
-                armor.immun.add(Status.BLEED)
-            }
+                if (type.equals(context.getString(R.string.armor))) {
+                    when (true) {
+                        dialog.findViewById<RadioButton>(R.id.armor_type_hat).isChecked -> armor.type = PieceEquipment.HAT
+                        dialog.findViewById<RadioButton>(R.id.armor_type_chest).isChecked -> armor.type = PieceEquipment.CHEST
+                        dialog.findViewById<RadioButton>(R.id.armor_type_gloves).isChecked -> armor.type = PieceEquipment.GLOVES
+                        dialog.findViewById<RadioButton>(R.id.armor_type_greaves).isChecked -> armor.type = PieceEquipment.GREAVES
+                    }
+                }
 
-            armor.res?.let { armor.res.clear() } ?: run { armor.res = ArrayList<Elem>() }
-            if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked
-                    && dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
-                armor.res.add(Elem.ALL)
-            } else {
-                if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked) {
-                    armor.res.add(Elem.FIRE)
+                if (dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().isNotEmpty()) {
+                    armor.def = dialog.findViewById<EditText>(R.id.armor_def_txt).text.toString().toFloat()
+                } else {
+                    armor.def = 0F
                 }
-                if (dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked) {
-                    armor.res.add(Elem.DARKNESS)
-                }
-                if (dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked) {
-                    armor.res.add(Elem.LIGHTNING)
-                }
-                if (dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
-                    armor.res.add(Elem.MAGIC)
-                }
-            }
 
-            armor.weak?.let { armor.weak.clear() } ?: run { armor.weak = ArrayList<Elem>() }
-            if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked
-                    && dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
-                armor.weak.add(Elem.ALL)
-            } else {
-                if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked) {
-                    armor.weak.add(Elem.FIRE)
+                armor.immun?.let { armor.immun.clear() }
+                        ?: run { armor.immun = ArrayList<Status>() }
+                if (dialog.findViewById<CheckBox>(R.id.armor_immun_frost).isChecked) {
+                    armor.immun.add(Status.FROST)
                 }
-                if (dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked) {
-                    armor.weak.add(Elem.DARKNESS)
+                if (dialog.findViewById<CheckBox>(R.id.armor_immun_poison).isChecked) {
+                    armor.immun.add(Status.POISON)
                 }
-                if (dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked) {
-                    armor.weak.add(Elem.LIGHTNING)
+                if (dialog.findViewById<CheckBox>(R.id.armor_immun_bleed).isChecked) {
+                    armor.immun.add(Status.BLEED)
                 }
-                if (dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
-                    armor.weak.add(Elem.MAGIC)
-                }
-            }
 
-            if (dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().isNotEmpty()) {
-                armor.weight = dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().toFloat()
-            } else {
-                armor.weight = 0F
+                armor.res?.let { armor.res.clear() } ?: run { armor.res = ArrayList<Elem>() }
+                if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked
+                        && dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
+                    armor.res.add(Elem.ALL)
+                } else {
+                    if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked) {
+                        armor.res.add(Elem.FIRE)
+                    }
+                    if (dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked) {
+                        armor.res.add(Elem.DARKNESS)
+                    }
+                    if (dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked) {
+                        armor.res.add(Elem.LIGHTNING)
+                    }
+                    if (dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
+                        armor.res.add(Elem.MAGIC)
+                    }
+                }
+
+                armor.weak?.let { armor.weak.clear() } ?: run { armor.weak = ArrayList<Elem>() }
+                if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked
+                        && dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
+                    armor.weak.add(Elem.ALL)
+                } else {
+                    if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked) {
+                        armor.weak.add(Elem.FIRE)
+                    }
+                    if (dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked) {
+                        armor.weak.add(Elem.DARKNESS)
+                    }
+                    if (dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked) {
+                        armor.weak.add(Elem.LIGHTNING)
+                    }
+                    if (dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
+                        armor.weak.add(Elem.MAGIC)
+                    }
+                }
+
+                if (dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().isNotEmpty()) {
+                    armor.weight = dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().toFloat()
+                } else {
+                    armor.weight = 0F
+                }
+                toDoSave()
+                dialog.dismiss()
             }
-            toDoSave()
-            dialog.dismiss()
         }
-
         dialog.show()
-
     }
 
     fun fillArmorEdit(dialog: Dialog, armor: Armor?) {
         if (!armor!!.name.isNullOrEmpty()) {
             dialog.findViewById<EditText>(R.id.armor_name_txt).setText(armor.name)
+
+            when(armor.type){
+                PieceEquipment.HAT -> dialog.findViewById<RadioButton>(R.id.armor_type_hat).isChecked = true
+                PieceEquipment.CHEST -> dialog.findViewById<RadioButton>(R.id.armor_type_chest).isChecked = true
+                PieceEquipment.GLOVES -> dialog.findViewById<RadioButton>(R.id.armor_type_gloves).isChecked = true
+                PieceEquipment.GREAVES -> dialog.findViewById<RadioButton>(R.id.armor_type_greaves).isChecked = true
+            }
+
             dialog.findViewById<EditText>(R.id.armor_def_txt).setText(armor.def.toString())
 
             if (armor.immun.contains(Status.BLEED)) dialog.findViewById<CheckBox>(R.id.armor_immun_bleed).isChecked = true

@@ -1,6 +1,7 @@
 package com.rphelper.cecib.rphelper.dto
 
 import com.rphelper.cecib.rphelper.enums.Elem
+import com.rphelper.cecib.rphelper.enums.PieceEquipment
 import com.rphelper.cecib.rphelper.enums.Status
 
 class Armor(name: String, var def: Float, weight: Float) : Stuff(name, weight){
@@ -8,6 +9,7 @@ class Armor(name: String, var def: Float, weight: Float) : Stuff(name, weight){
     var weak = ArrayList<Elem>()
     var immun = ArrayList<Status>()
     var equip = true
+    var type : PieceEquipment = PieceEquipment.NOTHING
 
     constructor():this("", 0F, 0F){
         equip = false

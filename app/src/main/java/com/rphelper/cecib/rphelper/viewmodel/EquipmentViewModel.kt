@@ -15,6 +15,7 @@ import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.Elem
+import com.rphelper.cecib.rphelper.enums.PieceEquipment
 import com.rphelper.cecib.rphelper.enums.Status
 import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.utils.FileUtils
@@ -50,24 +51,28 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
     val hat : LiveData<Armor> get() = _hat
     init {
          _hat.value = Services.getArmor(context, "hat")
+        _hat.value!!.type = PieceEquipment.HAT
     }
 
     val _chest = MutableLiveData<Armor>()
     val chest : LiveData<Armor> get() = _chest
     init {
         _chest.value = Services.getArmor(context, "chest")
+        _chest.value!!.type = PieceEquipment.CHEST
     }
 
     val _gloves = MutableLiveData<Armor>()
     val gloves : LiveData<Armor> get() = _gloves
     init {
         _gloves.value = Services.getArmor(context, "gloves")
+        _gloves.value!!.type = PieceEquipment.GLOVES
     }
 
     val _greaves = MutableLiveData<Armor>()
     val greaves : LiveData<Armor> get() = _greaves
     init {
         _greaves.value = Services.getArmor(context, "greaves")
+        _greaves.value!!.type = PieceEquipment.GREAVES
     }
 
     val _damages = MutableLiveData<Int>()
@@ -126,14 +131,8 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         _weakBonus.value = getWeakBonus()
     }
 
-    fun getDamages():Int{
-        val character = Services.getCharacter(context)
-        val sharedPref: SharedPreferences = context.getSharedPreferences(PREF_MODIFIER_DAMAGES, PRIVATE_MODE)
-        val prefValue = sharedPref.getInt(PREF_MODIFIER_DAMAGES, 0)
-        val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DAMAGES_TEMP, Preferences.PRIVATE_MODE)
-        val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_DAMAGES_TEMP, 0)
-        return 90 + 2*character.strength + character.dexterity + prefValue + prefValue2
-    }
+    fun getDamages():Int = CalcUtils.getDamages(context)
+
 
     fun getDamagesBonus():Int{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DAMAGES_TEMP, Preferences.PRIVATE_MODE)
@@ -162,7 +161,8 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         var res = "/"
         if (null != hat.value!!.res && null != chest.value!!.res && null != gloves.value!!.res && null != greaves.value!!.res) {
             res=""
-            val pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_RES_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_RES_TEMP,"")
+            var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_RES, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_RES,"")
+            pref += " " + context.getSharedPreferences(Preferences.PREF_MODIFIER_RES_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_RES_TEMP,"")
             if ((hat.value!!.res.contains(Elem.FIRE) && chest.value!!.res.contains(Elem.FIRE)
                     && gloves.value!!.res.contains(Elem.FIRE) && greaves.value!!.res.contains(Elem.FIRE)) || pref.contains(Elem.FIRE.name)) res += Elem.FIRE.toString()
             if ((hat.value!!.res.contains(Elem.MAGIC) && chest.value!!.res.contains(Elem.MAGIC)
@@ -191,7 +191,8 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         var weak = "/"
         if (null != hat.value!!.weak && null != chest.value!!.weak && null != gloves.value!!.weak && null != greaves.value!!.weak){
             weak=""
-            val pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK_TEMP,"")
+            var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK,"")
+            pref +=  " "  + context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK_TEMP,"")
             if ((hat.value!!.weak.contains(Elem.FIRE) || chest.value!!.weak.contains(Elem.FIRE)
                     || gloves.value!!.weak.contains(Elem.FIRE) || greaves.value!!.weak.contains(Elem.FIRE)) || pref.contains(Elem.FIRE.name)) weak += Elem.FIRE.toString()
         if ((hat.value!!.weak.contains(Elem.MAGIC) || chest.value!!.weak.contains(Elem.MAGIC)
@@ -219,7 +220,8 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         var immun = "/"
         if (null != hat.value!!.immun && null != chest.value!!.immun && null != gloves.value!!.immun && null != greaves.value!!.immun) {
             immun=""
-            val pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_IMMUN_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_IMMUN_TEMP,"")
+            var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_IMMUN, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_IMMUN,"")
+            pref += " " + context.getSharedPreferences(Preferences.PREF_MODIFIER_IMMUN_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_IMMUN_TEMP,"")
             if ((hat.value!!.immun.contains(Status.BLEED) && chest.value!!.immun.contains(Status.BLEED)
                     && gloves.value!!.immun.contains(Status.BLEED) && greaves.value!!.immun.contains(Status.BLEED)) || pref.contains(Status.BLEED.name)) immun += Status.BLEED.toString()
             if ((hat.value!!.immun.contains(Status.FROST) && chest.value!!.immun.contains(Status.FROST)
@@ -236,16 +238,7 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
         return immun
     }
 
-    fun getTotalDamage(weapon: Weapon):Int{
-        val character = Services.getCharacter(context)
-        var dmg = damages.value!! + weapon.damage
-        dmg += (character.strength*weapon.bonusFor.value + character.dexterity*weapon.bonusDex.value).toInt()
-        if (weapon.rapidFire) {
-            val dmgTot = dmg
-            dmg = dmgTot + dmgTot/2 + dmgTot/4
-        }
-        return dmg
-    }
+    fun getTotalDamage(weapon: Weapon):Int = CalcUtils.getTotalDamage(weapon, context)
 
     fun editEquipment(){
         val equipment = Equipment(leftHand.value!!, rightHand.value!!, catalyst.value!!, shield.value!!, hat.value!!, chest.value!!, gloves.value!!, greaves.value!!)
@@ -275,28 +268,32 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
     }
 
     fun weaponToInventory(type :String, weapon: Weapon){
+        val inventory = Services.getInventory(context)
+        weapon.equip = false
+        inventory.weapons.add(weapon)
+        Services.editInventory(context, inventory)
         when(type){
             context.getString(R.string.left_hand)-> leftHand.value!!.reinit()
             context.getString(R.string.right_hand)-> rightHand.value!!.reinit()
             context.getString(R.string.catalyst)-> catalyst.value!!.reinit()
         }
         editEquipment()
-        val inventory = Services.getInventory(context)
-        weapon.equip = false
-        inventory.weapons.add(weapon)
-        Services.editInventory(context, inventory)
     }
 
     fun shieldToInventory(shield: Shield){
-        shield.reinit()
-        editEquipment()
         val inventory = Services.getInventory(context)
         shield.equip = false
         inventory.shields.add(shield)
         Services.editInventory(context, inventory)
+        shield.reinit()
+        editEquipment()
     }
 
     fun armorToInventory(type :String, armor: Armor){
+        val inventory = Services.getInventory(context)
+        armor.equip = false
+        inventory.armors.add(armor)
+        Services.editInventory(context, inventory)
         when(type){
             context.getString(R.string.hat)-> hat.value!!.reinit()
             context.getString(R.string.chestplate)-> chest.value!!.reinit()
@@ -304,10 +301,6 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
             context.getString(R.string.greaves)-> greaves.value!!.reinit()
         }
         editEquipment()
-        val inventory = Services.getInventory(context)
-        armor.equip = false
-        inventory.armors.add(armor)
-        Services.editInventory(context, inventory)
     }
 
 }

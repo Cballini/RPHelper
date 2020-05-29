@@ -14,14 +14,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="@id/line_item_equip">
+        <ImageView
+            android:id="@+id/line_item_icon"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            android:tint="@color/white"
+            android:src="@drawable/item"
+            android:padding="@dimen/txt_margin"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_category_light"/>
         <TextView
             android:id="@+id/line_item_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="@string/name"
             android:textColor="@color/colorCatTitle"
-            android:paddingHorizontal="@dimen/small_margin"
-            android:background="@drawable/shape_category_light"
+            android:paddingRight="@dimen/small_margin"
+            android:background="@color/colorPrimary"
             android:gravity="center"
             android:maxEms="6"/>
 

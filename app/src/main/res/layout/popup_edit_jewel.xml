@@ -124,7 +124,7 @@
             android:text="@string/ask_item_equip"
             android:textAlignment="center"
             android:textColor="@color/colorTxt"
-            android:layout_marginTop="@dimen/small_margin"
+            android:layout_margin="@dimen/small_margin"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/jewel_desc_layout" />
@@ -441,55 +441,131 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <CheckBox
                     android:id="@+id/jewel_checkbox_weakness"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/fai"
-                    android:textColor="@color/colorTxt" />
+                    android:textColor="@color/colorTxt"
+                    android:padding="@dimen/small_margin"/>
 
-                <Spinner
-                    android:id="@+id/jewel_edit_weakness"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/jewel_weakness_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <CheckBox
+                        android:id="@+id/jewel_weakness_magic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MAGIC"
+                        android:textColor="@color/colorTxt" />
+                    <CheckBox
+                        android:id="@+id/jewel_weakness_fire"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FIRE"
+                        android:textColor="@color/colorTxt" />
+                    <CheckBox
+                        android:id="@+id/jewel_weakness_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LIGHTNING"
+                        android:textColor="@color/colorTxt" />
+                    <CheckBox
+                        android:id="@+id/jewel_weakness_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DARKNESS"
+                        android:textColor="@color/colorTxt" />
+                </LinearLayout>
+
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <CheckBox
                     android:id="@+id/jewel_checkbox_res"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/res"
-                    android:textColor="@color/colorTxt" />
+                    android:textColor="@color/colorTxt"
+                    android:padding="@dimen/small_margin"/>
 
-                <Spinner
-                    android:id="@+id/jewel_edit_res"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:id="@+id/jewel_res_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <CheckBox
+                        android:id="@+id/jewel_res_magic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="MAGIC"
+                        android:textColor="@color/colorTxt" />
+                    <CheckBox
+                        android:id="@+id/jewel_res_fire"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FIRE"
+                        android:textColor="@color/colorTxt" />
+                    <CheckBox
+                        android:id="@+id/jewel_res_light"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="LIGHTNING"
+                        android:textColor="@color/colorTxt" />
+                    <CheckBox
+                        android:id="@+id/jewel_res_dark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="DARKNESS"
+                        android:textColor="@color/colorTxt" />
+                </LinearLayout>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
                 <CheckBox
                     android:id="@+id/jewel_checkbox_immun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/immun"
-                    android:textColor="@color/colorTxt" />
+                    android:textColor="@color/colorTxt"
+                    android:padding="@dimen/small_margin"/>
 
-                <Spinner
-                    android:id="@+id/jewel_edit_immun"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/jewel_immun_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <CheckBox
+                        android:id="@+id/jewel_immun_poison"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="POISON"
+                        android:textColor="@color/colorTxt" />
+                    <CheckBox
+                        android:id="@+id/jewel_immun_bleed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BLEED"
+                        android:textColor="@color/colorTxt" />
+                    <CheckBox
+                        android:id="@+id/jewel_immun_frost"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FROST"
+                        android:textColor="@color/colorTxt" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
         <TextView

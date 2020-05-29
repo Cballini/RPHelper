@@ -19,6 +19,9 @@ object Preferences {
     val PREF_MODIFIER_MEM = "modifier_mem"
     val PREF_MODIFIER_INT = "modifier_int"
     val PREF_MODIFIER_FOI = "modifier_foi"
+    val PREF_MODIFIER_RES = "modifier_res"
+    val PREF_MODIFIER_IMMUN = "modifier_immun"
+    val PREF_MODIFIER_WEAK = "modifier_weak"
 
 
     val PREF_MODIFIER_MANA_MAX_TEMP = "modifier_mana_max_temp"

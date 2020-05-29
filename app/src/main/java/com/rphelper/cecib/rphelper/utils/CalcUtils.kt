@@ -6,6 +6,7 @@ import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
+import com.rphelper.cecib.rphelper.dto.Weapon
 import kotlin.math.roundToInt
 
 object CalcUtils {
@@ -67,6 +68,28 @@ object CalcUtils {
         def += (character.vitality.toFloat()/2 + character.memory.toFloat()/2 + character.endurance.toFloat()/2 + character.vigor
                 + character.strength.toFloat()/2 + character.dexterity.toFloat()/2 + character.intelligence.toFloat()/2 + character.faith.toFloat()/2)
         return def.toInt()
+    }
+
+    @JvmStatic
+    fun getDamages(context: Context):Int{
+        val character = Services.getCharacter(context)
+        val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DAMAGES, Preferences.PRIVATE_MODE)
+        val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_DAMAGES, 0)
+        val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DAMAGES_TEMP, Preferences.PRIVATE_MODE)
+        val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_DAMAGES_TEMP, 0)
+        return 90 + 2*character.strength + character.dexterity + prefValue + prefValue2
+    }
+
+    @JvmStatic
+    fun getTotalDamage(weapon: Weapon, context: Context):Int{
+        val character = Services.getCharacter(context)
+        var dmg = getDamages(context) + weapon.damage
+        dmg += (character.strength*weapon.bonusFor.value + character.dexterity*weapon.bonusDex.value).toInt()
+        if (weapon.rapidFire) {
+            val dmgTot = dmg
+            dmg = dmgTot + dmgTot/2 + dmgTot/4
+        }
+        return dmg
     }
 
     @JvmStatic

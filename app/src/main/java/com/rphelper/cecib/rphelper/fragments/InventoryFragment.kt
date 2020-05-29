@@ -21,18 +21,26 @@ import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DEX
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_END
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_FOI
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_FOR
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_IMMUN
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_INT
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_LIFE_MAX
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_MANA_MAX
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_MEM
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_RES
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_VIG
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_VIT
+import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_WEAK
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_WEIGHT_MAX
 import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.ItemAdapter
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+import com.rphelper.cecib.rphelper.component.RecapEquipmentComponent
 import com.rphelper.cecib.rphelper.dto.*
+import com.rphelper.cecib.rphelper.enums.Elem
+import com.rphelper.cecib.rphelper.enums.PieceEquipment
+import com.rphelper.cecib.rphelper.enums.Status
+import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 import com.rphelper.cecib.rphelper.viewmodel.InventoryViewModel
@@ -121,10 +129,10 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
 
         dialog.findViewById<TextView>(R.id.choose_type_save_button).setOnClickListener {
             when (true) {
-                dialog.findViewById<RadioButton>(R.id.choose_type_button_weapon).isChecked -> editWeapon(Weapon())
-                dialog.findViewById<RadioButton>(R.id.choose_type_button_shield).isChecked -> editShield(Shield())
-                dialog.findViewById<RadioButton>(R.id.choose_type_button_armor).isChecked -> editArmor(Armor())
-                dialog.findViewById<RadioButton>(R.id.choose_type_button_jewel).isChecked -> editJewel(Jewel())
+                dialog.findViewById<RadioButton>(R.id.choose_type_button_weapon).isChecked -> editWeapon(Weapon(), true)
+                dialog.findViewById<RadioButton>(R.id.choose_type_button_shield).isChecked -> editShield(Shield(), true)
+                dialog.findViewById<RadioButton>(R.id.choose_type_button_armor).isChecked -> editArmor(Armor(), true)
+                dialog.findViewById<RadioButton>(R.id.choose_type_button_jewel).isChecked -> editJewel(Jewel(), true)
                 dialog.findViewById<RadioButton>(R.id.choose_type_button_item).isChecked -> addItem()
             }
             dialog.dismiss()
@@ -133,40 +141,40 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         dialog.show()
     }
 
-    fun editWeapon(weapon: Weapon) {
+    fun editWeapon(weapon: Weapon, isAdd :Boolean) {
         DisplayUtils.openWeaponDialog(getString(R.string.weapon), weapon, context!!, activity!!,
                 {/*TODO equip*/ },
                 {/*no delete*/ },
-                {
-                    viewModel.items.value!!.add(weapon)
+                {weapon.equip = false
+                    if(isAdd)viewModel.items.value!!.add(weapon)
                     viewModel.editInventory()
                 })
     }
 
-    fun editShield(shield: Shield) {
+    fun editShield(shield: Shield, isAdd :Boolean) {
         DisplayUtils.openShieldDialog(shield, context!!, activity!!,
                 {/*TODO equip*/ },
                 {/*no delete*/ },
-                {
-                    viewModel.items.value!!.add(shield)
+                {shield.equip = false
+                    if(isAdd)viewModel.items.value!!.add(shield)
                     viewModel.editInventory()
                 })
     }
 
-    fun editArmor(armor: Armor) {
+    fun editArmor(armor: Armor, isAdd :Boolean) {
         DisplayUtils.openArmorDialog(getString(R.string.armor), armor, context!!, activity!!,
                 {/*TODO equip*/ },
                 {/*no delete*/ },
-                {
-                    viewModel.items.value!!.add(armor)
+                {armor.equip = false
+                    if(isAdd)viewModel.items.value!!.add(armor)
                     viewModel.editInventory()
                 })
     }
 
-    fun editJewel(jewel: Jewel) {
+    fun editJewel(jewel: Jewel, isAdd :Boolean) {
         openJewelDialog(jewel,
                 ({
-                    viewModel.items.value!!.add(jewel)
+                    if(isAdd)viewModel.items.value!!.add(jewel)
                     viewModel.editInventory()
                 }))
     }
@@ -178,7 +186,19 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         dialog.findViewById<TextView>(R.id.jewel_ask).text = getString(R.string.ask_jewel)
 
         fillJewel(dialog, jewel)
-        //TODO init spinners + immun/weak/res
+
+        dialog.findViewById<CheckBox>(R.id.jewel_checkbox_weakness).setOnCheckedChangeListener { compoundButton, check ->
+            if(check) dialog.findViewById<LinearLayout>(R.id.jewel_weakness_layout).visibility = View.VISIBLE
+            else dialog.findViewById<LinearLayout>(R.id.jewel_weakness_layout).visibility =View.GONE
+        }
+        dialog.findViewById<CheckBox>(R.id.jewel_checkbox_res).setOnCheckedChangeListener { compoundButton, check ->
+            if(check) dialog.findViewById<LinearLayout>(R.id.jewel_res_layout).visibility = View.VISIBLE
+            else dialog.findViewById<LinearLayout>(R.id.jewel_res_layout).visibility = View.GONE
+        }
+        dialog.findViewById<CheckBox>(R.id.jewel_checkbox_immun).setOnCheckedChangeListener { compoundButton, check ->
+            if(check) dialog.findViewById<LinearLayout>(R.id.jewel_immun_layout).visibility = View.VISIBLE
+            else dialog.findViewById<LinearLayout>(R.id.jewel_immun_layout).visibility =View.GONE
+        }
 
         dialog.findViewById<ImageView>(R.id.jewel_cancel_button).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<TextView>(R.id.jewel_save_button).setOnClickListener {
@@ -244,6 +264,29 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                 if (jewel.equip) modifPref(PREF_MODIFIER_FOI, jewel)
             }
 
+            jewel.weakModifier.clear()
+            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_weakness).isChecked){
+                if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_magic).isChecked) jewel.weakModifier.add(Elem.MAGIC)
+                if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_fire).isChecked) jewel.weakModifier.add(Elem.FIRE)
+                if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_dark).isChecked) jewel.weakModifier.add(Elem.DARKNESS)
+                if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_light).isChecked) jewel.weakModifier.add(Elem.LIGHTNING)
+                if (jewel.equip) modifPrefString(PREF_MODIFIER_WEAK, jewel)
+            }
+            jewel.resModifier.clear()
+            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_res).isChecked){
+                if(dialog.findViewById<CheckBox>(R.id.jewel_res_magic).isChecked) jewel.resModifier.add(Elem.MAGIC)
+                if(dialog.findViewById<CheckBox>(R.id.jewel_res_fire).isChecked) jewel.resModifier.add(Elem.FIRE)
+                if(dialog.findViewById<CheckBox>(R.id.jewel_res_dark).isChecked) jewel.resModifier.add(Elem.DARKNESS)
+                if(dialog.findViewById<CheckBox>(R.id.jewel_res_light).isChecked) jewel.resModifier.add(Elem.LIGHTNING)
+                if (jewel.equip) modifPrefString(PREF_MODIFIER_RES, jewel)
+            }
+            jewel.immunModifier.clear()
+            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_immun).isChecked){
+                if(dialog.findViewById<CheckBox>(R.id.jewel_immun_poison).isChecked) jewel.immunModifier.add(Status.POISON)
+                if(dialog.findViewById<CheckBox>(R.id.jewel_immun_bleed).isChecked) jewel.immunModifier.add(Status.BLEED)
+                if(dialog.findViewById<CheckBox>(R.id.jewel_immun_frost).isChecked) jewel.immunModifier.add(Status.FROST)
+                if (jewel.equip) modifPrefString(PREF_MODIFIER_IMMUN, jewel)
+            }
             toDoSave()
             dialog.dismiss()
         }
@@ -313,7 +356,32 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             dialog.findViewById<EditText>(R.id.jewel_edit_foi).setText(jewel.foiModifier.toString())
         }
 
-        //TODO res/immu/fai
+        if(jewel.weakModifier.isNotEmpty()){
+            dialog.findViewById<CheckBox>(R.id.jewel_checkbox_weakness).isChecked = true
+            dialog.findViewById<LinearLayout>(R.id.jewel_weakness_layout).visibility = View.VISIBLE
+            if (jewel.weakModifier.contains(Elem.MAGIC)) dialog.findViewById<CheckBox>(R.id.jewel_weakness_magic).isChecked = true
+            if (jewel.weakModifier.contains(Elem.FIRE)) dialog.findViewById<CheckBox>(R.id.jewel_weakness_fire).isChecked = true
+            if (jewel.weakModifier.contains(Elem.DARKNESS)) dialog.findViewById<CheckBox>(R.id.jewel_weakness_dark).isChecked = true
+            if (jewel.weakModifier.contains(Elem.LIGHTNING)) dialog.findViewById<CheckBox>(R.id.jewel_weakness_light).isChecked = true
+        }else dialog.findViewById<LinearLayout>(R.id.jewel_weakness_layout).visibility = View.GONE
+
+        if(jewel.resModifier.isNotEmpty()){
+            dialog.findViewById<CheckBox>(R.id.jewel_checkbox_res).isChecked = true
+            dialog.findViewById<LinearLayout>(R.id.jewel_res_layout).visibility = View.VISIBLE
+            if (jewel.resModifier.contains(Elem.MAGIC)) dialog.findViewById<CheckBox>(R.id.jewel_res_magic).isChecked = true
+            if (jewel.resModifier.contains(Elem.FIRE)) dialog.findViewById<CheckBox>(R.id.jewel_res_fire).isChecked = true
+            if (jewel.resModifier.contains(Elem.DARKNESS)) dialog.findViewById<CheckBox>(R.id.jewel_res_dark).isChecked = true
+            if (jewel.resModifier.contains(Elem.LIGHTNING)) dialog.findViewById<CheckBox>(R.id.jewel_res_light).isChecked = true
+        }else dialog.findViewById<LinearLayout>(R.id.jewel_res_layout).visibility = View.GONE
+
+        if(jewel.immunModifier.isNotEmpty()){
+            dialog.findViewById<CheckBox>(R.id.jewel_checkbox_immun).isChecked = true
+            dialog.findViewById<LinearLayout>(R.id.jewel_immun_layout).visibility = View.VISIBLE
+            if (jewel.immunModifier.contains(Status.POISON)) dialog.findViewById<CheckBox>(R.id.jewel_immun_poison).isChecked = true
+            if (jewel.immunModifier.contains(Status.BLEED)) dialog.findViewById<CheckBox>(R.id.jewel_immun_bleed).isChecked = true
+            if (jewel.immunModifier.contains(Status.FROST)) dialog.findViewById<CheckBox>(R.id.jewel_immun_frost).isChecked = true
+        }else dialog.findViewById<LinearLayout>(R.id.jewel_immun_layout).visibility = View.GONE
+
     }
 
     fun addItem() {
@@ -400,6 +468,180 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         modifPref(PREF_MODIFIER_MEM, jewel)
         modifPref(PREF_MODIFIER_INT, jewel)
         modifPref(PREF_MODIFIER_FOI, jewel)
+        modifPrefString(PREF_MODIFIER_WEAK, jewel)
+        modifPrefString(PREF_MODIFIER_RES, jewel)
+        modifPrefString(PREF_MODIFIER_IMMUN, jewel)
+    }
+
+    fun equipWeapon(weapon: Weapon){
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_equip_weapon)
+
+        val leftHand = viewModel.getLeftHand()
+        val rightHand = viewModel.getRightHand()
+        fillWeaponRecap(dialog, R.id.equip_weapon_recap_left, leftHand)
+        fillWeaponRecap(dialog, R.id.equip_weapon_recap_right, rightHand)
+
+        dialog.findViewById<ImageView>(R.id.equip_weapon_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<TextView>(R.id.equip_weapon_save_button).setOnClickListener {
+            if (dialog.findViewById<RadioButton>(R.id.equip_weapon_left_hand).isChecked) viewModel.weaponToEquipment(weapon, true)
+            if (dialog.findViewById<RadioButton>(R.id.equip_weapon_right_hand).isChecked) viewModel.weaponToEquipment(weapon, false)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun fillWeaponRecap(dialog: Dialog, id:Int, weapon: Weapon){
+        if(weapon.name.isEmpty()){
+            dialog.findViewById<RecapEquipmentComponent>(id).recapName.text = getString(R.string.nothing)
+            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.visibility = View.GONE
+        }else {
+            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = weapon.name
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.total_damage)
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = CalcUtils.getTotalDamage(weapon, context!!).toString()
+            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = weapon.weight.toString()
+        }
+    }
+
+    fun equipCata(weapon: Weapon){
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_equip_shield_cata)
+
+        dialog.findViewById<TextView>(R.id.equip_shield_cata_title).text = getString(R.string.equip_catalyst)
+
+        val catalyst = viewModel.getCatalyst()
+        fillCatalystRecap(dialog, R.id.equip_shield_cata_recap, catalyst)
+
+        dialog.findViewById<ImageView>(R.id.equip_shield_cata_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<TextView>(R.id.equip_shield_cata_save_button).setOnClickListener {
+            viewModel.catalystToEquipment(weapon)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun fillCatalystRecap(dialog: Dialog, id:Int, weapon: Weapon){
+        if(weapon.name.isEmpty()){
+            dialog.findViewById<RecapEquipmentComponent>(id).recapName.text = getString(R.string.nothing)
+            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.visibility = View.GONE
+        }else {
+            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = weapon.name
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.boost)
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = weapon.boost.toString()
+            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = weapon.weight.toString()
+        }
+    }
+
+    fun equipShield(shield: Shield){
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_equip_shield_cata)
+
+        dialog.findViewById<TextView>(R.id.equip_shield_cata_title).text = getString(R.string.equip_shield)
+
+        val shieldEquip = viewModel.getShield()
+        fillShieldRecap(dialog, R.id.equip_shield_cata_recap, shieldEquip)
+
+        dialog.findViewById<ImageView>(R.id.equip_shield_cata_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<TextView>(R.id.equip_shield_cata_save_button).setOnClickListener {
+            viewModel.shieldToEquipment(shield)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun fillShieldRecap(dialog: Dialog, id:Int, shield: Shield){
+        if(shield.name.isEmpty()){
+            dialog.findViewById<RecapEquipmentComponent>(id).recapName.text = getString(R.string.nothing)
+            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.visibility = View.GONE
+        }else {
+            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = shield.name
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.block)
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = shield.block.toString()
+            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = shield.weight.toString()
+        }
+    }
+
+    fun equipArmor(armor: Armor){
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_equip_armor)
+
+        when(armor.type){
+            PieceEquipment.HAT -> {
+                val hat = viewModel.getHat()
+                fillArmorRecap(dialog, R.id.equip_armor_recap_hat, hat)
+                dialog.findViewById<TextView>(R.id.equip_armor_chest).visibility = View.GONE
+                dialog.findViewById<TextView>(R.id.equip_armor_gloves).visibility = View.GONE
+                dialog.findViewById<TextView>(R.id.equip_armor_greaves).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_chest).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_gloves).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_greaves).visibility = View.GONE
+            }
+            PieceEquipment.CHEST ->{
+                val chest = viewModel.getChest()
+                fillArmorRecap(dialog, R.id.equip_armor_recap_chest, chest)
+                dialog.findViewById<TextView>(R.id.equip_armor_hat).visibility = View.GONE
+                dialog.findViewById<TextView>(R.id.equip_armor_gloves).visibility = View.GONE
+                dialog.findViewById<TextView>(R.id.equip_armor_greaves).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_hat).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_gloves).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_greaves).visibility = View.GONE
+            }
+            PieceEquipment.GLOVES -> {
+                val gloves = viewModel.getGloves()
+                fillArmorRecap(dialog, R.id.equip_armor_recap_gloves, gloves)
+                dialog.findViewById<TextView>(R.id.equip_armor_chest).visibility = View.GONE
+                dialog.findViewById<TextView>(R.id.equip_armor_hat).visibility = View.GONE
+                dialog.findViewById<TextView>(R.id.equip_armor_greaves).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_chest).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_hat).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_greaves).visibility = View.GONE
+            }
+            PieceEquipment.GREAVES ->{
+                val greaves = viewModel.getGreaves()
+                fillArmorRecap(dialog, R.id.equip_armor_recap_greaves, greaves)
+                dialog.findViewById<TextView>(R.id.equip_armor_chest).visibility = View.GONE
+                dialog.findViewById<TextView>(R.id.equip_armor_gloves).visibility = View.GONE
+                dialog.findViewById<TextView>(R.id.equip_armor_hat).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_chest).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_gloves).visibility = View.GONE
+                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_hat).visibility = View.GONE
+            }
+        }
+
+        dialog.findViewById<ImageView>(R.id.equip_armor_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<TextView>(R.id.equip_armor_save_button).setOnClickListener {
+            viewModel.armorToEquipment(armor)
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    fun fillArmorRecap(dialog: Dialog, id:Int, armor: Armor){
+        if(armor.name.isEmpty()){
+            dialog.findViewById<RecapEquipmentComponent>(id).recapName.text = getString(R.string.nothing)
+            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.visibility = View.GONE
+            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.visibility = View.GONE
+        }else {
+            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = armor.name
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.def)
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = armor.def.toString()
+            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = armor.weight.toString()
+        }
     }
 
     fun modifPref(pref: String, jewel: Jewel) {
@@ -427,6 +669,37 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         editor.apply()
     }
 
+    fun modifPrefString(pref: String, jewel: Jewel) {
+        val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, PRIVATE_MODE)
+        val prefValue = sharedPref.getString(pref, "")
+        val editor = sharedPref.edit()
+        var value = ""
+        var deleteValue = prefValue
+        when (pref) {
+            PREF_MODIFIER_WEAK -> {
+                for (w in jewel.weakModifier){
+                    value += ", " + w.name
+                    deleteValue = deleteValue.replaceFirst(", " +w.name, "")
+                }
+            }
+            PREF_MODIFIER_RES -> {
+                for (r in jewel.resModifier){
+                    value += ", " + r.name
+                    deleteValue = deleteValue.replaceFirst(", " +r.name, "")
+                }
+            }
+            PREF_MODIFIER_IMMUN -> {
+                for (i in jewel.immunModifier){
+                    value += ", " + i.name
+                    deleteValue = deleteValue.replaceFirst(", " +i.name, "")
+                }
+            }
+        }
+        if (jewel.equip) editor.putString(pref, prefValue + value) else editor.putString(pref, deleteValue)
+
+        editor.apply()
+    }
+
     fun fillEditItem(dialog: Dialog, item: Item) {
         dialog.findViewById<EditText>(R.id.item_name_txt).setText(item.name)
         dialog.findViewById<EditText>(R.id.item_weight_txt).setText(item.weight.toString())
@@ -438,14 +711,14 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         val popupMenu = PopupMenu(context, v)
 
         popupMenu.menuInflater.inflate(R.menu.menu_item, popupMenu.menu)
-        if (viewModel.items.value!![position] !is Jewel) popupMenu.menu.findItem(R.id.action_equip).isVisible = false
+        if (viewModel.items.value!![position] is Item) popupMenu.menu.findItem(R.id.action_equip).isVisible = false
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_edit -> {
-                    if (viewModel.items.value!![position] is Weapon) editWeapon(viewModel.items.value!![position] as Weapon)
-                    if (viewModel.items.value!![position] is Shield) editShield(viewModel.items.value!![position] as Shield)
-                    if (viewModel.items.value!![position] is Armor) editArmor(viewModel.items.value!![position] as Armor)
-                    if (viewModel.items.value!![position] is Jewel) editJewel(viewModel.items.value!![position] as Jewel)
+                    if (viewModel.items.value!![position] is Weapon) editWeapon(viewModel.items.value!![position] as Weapon, false)
+                    if (viewModel.items.value!![position] is Shield) editShield(viewModel.items.value!![position] as Shield, false)
+                    if (viewModel.items.value!![position] is Armor) editArmor(viewModel.items.value!![position] as Armor, false)
+                    if (viewModel.items.value!![position] is Jewel) editJewel(viewModel.items.value!![position] as Jewel, false)
                     if (viewModel.items.value!![position] is Item) editItem((viewModel.items.value!![position] as Item))
                 }
                 R.id.action_delete -> {
@@ -456,7 +729,13 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                     viewModel.editInventory()
                 }
                 R.id.action_equip -> {
-                    equipJewel((viewModel.items.value!![position] as Jewel))
+                    if (viewModel.items.value!![position] is Weapon) {
+                        if((viewModel.items.value!![position] as Weapon).boost>0)equipCata((viewModel.items.value!![position] as Weapon))
+                        else equipWeapon((viewModel.items.value!![position] as Weapon))
+                    }
+                    if (viewModel.items.value!![position] is Shield) equipShield((viewModel.items.value!![position] as Shield))
+                    if (viewModel.items.value!![position] is Armor) equipArmor((viewModel.items.value!![position] as Armor))
+                    if (viewModel.items.value!![position] is Jewel) equipJewel((viewModel.items.value!![position] as Jewel))
                 }
             }
             true

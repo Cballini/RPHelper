@@ -23,30 +23,30 @@
             app:layout_constraintTop_toTopOf="parent">
                 <com.rphelper.cecib.rphelper.component.IndicSoloComponent
                     android:id="@+id/equipment_stat_damages"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginBottom="@dimen/small_margin"/>
                 <com.rphelper.cecib.rphelper.component.IndicSoloComponent
                     android:id="@+id/equipment_stat_defense"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginBottom="@dimen/small_margin"/>
                 <com.rphelper.cecib.rphelper.component.IndicSoloComponent
                     android:id="@+id/equipment_stat_res"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/small_margin"/>
                 <com.rphelper.cecib.rphelper.component.IndicSoloComponent
                     android:id="@+id/equipment_stat_immun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/small_margin"/>
                 <com.rphelper.cecib.rphelper.component.IndicSoloComponent
                     android:id="@+id/equipment_stat_weak"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/small_margin"/>
         </LinearLayout>
 

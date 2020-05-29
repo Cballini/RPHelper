@@ -54,12 +54,64 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/armor_type_layout"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/small_margin"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/armor_name_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <com.rphelper.cecib.rphelper.utils.MultiRowsRadioGroup
+                android:id="@+id/armor_type_radiogroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/armor_type_hat"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTxt"
+                        android:text="@string/hat"/>
+                    <RadioButton
+                        android:id="@+id/armor_type_chest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTxt"
+                        android:text="@string/chestplate"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioButton
+                        android:id="@+id/armor_type_gloves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTxt"
+                        android:text="@string/gloves"/>
+                    <RadioButton
+                        android:id="@+id/armor_type_greaves"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTxt"
+                        android:text="@string/greaves"/>
+                </LinearLayout>
+
+            </com.rphelper.cecib.rphelper.utils.MultiRowsRadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/armor_def_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/small_margin"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/armor_name_layout"
+            app:layout_constraintTop_toBottomOf="@+id/armor_type_layout"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 

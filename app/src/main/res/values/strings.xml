@@ -67,15 +67,23 @@
     <string name="effect">Effet</string>
     <string name="equip">Equipé</string>
     <string name="equiper">Equiper</string>
+    <string name="equip_weapon">Equiper une arme</string>
+    <string name="equip_catalyst">Equiper un cataliseur</string>
+    <string name="equip_shield">Equiper un bouclier</string>
+    <string name="equip_armor">Equiper une pièce d\'armure</string>
     <string name="equip_disequip">Equiper/déséquiper</string>
+    <string name="warning_equip">L\'équipement actuellement équipé sera retiré et transféré vers l\'inventaire.</string>
+    <string name="now_equip">Actuellement équipé :</string>
     <string name="item">Objet</string>
     <string name="desc">Description</string>
     <string name="quantity">Quantité</string>
     <string name="nb">NB</string>
+    <string name="warning_armor_type">Attention vous devez sélectionner le type de votre pièce d\'armure.</string>
+    <string name="nothing">Rien</string>
 
     <string name="choose_type_item">Type d\'objet(s)</string>
     <string name="type">Type</string>
-    <string name="jewel">Bijou</string>
+    <string name="jewel">Accessoire</string>
 
     <string name="weapon">Armes</string>
     <string name="left_hand">Main gauche</string>

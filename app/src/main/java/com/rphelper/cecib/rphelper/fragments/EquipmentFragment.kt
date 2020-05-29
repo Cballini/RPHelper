@@ -275,7 +275,8 @@ class EquipmentFragment : Fragment() {
                     viewModel.weaponToInventory(type, weapon) },
                 {weapon.reinit()
                     viewModel.editEquipment()},
-                {viewModel.editEquipment()})
+                { weapon.equip = true
+                    viewModel.editEquipment()})
     }
 
     fun editShield(){
@@ -284,7 +285,8 @@ class EquipmentFragment : Fragment() {
                     viewModel.shieldToInventory(viewModel.shield.value!!)},
                 {viewModel.shield.value?.let { viewModel.shield.value!!.reinit() }
                     viewModel.editEquipment()},
-                {viewModel.editEquipment()})
+                {viewModel.shield.value!!.equip = true
+                    viewModel.editEquipment()})
     }
 
     fun editArmor(type: String, armor: Armor){
@@ -293,7 +295,8 @@ class EquipmentFragment : Fragment() {
                     viewModel.armorToInventory(type, armor)},
                 {armor.reinit()
                     viewModel.editEquipment()},
-                {viewModel.editEquipment()})
+                {armor.equip = true
+                    viewModel.editEquipment()})
     }
 
     fun displayMsg(name: String) {

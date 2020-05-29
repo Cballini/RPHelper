@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.dto.*
+import com.rphelper.cecib.rphelper.enums.PieceEquipment
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 
 class ItemAdapter(val mDataset: ArrayList<Any>, callback : RecyclerViewClickListener) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
@@ -26,24 +27,48 @@ class ItemAdapter(val mDataset: ArrayList<Any>, callback : RecyclerViewClickList
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder!!.lineObject.findViewById<TextView>(R.id.line_item_name).text = (mDataset[position]as Stuff).name
-        if(mDataset[position] is Weapon) holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Weapon).getDescription()
-        if(mDataset[position] is Shield) holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Shield).getDescription()
-        if(mDataset[position] is Armor) holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Armor).getDescription()
+        if(mDataset[position] is Weapon){
+            holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Weapon).getDescription()
+            if((mDataset[position] as Weapon).boost>0){
+                holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.catalyst)
+            }else{
+                holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.weapon)
+            }
+
+        }
+        if(mDataset[position] is Shield){
+            holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Shield).getDescription()
+            holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.shield)
+        }
+        if(mDataset[position] is Armor) {
+            holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Armor).getDescription()
+            when((mDataset[position] as Armor).type){
+                PieceEquipment.HAT -> holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.hat)
+                PieceEquipment.CHEST -> holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.chest)
+                PieceEquipment.GLOVES -> holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.gloves)
+                PieceEquipment.GREAVES -> holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.greaves)
+                else -> holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.chest)
+            }
+        }
         if(mDataset[position] is Jewel) {
             var desc = (mDataset[position] as Jewel).desc
             desc += (mDataset[position] as Jewel).getDescription()
             holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = desc
-        }
-        if(mDataset[position] is Item) holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Item).effect
-        if (mDataset[position] is Jewel) {
+            holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.jewel)
             if ((mDataset[position] as Jewel).equip) {
                 holder!!.lineObject.findViewById<ImageView>(R.id.line_item_equip_img).setImageResource(R.drawable.circle_green)
             } else {
                 holder!!.lineObject.findViewById<ImageView>(R.id.line_item_equip_img).setImageResource(R.drawable.circle_grey)
             }
-        }else{
+        } else{
             holder!!.lineObject.findViewById<ImageView>(R.id.line_item_equip_img).visibility = View.GONE
         }
+        if(mDataset[position] is Item) {
+            holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Item).effect
+            holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.item)
+            holder!!.lineObject.findViewById<TextView>(R.id.line_item_quantity_txt).text = (mDataset[position] as Item).quantity.toString()
+        }
+
         if(0F!=(mDataset[position]as Stuff).weight) {
             holder!!.lineObject.findViewById<LinearLayout>(R.id.line_item_weight_layout).visibility = View.VISIBLE
             holder!!.lineObject.findViewById<TextView>(R.id.line_item_weight_txt).text = (mDataset[position]as Stuff).weight.toString()
@@ -51,7 +76,6 @@ class ItemAdapter(val mDataset: ArrayList<Any>, callback : RecyclerViewClickList
             holder!!.lineObject.findViewById<LinearLayout>(R.id.line_item_weight_layout).visibility = View.GONE
         }
 
-        if(mDataset[position] is Item) holder!!.lineObject.findViewById<TextView>(R.id.line_item_quantity_txt).text = (mDataset[position] as Item).quantity.toString()
         holder.lineObject.setOnClickListener {
             callback.onItemClicked(position, holder.lineObject)
         }

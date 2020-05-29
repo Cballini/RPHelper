@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -12,14 +12,16 @@
         android:src="@drawable/ic_arrow_drop_down"
         android:tint="@color/colorPrimaryDark"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/indic_solo_layout"/>
     <LinearLayout
         android:id="@+id/indic_solo_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/indic_solo_drop">
+        app:layout_constraintStart_toEndOf="@+id/indic_solo_drop"
+        app:layout_constraintEnd_toEndOf="parent">
         <TextView
             android:id="@+id/indic_solo_title"
             android:layout_width="wrap_content"
@@ -30,6 +32,7 @@
             android:paddingVertical="@dimen/txt_margin"
             android:text="@string/def"
             android:textSize="@dimen/cat_txt"
+            android:layout_weight="1"
             android:textColor="@color/colorCatTitle"/>
 
         <TextView
@@ -42,6 +45,7 @@
             android:paddingHorizontal="@dimen/small_margin"
             android:minHeight="@dimen/double_app_margin"
             android:textSize="@dimen/cat_txt"
+            android:layout_weight="6"
             android:background="@color/colorCatTitle"
             android:textColor="@color/colorTxt"/>
 
@@ -57,6 +61,7 @@
             android:background="@drawable/shape_dotted"
             android:paddingHorizontal="@dimen/small_margin"
             android:minHeight="@dimen/double_app_margin"
+            android:layout_weight="1"
             android:textSize="@dimen/cat_txt"/>
     </LinearLayout>
 
