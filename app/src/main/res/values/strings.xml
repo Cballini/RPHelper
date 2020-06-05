@@ -80,6 +80,7 @@
     <string name="nb">NB</string>
     <string name="warning_armor_type">Attention vous devez sélectionner le type de votre pièce d\'armure.</string>
     <string name="nothing">Rien</string>
+    <string name="inventory_disequip_all">Déséquiper tout </string>
 
     <string name="choose_type_item">Type d\'objet(s)</string>
     <string name="type">Type</string>

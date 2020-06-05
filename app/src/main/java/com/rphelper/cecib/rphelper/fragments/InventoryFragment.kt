@@ -3,8 +3,11 @@ package com.rphelper.cecib.rphelper.fragments
 
 import android.app.Dialog
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModel
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.support.design.button.MaterialButton
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -114,8 +117,15 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                 view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.inputType = InputType.TYPE_CLASS_NUMBER
             }
         }
-        view.findViewById<ImageView>(R.id.inventory_add).setOnClickListener {
+        view.findViewById<FloatingActionButton>(R.id.inventory_add).setOnClickListener {
             addStuff()
+        }
+
+        view.findViewById<MaterialButton>(R.id.inventory_disequip_all).setOnClickListener{
+            for(jewel in viewModel.getJewels()){
+                disEquipJewel(jewel)
+            }
+            CalcUtils.reinitStuffPref(context!!)
         }
 
         return view
@@ -473,6 +483,12 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         modifPrefString(PREF_MODIFIER_IMMUN, jewel)
     }
 
+    fun disEquipJewel(jewel: Jewel) {
+        if(jewel.equip) {
+            equipJewel(jewel)
+        }
+    }
+
     fun equipWeapon(weapon: Weapon){
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -707,11 +723,87 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         dialog.findViewById<EditText>(R.id.item_effect_txt).setText(item.effect)
     }
 
+    fun equipItem(item: Item, isAdd :Boolean) {
+        val dialog = Dialog(activity)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.popup_equip_item)
+
+        if (!isAdd) {
+            item.equip = !item.equip
+            viewModel.editInventory()
+        }
+
+        dialog.findViewById<TextView>(R.id.equip_item_title).text = getString(R.string.disequip)
+        dialog.findViewById<TextView>(R.id.equip_item_ask).text = getString(R.string.ask_item_disequip)
+
+        dialog.findViewById<ImageView>(R.id.equip_item_cancel_button).setOnClickListener { dialog.dismiss() }
+
+        dialog.findViewById<TextView>(R.id.equip_item_save_button).setOnClickListener {
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_pv_max).isChecked) {
+                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_LIFE_MAX, PRIVATE_MODE)
+                val prefValue = sharedPref.getInt(PREF_MODIFIER_LIFE_MAX, 0)
+                val editor = sharedPref.edit()
+                var value = 0
+                if (dialog.findViewById<EditText>(R.id.equip_item_edit_pv_max).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_pv_max).text.toString().toInt()
+                if (item.equip) editor.putInt(PREF_MODIFIER_LIFE_MAX, prefValue+value) else editor.putInt(PREF_MODIFIER_LIFE_MAX, prefValue-value)
+                editor.apply()
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_cons_max).isChecked) {
+                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_CONST_MAX, PRIVATE_MODE)
+                val prefValue = sharedPref.getInt(PREF_MODIFIER_CONST_MAX, 0)
+                val editor = sharedPref.edit()
+                var value = 0
+                if (dialog.findViewById<EditText>(R.id.equip_item_edit_const_max).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_const_max).text.toString().toInt()
+                if (item.equip) editor.putInt(PREF_MODIFIER_CONST_MAX, prefValue+value) else editor.putInt(PREF_MODIFIER_CONST_MAX, prefValue-value)
+                editor.apply()
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_mana_max).isChecked) {
+                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_MANA_MAX, PRIVATE_MODE)
+                val prefValue = sharedPref.getInt(PREF_MODIFIER_MANA_MAX, 0)
+                val editor = sharedPref.edit()
+                var value = 0
+                if (dialog.findViewById<EditText>(R.id.equip_item_edit_mana_max).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_mana_max).text.toString().toInt()
+                if (item.equip) editor.putInt(PREF_MODIFIER_MANA_MAX, prefValue+value) else editor.putInt(PREF_MODIFIER_MANA_MAX, prefValue-value)
+                editor.apply()
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_weight_max).isChecked) {
+                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_WEIGHT_MAX, PRIVATE_MODE)
+                val prefValue = sharedPref.getInt(PREF_MODIFIER_WEIGHT_MAX, 0)
+                val editor = sharedPref.edit()
+                var value = 0
+                if (dialog.findViewById<EditText>(R.id.equip_item_edit_weight_max).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_weight_max).text.toString().toInt()
+                if (item.equip) editor.putInt(PREF_MODIFIER_WEIGHT_MAX, prefValue+value) else editor.putInt(PREF_MODIFIER_WEIGHT_MAX, prefValue-value)
+                editor.apply()
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_damages).isChecked) {
+                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_DAMAGES, PRIVATE_MODE)
+                val prefValue = sharedPref.getInt(PREF_MODIFIER_DAMAGES, 0)
+                val editor = sharedPref.edit()
+                var value = 0
+                if (dialog.findViewById<EditText>(R.id.equip_item_edit_damages).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_damages).text.toString().toInt()
+                if (item.equip) editor.putInt(PREF_MODIFIER_DAMAGES, prefValue+value) else editor.putInt(PREF_MODIFIER_DAMAGES, prefValue-value)
+                editor.apply()
+            }
+            if (dialog.findViewById<CheckBox>(R.id.equip_item_checkbox_defense).isChecked) {
+                val sharedPref: SharedPreferences = context!!.getSharedPreferences(PREF_MODIFIER_DEFENSE, PRIVATE_MODE)
+                val prefValue = sharedPref.getInt(PREF_MODIFIER_DEFENSE, 0)
+                val editor = sharedPref.edit()
+                var value = 0
+                if (dialog.findViewById<EditText>(R.id.equip_item_edit_defense).text.isNotBlank()) value = dialog.findViewById<EditText>(R.id.equip_item_edit_defense).text.toString().toInt()
+                if (item.equip) editor.putInt(PREF_MODIFIER_DEFENSE, prefValue+value) else editor.putInt(PREF_MODIFIER_DEFENSE, prefValue-value)
+                editor.apply()
+            }
+
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
     override fun onItemClicked(position: Int, v: View) {
         val popupMenu = PopupMenu(context, v)
 
         popupMenu.menuInflater.inflate(R.menu.menu_item, popupMenu.menu)
-        if (viewModel.items.value!![position] is Item) popupMenu.menu.findItem(R.id.action_equip).isVisible = false
+        //if (viewModel.items.value!![position] is Item) popupMenu.menu.findItem(R.id.action_equip).isVisible = false  //TODO remove after maj
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_edit -> {
@@ -736,6 +828,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                     if (viewModel.items.value!![position] is Shield) equipShield((viewModel.items.value!![position] as Shield))
                     if (viewModel.items.value!![position] is Armor) equipArmor((viewModel.items.value!![position] as Armor))
                     if (viewModel.items.value!![position] is Jewel) equipJewel((viewModel.items.value!![position] as Jewel))
+                    if (viewModel.items.value!![position] is Item) equipItem((viewModel.items.value!![position] as Item), false)
                 }
             }
             true

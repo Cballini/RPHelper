@@ -93,5 +93,30 @@ object CalcUtils {
     }
 
     @JvmStatic
+    fun reinitStuffPref(context: Context){
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_LIFE_MAX)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_MANA_MAX)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_CONST_MAX)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_WEIGHT_MAX)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_DAMAGES)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_DEFENSE)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_VIT)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_VIG)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_FOR)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_DEX)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_END)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_MEM)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_INT)
+        reinitJewelPref(context, Preferences.PREF_MODIFIER_FOI)
+    }
+
+    fun reinitJewelPref(context: Context, pref : String){
+        val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, Preferences.PRIVATE_MODE)
+        val editor = sharedPref.edit()
+        editor.putInt(pref, 0)
+        editor.apply()
+    }
+
+    @JvmStatic
     fun round1decimal(number : Float) = Math.round(number * 10.0) / 10.0
 }

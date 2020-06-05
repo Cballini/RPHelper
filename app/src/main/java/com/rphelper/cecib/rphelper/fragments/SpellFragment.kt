@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -232,7 +233,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun addSpell(view: View, id: Int, place: String) {
-        view.findViewById<ImageView>(id).setOnClickListener {
+        view.findViewById<FloatingActionButton>(id).setOnClickListener {
             val dialog = Dialog(activity)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setContentView(R.layout.popup_edit_spell)

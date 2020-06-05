@@ -6,8 +6,8 @@ android {
         applicationId "com.rphelper.cecib.rphelper"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 8
-        versionName "6"
+        versionCode 9
+        versionName "7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
