@@ -133,7 +133,7 @@ class SpellViewModel(val context: Context) : ViewModel() {
 
     fun attack(spell: Spell){
         val char = Services.getCharacter(context)
-        char.const.value -= 30
+        char.const.value -= 20
         char.mana.value -= spell.mana
         Services.editCharacter(context, char)
     }

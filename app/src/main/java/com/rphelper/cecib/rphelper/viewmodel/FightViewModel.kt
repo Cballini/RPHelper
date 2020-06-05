@@ -83,7 +83,7 @@ class FightViewModel(val context: Context) :ViewModel(){
 
     fun dodge():Int{
         val char = Services.getCharacter(context)
-        char.const.value -= 30
+        char.const.value -= 40
         Services.editCharacter(context, char)
         return 30
     }
@@ -105,7 +105,7 @@ class FightViewModel(val context: Context) :ViewModel(){
 
     fun getPoison():Int{
         val char = Services.getCharacter(context)
-        val damages = (CalcUtils.getLifeMax(context, char)*0.2).toInt()
+        val damages = (CalcUtils.getLifeMax(context, char)*0.05).toInt()
         char.life.value -= damages
         Services.editCharacter(context, char)
         return damages
