@@ -16,7 +16,6 @@ class InventoryViewModel (val context: Context) : ViewModel(){
         _money.value = Services.getMoney(context)
     }
 
-    //TODO clean empty_inventory
     //TODO rename
     val _items = MutableLiveData<ArrayList<Any>>()
     val items : LiveData<ArrayList<Any>> get() = _items

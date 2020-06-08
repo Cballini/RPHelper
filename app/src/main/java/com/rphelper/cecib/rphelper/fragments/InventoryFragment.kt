@@ -122,9 +122,19 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         }
 
         view.findViewById<MaterialButton>(R.id.inventory_disequip_all).setOnClickListener{
+            var newJewels = ArrayList<Jewel>()
             for(jewel in viewModel.getJewels()){
-                disEquipJewel(jewel)
+                if(jewel.equip){
+                    modifPrefString(PREF_MODIFIER_WEAK, jewel)
+                    modifPrefString(PREF_MODIFIER_RES, jewel)
+                    modifPrefString(PREF_MODIFIER_IMMUN, jewel)
+                    jewel.equip = false
+                    newJewels.add(jewel)
+                }
             }
+            viewModel.items.value!!.removeAll(viewModel.getJewels())
+            viewModel.items.value!!.addAll(newJewels)
+            viewModel.editInventory()
             CalcUtils.reinitStuffPref(context!!)
         }
 
@@ -153,7 +163,8 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
 
     fun editWeapon(weapon: Weapon, isAdd :Boolean) {
         DisplayUtils.openWeaponDialog(getString(R.string.weapon), weapon, context!!, activity!!,
-                {/*TODO equip*/ },
+                {if(weapon.boost>0)equipCata(weapon)
+                else equipWeapon(weapon) },
                 {/*no delete*/ },
                 {weapon.equip = false
                     if(isAdd)viewModel.items.value!!.add(weapon)
@@ -163,7 +174,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
 
     fun editShield(shield: Shield, isAdd :Boolean) {
         DisplayUtils.openShieldDialog(shield, context!!, activity!!,
-                {/*TODO equip*/ },
+                {equipShield(shield) },
                 {/*no delete*/ },
                 {shield.equip = false
                     if(isAdd)viewModel.items.value!!.add(shield)
@@ -173,7 +184,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
 
     fun editArmor(armor: Armor, isAdd :Boolean) {
         DisplayUtils.openArmorDialog(getString(R.string.armor), armor, context!!, activity!!,
-                {/*TODO equip*/ },
+                {equipArmor(armor) },
                 {/*no delete*/ },
                 {armor.equip = false
                     if(isAdd)viewModel.items.value!!.add(armor)
@@ -196,6 +207,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         dialog.findViewById<TextView>(R.id.jewel_ask).text = getString(R.string.ask_jewel)
 
         fillJewel(dialog, jewel)
+        val isAlreadyEquip = jewel.equip
 
         dialog.findViewById<CheckBox>(R.id.jewel_checkbox_weakness).setOnCheckedChangeListener { compoundButton, check ->
             if(check) dialog.findViewById<LinearLayout>(R.id.jewel_weakness_layout).visibility = View.VISIBLE
@@ -214,88 +226,71 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         dialog.findViewById<TextView>(R.id.jewel_save_button).setOnClickListener {
             jewel.name = dialog.findViewById<TextView>(R.id.jewel_name_txt).text.toString()
             jewel.weight = if (dialog.findViewById<EditText>(R.id.jewel_weight_txt).text.toString().isNotEmpty()) dialog.findViewById<EditText>(R.id.jewel_weight_txt).text.toString().toFloat() else 0F
-            jewel.equip = dialog.findViewById<CheckBox>(R.id.jewel_equip).isChecked
             jewel.desc = if (dialog.findViewById<EditText>(R.id.jewel_desc_txt).text.toString().isNotEmpty()) dialog.findViewById<EditText>(R.id.jewel_desc_txt).text.toString() else ""
-
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_pv_max).isChecked) {
-                jewel.maxLifeModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_pv_max).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_pv_max).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_LIFE_MAX, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_cons_max).isChecked) {
-                jewel.maxConstModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_const_max).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_const_max).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_CONST_MAX, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_mana_max).isChecked) {
-                jewel.maxManaModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_mana_max).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_mana_max).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_MANA_MAX, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_weight_max).isChecked) {
-                jewel.maxWeightModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_weight_max).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_weight_max).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_WEIGHT_MAX, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_damages).isChecked) {
-                jewel.damageModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_damages).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_damages).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_DAMAGES, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_defense).isChecked) {
-                jewel.defModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_defense).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_defense).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_DEFENSE, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_vit).isChecked) {
-                jewel.vitModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_vit).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_vit).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_VIT, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_vig).isChecked) {
-                jewel.vigModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_vig).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_vig).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_VIG, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_for).isChecked) {
-                jewel.forModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_for).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_for).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_FOR, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_dex).isChecked) {
-                jewel.dexModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_dex).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_dex).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_DEX, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_end).isChecked) {
-                jewel.endModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_end).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_end).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_END, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_mem).isChecked) {
-                jewel.memModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_mem).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_mem).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_MEM, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_int).isChecked) {
-                jewel.intModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_int).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_int).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_INT, jewel)
-            }
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_foi).isChecked) {
-                jewel.foiModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_foi).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_foi).text.toString().toInt() else 0
-                if (jewel.equip) modifPref(PREF_MODIFIER_FOI, jewel)
-            }
-
-            jewel.weakModifier.clear()
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_weakness).isChecked){
-                if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_magic).isChecked) jewel.weakModifier.add(Elem.MAGIC)
-                if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_fire).isChecked) jewel.weakModifier.add(Elem.FIRE)
-                if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_dark).isChecked) jewel.weakModifier.add(Elem.DARKNESS)
-                if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_light).isChecked) jewel.weakModifier.add(Elem.LIGHTNING)
-                if (jewel.equip) modifPrefString(PREF_MODIFIER_WEAK, jewel)
-            }
-            jewel.resModifier.clear()
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_res).isChecked){
-                if(dialog.findViewById<CheckBox>(R.id.jewel_res_magic).isChecked) jewel.resModifier.add(Elem.MAGIC)
-                if(dialog.findViewById<CheckBox>(R.id.jewel_res_fire).isChecked) jewel.resModifier.add(Elem.FIRE)
-                if(dialog.findViewById<CheckBox>(R.id.jewel_res_dark).isChecked) jewel.resModifier.add(Elem.DARKNESS)
-                if(dialog.findViewById<CheckBox>(R.id.jewel_res_light).isChecked) jewel.resModifier.add(Elem.LIGHTNING)
-                if (jewel.equip) modifPrefString(PREF_MODIFIER_RES, jewel)
-            }
-            jewel.immunModifier.clear()
-            if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_immun).isChecked){
-                if(dialog.findViewById<CheckBox>(R.id.jewel_immun_poison).isChecked) jewel.immunModifier.add(Status.POISON)
-                if(dialog.findViewById<CheckBox>(R.id.jewel_immun_bleed).isChecked) jewel.immunModifier.add(Status.BLEED)
-                if(dialog.findViewById<CheckBox>(R.id.jewel_immun_frost).isChecked) jewel.immunModifier.add(Status.FROST)
-                if (jewel.equip) modifPrefString(PREF_MODIFIER_IMMUN, jewel)
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_pv_max).isChecked) {
+                    jewel.maxLifeModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_pv_max).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_pv_max).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_cons_max).isChecked) {
+                    jewel.maxConstModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_const_max).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_const_max).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_mana_max).isChecked) {
+                    jewel.maxManaModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_mana_max).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_mana_max).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_weight_max).isChecked) {
+                    jewel.maxWeightModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_weight_max).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_weight_max).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_damages).isChecked) {
+                    jewel.damageModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_damages).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_damages).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_defense).isChecked) {
+                    jewel.defModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_defense).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_defense).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_vit).isChecked) {
+                    jewel.vitModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_vit).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_vit).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_vig).isChecked) {
+                    jewel.vigModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_vig).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_vig).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_for).isChecked) {
+                    jewel.forModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_for).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_for).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_dex).isChecked) {
+                    jewel.dexModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_dex).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_dex).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_end).isChecked) {
+                    jewel.endModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_end).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_end).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_mem).isChecked) {
+                    jewel.memModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_mem).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_mem).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_int).isChecked) {
+                    jewel.intModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_int).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_int).text.toString().toInt() else 0
+                }
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_foi).isChecked) {
+                    jewel.foiModifier = if (dialog.findViewById<EditText>(R.id.jewel_edit_foi).text.isNotBlank()) dialog.findViewById<EditText>(R.id.jewel_edit_foi).text.toString().toInt() else 0
+                }
+                jewel.weakModifier.clear()
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_weakness).isChecked){
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_magic).isChecked) jewel.weakModifier.add(Elem.MAGIC)
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_fire).isChecked) jewel.weakModifier.add(Elem.FIRE)
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_dark).isChecked) jewel.weakModifier.add(Elem.DARKNESS)
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_weakness_light).isChecked) jewel.weakModifier.add(Elem.LIGHTNING)
+                }
+                jewel.resModifier.clear()
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_res).isChecked){
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_res_magic).isChecked) jewel.resModifier.add(Elem.MAGIC)
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_res_fire).isChecked) jewel.resModifier.add(Elem.FIRE)
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_res_dark).isChecked) jewel.resModifier.add(Elem.DARKNESS)
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_res_light).isChecked) jewel.resModifier.add(Elem.LIGHTNING)
+                }
+                jewel.immunModifier.clear()
+                if (dialog.findViewById<CheckBox>(R.id.jewel_checkbox_immun).isChecked){
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_immun_poison).isChecked) jewel.immunModifier.add(Status.POISON)
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_immun_bleed).isChecked) jewel.immunModifier.add(Status.BLEED)
+                    if(dialog.findViewById<CheckBox>(R.id.jewel_immun_frost).isChecked) jewel.immunModifier.add(Status.FROST)
+                }
+            if ((!isAlreadyEquip && dialog.findViewById<CheckBox>(R.id.jewel_equip).isChecked) || (isAlreadyEquip && !dialog.findViewById<CheckBox>(R.id.jewel_equip).isChecked)){
+                equipJewel(jewel)
             }
             toDoSave()
             dialog.dismiss()
@@ -461,7 +456,6 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun equipJewel(jewel: Jewel) {
-
         jewel.equip = !jewel.equip
         viewModel.editInventory()
         modifPref(PREF_MODIFIER_LIFE_MAX, jewel)
@@ -481,12 +475,6 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         modifPrefString(PREF_MODIFIER_WEAK, jewel)
         modifPrefString(PREF_MODIFIER_RES, jewel)
         modifPrefString(PREF_MODIFIER_IMMUN, jewel)
-    }
-
-    fun disEquipJewel(jewel: Jewel) {
-        if(jewel.equip) {
-            equipJewel(jewel)
-        }
     }
 
     fun equipWeapon(weapon: Weapon){
@@ -803,7 +791,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         val popupMenu = PopupMenu(context, v)
 
         popupMenu.menuInflater.inflate(R.menu.menu_item, popupMenu.menu)
-        //if (viewModel.items.value!![position] is Item) popupMenu.menu.findItem(R.id.action_equip).isVisible = false  //TODO remove after maj
+        if (viewModel.items.value!![position] is Item) popupMenu.menu.findItem(R.id.action_equip).isVisible = false
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_edit -> {

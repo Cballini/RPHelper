@@ -51,6 +51,7 @@ class ItemAdapter(val mDataset: ArrayList<Any>, callback : RecyclerViewClickList
             }
         }
         if(mDataset[position] is Jewel) {
+            holder!!.lineObject.findViewById<ImageView>(R.id.line_item_equip_img).visibility = View.VISIBLE
             var desc = (mDataset[position] as Jewel).desc
             desc += (mDataset[position] as Jewel).getDescription()
             holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = desc
@@ -66,7 +67,10 @@ class ItemAdapter(val mDataset: ArrayList<Any>, callback : RecyclerViewClickList
         if(mDataset[position] is Item) {
             holder!!.lineObject.findViewById<TextView>(R.id.line_item_note).text = (mDataset[position] as Item).effect
             holder!!.lineObject.findViewById<ImageView>(R.id.line_item_icon).setImageResource(R.drawable.item)
+            holder!!.lineObject.findViewById<LinearLayout>(R.id.line_item_quantity_layout).visibility = View.VISIBLE
             holder!!.lineObject.findViewById<TextView>(R.id.line_item_quantity_txt).text = (mDataset[position] as Item).quantity.toString()
+        }else{
+            holder!!.lineObject.findViewById<LinearLayout>(R.id.line_item_quantity_layout).visibility = View.GONE
         }
 
         if(0F!=(mDataset[position]as Stuff).weight) {
