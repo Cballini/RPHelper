@@ -111,14 +111,15 @@
         android:textSize="@dimen/cat_txt"
         android:textStyle="bold"
         android:layout_weight="1"/>
-        <Button
+        <android.support.design.button.MaterialButton
             android:id="@+id/damage_submit"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:padding="@dimen/txt_margin"
+            android:layout_height="@dimen/button_height"
             android:text="@string/submit"
+            android:gravity="center"
             android:textColor="@color/colorCatTitle"
             android:backgroundTint="@color/colorAccent"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:layout_weight="1"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

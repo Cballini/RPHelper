@@ -23,6 +23,33 @@
                 android:elevation="1dp"
                 android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent">
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <com.rphelper.cecib.rphelper.component.SpellComponent
+                        android:id="@+id/spell_first_equip"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/txt_margin"
+                        android:paddingStart="@dimen/small_margin"
+                        android:paddingVertical="@dimen/small_margin"
+                        app:layout_constraintEnd_toStartOf="@id/spell_second_equip"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.rphelper.cecib.rphelper.component.SpellComponent
+                        android:id="@+id/spell_second_equip"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="@dimen/small_margin"
+                        android:paddingStart="@dimen/txt_margin"
+                        android:paddingVertical="@dimen/small_margin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/spell_first_equip"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,33 +101,7 @@
                         android:paddingVertical="@dimen/small_margin" />
                 </LinearLayout>
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1">
 
-                    <com.rphelper.cecib.rphelper.component.SpellComponent
-                        android:id="@+id/spell_first_equip"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/txt_margin"
-                        android:paddingStart="@dimen/small_margin"
-                        android:paddingVertical="@dimen/small_margin"
-                        app:layout_constraintEnd_toStartOf="@id/spell_second_equip"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <com.rphelper.cecib.rphelper.component.SpellComponent
-                        android:id="@+id/spell_second_equip"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="@dimen/small_margin"
-                        android:paddingStart="@dimen/txt_margin"
-                        android:paddingVertical="@dimen/small_margin"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/spell_first_equip"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </android.support.constraint.ConstraintLayout>
 
             </LinearLayout>
 

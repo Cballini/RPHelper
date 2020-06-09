@@ -76,23 +76,27 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
-                <Button
+                <android.support.design.button.MaterialButton
                     android:id="@+id/fight_action_attack"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/button_height"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Attaquer"
                     android:textColor="@color/colorCatTitle"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
-                <Button
+                <android.support.design.button.MaterialButton
                     android:id="@+id/fight_action_twin"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/button_height"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Attaquer twin"
                     android:textColor="@color/colorCatTitle"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
             <LinearLayout
@@ -101,23 +105,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
-                <Button
+                <android.support.design.button.MaterialButton
                     android:id="@+id/fight_action_block"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/button_height"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Bloquer"
                     android:textColor="@color/colorCatTitle"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
-                <Button
+                <android.support.design.button.MaterialButton
                     android:id="@+id/fight_action_dodge"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/button_height"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Esquiver"
                     android:textColor="@color/colorCatTitle"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
 
@@ -180,14 +188,16 @@
                     android:gravity="center"
                     android:textColor="@color/colorTxt"
                     android:inputType="number"/>
-                <Button
+                <android.support.design.button.MaterialButton
                     android:id="@+id/fight_action_bleed"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginEnd="@dimen/txt_margin"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/submit"
                     android:textColor="@color/colorCatTitle"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
             <LinearLayout
@@ -195,23 +205,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
-                <Button
+                <android.support.design.button.MaterialButton
                     android:id="@+id/fight_action_poison"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/button_height"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Poison"
                     android:textColor="@color/colorCatTitle"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
-                <Button
+                <android.support.design.button.MaterialButton
                     android:id="@+id/fight_action_frost"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="@dimen/button_height"
                     android:layout_weight="1"
                     android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Frost"
                     android:textColor="@color/colorCatTitle"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
         </LinearLayout>
