@@ -100,7 +100,7 @@ object DisplayUtils {
             dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.weapon_delete_button).setOnClickListener {
-            toDoDelete()
+            removeEquipment(context, toDoDelete)
             dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.weapon_save_button).setOnClickListener {
@@ -184,7 +184,22 @@ object DisplayUtils {
         dialog.show()
     }
 
-
+fun removeEquipment(context: Context, toDoDelete: () -> Unit){
+    val builder = AlertDialog.Builder(context)
+    with(builder)
+    {
+        setTitle(context.getString(R.string.warning))
+        setMessage(context.getString(R.string.confirm_delete))
+        setNegativeButton(context.getString(R.string.no)) { dialog, which ->
+            dialog.dismiss()
+        }
+        setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
+            toDoDelete()
+            dialog.dismiss()
+        }
+        show()
+    }
+}
 
     fun fillWeaponEdit(dialog: Dialog, weapon: Weapon?) {
         if (!weapon!!.name.isNullOrEmpty()) {
@@ -255,7 +270,7 @@ object DisplayUtils {
                 dialog.dismiss()
             }
             dialog.findViewById<TextView>(R.id.shield_delete_button).setOnClickListener {
-                toDoDelete()
+                removeEquipment(context, toDoDelete)
                 dialog.dismiss()
             }
             dialog.findViewById<TextView>(R.id.shield_save_button).setOnClickListener {
@@ -334,7 +349,7 @@ object DisplayUtils {
             dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.armor_delete_button).setOnClickListener {
-            toDoDelete()
+            removeEquipment(context, toDoDelete)
             dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.armor_save_button).setOnClickListener {

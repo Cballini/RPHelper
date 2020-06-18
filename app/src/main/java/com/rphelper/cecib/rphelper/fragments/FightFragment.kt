@@ -4,6 +4,7 @@ package com.rphelper.cecib.rphelper.fragments
 import android.app.AlertDialog
 import android.arch.lifecycle.Observer
 import android.os.Bundle
+import android.support.design.button.MaterialButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.text.Editable
@@ -13,7 +14,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.rphelper.cecib.rphelper.R
+import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.component.DamageComponent
+import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.viewmodel.FightViewModel
 
 
@@ -132,8 +135,8 @@ class FightFragment : Fragment() {
             })
             view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageSubmit.setOnClickListener {
                 val result = view.findViewById<DamageComponent>(R.id.fight_calc_damage).damageResult.text.toString().toInt()
-                viewModel.submit(result)
-                checkAndDisplayAlert(getString(R.string.pv), result)
+                val life = viewModel.submit(result)
+                checkAndDisplayAlert(getString(R.string.pv), result, life)
             }
         }
 
@@ -162,44 +165,49 @@ class FightFragment : Fragment() {
         })
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.text = getString(R.string.recover)
         view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageSubmit.setOnClickListener {
-            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton1.isChecked){ viewModel.recoverLife(recovery); msgHeal(getString(R.string.pv), recovery)}
-            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton2.isChecked){viewModel.recoverConst(recovery); msgHeal(getString(R.string.constitution), recovery) }
-            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton3.isChecked){viewModel.recoverMana(recovery); msgHeal(getString(R.string.mana), recovery)}
+            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton1.isChecked){ val life = viewModel.recoverLife(recovery); msgHeal(getString(R.string.pv), recovery, life)}
+            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton2.isChecked){val const = viewModel.recoverConst(recovery); msgHeal(getString(R.string.constitution), recovery, const) }
+            if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton3.isChecked){val mana = viewModel.recoverMana(recovery); msgHeal(getString(R.string.mana), recovery, mana)}
         }
 
         /********* ACTIONS *************/
-        view.findViewById<Button>(R.id.fight_action_attack).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), viewModel.attackOrBlock()) }
-        view.findViewById<Button>(R.id.fight_action_twin).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), viewModel.twin()) }
-        view.findViewById<Button>(R.id.fight_action_block).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), viewModel.attackOrBlock()) }
-        view.findViewById<Button>(R.id.fight_action_dodge).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), viewModel.dodge()) }
+        view.findViewById<Button>(R.id.fight_action_attack).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), 80,  viewModel.attackOrBlock()) }
+        view.findViewById<Button>(R.id.fight_action_twin).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), 120, viewModel.twin()) }
+        view.findViewById<Button>(R.id.fight_action_block).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), 80, viewModel.attackOrBlock()) }
+        view.findViewById<Button>(R.id.fight_action_dodge).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), 30, viewModel.dodge()) }
         view.findViewById<EditText>(R.id.fight_action_bleed_txt).setText(viewModel.bleed.value.toString())
         view.findViewById<Button>(R.id.fight_action_bleed).setOnClickListener {
             var damage = 0
             if (view.findViewById<EditText>(R.id.fight_action_bleed_txt).text.isNotBlank()) damage = view.findViewById<EditText>(R.id.fight_action_bleed_txt).text.toString().toInt()
-            viewModel.bleed(damage)
-            checkAndDisplayAlert(getString(R.string.pv), damage)}
-        view.findViewById<Button>(R.id.fight_action_poison).setOnClickListener { checkAndDisplayAlert(getString(R.string.pv), viewModel.getPoison())}
+            val life = viewModel.bleed(damage)
+            checkAndDisplayAlert(getString(R.string.pv), damage, life)}
+        //TODO refacto
+        view.findViewById<Button>(R.id.fight_action_poison).setOnClickListener { checkAndDisplayAlert(getString(R.string.pv),(CalcUtils.getLifeMax(context!!, Services.getCharacter(context!!))*0.05).toInt(), viewModel.getPoison())}
         viewModel.frost.observe(viewLifecycleOwner, Observer {
             if(it!!){
-                view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.annul_frost)
+                view.findViewById<MaterialButton>(R.id.fight_action_frost).text = getString(R.string.annul_frost)
             }else{
-                view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.activ_frost)
+                view.findViewById<MaterialButton>(R.id.fight_action_frost).text = getString(R.string.activ_frost)
             }
         })
-        view.findViewById<Button>(R.id.fight_action_frost).setOnClickListener { viewModel.frost() }
+        view.findViewById<Button>(R.id.fight_action_frost).setOnClickListener {
+            val const = viewModel.frost()
+            if(viewModel.frost.value!!) Snackbar.make(view, context!!.getString(R.string.activ_msg_frost) + " " +const, Snackbar.LENGTH_LONG).show()
+            else Snackbar.make(view, context!!.getString(R.string.annul_msg_frost) +const +")", Snackbar.LENGTH_SHORT).show()
+        }
 
         return view
     }
 
-    fun checkAndDisplayAlert(type:String, value : Int){
+    fun checkAndDisplayAlert(type:String, value : Int, stat:Int){
         var msg =""
         var snackMsg =""
         when(type){
             getString(R.string.pv)->{
                 if(viewModel.checkLife()){
-                    msg = getString(R.string.warning_life)
+                    msg = getString(R.string.warning_life) + "Il vous reste : " + stat + "/" + viewModel.maxLife+"."
                 }else{
-                    snackMsg = getString(R.string.lost_msg) + " " + value + " points de vie."
+                    snackMsg = getString(R.string.lost_msg) + " " + value + " points de vie. (" + stat + "/" + viewModel.maxLife+"pv)."
                 }
             }
             getString(R.string.constitution)->{
@@ -208,7 +216,7 @@ class FightFragment : Fragment() {
                 }else if(viewModel.checkConst(80)){
                     msg = getString(R.string.warning_const80)
                 }else{
-                    snackMsg = getString(R.string.lost_msg) + " " + value + " points de constitution."
+                    snackMsg = getString(R.string.lost_msg) + " " + value + " points de constitution. (" + stat + "/" + viewModel.maxConst +"pc)."
                 }
             }
         }
@@ -224,14 +232,14 @@ class FightFragment : Fragment() {
         }else{ Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_LONG).show() }
     }
 
-    fun msgHeal(type:String, value : Int){
+    fun msgHeal(type:String, value : Int, stat: Int){
         var snackMsg =""
         when(type){
-            getString(R.string.pv) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de vie."
-            getString(R.string.constitution) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de constitution."
-            getString(R.string.mana) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de mana."
+            getString(R.string.pv) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de vie. (" + stat + "/" + viewModel.maxLife + "pv)."
+            getString(R.string.constitution) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de constitution. (" + stat + "/" + viewModel.maxConst + "pc)."
+            getString(R.string.mana) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de mana. (" + stat + "/" + viewModel.maxMana + "pm)."
         }
-        Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_LONG).show()
     }
 
 }

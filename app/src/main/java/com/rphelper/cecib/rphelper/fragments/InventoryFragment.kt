@@ -1,6 +1,7 @@
 package com.rphelper.cecib.rphelper.fragments
 
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModel
@@ -165,7 +166,9 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         DisplayUtils.openWeaponDialog(getString(R.string.weapon), weapon, context!!, activity!!,
                 {if(weapon.boost>0)equipCata(weapon)
                 else equipWeapon(weapon) },
-                {/*no delete*/ },
+                {if(viewModel.items.value!!.contains(weapon)){
+                    viewModel.items.value!!.remove(weapon)
+                    viewModel.editInventory()} },
                 {weapon.equip = false
                     if(isAdd)viewModel.items.value!!.add(weapon)
                     viewModel.editInventory()
@@ -175,7 +178,9 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     fun editShield(shield: Shield, isAdd :Boolean) {
         DisplayUtils.openShieldDialog(shield, context!!, activity!!,
                 {equipShield(shield) },
-                {/*no delete*/ },
+                {if(viewModel.items.value!!.contains(shield)){
+                    viewModel.items.value!!.remove(shield)
+                    viewModel.editInventory()}},
                 {shield.equip = false
                     if(isAdd)viewModel.items.value!!.add(shield)
                     viewModel.editInventory()
@@ -185,7 +190,9 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     fun editArmor(armor: Armor, isAdd :Boolean) {
         DisplayUtils.openArmorDialog(getString(R.string.armor), armor, context!!, activity!!,
                 {equipArmor(armor) },
-                {/*no delete*/ },
+                {if(viewModel.items.value!!.contains(armor)){
+                    viewModel.items.value!!.remove(armor)
+                    viewModel.editInventory()} },
                 {armor.equip = false
                     if(isAdd)viewModel.items.value!!.add(armor)
                     viewModel.editInventory()
@@ -787,6 +794,26 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         dialog.show()
     }
 
+    fun remmoveStuff(position: Int){
+        val builder = AlertDialog.Builder(context)
+        with(builder)
+        {
+            setTitle(getString(R.string.warning))
+            setMessage(getString(R.string.confirm_delete))
+            setNegativeButton(getString(R.string.no)){dialog, which ->
+                dialog.dismiss()
+            }
+            setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                if (viewModel.items.value!![position] is Jewel) {
+                    if ((viewModel.items.value!![position] as Jewel).equip) equipJewel((viewModel.items.value!![position] as Jewel)) //disequip before remove
+                }
+                viewModel.items.value!!.remove(viewModel.items.value!![position])
+                viewModel.editInventory()
+                dialog.dismiss() }
+            show()
+        }
+    }
+
     override fun onItemClicked(position: Int, v: View) {
         val popupMenu = PopupMenu(context, v)
 
@@ -802,11 +829,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                     if (viewModel.items.value!![position] is Item) editItem((viewModel.items.value!![position] as Item))
                 }
                 R.id.action_delete -> {
-                    if (viewModel.items.value!![position] is Jewel) {
-                        if ((viewModel.items.value!![position] as Jewel).equip) equipJewel((viewModel.items.value!![position] as Jewel)) //disequip before remove
-                    }
-                    viewModel.items.value!!.remove(viewModel.items.value!![position])
-                    viewModel.editInventory()
+                    remmoveStuff(position)
                 }
                 R.id.action_equip -> {
                     if (viewModel.items.value!![position] is Weapon) {

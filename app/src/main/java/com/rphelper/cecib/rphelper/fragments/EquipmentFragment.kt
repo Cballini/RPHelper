@@ -2,7 +2,6 @@ package com.rphelper.cecib.rphelper.fragments
 
 
 import android.app.AlertDialog
-import android.app.Dialog
 import android.arch.lifecycle.Observer
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -11,8 +10,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.*
+import android.widget.CheckBox
+import android.widget.TextView
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.EquipmentComponent
@@ -269,34 +268,65 @@ class EquipmentFragment : Fragment() {
         view!!.findViewById<EquipmentComponent>(id).equipmentWeightTxt.text = armor!!.weight.toString()
     }
 
-    fun editWeapon(type: String, weapon: Weapon){
+    fun editWeapon(type: String, weapon: Weapon) {
         DisplayUtils.openWeaponDialog(type, weapon, context!!, activity!!,
-                {displayMsg(weapon.name)
-                    viewModel.weaponToInventory(type, weapon) },
-                {weapon.reinit()
-                    viewModel.editEquipment()},
-                { weapon.equip = true
-                    viewModel.editEquipment()})
+                {
+                    displayMsg(weapon.name)
+                    viewModel.weaponToInventory(type, weapon)
+                },
+                {
+                    val builder = AlertDialog.Builder(context)
+                    with(builder)
+                    {
+                        setTitle(getString(R.string.warning))
+                        setMessage(getString(R.string.confirm_delete))
+                        setNegativeButton(getString(R.string.no)) { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                            weapon.reinit()
+                            viewModel.editEquipment()
+                            dialog.dismiss()
+                        }
+                        show()
+                    }
+                },
+                {
+                    weapon.equip = true
+                    viewModel.editEquipment()
+                })
     }
 
-    fun editShield(){
+    fun editShield() {
         DisplayUtils.openShieldDialog(viewModel.shield.value!!, context!!, activity!!,
-                {displayMsg(viewModel.shield.value!!.name)
-                    viewModel.shieldToInventory(viewModel.shield.value!!)},
-                {viewModel.shield.value?.let { viewModel.shield.value!!.reinit() }
-                    viewModel.editEquipment()},
-                {viewModel.shield.value!!.equip = true
-                    viewModel.editEquipment()})
+                {
+                    displayMsg(viewModel.shield.value!!.name)
+                    viewModel.shieldToInventory(viewModel.shield.value!!)
+                },
+                {
+                    viewModel.shield.value?.let { viewModel.shield.value!!.reinit() }
+                    viewModel.editEquipment()
+                },
+                {
+                    viewModel.shield.value!!.equip = true
+                    viewModel.editEquipment()
+                })
     }
 
-    fun editArmor(type: String, armor: Armor){
+    fun editArmor(type: String, armor: Armor) {
         DisplayUtils.openArmorDialog(type, armor, context!!, activity!!,
-                {displayMsg(armor.name)
-                    viewModel.armorToInventory(type, armor)},
-                {armor.reinit()
-                    viewModel.editEquipment()},
-                {armor.equip = true
-                    viewModel.editEquipment()})
+                {
+                    displayMsg(armor.name)
+                    viewModel.armorToInventory(type, armor)
+                },
+                {
+                    armor.reinit()
+                    viewModel.editEquipment()
+                },
+                {
+                    armor.equip = true
+                    viewModel.editEquipment()
+                })
     }
 
     fun displayMsg(name: String) {
@@ -334,10 +364,10 @@ class EquipmentFragment : Fragment() {
             val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, Preferences.PRIVATE_MODE)
             val editor = sharedPref.edit()
             var value = ""
-            if (magic.isChecked) value+=Elem.MAGIC.name
-            if (fire.isChecked) value+=" " + Elem.FIRE.name
-            if (light.isChecked) value+=" " + Elem.LIGHTNING.name
-            if (dark.isChecked) value+=" " + Elem.DARKNESS.name
+            if (magic.isChecked) value += Elem.MAGIC.name
+            if (fire.isChecked) value += " " + Elem.FIRE.name
+            if (light.isChecked) value += " " + Elem.LIGHTNING.name
+            if (dark.isChecked) value += " " + Elem.DARKNESS.name
             editor.putString(pref, value)
             editor.apply()
             viewModel.editEquipment()
@@ -370,9 +400,9 @@ class EquipmentFragment : Fragment() {
             val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, Preferences.PRIVATE_MODE)
             val editor = sharedPref.edit()
             var value = ""
-            if (bleed.isChecked) value+=Status.BLEED.name
-            if (poison.isChecked) value+=" " + Status.POISON.name
-            if (frost.isChecked) value+=" " + Status.FROST.name
+            if (bleed.isChecked) value += Status.BLEED.name
+            if (poison.isChecked) value += " " + Status.POISON.name
+            if (frost.isChecked) value += " " + Status.FROST.name
             editor.putString(pref, value)
             editor.apply()
             viewModel.editEquipment()

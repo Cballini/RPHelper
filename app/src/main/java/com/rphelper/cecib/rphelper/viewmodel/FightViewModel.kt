@@ -9,6 +9,7 @@ import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Fight
 import com.rphelper.cecib.rphelper.utils.CalcUtils
+import kotlin.math.absoluteValue
 
 class FightViewModel(val context: Context) :ViewModel(){
 
@@ -36,6 +37,10 @@ class FightViewModel(val context: Context) :ViewModel(){
         _posture.value = Services.getPosture(context)
     }
 
+    val maxLife = CalcUtils.getLifeMax(context, Services.getCharacter(context))
+    val maxMana = CalcUtils.getManaMax(context, Services.getCharacter(context))
+    val maxConst = CalcUtils.getConstMax(context, Services.getCharacter(context))
+
     fun saveFight(){
         var damagesList = ArrayList<Int>()
         damagesList.add(lastDamage.value!!)
@@ -54,53 +59,57 @@ class FightViewModel(val context: Context) :ViewModel(){
         return equipment.shield.block
     }
 
-    fun submit(damages:Int){
+    fun submit(damages:Int):Int{
         val char = Services.getCharacter(context)
         char.life.value -= damages
         Services.editCharacter(context, char)
         if(damages>=0) _lastDamage.value = damages
         saveFight()
+        return char.life.value.toInt()
     }
 
-    fun recoverLife(heal:Int) = submit(-heal)
-    fun recoverMana(heal:Int){
+    fun recoverLife(heal:Int) :Int = submit(-heal)
+    fun recoverMana(heal:Int):Int{
         val char = Services.getCharacter(context)
         char.mana.value += heal
         Services.editCharacter(context, char)
+        return char.mana.value.toInt()
     }
-    fun recoverConst(heal:Int){
+    fun recoverConst(heal:Int):Int{
         val char = Services.getCharacter(context)
         char.const.value += heal
         Services.editCharacter(context, char)
+        return char.const.value.toInt()
     }
 
     fun attackOrBlock() : Int{
         val char = Services.getCharacter(context)
         char.const.value -= 80
         Services.editCharacter(context, char)
-        return 80
+        return char.const.value.toInt()
     }
 
     fun dodge():Int{
         val char = Services.getCharacter(context)
         char.const.value -= 40
         Services.editCharacter(context, char)
-        return 30
+        return char.const.value.toInt()
     }
 
     fun twin():Int{
         val char = Services.getCharacter(context)
         char.const.value -= 120
         Services.editCharacter(context, char)
-        return 120
+        return char.const.value.toInt()
     }
 
-    fun bleed(damages: Int){
+    fun bleed(damages: Int):Int{
         val char = Services.getCharacter(context)
         char.life.value -= damages
         Services.editCharacter(context, char)
         _bleed.value = damages
         saveFight()
+        return char.life.value.toInt()
     }
 
     fun getPoison():Int{
@@ -108,26 +117,28 @@ class FightViewModel(val context: Context) :ViewModel(){
         val damages = (CalcUtils.getLifeMax(context, char)*0.05).toInt()
         char.life.value -= damages
         Services.editCharacter(context, char)
-        return damages
+        return  return char.life.value.toInt()
     }
 
-    fun frost(){
+    fun frost() : Int{
         val char = Services.getCharacter(context)
         var maxConst = CalcUtils.getConstMax(context, char)
         val sharedPref: SharedPreferences = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_CONST_MAX, 0)
         val editor = sharedPref.edit()
+        var value = 0
         if (_frost.value!!){ //no frost
-            var value = maxConst+prefValue
+            value = maxConst+prefValue.absoluteValue
             editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, value)
         }else{ //frost
-            var value = -(maxConst/2) + prefValue
+            value = -(maxConst/2) + prefValue
             editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, value)
         }
         editor.apply()
         _frost.value = !frost.value!!
         Services.editCharacter(context, char)
         saveFight()
+        return value
     }
 
     fun checkLife():Boolean{

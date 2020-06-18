@@ -13,4 +13,5 @@
     <dimen name="medium_txt">10sp</dimen>
 
     <dimen name="button_height">42dp</dimen>
+    <dimen name="double_button_height">84dp</dimen>
 </resources>

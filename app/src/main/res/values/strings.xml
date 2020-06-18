@@ -133,7 +133,9 @@
     <string name="recovery">Récupération</string>
     <string name="recover">Récupérer</string>
     <string name="activ_frost">Activer frost</string>
-    <string name="annul_frost">Désactiver frost</string>
+    <string name="annul_frost">Annuler frost</string>
+    <string name="activ_msg_frost">Votre constitution max est divisée par 2 elle passe à : </string>
+    <string name="annul_msg_frost">Votre constitution max revient à la normale ( </string>
     <string name="posture">Posture</string>
     <string name="offensive">Offensive</string>
     <string name="defensive">Défensive</string>
@@ -141,6 +143,7 @@
 
     <string name="edit">Modifier</string>
     <string name="delete">Supprimer</string>
+    <string name="confirm_delete">Etes-vous sûr(e) de vouloir supprimmer cet objet ?</string>
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
     <string name="disequip">Déséquiper</string>
@@ -154,6 +157,7 @@
     <string name="lost_msg">Vous avez perdu</string>
     <string name="win_msg">Vous avez gagné</string>
     <string name="ok">OK</string>
+    <string name="no">NON</string>
     <string name="validate">Valider</string>
 
     <string name="po"> po</string>
