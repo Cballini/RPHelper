@@ -100,43 +100,60 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/indic_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
             android:background="@color/white"
             android:elevation="1dp"
-            android:padding="@dimen/app_margin"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_layout">
+            <ImageView
+                android:id="@+id/indic_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_help"
+                android:tint="@color/colorAccent"
+                android:padding="@dimen/txt_margin"
+                android:elevation="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
                 <com.rphelper.cecib.rphelper.component.IndicComponent
                     android:id="@+id/indic_life"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/txt_margin"/>
+                    android:paddingTop="@dimen/app_margin"
+                    android:paddingBottom="@dimen/txt_margin"
+                    android:paddingHorizontal="@dimen/txt_margin"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <com.rphelper.cecib.rphelper.component.IndicComponent
                     android:id="@+id/indic_const"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/txt_margin"/>
+                    android:padding="@dimen/txt_margin"
+                    app:layout_constraintTop_toBottomOf="@+id/indic_life"/>
 
             <com.rphelper.cecib.rphelper.component.IndicComponent
                 android:id="@+id/indic_mana"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/txt_margin"/>
+                android:padding="@dimen/txt_margin"
+                app:layout_constraintTop_toBottomOf="@+id/indic_const"/>
 
             <com.rphelper.cecib.rphelper.component.IndicComponent
                 android:id="@+id/indic_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/txt_margin"/>
-        </LinearLayout>
+                android:paddingTop="@dimen/txt_margin"
+                android:paddingHorizontal="@dimen/txt_margin"
+                android:paddingBottom="@dimen/app_margin"
+                app:layout_constraintTop_toBottomOf="@+id/indic_mana"/>
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/stat_layout"
@@ -157,6 +174,16 @@
                 android:elevation="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/stat_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_help"
+                android:tint="@color/colorAccent"
+                android:padding="@dimen/txt_margin"
+                android:elevation="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TableLayout
                 android:id="@+id/stat_table"
@@ -336,23 +363,36 @@
             </TableLayout>
         </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/skill_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
             android:background="@color/white"
             android:elevation="1dp"
-            android:padding="@dimen/app_margin"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/stat_layout">
+
+            <ImageView
+                android:id="@+id/skill_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_help"
+                android:tint="@color/colorAccent"
+                android:padding="@dimen/txt_margin"
+                android:elevation="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
             <TableLayout
                 android:id="@+id/skill_table"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent">
+                android:padding="@dimen/app_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TableRow
                     android:layout_width="wrap_content"
@@ -419,7 +459,7 @@
                 </TableRow>
             </TableLayout>
 
-        </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/don_layout"

@@ -111,6 +111,28 @@ class CharacterFragment : Fragment() {
             view.findViewById<IndicComponent>(R.id.indic_weight).indicBonus.setText(DisplayUtils.stringBonus(viewModel.weightBonus.value!!))
         })
 
+        //Help
+        view.findViewById<ImageView>(R.id.indic_help).setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(getString(R.string.help))
+                setMessage(getString(R.string.indic_help))
+                setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
+                show()
+            }
+        }
+        view.findViewById<ImageView>(R.id.stat_help).setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(getString(R.string.help))
+                setMessage(getString(R.string.stat_help))
+                setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
+                show()
+            }
+        }
+
         /********* Skills ******/
         //Diplo
         view.findViewById<CategoryHorizontalComponent>(R.id.skill_diplo).catTitle.text = getString(R.string.skill_diplo)
@@ -142,6 +164,18 @@ class CharacterFragment : Fragment() {
         viewModel.craft.observe(viewLifecycleOwner, Observer {
             view.findViewById<CategoryHorizontalComponent>(R.id.skill_craft).catTxt.setText(it.toString())
         })
+
+        //Help
+        view.findViewById<ImageView>(R.id.skill_help).setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(getString(R.string.help))
+                setMessage(getString(R.string.skill_help))
+                setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
+                show()
+            }
+        }
 
         //Don
         view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalTitle.text = getString(R.string.don)

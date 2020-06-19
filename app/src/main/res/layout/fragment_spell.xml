@@ -27,6 +27,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
+                    <ImageView
+                        android:id="@+id/spell_help"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_help"
+                        android:tint="@color/colorAccent"
+                        android:padding="@dimen/txt_margin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.rphelper.cecib.rphelper.component.SpellComponent
                         android:id="@+id/spell_first_equip"

@@ -77,6 +77,18 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             initSpellView(view, R.id.spell_sixth_equip, getString(R.string.spell6), it)
         })}
 
+        //Help
+        view.findViewById<ImageView>(R.id.spell_help).setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(getString(R.string.help))
+                setMessage(getString(R.string.spell_help))
+                setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
+                show()
+            }
+        }
+
 
         /********** Spell known *******/
         viewManager = LinearLayoutManager(this.context)

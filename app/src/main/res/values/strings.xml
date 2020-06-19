@@ -189,4 +189,22 @@
     <string name="file_empty_fight">empty_fight.json</string>
     <string name="file_empty_spells">empty_spells.json</string>
     <string name="file_empty_inventory">empty_inventory.json</string>
+
+    <string name="help">Aide</string>
+    <string name="indic_help">Max VIE de base = 200 + (20 x Vitalité).\nSi vous arrivez à 0 vous subissez une blessure grave. Au bout de 3 votre personnage est définitivement mort.\n\nMax CONST de base = 60 + (20 x Endurance).\nLa constitution est utile pour attaquer, bloquer, esquiver et lancer des sorts.\n\nMax MANA de base = 40 + (5 x Mémoire).\nLe mana est utile pour lancer des sorts.\n\nPOIDS max = 40 + Vigueur.\nIl influe sur la capacité à porter des équipements et sur la vitesse.</string>
+
+    <string name="stat_help">VIT (vitalité) = + 20pv par points + 1 défense par 2 points\n\nVIG (vigueur) = + 1kg + 1 défense par point\n\nFOR (force) = + 2 dégats par points + 1 défense par 2 points\n\nDEX (dextérité) = + 1 dégat par points + 1 défense par 2 points\n\nEND (endurance) = + 20 constitution par points + 1 défense par 2 points\n\nMEM (mémoire) = + 5 mana par points + 1 défense par 2 points et influe sur le nombre de sorts équipables (+ 1 sort à 15/20/25 pts)\n\nINT (intelligence) = + 1 défense par 2 points et influe sur l\'aprentissage de sorts\n\nFOI = + 1 défense par 2 points et influe sur l\'aprentissage de sorts</string>
+
+    <string name="skill_help">Diplomatie/Bluff = 35 + MEM + INT\n\nIntuition/Psychologie = 35 + DEX + FOI\n\nConnaissance/Analyse = 30 + MEM + INT\n\nGrimper/Pousser = 35 + VIG + FOR\n\nAcrobatie/Discrétion = 35 + END + DEX\n\nArtisanat/Sabotage = 35 + DEX + INT\n\nLes points de stats "virtuels" (donnés par des accessoires) ne sont pas pris en compte dans ces calculs.</string>
+
+    <string name="fight_help">
+        PHASES DE COMBAT\nPendant le tour d\'un joueur :\nPhase 1 : Mouvement OU Changement de posture (1 seule fois)\nPhase 2 : Action de posture\nPhase 3 : Changement de posture OU Mouvement (1 seule fois)\n\nPOSTURE\nOffensive : Attaque ou sort offensif.\nDefensive : Utilisation objet / sort non-offensif ou changement d\'arme. Blocage hors de son tour.\nRéflexe : Mouvement, changement d\'arme ou utilisation d\'armes de jet. Esquive hors de son tour.\nEn position Défensive ou Réflexe si prise de dégats ou pas de blocage/esquive récupération de toute la constitution en début de tour.\n\nCOUTS DES ACTIONS\nAttaque = 80 const\nAttaque twin = 120 const\nBlocage = 80 const\nEsquive = 30 const\nAttaque et blocage arme à 2 mains = 40 const\nSort = 30 const + coût en mana\n\nSTATUS\nBleed = (Dégats Arme/2) / Tour \nPoison = VIE MAX x 0,05 / Tour \nFrost = CONST MAX / 2 \n
+    </string>
+
+    <string name="spell_help">
+        EQUIPER DES SORTS\nPar défaut vous pouvez équiper 3 sorts. Ensuite selon votre MEM (mémoire) vous pourrez en équiper plus. A partir de 15 points de MEM vous gagnez un nouvel emplacement et ainsi de suite tous les 5 points dans un maximum de 6 sorts équipables.\n\nRAPID FIRE = 3 attaques causant dégats + dégats/2 + dégats/4
+    </string>
+
+    <string name="equipment_help">DEGATS\nIls s\'ajoutent aux dégats bruts des armes.\n\nDEFENSE\nElle s\'ajoute à l\'armure.\n\nRESISTANCES\nVous êtes résistant à un élément si toutes vos pièces d\'armure possèdent cette résistance.\nAvec une résistance vous subissez seulement 20% des dégats de l\'élément concerné.\n\nIMMUNITE\nVous êtes immunisé à un statut si toutes vos pièces d\'armure possèdent cette immunité.\nAvec une immunité vous ne pouvez pas subir le statut concerné.\n\nFAIBLESSE\nSi au moins une de vos pièces d\'armure possède une faiblesse, vous êtes faible face à l\'élément concerné.\nDans ce cas vous subissez le double des dégats.</string>
+    <string name="weapon_help">CLASSES D\'ARME\nS = stat x3\nA = stat x2.5\nB = stat x2\nC = stat x1.5\nD = stat x1\nE = stat x0.5\n\nEFFETS DES ARMES\nTWIN = coût 120 const, dégats x1.5 (l\'arme doit être équipée à 2 mains)\nARME A DEUX MAINS = coût attaque et blocage/2 (40 const) et + 20 dégats\nAFFINITE ELEMENTAIRE = ajout (dégats bruts de l\'arme)/2 en dégats élémentaires\nRAPID FIRE = 3 attaques causant dégats + dégats/2 + dégats/4</string>
 </resources>

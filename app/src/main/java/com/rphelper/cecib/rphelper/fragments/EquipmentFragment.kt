@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.TextView
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
@@ -91,6 +92,30 @@ class EquipmentFragment : Fragment() {
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloEditBonus.setOnClickListener {
             displaySelectElemDialog(getString(R.string.weakBonusTxt), Preferences.PREF_MODIFIER_WEAK_TEMP)
+        }
+
+        //Help
+        view.findViewById<ImageView>(R.id.equipment_help).setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(getString(R.string.help))
+                setMessage(getString(R.string.equipment_help))
+                setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
+                show()
+            }
+        }
+
+        //Help
+        view.findViewById<ImageView>(R.id.weapon_help).setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(getString(R.string.help))
+                setMessage(getString(R.string.weapon_help))
+                setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
+                show()
+            }
         }
 
         /******** Left hand **********/

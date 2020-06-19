@@ -21,11 +21,19 @@
             android:gravity="start"
             android:orientation="vertical"
             app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:id="@+id/equipment_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_help"
+                android:tint="@color/colorAccent"
+                android:layout_gravity="end"/>
                 <com.rphelper.cecib.rphelper.component.IndicSoloComponent
                     android:id="@+id/equipment_stat_damages"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:paddingTop="@dimen/small_margin"
                     android:layout_marginBottom="@dimen/small_margin"/>
                 <com.rphelper.cecib.rphelper.component.IndicSoloComponent
                     android:id="@+id/equipment_stat_defense"
@@ -59,6 +67,14 @@
             android:elevation="1dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/equipment_stat_layout">
+            <ImageView
+                android:id="@+id/weapon_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_help"
+                android:tint="@color/colorAccent"
+                android:padding="@dimen/txt_margin"
+                android:layout_gravity="end"/>
 
             <com.rphelper.cecib.rphelper.component.EquipmentComponent
                 android:id="@+id/equipment_left_hand"
@@ -66,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:paddingEnd="@dimen/txt_margin"
-                android:paddingVertical="@dimen/small_margin"
+                android:paddingBottom="@dimen/small_margin"
                 android:paddingStart="@dimen/small_margin"/>
                 <com.rphelper.cecib.rphelper.component.EquipmentComponent
                     android:id="@+id/equipment_right_hand"

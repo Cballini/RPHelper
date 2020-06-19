@@ -34,6 +34,18 @@ class FightFragment : Fragment() {
             view.findViewById<TextView>(R.id.fight_roll_dice).text = random.toInt().toString()
         }
 
+        //Help
+        view.findViewById<ImageView>(R.id.fight_help).setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(getString(R.string.help))
+                setMessage(getString(R.string.fight_help))
+                setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
+                show()
+            }
+        }
+
         /********** Posture *********/
         viewModel.posture.observe(viewLifecycleOwner, Observer {
             when(it){
