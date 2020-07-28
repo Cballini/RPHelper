@@ -104,20 +104,43 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         })
 
         /***** EDIT ********/
-        view.findViewById<ImageView>(R.id.inventory_money_edit).setOnClickListener {
-            if (isOnMoneyEdit) {
-                isOnMoneyEdit = false
-                view.findViewById<ImageView>(R.id.inventory_money_edit).setImageResource(R.drawable.ic_edit)
-                view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setEnabled(false)
-                if (view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.text.toString().isNotEmpty()) viewModel._money.value = view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.text.toString().toInt()
-                viewModel.editInventory()
-            } else {
-                isOnMoneyEdit = true
-                view.findViewById<ImageView>(R.id.inventory_money_edit).setImageResource(R.drawable.ic_check)
-                view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setEnabled(true)
-                view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.inputType = InputType.TYPE_CLASS_NUMBER
+        view.findViewById<TextView>(R.id.inventory_money_minus).setOnClickListener{
+            val builder = AlertDialog.Builder(context)
+            val dialogLayout = LayoutInflater.from(context).inflate(R.layout.dialog_edit_indic, null)
+            builder.setView(dialogLayout)
+            builder.setTitle(getString(R.string.money_title))
+            val txtView = dialogLayout.findViewById<TextView>(R.id.edit_indic_txt)
+            txtView.text = getString(R.string.money_msg_minus)
+            val editText = dialogLayout.findViewById<EditText>(R.id.edit_indic_value)
+
+            builder.setPositiveButton(getString(R.string.ok)) { dialogInterface, i ->
+                dialogInterface.dismiss()
+                if(editText.text.isNotEmpty()) {
+                    val money = viewModel.money.value!!
+                    viewModel._money.value = money - (editText.text.toString().toInt())
+                }
             }
+            builder.show()
         }
+        view.findViewById<TextView>(R.id.inventory_money_plus).setOnClickListener{
+            val builder = AlertDialog.Builder(context)
+            val dialogLayout = LayoutInflater.from(context).inflate(R.layout.dialog_edit_indic, null)
+            builder.setView(dialogLayout)
+            builder.setTitle(getString(R.string.money_title))
+            val txtView = dialogLayout.findViewById<TextView>(R.id.edit_indic_txt)
+            txtView.text = getString(R.string.money_msg_plus)
+            val editText = dialogLayout.findViewById<EditText>(R.id.edit_indic_value)
+
+            builder.setPositiveButton(getString(R.string.ok)) { dialogInterface, i ->
+                dialogInterface.dismiss()
+                if(editText.text.isNotEmpty()) {
+                    val money = viewModel.money.value!!
+                    viewModel._money.value = money + (editText.text.toString().toInt())
+                }
+            }
+            builder.show()
+        }
+       
         view.findViewById<FloatingActionButton>(R.id.inventory_add).setOnClickListener {
             addStuff()
         }
@@ -814,36 +837,38 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         }
     }
 
-    override fun onItemClicked(position: Int, v: View) {
-        val popupMenu = PopupMenu(context, v)
+    fun addOne(position: Int){
+        (viewModel.items.value!![position] as Item).quantity +=1
+        viewModel.editInventory()
+    }
 
-        popupMenu.menuInflater.inflate(R.menu.menu_item, popupMenu.menu)
-        if (viewModel.items.value!![position] is Item) popupMenu.menu.findItem(R.id.action_equip).isVisible = false
-        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_edit -> {
-                    if (viewModel.items.value!![position] is Weapon) editWeapon(viewModel.items.value!![position] as Weapon, false)
-                    if (viewModel.items.value!![position] is Shield) editShield(viewModel.items.value!![position] as Shield, false)
-                    if (viewModel.items.value!![position] is Armor) editArmor(viewModel.items.value!![position] as Armor, false)
-                    if (viewModel.items.value!![position] is Jewel) editJewel(viewModel.items.value!![position] as Jewel, false)
-                    if (viewModel.items.value!![position] is Item) editItem((viewModel.items.value!![position] as Item))
+    fun removeOne(position: Int){
+        (viewModel.items.value!![position] as Item).quantity -=1
+        viewModel.editInventory()
+    }
+
+    override fun onItemClicked(position: Int, v: View, id :Int) {
+        when(id){
+            R.id.line_button_equip -> {
+                if (viewModel.items.value!![position] is Weapon) {
+                    if((viewModel.items.value!![position] as Weapon).boost>0)equipCata((viewModel.items.value!![position] as Weapon))
+                    else equipWeapon((viewModel.items.value!![position] as Weapon))
                 }
-                R.id.action_delete -> {
-                    remmoveStuff(position)
-                }
-                R.id.action_equip -> {
-                    if (viewModel.items.value!![position] is Weapon) {
-                        if((viewModel.items.value!![position] as Weapon).boost>0)equipCata((viewModel.items.value!![position] as Weapon))
-                        else equipWeapon((viewModel.items.value!![position] as Weapon))
-                    }
-                    if (viewModel.items.value!![position] is Shield) equipShield((viewModel.items.value!![position] as Shield))
-                    if (viewModel.items.value!![position] is Armor) equipArmor((viewModel.items.value!![position] as Armor))
-                    if (viewModel.items.value!![position] is Jewel) equipJewel((viewModel.items.value!![position] as Jewel))
-                    if (viewModel.items.value!![position] is Item) equipItem((viewModel.items.value!![position] as Item), false)
-                }
+                if (viewModel.items.value!![position] is Shield) equipShield((viewModel.items.value!![position] as Shield))
+                if (viewModel.items.value!![position] is Armor) equipArmor((viewModel.items.value!![position] as Armor))
+                if (viewModel.items.value!![position] is Jewel) equipJewel((viewModel.items.value!![position] as Jewel))
+                if (viewModel.items.value!![position] is Item) equipItem((viewModel.items.value!![position] as Item), false)
             }
-            true
-        })
-        popupMenu.show()
+            R.id.line_button_edit -> {
+                if (viewModel.items.value!![position] is Weapon) editWeapon(viewModel.items.value!![position] as Weapon, false)
+                if (viewModel.items.value!![position] is Shield) editShield(viewModel.items.value!![position] as Shield, false)
+                if (viewModel.items.value!![position] is Armor) editArmor(viewModel.items.value!![position] as Armor, false)
+                if (viewModel.items.value!![position] is Jewel) editJewel(viewModel.items.value!![position] as Jewel, false)
+                if (viewModel.items.value!![position] is Item) editItem((viewModel.items.value!![position] as Item))
+            }
+            R.id.line_button_delete -> remmoveStuff(position)
+            R.id.line_button_minus -> removeOne(position)
+            R.id.line_button_plus -> addOne(position)
+        }
     }
 }

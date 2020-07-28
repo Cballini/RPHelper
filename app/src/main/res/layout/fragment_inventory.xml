@@ -24,20 +24,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
+            <TextView
+                android:id="@+id/inventory_money_minus"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="-"
+                android:textStyle="bold"
+                android:textSize="@dimen/cat_txt"
+                android:textColor="@color/colorTxt"
+                android:background="@drawable/shape_border_grey"/>
+
             <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
                 android:id="@+id/inventory_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:padding="@dimen/small_margin" />
+                android:padding="@dimen/txt_margin" />
 
-            <ImageView
-                android:id="@+id/inventory_money_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <TextView
+                android:id="@+id/inventory_money_plus"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_edit" />
-
+                android:gravity="center"
+                android:text="+"
+                android:textStyle="bold"
+                android:textSize="@dimen/cat_txt"
+                android:textColor="@color/colorTxt"
+                android:background="@drawable/shape_border_grey"/>
         </LinearLayout>
 
         <android.support.constraint.ConstraintLayout

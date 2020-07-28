@@ -162,6 +162,9 @@
 
     <string name="po"> po</string>
     <string name="inventory_max_weight">/15kg</string>
+    <string name="money_title">Argent</string>
+    <string name="money_msg_minus">Saisissez le montant à retirer de votre bourse :</string>
+    <string name="money_msg_plus">Saisissez le montant à ajouter dans votre bourse :</string>
 
     <string name="lifeEditTitle">Modifier vos points de vie</string>
     <string name="constEditTitle">Modifier vos points de constitution</string>

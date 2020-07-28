@@ -39,7 +39,7 @@ class SpellKnownAdapter (val mDataset: ArrayList<Spell>, callback :RecyclerViewC
             holder!!.spellKnown.findViewById<LinearLayout>(R.id.line_spell_use_layout2).visibility = View.GONE
         }
         holder.spellKnown.setOnClickListener {
-            callback.onItemClicked(position, holder.spellKnown)
+            callback.onItemClicked(position, holder.spellKnown, 0)
         }
     }
 

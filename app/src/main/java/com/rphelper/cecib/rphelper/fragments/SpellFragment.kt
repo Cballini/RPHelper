@@ -136,7 +136,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         return view
     }
 
-    override fun onItemClicked(position: Int, v: View) {
+    override fun onItemClicked(position: Int, v: View, id :Int) {
         val popupMenu = PopupMenu(context, v)
         popupMenu.menuInflater.inflate(R.menu.menu_item, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
