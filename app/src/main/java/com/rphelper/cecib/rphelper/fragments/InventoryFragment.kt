@@ -3,21 +3,19 @@ package com.rphelper.cecib.rphelper.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModel
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.button.MaterialButton
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_CONST_MAX
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DAMAGES
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DEFENSE
@@ -67,13 +65,13 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         //Money
         view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTitle.text = getString(R.string.money)
         view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setEnabled(false)
-        viewModel.money.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setText(it!!.toString())
+        viewModel.money.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTxt.setText(it.toString())
         })
 
         //Objects
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = ItemAdapter(ArrayList(viewModel.items.value!!), this)
+        viewAdapter = ItemAdapter(viewModel.items.value!!, this)
         recyclerView = view.findViewById<RecyclerView>(R.id.inventory_recycler).apply {
             // use a linear layout manager
             layoutManager = viewManager
@@ -81,7 +79,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
-        viewModel.items.observe(viewLifecycleOwner, Observer {
+        viewModel.items.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             viewAdapter = ItemAdapter(ArrayList(it!!), this)
             recyclerView = view.findViewById<RecyclerView>(R.id.inventory_recycler).apply {
                 // use a linear layout manager
@@ -140,7 +138,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             }
             builder.show()
         }
-       
+
         view.findViewById<FloatingActionButton>(R.id.inventory_add).setOnClickListener {
             addStuff()
         }

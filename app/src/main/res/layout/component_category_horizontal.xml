@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cat_layout"
     android:layout_width="wrap_content"
@@ -31,4 +31,4 @@
         android:maxEms="7"
         android:background="@drawable/shape_category_txt"
         app:layout_constraintLeft_toRightOf="@+id/cat_title" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

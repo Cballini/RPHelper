@@ -2,18 +2,18 @@ package com.rphelper.cecib.rphelper.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.design.widget.FloatingActionButton
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.SpellKnownAdapter
 import com.rphelper.cecib.rphelper.component.SpellComponent
@@ -21,7 +21,6 @@ import com.rphelper.cecib.rphelper.dto.Spell
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 import com.rphelper.cecib.rphelper.viewmodel.SpellViewModel
 import kotlinx.android.synthetic.main.component_spell.view.*
-import java.util.*
 
 class SpellFragment : Fragment(), RecyclerViewClickListener {
     private lateinit var recyclerView: RecyclerView
@@ -39,17 +38,17 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         /********* Equip spells ********/
         val maxSpells = viewModel.getMaxEquipSpells()
         //First spell
-        viewModel.firstEquipSpell.observe(viewLifecycleOwner, Observer {
+        viewModel.firstEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_first_equip, getString(R.string.spell1), it)
         })
 
         //Second spell
-        viewModel.secondEquipSpell.observe(viewLifecycleOwner, Observer {
+        viewModel.secondEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_second_equip, getString(R.string.spell2), it)
         })
 
         //Third spell
-        viewModel.thirdEquipSpell.observe(viewLifecycleOwner, Observer {
+        viewModel.thirdEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_third_equip, getString(R.string.spell3), it)
         })
 
@@ -57,7 +56,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         if (maxSpells<4){
             view.findViewById<SpellComponent>(R.id.spell_fourth_equip).visibility = View.GONE
         }else{
-        viewModel.fourthEquipSpell.observe(viewLifecycleOwner, Observer {
+        viewModel.fourthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_fourth_equip, getString(R.string.spell4), it)
         })}
 
@@ -65,7 +64,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         if (maxSpells<5){
             view.findViewById<SpellComponent>(R.id.spell_fifth_equip).visibility = View.GONE
         }else{
-        viewModel.fifthEquipSpell.observe(viewLifecycleOwner, Observer {
+        viewModel.fifthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_fifth_equip, getString(R.string.spell5), it)
         })}
 
@@ -73,7 +72,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         if (maxSpells<6){
             view.findViewById<SpellComponent>(R.id.spell_sixth_equip).visibility = View.GONE
         }else{
-        viewModel.sixthEquipSpell.observe(viewLifecycleOwner, Observer {
+        viewModel.sixthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_sixth_equip, getString(R.string.spell6), it)
         })}
 
@@ -92,7 +91,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
 
         /********** Spell known *******/
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = SpellKnownAdapter(ArrayList(viewModel._knownSpells.value), this)
+        viewAdapter = SpellKnownAdapter(viewModel.knownSpells.value!!, this)
 
         recyclerView = view.findViewById<RecyclerView>(R.id.spell_known_recycler).apply {
             // use a linear layout manager
@@ -101,7 +100,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             adapter = viewAdapter
         }
         viewModel.knownSpells.observe(viewLifecycleOwner, Observer {
-            viewAdapter = SpellKnownAdapter(ArrayList(viewModel._knownSpells.value), this)
+            viewAdapter = SpellKnownAdapter(viewModel._knownSpells.value!!, this)
             recyclerView.apply {
                 // use a linear layout manager
                 layoutManager = viewManager
@@ -236,7 +235,6 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             } else {
                 spell.effect = ""
             }
-            viewModel.knownSpells.value!!.remove(spell)
             viewModel.editSpells()
             dialog.dismiss()
         }

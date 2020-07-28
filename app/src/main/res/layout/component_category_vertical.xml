@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout android:id="@+id/life_layout"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/life_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -47,4 +47,4 @@
         android:background="@android:color/transparent"
         android:textColor="@color/colorTxt" />
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

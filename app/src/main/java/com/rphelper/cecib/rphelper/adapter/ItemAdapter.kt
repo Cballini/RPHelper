@@ -1,10 +1,10 @@
 package com.rphelper.cecib.rphelper.adapter
 
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
 import com.daimajia.swipe.SwipeLayout.SwipeListener
 import com.rphelper.cecib.rphelper.R
@@ -13,7 +13,7 @@ import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.PieceEquipment
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 
-class ItemAdapter(val mDataset: ArrayList<Any>, callback : RecyclerViewClickListener) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
+class ItemAdapter(val mDataset: MutableList<Any>, callback : RecyclerViewClickListener) : RecyclerView.Adapter<ItemAdapter.ViewHolder>() {
     final private var callback = callback
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

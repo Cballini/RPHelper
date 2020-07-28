@@ -3,13 +3,14 @@ package com.rphelper.cecib.rphelper
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.FragmentActivity
 
 
-import android.support.design.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
-import android.support.v4.app.ActivityCompat
-import android.support.v4.content.ContextCompat
+import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rphelper.cecib.rphelper.fragments.*
 
 class MainActivity : FragmentActivity() {
@@ -34,7 +35,7 @@ class MainActivity : FragmentActivity() {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val fragment = CharacterFragment()
-        fragmentTransaction.add(R.id.fragment_container, fragment)
+        fragmentTransaction.add(R.id.fragment_container, fragment as Fragment)
         fragmentTransaction.commit()
 
         val navigation = findViewById<BottomNavigationView>(R.id.navigation)
@@ -48,35 +49,35 @@ class MainActivity : FragmentActivity() {
             R.id.navigation_profil -> {
                 val charFragment = CharacterFragment()
                 val statTransaction = supportFragmentManager.beginTransaction()
-                statTransaction.replace(R.id.fragment_container, charFragment)
+                statTransaction.replace(R.id.fragment_container, charFragment as Fragment)
                 statTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_equipments -> {
                 val equipFragment = EquipmentFragment()
                 val equipTransaction = supportFragmentManager.beginTransaction()
-                equipTransaction.replace(R.id.fragment_container, equipFragment)
+                equipTransaction.replace(R.id.fragment_container, equipFragment as Fragment)
                 equipTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_spells -> {
                 val spellFragment = SpellFragment()
                 val spellTransaction = supportFragmentManager.beginTransaction()
-                spellTransaction.replace(R.id.fragment_container, spellFragment)
+                spellTransaction.replace(R.id.fragment_container, spellFragment as Fragment)
                 spellTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_inventory -> {
                 val inventoryFragment = InventoryFragment()
                 val bagTransaction = supportFragmentManager.beginTransaction()
-                bagTransaction.replace(R.id.fragment_container, inventoryFragment)
+                bagTransaction.replace(R.id.fragment_container, inventoryFragment as Fragment)
                 bagTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_fight -> {
                 val fightFragment = FightFragment()
                 val fightTransaction = supportFragmentManager.beginTransaction()
-                fightTransaction.replace(R.id.fragment_container, fightFragment)
+                fightTransaction.replace(R.id.fragment_container, fightFragment as Fragment)
                 fightTransaction.commit()
                 return@OnNavigationItemSelectedListener true
             }

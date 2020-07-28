@@ -1,12 +1,8 @@
 package com.rphelper.cecib.rphelper.fragments
 
 import android.app.AlertDialog
-import android.arch.lifecycle.Observer
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Typeface
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +10,11 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.R
-import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
 import com.rphelper.cecib.rphelper.component.IndicComponent
 import com.rphelper.cecib.rphelper.dto.Character
@@ -40,19 +37,19 @@ class CharacterFragment : Fragment() {
         initViewNotEditable(view)
 
         viewModel.character.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.profile_name).catTxt.setText(it!!.name)
-            view.findViewById<CategoryHorizontalComponent>(R.id.profile_race).catTxt.setText(it!!.race)
-            view.findViewById<CategoryHorizontalComponent>(R.id.profile_origin).catTxt.setText(it!!.origin)
-            view.findViewById<CategoryHorizontalComponent>(R.id.profile_religion).catTxt.setText(it!!.religion)
-            view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt.setText(it!!.level.toString())
+            view.findViewById<CategoryHorizontalComponent>(R.id.profile_name).catTxt.setText(it.name) 
+            view.findViewById<CategoryHorizontalComponent>(R.id.profile_race).catTxt.setText(it.race)
+            view.findViewById<CategoryHorizontalComponent>(R.id.profile_origin).catTxt.setText(it.origin)
+            view.findViewById<CategoryHorizontalComponent>(R.id.profile_religion).catTxt.setText(it.religion)
+            view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt.setText(it.level.toString())
 
-            view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.setText(it!!.life.value.toString())
-            view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.setText(it!!.const.value.toString())
-            view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.setText(it!!.mana.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.text =it.life.value.toString()
+            view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.text =it.const.value.toString()
+            view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.text =it.mana.value.toString()
 
             fillStatsWithBonus(view, it)
 
-            if(it!!.don.isNotEmpty())view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setText(it!!.don)
+            if(it.don.isNotEmpty())view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setText(it.don)
         })
 
         //Name
@@ -68,30 +65,30 @@ class CharacterFragment : Fragment() {
         //Speed
         view.findViewById<CategoryHorizontalComponent>(R.id.profile_speed).catTitle.text = getString(R.string.speed)
         viewModel.speed.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.profile_speed).catTxt.setText(it.toString()) })
+            view.findViewById<CategoryHorizontalComponent>(R.id.profile_speed).catTxt.setText(it.toString())})
         //Life
         view.findViewById<IndicComponent>(R.id.indic_life).indicTitle.text = getString(R.string.pv)
         setOnClickListenerIndicDrop(R.id.indic_life, view)
         viewModel.lifeMax.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_life).indicMax.setText(viewModel.lifeMax.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_life).indicMax.text =viewModel.lifeMax.value.toString()
         })
         viewModel.lifeBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_life).indicBonus.setText(DisplayUtils.stringBonus(viewModel.lifeBonus.value!!))
+            view.findViewById<IndicComponent>(R.id.indic_life).indicBonus.text = DisplayUtils.stringBonus(viewModel.lifeBonus.value!!)
         })
         //Const
         view.findViewById<IndicComponent>(R.id.indic_const).indicTitle.text = getString(R.string.constitution)
         setOnClickListenerIndicDrop(R.id.indic_const, view)
         viewModel.constMax.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_const).indicMax.setText(viewModel.constMax.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_const).indicMax.text = viewModel.constMax.value.toString()
         })
         viewModel.constBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_const).indicBonus.setText(DisplayUtils.stringBonus(viewModel.constBonus.value!!))
+            view.findViewById<IndicComponent>(R.id.indic_const).indicBonus.text = DisplayUtils.stringBonus(viewModel.constBonus.value!!)
         })
         //Mana
         view.findViewById<IndicComponent>(R.id.indic_mana).indicTitle.text = getString(R.string.mana)
         setOnClickListenerIndicDrop(R.id.indic_mana, view)
         viewModel.manaMax.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_mana).indicMax.setText(viewModel.manaMax.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_mana).indicMax.text = viewModel.manaMax.value.toString()
         })
         viewModel.manaBonus.observe(viewLifecycleOwner, Observer {
             view.findViewById<IndicComponent>(R.id.indic_mana).indicBonus.setText(DisplayUtils.stringBonus(viewModel.manaBonus.value!!))
@@ -102,13 +99,13 @@ class CharacterFragment : Fragment() {
         view.findViewById<IndicComponent>(R.id.indic_weight).indicEdit.visibility = View.GONE
         setOnClickListenerIndicDrop(R.id.indic_weight, view)
         viewModel.weightMax.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_weight).indicMax.setText(viewModel.weightMax.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_weight).indicMax.text =viewModel.weightMax.value.toString()
         })
         viewModel.weight.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.setText(viewModel.weight.value.toString())
+            view.findViewById<IndicComponent>(R.id.indic_weight).indicCurrent.text =viewModel.weight.value.toString()
         })
         viewModel.weightBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicComponent>(R.id.indic_weight).indicBonus.setText(DisplayUtils.stringBonus(viewModel.weightBonus.value!!))
+            view.findViewById<IndicComponent>(R.id.indic_weight).indicBonus.text =DisplayUtils.stringBonus(viewModel.weightBonus.value!!)
         })
 
         //Help
@@ -437,35 +434,35 @@ class CharacterFragment : Fragment() {
         view.findViewById<ImageView>(R.id.stat_edit).setImageResource(R.drawable.ic_check)
         view.findViewById<TextView>(R.id.stat_vit).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_vit).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_vit).setText(viewModel.character.value!!.vitality.toString())
+        view.findViewById<TextView>(R.id.stat_vit).text =viewModel.character.value!!.vitality.toString()
 
         view.findViewById<TextView>(R.id.stat_vig).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_vig).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_vig).setText(viewModel.character.value!!.vigor.toString())
+        view.findViewById<TextView>(R.id.stat_vig).text =viewModel.character.value!!.vigor.toString()
 
         view.findViewById<TextView>(R.id.stat_for).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_for).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_for).setText(viewModel.character.value!!.strength.toString())
+        view.findViewById<TextView>(R.id.stat_for).text =viewModel.character.value!!.strength.toString()
 
         view.findViewById<TextView>(R.id.stat_dex).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_dex).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_dex).setText(viewModel.character.value!!.dexterity.toString())
+        view.findViewById<TextView>(R.id.stat_dex).text =viewModel.character.value!!.dexterity.toString()
 
         view.findViewById<TextView>(R.id.stat_end).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_end).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_end).setText(viewModel.character.value!!.endurance.toString())
+        view.findViewById<TextView>(R.id.stat_end).text =viewModel.character.value!!.endurance.toString()
 
         view.findViewById<TextView>(R.id.stat_mem).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_mem).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_mem).setText(viewModel.character.value!!.memory.toString())
+        view.findViewById<TextView>(R.id.stat_mem).text =viewModel.character.value!!.memory.toString()
 
         view.findViewById<TextView>(R.id.stat_int).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_int).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_int).setText(viewModel.character.value!!.intelligence.toString())
+        view.findViewById<TextView>(R.id.stat_int).text =viewModel.character.value!!.intelligence.toString()
 
         view.findViewById<TextView>(R.id.stat_foi).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_foi).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_foi).setText(viewModel.character.value!!.faith.toString())
+        view.findViewById<TextView>(R.id.stat_foi).text =viewModel.character.value!!.faith.toString()
     }
 }
 

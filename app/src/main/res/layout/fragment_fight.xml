@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FightFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -86,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
-                <android.support.design.button.MaterialButton
+                <Button
                     android:id="@+id/fight_action_attack"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
@@ -97,7 +97,7 @@
                     android:textColor="@color/colorCatTitle"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
-                <android.support.design.button.MaterialButton
+                <Button
                     android:id="@+id/fight_action_twin"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
-                <android.support.design.button.MaterialButton
+                <Button
                     android:id="@+id/fight_action_block"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
@@ -126,7 +126,7 @@
                     android:textColor="@color/colorCatTitle"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
-                <android.support.design.button.MaterialButton
+                <Button
                     android:id="@+id/fight_action_dodge"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
@@ -198,7 +198,7 @@
                     android:gravity="center"
                     android:textColor="@color/colorTxt"
                     android:inputType="number"/>
-                <android.support.design.button.MaterialButton
+                <Button
                     android:id="@+id/fight_action_bleed"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
@@ -215,7 +215,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center">
-                <android.support.design.button.MaterialButton
+                <Button
                     android:id="@+id/fight_action_poison"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
@@ -226,7 +226,7 @@
                     android:textColor="@color/colorCatTitle"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
-                <android.support.design.button.MaterialButton
+                <Button
                     android:id="@+id/fight_action_frost"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/button_height"
@@ -239,5 +239,5 @@
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
         </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

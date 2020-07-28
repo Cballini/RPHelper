@@ -135,7 +135,7 @@
     <string name="activ_frost">Activer frost</string>
     <string name="annul_frost">Annuler frost</string>
     <string name="activ_msg_frost">Votre constitution max est divisée par 2 elle passe à : </string>
-    <string name="annul_msg_frost">Votre constitution max revient à la normale ( </string>
+    <string name="annul_msg_frost">Votre constitution max revient à la normale. </string>
     <string name="posture">Posture</string>
     <string name="offensive">Offensive</string>
     <string name="defensive">Défensive</string>

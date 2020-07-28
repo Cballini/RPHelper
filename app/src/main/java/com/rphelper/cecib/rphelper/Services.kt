@@ -64,9 +64,9 @@ object Services {
     }
 
     @JvmStatic
-    fun getListOfNotEquipSpells(context: Context): ArrayList<Spell> {
-        var notEquipSpells = ArrayList<Spell>()
-        var spells = ArrayList<Spell>()
+    fun getListOfNotEquipSpells(context: Context): MutableList<Spell> {
+        var notEquipSpells = mutableListOf<Spell>()
+        var spells = mutableListOf<Spell>()
         if (allSpells.isNotEmpty()) spells = allSpells else {allSpells = getSpells(context); spells = allSpells}
         spells.let {
             for (spell in spells!!) {

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.EquipmentFragment">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -161,5 +161,5 @@
             android:layout_marginBottom="@dimen/big_margin"
             app:layout_constraintTop_toBottomOf="@+id/equipment_armor_layout"
             app:layout_constraintBottom_toBottomOf="parent"/>
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

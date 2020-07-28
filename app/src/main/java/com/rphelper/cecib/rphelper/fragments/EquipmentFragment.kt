@@ -2,17 +2,17 @@ package com.rphelper.cecib.rphelper.fragments
 
 
 import android.app.AlertDialog
-import android.arch.lifecycle.Observer
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.EquipmentComponent
@@ -52,7 +52,7 @@ class EquipmentFragment : Fragment() {
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloTitle.text = getString(R.string.def)
         setOnClickListenerIndicDrop(R.id.equipment_stat_defense, view)
         viewModel.defense.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloCurrent.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloCurrent.text =it.toString()
         })
         viewModel.defenseBonus.observe(viewLifecycleOwner, Observer {
             view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
@@ -63,21 +63,21 @@ class EquipmentFragment : Fragment() {
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloTitle.text = getString(R.string.res)
         setOnClickListenerIndicDrop(R.id.equipment_stat_res, view)
         viewModel.res.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloCurrent.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloCurrent.text =it.toString()
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloEditBonus.setOnClickListener {
             displaySelectElemDialog(getString(R.string.resBonusTxt), Preferences.PREF_MODIFIER_RES_TEMP)
         }
         viewModel.resBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloBonus.text = DisplayUtils.stringBonusString(it)
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloTitle.text = getString(R.string.immun)
         setOnClickListenerIndicDrop(R.id.equipment_stat_immun, view)
         viewModel.immun.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloCurrent.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloCurrent.text =it.toString()
         })
         viewModel.immunBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloBonus.text = DisplayUtils.stringBonusString(it)
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloEditBonus.setOnClickListener {
             displaySelectStatusDialog(getString(R.string.immunBonusTxt), Preferences.PREF_MODIFIER_IMMUN_TEMP)
@@ -85,10 +85,10 @@ class EquipmentFragment : Fragment() {
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloTitle.text = getString(R.string.fai)
         setOnClickListenerIndicDrop(R.id.equipment_stat_weak, view)
         viewModel.weak.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloCurrent.setText(it.toString())
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloCurrent.text =it.toString()
         })
         viewModel.weakBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
+            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloBonus.text = DisplayUtils.stringBonusString(it)
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloEditBonus.setOnClickListener {
             displaySelectElemDialog(getString(R.string.weakBonusTxt), Preferences.PREF_MODIFIER_WEAK_TEMP)
@@ -222,13 +222,13 @@ class EquipmentFragment : Fragment() {
         view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentType.text = getString(R.string.shield)
         viewModel.shield.observe(viewLifecycleOwner, Observer {
             it?.let {
-                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipment_name.text = it!!.name
+                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipment_name.text = it.name
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTitle.text = getString(R.string.block)
-                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTxt.text = it!!.block.toString()
+                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTxt.text = it.block.toString()
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelTitle.text = getString(R.string.res)
-                if (null != it!!.res && it!!.res.isNotEmpty()) {
+                if (null != it.res && it.res.isNotEmpty()) {
                     var stringRes = ""
-                    for (res in it!!.res) {
+                    for (res in it.res) {
                         stringRes += res.toString() + "\n"
                     }
                     view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelTxt.text = stringRes
@@ -238,7 +238,7 @@ class EquipmentFragment : Fragment() {
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondLine.visibility = View.GONE
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentBonusLayout.visibility = View.GONE
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentLargePanelLayout.visibility = View.GONE
-                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentWeightTxt.text = it!!.weight.toString()
+                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentWeightTxt.text = it.weight.toString()
             } ?: run {
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipment_name.text = ""
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTitle.text = getString(R.string.block)

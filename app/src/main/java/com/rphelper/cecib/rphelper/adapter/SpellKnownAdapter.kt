@@ -1,17 +1,17 @@
 package com.rphelper.cecib.rphelper.adapter
 
-import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.dto.Spell
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 
-class SpellKnownAdapter (val mDataset: ArrayList<Spell>, callback :RecyclerViewClickListener) :RecyclerView.Adapter<SpellKnownAdapter.ViewHolder>() {
+class SpellKnownAdapter(val mDataset: MutableList<Spell>, callback:RecyclerViewClickListener) : RecyclerView.Adapter<SpellKnownAdapter.ViewHolder>() {
 
     final private var callback = callback
 

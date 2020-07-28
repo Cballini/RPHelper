@@ -1,16 +1,11 @@
 package com.rphelper.cecib.rphelper.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
-import com.google.gson.JsonObject
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rphelper.cecib.rphelper.Preferences
-import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DAMAGES
-import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DEFENSE
-import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.*
@@ -18,8 +13,6 @@ import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.PieceEquipment
 import com.rphelper.cecib.rphelper.enums.Status
 import com.rphelper.cecib.rphelper.utils.CalcUtils
-import com.rphelper.cecib.rphelper.utils.FileUtils
-import org.json.JSONObject
 
 class EquipmentViewModel (val context: Context) : ViewModel(){
 

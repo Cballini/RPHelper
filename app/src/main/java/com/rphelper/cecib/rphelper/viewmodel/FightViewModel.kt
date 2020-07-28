@@ -1,17 +1,17 @@
 package com.rphelper.cecib.rphelper.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Fight
 import com.rphelper.cecib.rphelper.utils.CalcUtils
 import kotlin.math.absoluteValue
 
-class FightViewModel(val context: Context) :ViewModel(){
+class FightViewModel(val context: Context) : ViewModel(){
 
     val _frost = MutableLiveData<Boolean>()
     val frost : LiveData<Boolean> get() = _frost
@@ -128,7 +128,6 @@ class FightViewModel(val context: Context) :ViewModel(){
         val editor = sharedPref.edit()
         var value = 0
         if (_frost.value!!){ //no frost
-            value = maxConst+prefValue.absoluteValue
             editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, value)
         }else{ //frost
             value = -(maxConst/2) + prefValue

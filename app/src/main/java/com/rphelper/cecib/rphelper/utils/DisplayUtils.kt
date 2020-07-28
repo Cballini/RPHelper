@@ -5,17 +5,14 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.SharedPreferences
-import android.support.design.widget.Snackbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import com.google.android.material.snackbar.Snackbar
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
-import com.rphelper.cecib.rphelper.Services
-import com.rphelper.cecib.rphelper.component.EquipmentComponent
-import com.rphelper.cecib.rphelper.component.IndicComponent
 import com.rphelper.cecib.rphelper.dto.Armor
 import com.rphelper.cecib.rphelper.dto.Shield
 import com.rphelper.cecib.rphelper.dto.Weapon
@@ -39,7 +36,7 @@ object DisplayUtils {
     }
 
     @JvmStatic
-    fun stringBonus(bonus :String) : String{
+    fun stringBonusString(bonus :String) : String{
         val string = if (bonus.isNotEmpty()) "(" + bonus.toString() + ")" else ""
         return string
     }

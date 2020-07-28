@@ -1,10 +1,9 @@
 package com.rphelper.cecib.rphelper.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Context
-import com.rphelper.cecib.rphelper.R
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.PieceEquipment
@@ -17,8 +16,8 @@ class InventoryViewModel (val context: Context) : ViewModel(){
     }
 
     //TODO rename
-    val _items = MutableLiveData<ArrayList<Any>>()
-    val items : LiveData<ArrayList<Any>> get() = _items
+    val _items = MutableLiveData<MutableList<Any>>()
+    val items : LiveData<MutableList<Any>> get() = _items
     init {
         _items.value = Services.getStuff(context)
     }

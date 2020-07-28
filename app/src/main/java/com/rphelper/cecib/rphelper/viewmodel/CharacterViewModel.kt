@@ -1,20 +1,14 @@
 package com.rphelper.cecib.rphelper.viewmodel
 
-import android.arch.lifecycle.*
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rphelper.cecib.rphelper.Preferences
-import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_CONST_MAX
-import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_LIFE_MAX
-import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_MANA_MAX
-import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_WEIGHT_MAX
-import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Character
-import com.rphelper.cecib.rphelper.dto.Indic
 import com.rphelper.cecib.rphelper.utils.CalcUtils
-import com.rphelper.cecib.rphelper.utils.FileUtils
 
 class CharacterViewModel(val context: Context) : ViewModel(){
 

@@ -1,12 +1,12 @@
 package com.rphelper.cecib.rphelper.component
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
-import android.support.design.button.MaterialButton
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.rphelper.cecib.rphelper.R
 
 class SpellComponent @JvmOverloads constructor(
@@ -26,7 +26,7 @@ class SpellComponent @JvmOverloads constructor(
     var spellUse2 : TextView
     var spellUseValue2 : TextView
 
-    var spellButton : MaterialButton
+    var spellButton : Button
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_spell, this, true)

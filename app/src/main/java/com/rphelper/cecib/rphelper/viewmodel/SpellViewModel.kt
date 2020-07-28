@@ -1,12 +1,11 @@
 package com.rphelper.cecib.rphelper.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.rphelper.cecib.rphelper.Preferences
-import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Spell
 import com.rphelper.cecib.rphelper.utils.CalcUtils
@@ -49,8 +48,8 @@ class SpellViewModel(val context: Context) : ViewModel() {
         getSpell6()
     }
 
-    val _knownSpells = MutableLiveData<ArrayList<Spell>>()
-    val knownSpells : LiveData<ArrayList<Spell>> get() = _knownSpells
+    val _knownSpells = MutableLiveData<MutableList<Spell>>()
+    val knownSpells : LiveData<MutableList<Spell>> get() = _knownSpells
     init {
         _knownSpells.value = Services.getListOfNotEquipSpells(context)
     }

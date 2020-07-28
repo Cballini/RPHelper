@@ -2,22 +2,22 @@ package com.rphelper.cecib.rphelper.fragments
 
 
 import android.app.AlertDialog
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.support.design.button.MaterialButton
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.Snackbar
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.component.DamageComponent
 import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.viewmodel.FightViewModel
+import kotlin.math.absoluteValue
 
 
 class FightFragment : Fragment() {
@@ -197,15 +197,15 @@ class FightFragment : Fragment() {
         view.findViewById<Button>(R.id.fight_action_poison).setOnClickListener { checkAndDisplayAlert(getString(R.string.pv),(CalcUtils.getLifeMax(context!!, Services.getCharacter(context!!))*0.05).toInt(), viewModel.getPoison())}
         viewModel.frost.observe(viewLifecycleOwner, Observer {
             if(it!!){
-                view.findViewById<MaterialButton>(R.id.fight_action_frost).text = getString(R.string.annul_frost)
+                view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.annul_frost)
             }else{
-                view.findViewById<MaterialButton>(R.id.fight_action_frost).text = getString(R.string.activ_frost)
+                view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.activ_frost)
             }
         })
         view.findViewById<Button>(R.id.fight_action_frost).setOnClickListener {
             val const = viewModel.frost()
-            if(viewModel.frost.value!!) Snackbar.make(view, context!!.getString(R.string.activ_msg_frost) + " " +const, Snackbar.LENGTH_LONG).show()
-            else Snackbar.make(view, context!!.getString(R.string.annul_msg_frost) +const +")", Snackbar.LENGTH_SHORT).show()
+            if(viewModel.frost.value!!) Snackbar.make(view, context!!.getString(R.string.activ_msg_frost) + " " +const.absoluteValue, Snackbar.LENGTH_LONG).show()
+            else Snackbar.make(view, context!!.getString(R.string.annul_msg_frost), Snackbar.LENGTH_SHORT).show()
         }
 
         return view

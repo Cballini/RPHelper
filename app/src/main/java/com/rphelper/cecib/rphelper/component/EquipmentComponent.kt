@@ -1,11 +1,11 @@
 package com.rphelper.cecib.rphelper.component
 
 import android.content.Context
-import android.support.constraint.ConstraintLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.rphelper.cecib.rphelper.R
 
 class EquipmentComponent @JvmOverloads constructor(

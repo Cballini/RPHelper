@@ -1,4 +1,4 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/spell_layout"
@@ -213,7 +213,7 @@
                 android:textSize="@dimen/small_txt" />
         </LinearLayout>
     </LinearLayout>
-    <android.support.design.button.MaterialButton
+    <Button
         android:id="@+id/spell_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -221,11 +221,11 @@
         android:textAlignment="center"
         android:textColor="@color/colorCatTitle"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-        android:padding="@dimen/txt_margin"
+        android:padding="@dimen/small_margin"
         android:backgroundTint="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spell_note_layout"/>
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
