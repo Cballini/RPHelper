@@ -1,16 +1,20 @@
 package com.rphelper.cecib.rphelper
 
+
 import android.Manifest
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-
-
-import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.firebase.ui.auth.IdpResponse
+import com.firebase.ui.auth.util.ExtraConstants
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
+import com.google.firebase.auth.FirebaseAuth
 import com.rphelper.cecib.rphelper.fragments.*
 
 class MainActivity : FragmentActivity() {
@@ -19,6 +23,13 @@ class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val currentUser = FirebaseAuth.getInstance().currentUser
+        if (currentUser == null) {
+            startActivity(AuthActivity.createIntent(this))
+            finish()
+            return
+        }
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -98,6 +109,15 @@ class MainActivity : FragmentActivity() {
                 }
                 return
             }
+        }
+    }
+
+
+    companion object{
+        @JvmStatic
+        open fun createIntent(context: Context, response: IdpResponse?): Intent? {
+            return Intent().setClass(context, MainActivity::class.java)
+                    .putExtra(ExtraConstants.IDP_RESPONSE, response)
         }
     }
 }

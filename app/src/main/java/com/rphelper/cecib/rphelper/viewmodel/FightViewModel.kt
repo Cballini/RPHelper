@@ -128,6 +128,7 @@ class FightViewModel(val context: Context) : ViewModel(){
         val editor = sharedPref.edit()
         var value = 0
         if (_frost.value!!){ //no frost
+            value = maxConst-prefValue.absoluteValue
             editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, value)
         }else{ //frost
             value = -(maxConst/2) + prefValue

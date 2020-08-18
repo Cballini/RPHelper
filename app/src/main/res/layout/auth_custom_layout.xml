@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorTxt">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RP HELPER"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/title_txt"
+        android:fontFamily="@font/optimus_princeps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/custom_logo"/>
+
+    <ImageView
+        android:id="@+id/custom_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/icon_margin"
+        android:src="@mipmap/ic_launcher_foreground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <com.firebase.ui.auth.util.ui.SupportVectorDrawablesButton
+        android:id="@+id/custom_google_signin_button"
+        style="@style/FirebaseUI.Button.AccountChooser.GoogleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/big_margin"
+        android:text="@string/fui_sign_in_with_google"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
+
+    <com.firebase.ui.auth.util.ui.SupportVectorDrawablesButton
+        android:id="@+id/custom_email_signin_button"
+        style="@style/FirebaseUI.Button.AccountChooser.EmailButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/fui_sign_in_with_email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/custom_google_signin_button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
