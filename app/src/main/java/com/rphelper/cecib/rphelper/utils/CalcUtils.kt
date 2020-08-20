@@ -3,11 +3,9 @@ package com.rphelper.cecib.rphelper.utils
 import android.content.Context
 import android.content.SharedPreferences
 import com.rphelper.cecib.rphelper.Preferences
-import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.dto.Weapon
-import kotlin.math.roundToInt
 
 object CalcUtils {
     @JvmStatic
@@ -29,13 +27,13 @@ object CalcUtils {
     }
 
     @JvmStatic
-    fun getWeight(context: Context, equipment:Equipment):Float{
+    fun getWeight(equipment:Equipment):Float{
         return (equipment.leftHand.weight + equipment.rightHand.weight + equipment.catalyst.weight + equipment.shield.weight
                 + equipment.hat.weight + equipment.chest.weight + equipment.gloves.weight + equipment.greaves.weight)
     }
 
     @JvmStatic
-    fun getSpeed(context: Context, character: Character, equipment: Equipment) = round1decimal(getWeightMax(context, character) - getWeight(context, equipment)).toFloat()
+    fun getSpeed(context: Context, character: Character, equipment: Equipment) = round1decimal(getWeightMax(context, character) - getWeight(equipment)).toFloat()
 
     @JvmStatic
     fun getManaMax(context: Context, character :Character) : Int {
@@ -56,9 +54,11 @@ object CalcUtils {
     }
 
     @JvmStatic
-    fun getDef(context: Context) : Int {
-        val character = Services.getCharacter(context)
-        val equipment = Services.getEquipment(context)
+    fun getConstMaxWhithoutModif(character :Character):Int = 60 + 20*character.endurance
+
+
+    @JvmStatic
+    fun getDef(context: Context, character: Character, equipment: Equipment) : Int {
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DEFENSE, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_DEFENSE, 0)
         val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DEFENSE_TEMP, Preferences.PRIVATE_MODE)
@@ -71,8 +71,7 @@ object CalcUtils {
     }
 
     @JvmStatic
-    fun getDamages(context: Context):Int{
-        val character = Services.getCharacter(context)
+    fun getDamages(context: Context, character: Character):Int{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DAMAGES, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_DAMAGES, 0)
         val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_DAMAGES_TEMP, Preferences.PRIVATE_MODE)
@@ -81,9 +80,8 @@ object CalcUtils {
     }
 
     @JvmStatic
-    fun getTotalDamage(weapon: Weapon, context: Context):Int{
-        val character = Services.getCharacter(context)
-        var dmg = getDamages(context) + weapon.damage
+    fun getTotalDamage(weapon: Weapon, context: Context, character: Character):Int{
+        var dmg = getDamages(context, character) + weapon.damage
         dmg += (character.strength*weapon.bonusFor.value + character.dexterity*weapon.bonusDex.value).toInt()
         if (weapon.rapidFire) {
             val dmgTot = dmg

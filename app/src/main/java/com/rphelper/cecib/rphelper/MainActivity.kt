@@ -4,8 +4,10 @@ package com.rphelper.cecib.rphelper
 import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.Debug
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -15,6 +17,8 @@ import com.firebase.ui.auth.util.ExtraConstants
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VISIBILITY_UNLABELED
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.rphelper.cecib.rphelper.fragments.*
 
 class MainActivity : FragmentActivity() {
@@ -39,6 +43,9 @@ class MainActivity : FragmentActivity() {
         }
         else{
             initView()
+            if(this.getSharedPreferences(Preferences.FIRST_CONNEXION, Preferences.PRIVATE_MODE).getBoolean(Preferences.FIRST_CONNEXION, true)) {
+                initDatabase()
+            }
         }
     }
 
@@ -53,6 +60,39 @@ class MainActivity : FragmentActivity() {
         navigation.isItemHorizontalTranslationEnabled = false
         navigation.labelVisibilityMode = LABEL_VISIBILITY_UNLABELED
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
+    fun initDatabase(){
+        val database = Firebase.database
+        //character
+        val charRef = database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/character")
+        val char = Services.getJsonCharacter(applicationContext)
+        charRef.setValue(char)
+
+        //equipment
+        val equipmentRef = database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/equipment")
+        val equipment = Services.getJsonEquipment(applicationContext)
+        equipmentRef.setValue(equipment)
+
+        //fight
+        val fightRef = database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/fight")
+        val fight = Services.getJsonFight(applicationContext)
+        fightRef.setValue(fight)
+
+        //spells
+        val spellsRef = database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/spells")
+        val spells = Services.getJsonSpells(applicationContext)
+        spellsRef.setValue(spells)
+
+        //inventory
+        val inventoryRef = database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/inventory")
+        val inventory = Services.getJsonInventory(applicationContext)
+        inventoryRef.setValue(inventory)
+
+        //update pref
+        val sharedPref: SharedPreferences = this.getSharedPreferences(Preferences.FIRST_CONNEXION, Preferences.PRIVATE_MODE)
+        sharedPref.edit().putBoolean(Preferences.FIRST_CONNEXION, false).apply()
+
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

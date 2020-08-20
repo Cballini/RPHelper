@@ -14,13 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.SpellKnownAdapter
 import com.rphelper.cecib.rphelper.component.SpellComponent
+import com.rphelper.cecib.rphelper.dto.Character
+import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.dto.Spell
+import com.rphelper.cecib.rphelper.dto.Weapon
+import com.rphelper.cecib.rphelper.utils.FileUtils
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 import com.rphelper.cecib.rphelper.viewmodel.SpellViewModel
 import kotlinx.android.synthetic.main.component_spell.view.*
+import org.json.JSONObject
 
 class SpellFragment : Fragment(), RecyclerViewClickListener {
     private lateinit var recyclerView: RecyclerView
@@ -34,9 +40,42 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
 
         viewModel = SpellViewModel(context!!)
 
+        val liveData = viewModel.getDataSnapshotLiveData()
+        liveData!!.observe(viewLifecycleOwner, Observer { dataSnapshot ->
+            if (dataSnapshot != null) {
+                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
+                viewModel._catalyst.value = dataSnapshot.child("equipment").child("catalyst").getValue(Weapon::class.java)
+
+                var allSpells = ArrayList<Spell>()
+                val value = dataSnapshot.child("spells").value as ArrayList<HashMap<String, Any>>
+                for (_value in value) {
+                    // Convert HashMap to Spell
+                    val jsonSpell = JSONObject(_value).toString()
+                    val spell = Gson().fromJson<Spell>(jsonSpell, Spell::class.java)
+                    allSpells.add(spell)
+                }
+                viewModel._allSpells.value = allSpells
+
+                viewModel.getSpell1()
+                viewModel.getSpell2()
+                viewModel.getSpell3()
+                viewModel.getSpell4()
+                viewModel.getSpell5()
+                viewModel.getSpell6()
+                viewModel._knownSpells.value = viewModel.getKnownSpells()
+            }
+        })
+
 
         /********* Equip spells ********/
-        val maxSpells = viewModel.getMaxEquipSpells()
+        var maxSpells = 3
+        viewModel.character.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            maxSpells = viewModel.getMaxEquipSpells()
+            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).visibility = if (maxSpells < 4) View.GONE else View.VISIBLE
+            view.findViewById<SpellComponent>(R.id.spell_fifth_equip).visibility = if (maxSpells<5) View.GONE else View.VISIBLE
+            view.findViewById<SpellComponent>(R.id.spell_sixth_equip).visibility = if (maxSpells<6) View.GONE else View.VISIBLE
+        })
+
         //First spell
         viewModel.firstEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_first_equip, getString(R.string.spell1), it)
@@ -53,28 +92,19 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         })
 
         //Fourth spell
-        if (maxSpells<4){
-            view.findViewById<SpellComponent>(R.id.spell_fourth_equip).visibility = View.GONE
-        }else{
         viewModel.fourthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_fourth_equip, getString(R.string.spell4), it)
-        })}
+        })
 
         //Fifth spell
-        if (maxSpells<5){
-            view.findViewById<SpellComponent>(R.id.spell_fifth_equip).visibility = View.GONE
-        }else{
         viewModel.fifthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_fifth_equip, getString(R.string.spell5), it)
-        })}
+        })
 
         //Sixth spell
-        if (maxSpells<6){
-            view.findViewById<SpellComponent>(R.id.spell_sixth_equip).visibility = View.GONE
-        }else{
         viewModel.sixthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_sixth_equip, getString(R.string.spell6), it)
-        })}
+        })
 
         //Help
         view.findViewById<ImageView>(R.id.spell_help).setOnClickListener {

@@ -17,8 +17,7 @@ import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.EquipmentComponent
 import com.rphelper.cecib.rphelper.component.IndicSoloComponent
-import com.rphelper.cecib.rphelper.dto.Armor
-import com.rphelper.cecib.rphelper.dto.Weapon
+import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.Status
@@ -37,6 +36,20 @@ class EquipmentFragment : Fragment() {
 
         viewModel = EquipmentViewModel(context!!)
 
+        val liveData = viewModel.getDataSnapshotLiveData()
+        liveData!!.observe(viewLifecycleOwner, Observer { dataSnapshot ->
+            if (dataSnapshot != null) {
+                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
+                viewModel._equipment.value = dataSnapshot.child("equipment").getValue(Equipment::class.java)
+                viewModel._inventory.value = dataSnapshot.child("inventory").getValue(Inventory::class.java)
+                viewModel._damages.value = viewModel.getDamages()
+                viewModel._defense.value = viewModel.getDef()
+                viewModel._res.value = viewModel.getRes()
+                viewModel._immun.value = viewModel.getImmun()
+                viewModel._weak.value = viewModel.getWeak()
+            }
+        })
+
         /********** Stats **********/
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloTitle.text = getString(R.string.damages)
         setOnClickListenerIndicDrop(R.id.equipment_stat_damages, view)
@@ -47,7 +60,7 @@ class EquipmentFragment : Fragment() {
             view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.damageBonusTxt), Preferences.PREF_MODIFIER_DAMAGES_TEMP, { viewModel.updateEquipment() })
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.damageBonusTxt), Preferences.PREF_MODIFIER_DAMAGES_TEMP, { viewModel.updateEquipmentBonus() })
         }
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloTitle.text = getString(R.string.def)
         setOnClickListenerIndicDrop(R.id.equipment_stat_defense, view)
@@ -58,7 +71,7 @@ class EquipmentFragment : Fragment() {
             view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.defBonusTxt), Preferences.PREF_MODIFIER_DEFENSE_TEMP, { viewModel.updateEquipment() })
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.defBonusTxt), Preferences.PREF_MODIFIER_DEFENSE_TEMP, { viewModel.updateEquipmentBonus() })
         }
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloTitle.text = getString(R.string.res)
         setOnClickListenerIndicDrop(R.id.equipment_stat_res, view)
@@ -118,69 +131,42 @@ class EquipmentFragment : Fragment() {
             }
         }
 
-        /******** Left hand **********/
-        viewModel.leftHand.observe(viewLifecycleOwner, Observer {
-            initWeaponView(view, R.id.equipment_left_hand, getString(R.string.left_hand), it)
+        /******** Observe equipment **********/
+        viewModel.equipment.observe(viewLifecycleOwner, Observer {
+            initWeaponView(view, R.id.equipment_left_hand, getString(R.string.left_hand), it.leftHand)
+            initWeaponView(view, R.id.equipment_right_hand, getString(R.string.right_hand), it.rightHand)
+            initWeaponView(view, R.id.equipment_catalyst, getString(R.string.catalyst), it.catalyst)
+            initShieldView(view, it.shield)
+            initArmorView(view, R.id.equipment_hat, getString(R.string.hat), it.hat)
+            initArmorView(view, R.id.equipment_chest, getString(R.string.chestplate), it.chest)
+            initArmorView(view, R.id.equipment_gloves, getString(R.string.gloves), it.gloves)
+            initArmorView(view, R.id.equipment_greaves, getString(R.string.greaves), it.greaves)
         })
-
-        /******** Right hand **********/
-        viewModel.rightHand.observe(viewLifecycleOwner, Observer {
-            initWeaponView(view, R.id.equipment_right_hand, getString(R.string.right_hand), it)
-        })
-
-        /******** Catalyst **********/
-        viewModel.catalyst.observe(viewLifecycleOwner, Observer {
-            initWeaponView(view, R.id.equipment_catalyst, getString(R.string.catalyst), it)
-        })
-
-        /******** Shield **********/
-        initShieldView(view)
-
-        /******** Hat **********/
-        viewModel.hat.observe(viewLifecycleOwner, Observer {
-            initArmorView(view, R.id.equipment_hat, getString(R.string.hat), it)
-        })
-
-        /******** Chest **********/
-        viewModel.chest.observe(viewLifecycleOwner, Observer {
-            initArmorView(view, R.id.equipment_chest, getString(R.string.chestplate), it)
-        })
-
-        /******** Gloves **********/
-        viewModel.gloves.observe(viewLifecycleOwner, Observer {
-            initArmorView(view, R.id.equipment_gloves, getString(R.string.gloves), it)
-        })
-
-        /******** Greaves **********/
-        viewModel.greaves.observe(viewLifecycleOwner, Observer {
-            initArmorView(view, R.id.equipment_greaves, getString(R.string.greaves), it)
-        })
-
 
         /*********** EDIT **********/
         view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentTypeLayout.setOnClickListener {
-            editWeapon(getString(R.string.left_hand), viewModel.leftHand.value!!)
+            editWeapon(getString(R.string.left_hand), viewModel.equipment.value!!.leftHand)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentTypeLayout.setOnClickListener {
-            editWeapon(getString(R.string.right_hand), viewModel.rightHand.value!!)
+            editWeapon(getString(R.string.right_hand), viewModel.equipment.value!!.rightHand)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_catalyst).equipmentTypeLayout.setOnClickListener {
-            editWeapon(getString(R.string.catalyst), viewModel.catalyst.value!!)
+            editWeapon(getString(R.string.catalyst), viewModel.equipment.value!!.catalyst)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentTypeLayout.setOnClickListener {
             editShield()
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.hat), viewModel.hat.value!!)
+            editArmor(getString(R.string.hat), viewModel.equipment.value!!.hat)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.chestplate), viewModel.chest.value!!)
+            editArmor(getString(R.string.chestplate), viewModel.equipment.value!!.chest)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.gloves), viewModel.gloves.value!!)
+            editArmor(getString(R.string.gloves), viewModel.equipment.value!!.gloves)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.greaves), viewModel.greaves.value!!)
+            editArmor(getString(R.string.greaves), viewModel.equipment.value!!.greaves)
         }
 
         return view
@@ -218,10 +204,9 @@ class EquipmentFragment : Fragment() {
         }
     }
 
-    fun initShieldView(view: View) {
+    fun initShieldView(view: View, shield: Shield) {
         view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentType.text = getString(R.string.shield)
-        viewModel.shield.observe(viewLifecycleOwner, Observer {
-            it?.let {
+            shield?.let {
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipment_name.text = it.name
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTitle.text = getString(R.string.block)
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTxt.text = it.block.toString()
@@ -250,7 +235,6 @@ class EquipmentFragment : Fragment() {
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentLargePanelLayout.visibility = View.GONE
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentWeightTxt.text = "0"
             }
-        })
     }
 
     fun initArmorView(view: View, id: Int, type: String, armor: Armor?) {
@@ -323,17 +307,17 @@ class EquipmentFragment : Fragment() {
     }
 
     fun editShield() {
-        DisplayUtils.openShieldDialog(viewModel.shield.value!!, context!!, activity!!,
+        DisplayUtils.openShieldDialog(viewModel.equipment.value!!.shield, context!!, activity!!,
                 {
-                    displayMsg(viewModel.shield.value!!.name)
-                    viewModel.shieldToInventory(viewModel.shield.value!!)
+                    displayMsg(viewModel.equipment.value!!.shield.name)
+                    viewModel.shieldToInventory(viewModel.equipment.value!!.shield)
                 },
                 {
-                    viewModel.shield.value?.let { viewModel.shield.value!!.reinit() }
+                    viewModel.equipment.value!!.shield?.let { viewModel.equipment.value!!.shield.reinit() }
                     viewModel.editEquipment()
                 },
                 {
-                    viewModel.shield.value!!.equip = true
+                    viewModel.equipment.value!!.shield.equip = true
                     viewModel.editEquipment()
                 })
     }
@@ -395,7 +379,7 @@ class EquipmentFragment : Fragment() {
             if (dark.isChecked) value += " " + Elem.DARKNESS.name
             editor.putString(pref, value)
             editor.apply()
-            viewModel.editEquipment()
+            viewModel.updateEquipmentBonus()
         }
         builder.setNeutralButton(context!!.getString(R.string.reset)) { dialogInterface, i ->
             dialogInterface.dismiss()
@@ -403,7 +387,7 @@ class EquipmentFragment : Fragment() {
             val editor = sharedPref.edit()
             editor.putString(pref, "")
             editor.apply()
-            viewModel.editEquipment()
+            viewModel.updateEquipmentBonus()
         }
 
         builder.show()
@@ -430,7 +414,7 @@ class EquipmentFragment : Fragment() {
             if (frost.isChecked) value += " " + Status.FROST.name
             editor.putString(pref, value)
             editor.apply()
-            viewModel.editEquipment()
+            viewModel.updateEquipmentBonus()
         }
         builder.setNeutralButton(context!!.getString(R.string.reset)) { dialogInterface, i ->
             dialogInterface.dismiss()
@@ -438,7 +422,7 @@ class EquipmentFragment : Fragment() {
             val editor = sharedPref.edit()
             editor.putString(pref, "")
             editor.apply()
-            viewModel.editEquipment()
+            viewModel.updateEquipmentBonus()
         }
 
         builder.show()

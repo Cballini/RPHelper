@@ -1,5 +1,7 @@
 package com.rphelper.cecib.rphelper.dto
 
+import com.google.firebase.auth.FirebaseUser
+
 data class Character(var name :String,
                      var race :String,
                      var origin :String,
@@ -16,4 +18,8 @@ data class Character(var name :String,
                      var memory :Int,
                      var intelligence :Int,
                      var faith :Int,
-                     var don:String)
+                     var don:String){
+
+    constructor():this("", "", "", "", 0, Indic(0F,0),
+            Indic(0F,0),Indic(0F,0), 0,0,0,0,0,0,0,0, "" )
+}

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_CONST_MAX
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DAMAGES
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_DEFENSE
@@ -46,6 +47,7 @@ import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 import com.rphelper.cecib.rphelper.viewmodel.InventoryViewModel
+import org.json.JSONObject
 import java.util.*
 
 
@@ -54,13 +56,87 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
     private lateinit var viewModel: InventoryViewModel
-    private var isOnMoneyEdit = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_inventory, container, false)
 
         viewModel = InventoryViewModel(context!!)
+
+
+        val liveData = viewModel.getDataSnapshotLiveData()
+        liveData!!.observe(viewLifecycleOwner, Observer { dataSnapshot ->
+            if (dataSnapshot != null) {
+                viewModel._inventory.value = dataSnapshot.child("inventory").getValue(Inventory::class.java)
+
+                var allStuff = ArrayList<Any>()
+                //Weapon
+                var valueWeapon = ArrayList<HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("weapons").value?.let{
+                    valueWeapon = dataSnapshot.child("inventory").child("weapons").value as ArrayList<HashMap<String, Any>>
+                    for (_value in valueWeapon) {
+                        // Convert HashMap to Weapon
+                        val jsonWeapon = JSONObject(_value).toString()
+                        val weapon = Gson().fromJson<Weapon>(jsonWeapon, Weapon::class.java)
+                        allStuff.add(weapon)
+                    }
+                }
+
+                //Shield
+                var valueShield = ArrayList<HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("shields").value?.let{
+                    valueShield = dataSnapshot.child("inventory").child("shields").value as ArrayList<HashMap<String, Any>>
+                    for (_value in valueShield) {
+                        // Convert HashMap to Shield
+                        val jsonShield = JSONObject(_value).toString()
+                        val shield = Gson().fromJson<Shield>(jsonShield, Shield::class.java)
+                        allStuff.add(shield)
+                    }
+                }
+
+                //Armor
+                var valueArmor = ArrayList<HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("armors").value?.let{
+                    valueArmor = dataSnapshot.child("inventory").child("armors").value as ArrayList<HashMap<String, Any>>
+                    for (_value in valueArmor) {
+                        // Convert HashMap to Armor
+                        val jsonArmor = JSONObject(_value).toString()
+                        val armor = Gson().fromJson<Armor>(jsonArmor, Armor::class.java)
+                        allStuff.add(armor)
+                    }
+                }
+                //Jewel
+                var valueJewel = ArrayList<HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("jewels").value?.let{
+                    valueJewel = dataSnapshot.child("inventory").child("jewels").value as ArrayList<HashMap<String, Any>>
+                    for (_value in valueJewel) {
+                        // Convert HashMap to Jewel
+                        val jsonJewel = JSONObject(_value).toString()
+                        val jewel = Gson().fromJson<Jewel>(jsonJewel, Jewel::class.java)
+                        allStuff.add(jewel)
+                    }
+                }
+
+                //Item
+                var valueItem = ArrayList<HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("item").value?.let{
+                    valueItem = dataSnapshot.child("inventory").child("item").value as ArrayList<HashMap<String, Any>>
+                    for (_value in valueItem) {
+                        // Convert HashMap to Item
+                        val jsonItem = JSONObject(_value).toString()
+                        val item = Gson().fromJson<Item>(jsonItem, Item::class.java)
+                        allStuff.add(item)
+                    }
+                }
+
+                viewModel._stuff.value = allStuff
+
+                viewModel._money.value = viewModel._inventory.value!!.money
+                viewModel._weight.value = viewModel.getInventoryWeight()
+                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
+                viewModel._equipment.value = dataSnapshot.child("equipment").getValue(Equipment::class.java)
+            }
+        })
 
         //Money
         view.findViewById<CategoryHorizontalComponent>(R.id.inventory_money).catTitle.text = getString(R.string.money)
@@ -71,7 +147,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
 
         //Objects
         viewManager = LinearLayoutManager(this.context)
-        viewAdapter = ItemAdapter(viewModel.items.value!!, this)
+        viewAdapter = ItemAdapter(viewModel.stuff.value!!, this)
         recyclerView = view.findViewById<RecyclerView>(R.id.inventory_recycler).apply {
             // use a linear layout manager
             layoutManager = viewManager
@@ -79,7 +155,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             // specify an viewAdapter (see also next example)
             adapter = viewAdapter
         }
-        viewModel.items.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        viewModel.stuff.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             viewAdapter = ItemAdapter(ArrayList(it!!), this)
             recyclerView = view.findViewById<RecyclerView>(R.id.inventory_recycler).apply {
                 // use a linear layout manager
@@ -116,6 +192,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                 if(editText.text.isNotEmpty()) {
                     val money = viewModel.money.value!!
                     viewModel._money.value = money - (editText.text.toString().toInt())
+                    viewModel.editInventory()
                 }
             }
             builder.show()
@@ -134,6 +211,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                 if(editText.text.isNotEmpty()) {
                     val money = viewModel.money.value!!
                     viewModel._money.value = money + (editText.text.toString().toInt())
+                    viewModel.editInventory()
                 }
             }
             builder.show()
@@ -147,15 +225,15 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             var newJewels = ArrayList<Jewel>()
             for(jewel in viewModel.getJewels()){
                 if(jewel.equip){
+                    jewel.equip = false
                     modifPrefString(PREF_MODIFIER_WEAK, jewel)
                     modifPrefString(PREF_MODIFIER_RES, jewel)
                     modifPrefString(PREF_MODIFIER_IMMUN, jewel)
-                    jewel.equip = false
-                    newJewels.add(jewel)
                 }
+                newJewels.add(jewel)
             }
-            viewModel.items.value!!.removeAll(viewModel.getJewels())
-            viewModel.items.value!!.addAll(newJewels)
+            viewModel.stuff.value!!.removeAll(viewModel.getJewels())
+            viewModel.stuff.value!!.addAll(newJewels)
             viewModel.editInventory()
             CalcUtils.reinitStuffPref(context!!)
         }
@@ -187,11 +265,11 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         DisplayUtils.openWeaponDialog(getString(R.string.weapon), weapon, context!!, activity!!,
                 {if(weapon.boost>0)equipCata(weapon)
                 else equipWeapon(weapon) },
-                {if(viewModel.items.value!!.contains(weapon)){
-                    viewModel.items.value!!.remove(weapon)
+                {if(viewModel.stuff.value!!.contains(weapon)){
+                    viewModel.stuff.value!!.remove(weapon)
                     viewModel.editInventory()} },
                 {weapon.equip = false
-                    if(isAdd)viewModel.items.value!!.add(weapon)
+                    if(isAdd)viewModel.stuff.value!!.add(weapon)
                     viewModel.editInventory()
                 })
     }
@@ -199,11 +277,11 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     fun editShield(shield: Shield, isAdd :Boolean) {
         DisplayUtils.openShieldDialog(shield, context!!, activity!!,
                 {equipShield(shield) },
-                {if(viewModel.items.value!!.contains(shield)){
-                    viewModel.items.value!!.remove(shield)
+                {if(viewModel.stuff.value!!.contains(shield)){
+                    viewModel.stuff.value!!.remove(shield)
                     viewModel.editInventory()}},
                 {shield.equip = false
-                    if(isAdd)viewModel.items.value!!.add(shield)
+                    if(isAdd)viewModel.stuff.value!!.add(shield)
                     viewModel.editInventory()
                 })
     }
@@ -211,11 +289,11 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     fun editArmor(armor: Armor, isAdd :Boolean) {
         DisplayUtils.openArmorDialog(getString(R.string.armor), armor, context!!, activity!!,
                 {equipArmor(armor) },
-                {if(viewModel.items.value!!.contains(armor)){
-                    viewModel.items.value!!.remove(armor)
+                {if(viewModel.stuff.value!!.contains(armor)){
+                    viewModel.stuff.value!!.remove(armor)
                     viewModel.editInventory()} },
                 {armor.equip = false
-                    if(isAdd)viewModel.items.value!!.add(armor)
+                    if(isAdd)viewModel.stuff.value!!.add(armor)
                     viewModel.editInventory()
                 })
     }
@@ -223,7 +301,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     fun editJewel(jewel: Jewel, isAdd :Boolean) {
         openJewelDialog(jewel,
                 ({
-                    if(isAdd)viewModel.items.value!!.add(jewel)
+                    if(isAdd)viewModel.stuff.value!!.add(jewel)
                     viewModel.editInventory()
                 }))
     }
@@ -443,7 +521,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             } else {
                 item.effect = ""
             }
-            viewModel.items.value!!.add(item)
+            viewModel.stuff.value!!.add(item)
             viewModel.editInventory()
             dialog.dismiss()
         }
@@ -534,7 +612,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         }else {
             dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = weapon.name
             dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.total_damage)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = CalcUtils.getTotalDamage(weapon, context!!).toString()
+            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = CalcUtils.getTotalDamage(weapon, context!!, viewModel.character.value!!).toString()
             dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = weapon.weight.toString()
         }
     }
@@ -711,18 +789,21 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             PREF_MODIFIER_WEAK -> {
                 for (w in jewel.weakModifier){
                     value += ", " + w.name
+                    //deleteValue = ""
                     deleteValue = deleteValue.replaceFirst(", " +w.name, "")
                 }
             }
             PREF_MODIFIER_RES -> {
                 for (r in jewel.resModifier){
                     value += ", " + r.name
+                    //deleteValue = ""
                     deleteValue = deleteValue.replaceFirst(", " +r.name, "")
                 }
             }
             PREF_MODIFIER_IMMUN -> {
                 for (i in jewel.immunModifier){
                     value += ", " + i.name
+                    //deleteValue = ""
                     deleteValue = deleteValue.replaceFirst(", " +i.name, "")
                 }
             }
@@ -825,10 +906,10 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                 dialog.dismiss()
             }
             setPositiveButton(getString(R.string.ok)) { dialog, which ->
-                if (viewModel.items.value!![position] is Jewel) {
-                    if ((viewModel.items.value!![position] as Jewel).equip) equipJewel((viewModel.items.value!![position] as Jewel)) //disequip before remove
+                if (viewModel.stuff.value!![position] is Jewel) {
+                    if ((viewModel.stuff.value!![position] as Jewel).equip) equipJewel((viewModel.stuff.value!![position] as Jewel)) //disequip before remove
                 }
-                viewModel.items.value!!.remove(viewModel.items.value!![position])
+                viewModel.stuff.value!!.remove(viewModel.stuff.value!![position])
                 viewModel.editInventory()
                 dialog.dismiss() }
             show()
@@ -836,33 +917,33 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun addOne(position: Int){
-        (viewModel.items.value!![position] as Item).quantity +=1
+        (viewModel.stuff.value!![position] as Item).quantity +=1
         viewModel.editInventory()
     }
 
     fun removeOne(position: Int){
-        (viewModel.items.value!![position] as Item).quantity -=1
+        (viewModel.stuff.value!![position] as Item).quantity -=1
         viewModel.editInventory()
     }
 
     override fun onItemClicked(position: Int, v: View, id :Int) {
         when(id){
             R.id.line_button_equip -> {
-                if (viewModel.items.value!![position] is Weapon) {
-                    if((viewModel.items.value!![position] as Weapon).boost>0)equipCata((viewModel.items.value!![position] as Weapon))
-                    else equipWeapon((viewModel.items.value!![position] as Weapon))
+                if (viewModel.stuff.value!![position] is Weapon) {
+                    if((viewModel.stuff.value!![position] as Weapon).boost>0)equipCata((viewModel.stuff.value!![position] as Weapon))
+                    else equipWeapon((viewModel.stuff.value!![position] as Weapon))
                 }
-                if (viewModel.items.value!![position] is Shield) equipShield((viewModel.items.value!![position] as Shield))
-                if (viewModel.items.value!![position] is Armor) equipArmor((viewModel.items.value!![position] as Armor))
-                if (viewModel.items.value!![position] is Jewel) equipJewel((viewModel.items.value!![position] as Jewel))
-                if (viewModel.items.value!![position] is Item) equipItem((viewModel.items.value!![position] as Item), false)
+                if (viewModel.stuff.value!![position] is Shield) equipShield((viewModel.stuff.value!![position] as Shield))
+                if (viewModel.stuff.value!![position] is Armor) equipArmor((viewModel.stuff.value!![position] as Armor))
+                if (viewModel.stuff.value!![position] is Jewel) equipJewel((viewModel.stuff.value!![position] as Jewel))
+                //if (viewModel.stuff.value!![position] is Item) equipItem((viewModel.stuff.value!![position] as Item), false)
             }
             R.id.line_button_edit -> {
-                if (viewModel.items.value!![position] is Weapon) editWeapon(viewModel.items.value!![position] as Weapon, false)
-                if (viewModel.items.value!![position] is Shield) editShield(viewModel.items.value!![position] as Shield, false)
-                if (viewModel.items.value!![position] is Armor) editArmor(viewModel.items.value!![position] as Armor, false)
-                if (viewModel.items.value!![position] is Jewel) editJewel(viewModel.items.value!![position] as Jewel, false)
-                if (viewModel.items.value!![position] is Item) editItem((viewModel.items.value!![position] as Item))
+                if (viewModel.stuff.value!![position] is Weapon) editWeapon(viewModel.stuff.value!![position] as Weapon, false)
+                if (viewModel.stuff.value!![position] is Shield) editShield(viewModel.stuff.value!![position] as Shield, false)
+                if (viewModel.stuff.value!![position] is Armor) editArmor(viewModel.stuff.value!![position] as Armor, false)
+                if (viewModel.stuff.value!![position] is Jewel) editJewel(viewModel.stuff.value!![position] as Jewel, false)
+                if (viewModel.stuff.value!![position] is Item) editItem((viewModel.stuff.value!![position] as Item))
             }
             R.id.line_button_delete -> remmoveStuff(position)
             R.id.line_button_minus -> removeOne(position)

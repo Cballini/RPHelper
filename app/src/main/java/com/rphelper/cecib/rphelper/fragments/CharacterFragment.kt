@@ -13,13 +13,15 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.rphelper.cecib.rphelper.Preferences
-import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.R
+import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
 import com.rphelper.cecib.rphelper.component.IndicComponent
 import com.rphelper.cecib.rphelper.dto.Character
+import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
+
 
 class CharacterFragment : Fragment() {
 
@@ -36,20 +38,42 @@ class CharacterFragment : Fragment() {
 
         initViewNotEditable(view)
 
+        val liveData = viewModel.getDataSnapshotLiveData()
+        liveData!!.observe(viewLifecycleOwner, Observer { dataSnapshot ->
+            if (dataSnapshot != null) {
+                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
+                viewModel._equipment.value = dataSnapshot.child("equipment").getValue(Equipment::class.java)
+                viewModel._weight.value = viewModel.getWeight()
+                viewModel._weightMax.value = viewModel.getWeightMax()
+                viewModel._lifeMax.value = viewModel.getLifeMax()
+                viewModel._manaMax.value = viewModel.getManaMax()
+                viewModel._constMax.value = viewModel.getConstMax()
+                viewModel._speed.value = viewModel.getSpeed()
+
+                viewModel._diplo.value = viewModel.getDiplo()
+                viewModel._psy.value = viewModel.getPsy()
+                viewModel._know.value = viewModel.getKnow()
+                viewModel._push.value = viewModel.getPush()
+                viewModel._sneak.value = viewModel.getSneak()
+                viewModel._craft.value = viewModel.getCraft()
+            }
+        })
+
         viewModel.character.observe(viewLifecycleOwner, Observer {
-            view.findViewById<CategoryHorizontalComponent>(R.id.profile_name).catTxt.setText(it.name) 
+            view.findViewById<CategoryHorizontalComponent>(R.id.profile_name).catTxt.setText(it.name)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_race).catTxt.setText(it.race)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_origin).catTxt.setText(it.origin)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_religion).catTxt.setText(it.religion)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt.setText(it.level.toString())
+            it.let {
+                view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.text = it!!.life.value.toString()
+                view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.text = it!!.const.value.toString()
+                view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.text = it!!.mana.value.toString()
 
-            view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.text =it.life.value.toString()
-            view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.text =it.const.value.toString()
-            view.findViewById<IndicComponent>(R.id.indic_mana).indicCurrent.text =it.mana.value.toString()
+                fillStatsWithBonus(view, it!!)
 
-            fillStatsWithBonus(view, it)
-
-            if(it.don.isNotEmpty())view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setText(it.don)
+                if (it.don.isNotEmpty()) view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setText(it.don)
+            }
         })
 
         //Name
@@ -219,7 +243,7 @@ class CharacterFragment : Fragment() {
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_life).indicEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.lifeBonusTxt), Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, {viewModel.updateCharacter()})
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.lifeBonusTxt), Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, {viewModel.updateCharacterBonus()})
         }
 
         view.findViewById<IndicComponent>(R.id.indic_const).indicEdit.setOnClickListener {
@@ -230,7 +254,7 @@ class CharacterFragment : Fragment() {
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_const).indicEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.constBonusTxt), Preferences.PREF_MODIFIER_CONST_MAX_TEMP, {viewModel.updateCharacter()})
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.constBonusTxt), Preferences.PREF_MODIFIER_CONST_MAX_TEMP, {viewModel.updateCharacterBonus()})
         }
 
         view.findViewById<IndicComponent>(R.id.indic_mana).indicEdit.setOnClickListener {
@@ -241,11 +265,11 @@ class CharacterFragment : Fragment() {
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_mana).indicEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.manaBonusTxt), Preferences.PREF_MODIFIER_MANA_MAX_TEMP, {viewModel.updateCharacter()})
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.manaBonusTxt), Preferences.PREF_MODIFIER_MANA_MAX_TEMP, {viewModel.updateCharacterBonus()})
         }
 
         view.findViewById<IndicComponent>(R.id.indic_weight).indicEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.weightBonusTxt), Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, {viewModel.updateCharacter()})
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.weightBonusTxt), Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, {viewModel.updateCharacterBonus()})
         }
 
         view.findViewById<ImageView>(R.id.stat_edit).setOnClickListener {

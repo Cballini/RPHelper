@@ -74,6 +74,7 @@ object DisplayUtils {
         builder.show()
     }
 
+
     @JvmStatic
     fun openWeaponDialog(type: String, weapon: Weapon,context: Context, activity :Activity,  toDoEquip: () -> Unit,  toDoDelete: () -> Unit,  toDoSave: () -> Unit) {
         val dialog = Dialog(activity)
