@@ -17,6 +17,7 @@ import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.EquipmentComponent
 import com.rphelper.cecib.rphelper.component.IndicSoloComponent
+import com.rphelper.cecib.rphelper.component.IndicSoloIconsComponent
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
@@ -73,37 +74,105 @@ class EquipmentFragment : Fragment() {
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloEditBonus.setOnClickListener {
             DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.defBonusTxt), Preferences.PREF_MODIFIER_DEFENSE_TEMP, { viewModel.updateEquipmentBonus() })
         }
-        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloTitle.text = getString(R.string.res)
-        setOnClickListenerIndicDrop(R.id.equipment_stat_res, view)
+        view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsTitle.text = getString(R.string.res)
+        setOnClickListenerIconsIndicDrop(R.id.equipment_stat_res, view)
         viewModel.res.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloCurrent.text =it.toString()
+            //init
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsFire.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsMagic.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsLight.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsDark.visibility = View.GONE
+            if(it.contains(Elem.FIRE.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsFire.visibility = View.VISIBLE
+            if(it.contains(Elem.MAGIC.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsMagic.visibility = View.VISIBLE
+            if(it.contains(Elem.LIGHTNING.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsLight.visibility = View.VISIBLE
+            if(it.contains(Elem.DARKNESS.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsDark.visibility = View.VISIBLE
+            if(it.contains(Elem.ALL.name)){
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsFire.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsMagic.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsLight.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsDark.visibility = View.VISIBLE
+            }
         })
-        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloEditBonus.setOnClickListener {
+        view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsEditBonus.setOnClickListener {
             displaySelectElemDialog(getString(R.string.resBonusTxt), Preferences.PREF_MODIFIER_RES_TEMP)
         }
         viewModel.resBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_res).indicSoloBonus.text = DisplayUtils.stringBonusString(it)
+            //init
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusFire.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusMagic.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusLight.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusDark.visibility = View.GONE
+            if(it.contains(Elem.FIRE.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusFire.visibility = View.VISIBLE
+            if(it.contains(Elem.MAGIC.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusMagic.visibility = View.VISIBLE
+            if(it.contains(Elem.LIGHTNING.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusLight.visibility = View.VISIBLE
+            if(it.contains(Elem.DARKNESS.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusDark.visibility = View.VISIBLE
+            if(it.contains(Elem.ALL.name)){
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusFire.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusMagic.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusLight.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsBonusDark.visibility = View.VISIBLE
+            }
         })
-        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloTitle.text = getString(R.string.immun)
-        setOnClickListenerIndicDrop(R.id.equipment_stat_immun, view)
+        view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsTitle.text = getString(R.string.immun)
+        setOnClickListenerIconsIndicDrop(R.id.equipment_stat_immun, view)
         viewModel.immun.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloCurrent.text =it.toString()
+            //init
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsPoison.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsFrost.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsBleed.visibility = View.GONE
+            if(it.contains(Status.POISON.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsPoison.visibility = View.VISIBLE
+            if(it.contains(Status.FROST.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsFrost.visibility = View.VISIBLE
+            if(it.contains(Status.BLEED.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsBleed.visibility = View.VISIBLE
         })
         viewModel.immunBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloBonus.text = DisplayUtils.stringBonusString(it)
+            //init
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsBonusPoison.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsBonusFrost.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsBonusBleed.visibility = View.GONE
+            if(it.contains(Status.POISON.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsBonusPoison.visibility = View.VISIBLE
+            if(it.contains(Status.FROST.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsBonusFrost.visibility = View.VISIBLE
+            if(it.contains(Status.BLEED.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsBonusBleed.visibility = View.VISIBLE
         })
-        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_immun).indicSoloEditBonus.setOnClickListener {
+        view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_immun).indicSoloIconsEditBonus.setOnClickListener {
             displaySelectStatusDialog(getString(R.string.immunBonusTxt), Preferences.PREF_MODIFIER_IMMUN_TEMP)
         }
-        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloTitle.text = getString(R.string.fai)
-        setOnClickListenerIndicDrop(R.id.equipment_stat_weak, view)
+        view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsTitle.text = getString(R.string.fai)
+        setOnClickListenerIconsIndicDrop(R.id.equipment_stat_weak, view)
         viewModel.weak.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloCurrent.text =it.toString()
+            //init
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsFire.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsMagic.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsLight.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsDark.visibility = View.GONE
+            if(it.contains(Elem.FIRE.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsFire.visibility = View.VISIBLE
+            if(it.contains(Elem.MAGIC.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsMagic.visibility = View.VISIBLE
+            if(it.contains(Elem.LIGHTNING.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsLight.visibility = View.VISIBLE
+            if(it.contains(Elem.DARKNESS.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsDark.visibility = View.VISIBLE
+            if(it.contains(Elem.ALL.name)){
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsFire.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsMagic.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsLight.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsDark.visibility = View.VISIBLE
+            }
         })
         viewModel.weakBonus.observe(viewLifecycleOwner, Observer {
-            view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloBonus.text = DisplayUtils.stringBonusString(it)
+            //init
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusFire.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusMagic.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusLight.visibility = View.GONE
+            view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusDark.visibility = View.GONE
+            if(it.contains(Elem.FIRE.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusFire.visibility = View.VISIBLE
+            if(it.contains(Elem.MAGIC.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusMagic.visibility = View.VISIBLE
+            if(it.contains(Elem.LIGHTNING.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusLight.visibility = View.VISIBLE
+            if(it.contains(Elem.DARKNESS.name)) view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusDark.visibility = View.VISIBLE
+            if(it.contains(Elem.ALL.name)){
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusFire.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusMagic.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusLight.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsBonusDark.visibility = View.VISIBLE
+            }
         })
-        view.findViewById<IndicSoloComponent>(R.id.equipment_stat_weak).indicSoloEditBonus.setOnClickListener {
+        view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_weak).indicSoloIconsEditBonus.setOnClickListener {
             displaySelectElemDialog(getString(R.string.weakBonusTxt), Preferences.PREF_MODIFIER_WEAK_TEMP)
         }
 
@@ -177,10 +246,10 @@ class EquipmentFragment : Fragment() {
             view!!.findViewById<EquipmentComponent>(id).equipmentType.text = type
             view!!.findViewById<EquipmentComponent>(id).equipment_name.text = weapon.name
             if (type.equals(context!!.getString(R.string.catalyst))) {
-                view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.visibility = View.GONE
-                view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.visibility = View.VISIBLE
-                view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTitle.text = getString(R.string.boost)
-                view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = weapon.boost.toString()
+                view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.visibility = View.GONE
+                view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.visibility = View.VISIBLE
+                view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.boost)
+                view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTxt.text = weapon.boost.toString()
                 view.findViewById<EquipmentComponent>(id).equipmentSecondLine.visibility = View.GONE
                 view.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.visibility = View.GONE
             } else {
@@ -188,10 +257,35 @@ class EquipmentFragment : Fragment() {
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.damages)
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTxt.text = weapon.damage.toString()
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.visibility = View.GONE
-                view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = if (null != weapon.status && !weapon.status.equals(Status.NOTHING)) weapon.status.toString() else getString(R.string.status)
+                view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = getString(R.string.status)
+                weapon.status?.let{
+                    when(weapon.status){
+                        Status.POISON -> view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelPoison.visibility = View.VISIBLE
+                        Status.FROST -> view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelFrost.visibility = View.VISIBLE
+                        Status.BLEED -> view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelBleed.visibility = View.VISIBLE
+                        else -> {
+                            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelPoison.visibility = View.GONE
+                            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelFrost.visibility = View.GONE
+                            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelBleed.visibility = View.GONE
+                        }
+                    }
+                }
                 view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = if (null != weapon.statusValue && weapon.statusValue != 0F) weapon.statusValue.toString() else "/"
                 view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTitle.text = getString(R.string.affinity)
-                view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = if (null != weapon.affinity && !weapon.affinity.equals(Elem.NOTHING)) weapon.affinity.toString() else "/"
+                weapon.affinity?.let{
+                    when(weapon.affinity){
+                        Elem.FIRE -> view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelFire.visibility = View.VISIBLE
+                        Elem.MAGIC -> view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelMagic.visibility = View.VISIBLE
+                        Elem.LIGHTNING -> view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelLight.visibility = View.VISIBLE
+                        Elem.DARKNESS -> view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelDark.visibility = View.VISIBLE
+                        else -> {
+                            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelFire.visibility = View.GONE
+                            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelMagic.visibility = View.GONE
+                            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelLight.visibility = View.GONE
+                            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelDark.visibility = View.GONE
+                        }
+                    }
+                }
                 view.findViewById<EquipmentComponent>(id).equipmentSecondLine.visibility = View.VISIBLE
                 view.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.visibility = View.VISIBLE
                 view.findViewById<EquipmentComponent>(id).equipmentLargePanelTxt.text = viewModel.getTotalDamage(weapon).toString()
@@ -211,14 +305,21 @@ class EquipmentFragment : Fragment() {
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTitle.text = getString(R.string.block)
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTxt.text = it.block.toString()
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelTitle.text = getString(R.string.res)
+                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelFire.visibility = View.GONE
+                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelMagic.visibility = View.GONE
+                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelLight.visibility = View.GONE
+                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelDark.visibility = View.GONE
                 if (null != it.res && it.res.isNotEmpty()) {
-                    var stringRes = ""
-                    for (res in it.res) {
-                        stringRes += res.toString() + "\n"
+                    if(it.res.contains(Elem.FIRE)) view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelFire.visibility = View.VISIBLE
+                    if(it.res.contains(Elem.MAGIC)) view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelMagic.visibility = View.VISIBLE
+                    if(it.res.contains(Elem.LIGHTNING)) view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelLight.visibility = View.VISIBLE
+                    if(it.res.contains(Elem.DARKNESS)) view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelDark.visibility = View.VISIBLE
+                    if(it.res.contains(Elem.ALL)) {
+                        view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelFire.visibility = View.VISIBLE
+                        view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelMagic.visibility = View.VISIBLE
+                        view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelLight.visibility = View.VISIBLE
+                        view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelDark.visibility = View.VISIBLE
                     }
-                    view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelTxt.text = stringRes
-                } else {
-                    view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelTxt.text = ""
                 }
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondLine.visibility = View.GONE
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentBonusLayout.visibility = View.GONE
@@ -229,7 +330,6 @@ class EquipmentFragment : Fragment() {
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTitle.text = getString(R.string.block)
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTxt.text = ""
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelTitle.text = getString(R.string.res)
-                view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelTxt.text = ""
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondLine.visibility = View.GONE
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentBonusLayout.visibility = View.GONE
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentLargePanelLayout.visibility = View.GONE
@@ -243,34 +343,48 @@ class EquipmentFragment : Fragment() {
         view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.def)
         view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTxt.text = armor!!.def.toString()
         view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTitle.text = getString(R.string.res)
+        view.findViewById<EquipmentComponent>(id).equipmentSecondPanelFire.visibility = View.GONE
+        view.findViewById<EquipmentComponent>(id).equipmentSecondPanelMagic.visibility = View.GONE
+        view.findViewById<EquipmentComponent>(id).equipmentSecondPanelLight.visibility = View.GONE
+        view.findViewById<EquipmentComponent>(id).equipmentSecondPanelDark.visibility = View.GONE
         if (null != armor!!.res && armor!!.res.isNotEmpty()) {
-            var stringRes = ""
-            for (res in armor!!.res) {
-                stringRes += res.toString() + " "
+            if(armor.res.contains(Elem.FIRE)) view.findViewById<EquipmentComponent>(id).equipmentSecondPanelFire.visibility = View.VISIBLE
+            if(armor.res.contains(Elem.MAGIC)) view.findViewById<EquipmentComponent>(id).equipmentSecondPanelMagic.visibility = View.VISIBLE
+            if(armor.res.contains(Elem.LIGHTNING)) view.findViewById<EquipmentComponent>(id).equipmentSecondPanelLight.visibility = View.VISIBLE
+            if(armor.res.contains(Elem.DARKNESS)) view.findViewById<EquipmentComponent>(id).equipmentSecondPanelDark.visibility = View.VISIBLE
+            if(armor.res.contains(Elem.ALL)){
+                view.findViewById<EquipmentComponent>(id).equipmentSecondPanelFire.visibility = View.VISIBLE
+                view.findViewById<EquipmentComponent>(id).equipmentSecondPanelMagic.visibility = View.VISIBLE
+                view.findViewById<EquipmentComponent>(id).equipmentSecondPanelLight.visibility = View.VISIBLE
+                view.findViewById<EquipmentComponent>(id).equipmentSecondPanelDark.visibility = View.VISIBLE
             }
-            view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = stringRes
-        } else {
-            view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanelTxt.text = "/"
         }
-        view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = getString(R.string.fai)
-        if (null != armor!!.weak && armor!!.weak.isNotEmpty()) {
-            var stringRes = ""
-            for (res in armor!!.weak) {
-                stringRes += res.toString() + "\n"
-            }
-            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = stringRes
-        } else {
-            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.text = "/"
-        }
-        view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTitle.text = getString(R.string.immun)
+        view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTitle.text = getString(R.string.immun)
+        view.findViewById<EquipmentComponent>(id).equipmentThirdPanelPoison.visibility = View.GONE
+        view.findViewById<EquipmentComponent>(id).equipmentThirdPanelFrost.visibility = View.GONE
+        view.findViewById<EquipmentComponent>(id).equipmentThirdPanelBleed.visibility = View.GONE
         if (null != armor!!.immun && armor!!.immun.isNotEmpty()) {
-            var stringRes = ""
-            for (res in armor!!.immun) {
-                stringRes += res.toString() + "\n"
+            view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanelTxt.visibility = View.GONE
+            if(armor.immun.contains(Status.POISON)) view.findViewById<EquipmentComponent>(id).equipmentThirdPanelPoison.visibility = View.VISIBLE
+            if(armor.immun.contains(Status.FROST)) view.findViewById<EquipmentComponent>(id).equipmentThirdPanelFrost.visibility = View.VISIBLE
+            if(armor.immun.contains(Status.BLEED)) view.findViewById<EquipmentComponent>(id).equipmentThirdPanelBleed.visibility = View.VISIBLE
+        }
+        view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTitle.text = getString(R.string.fai)
+        view.findViewById<EquipmentComponent>(id).equipmentFourthPanelFire.visibility = View.GONE
+        view.findViewById<EquipmentComponent>(id).equipmentFourthPanelMagic.visibility = View.GONE
+        view.findViewById<EquipmentComponent>(id).equipmentFourthPanelLight.visibility = View.GONE
+        view.findViewById<EquipmentComponent>(id).equipmentFourthPanelDark.visibility = View.GONE
+        if (null != armor!!.weak && armor!!.weak.isNotEmpty()) {
+            if(armor.weak.contains(Elem.FIRE)) view.findViewById<EquipmentComponent>(id).equipmentFourthPanelFire.visibility = View.VISIBLE
+            if(armor.weak.contains(Elem.MAGIC)) view.findViewById<EquipmentComponent>(id).equipmentFourthPanelMagic.visibility = View.VISIBLE
+            if(armor.weak.contains(Elem.LIGHTNING)) view.findViewById<EquipmentComponent>(id).equipmentFourthPanelLight.visibility = View.VISIBLE
+            if(armor.weak.contains(Elem.DARKNESS)) view.findViewById<EquipmentComponent>(id).equipmentFourthPanelDark.visibility = View.VISIBLE
+            if(armor.weak.contains(Elem.ALL)) {
+                view.findViewById<EquipmentComponent>(id).equipmentFourthPanelFire.visibility = View.VISIBLE
+                view.findViewById<EquipmentComponent>(id).equipmentFourthPanelMagic.visibility = View.VISIBLE
+                view.findViewById<EquipmentComponent>(id).equipmentFourthPanelLight.visibility = View.VISIBLE
+                view.findViewById<EquipmentComponent>(id).equipmentFourthPanelDark.visibility = View.VISIBLE
             }
-            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = stringRes
-        } else {
-            view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanelTxt.text = "/"
         }
         view!!.findViewById<EquipmentComponent>(id).equipmentBonusLayout.visibility = View.GONE
         view!!.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.visibility = View.GONE
@@ -352,6 +466,18 @@ class EquipmentFragment : Fragment() {
             } else {
                 view.findViewById<IndicSoloComponent>(id).indicSoloButtonsLayout.visibility = View.GONE
                 view.findViewById<IndicSoloComponent>(id).indicSoloDrop.setImageResource(R.drawable.ic_arrow_drop_down)
+            }
+        }
+    }
+
+    fun setOnClickListenerIconsIndicDrop(id: Int, view: View) {
+        view.findViewById<IndicSoloIconsComponent>(id).indicSoloIconsDrop.setOnClickListener {
+            if (view.findViewById<IndicSoloIconsComponent>(id).indicSoloIconsButtonsLayout.visibility == View.GONE) {
+                view.findViewById<IndicSoloIconsComponent>(id).indicSoloIconsButtonsLayout.visibility = View.VISIBLE
+                view.findViewById<IndicSoloIconsComponent>(id).indicSoloIconsDrop.setImageResource(R.drawable.ic_arrow_drop_up)
+            } else {
+                view.findViewById<IndicSoloIconsComponent>(id).indicSoloIconsButtonsLayout.visibility = View.GONE
+                view.findViewById<IndicSoloIconsComponent>(id).indicSoloIconsDrop.setImageResource(R.drawable.ic_arrow_drop_down)
             }
         }
     }

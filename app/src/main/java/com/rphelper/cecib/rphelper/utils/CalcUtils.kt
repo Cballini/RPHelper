@@ -28,8 +28,8 @@ object CalcUtils {
 
     @JvmStatic
     fun getWeight(equipment:Equipment):Float{
-        return (equipment.leftHand.weight + equipment.rightHand.weight + equipment.catalyst.weight + equipment.shield.weight
-                + equipment.hat.weight + equipment.chest.weight + equipment.gloves.weight + equipment.greaves.weight)
+        return round1decimal(equipment.leftHand.weight + equipment.rightHand.weight + equipment.catalyst.weight + equipment.shield.weight
+                + equipment.hat.weight + equipment.chest.weight + equipment.gloves.weight + equipment.greaves.weight).toFloat()
     }
 
     @JvmStatic

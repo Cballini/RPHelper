@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "423137073701-vv7mev0gbd4kmvd637j1ckb953bnd9t5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rphelper.cecib.rphelper",
+            "certificate_hash": "eeb91a0b061f31d9d4e99c7d98ba99e7aac6e991"
+          }
+        },
+        {
           "client_id": "423137073701-voj8abeu017sphhstjfgh4mjf7snvm6g.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -43,6 +51,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "423137073701-rnessnqohvrgr39c038qf195q2qm8sdp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.rphelper.cecib.rphelper.dev",
+            "certificate_hash": "eeb91a0b061f31d9d4e99c7d98ba99e7aac6e991"
+          }
+        },
         {
           "client_id": "423137073701-voj8abeu017sphhstjfgh4mjf7snvm6g.apps.googleusercontent.com",
           "client_type": 3

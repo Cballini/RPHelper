@@ -41,17 +41,17 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:layout_marginBottom="@dimen/small_margin"/>
-                <com.rphelper.cecib.rphelper.component.IndicSoloComponent
+                <com.rphelper.cecib.rphelper.component.IndicSoloIconsComponent
                     android:id="@+id/equipment_stat_res"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/small_margin"/>
-                <com.rphelper.cecib.rphelper.component.IndicSoloComponent
+                <com.rphelper.cecib.rphelper.component.IndicSoloIconsComponent
                     android:id="@+id/equipment_stat_immun"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="@dimen/small_margin"/>
-                <com.rphelper.cecib.rphelper.component.IndicSoloComponent
+                <com.rphelper.cecib.rphelper.component.IndicSoloIconsComponent
                     android:id="@+id/equipment_stat_weak"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
