@@ -76,7 +76,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                     valueWeapon = dataSnapshot.child("inventory").child("weapons").value as ArrayList<HashMap<String, Any>>
                     for (_value in valueWeapon) {
                         // Convert HashMap to Weapon
-                        val jsonWeapon = JSONObject(_value).toString()
+                        val jsonWeapon = JSONObject(_value as Map<*, *>).toString()
                         val weapon = Gson().fromJson<Weapon>(jsonWeapon, Weapon::class.java)
                         allStuff.add(weapon)
                     }
@@ -88,7 +88,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                     valueShield = dataSnapshot.child("inventory").child("shields").value as ArrayList<HashMap<String, Any>>
                     for (_value in valueShield) {
                         // Convert HashMap to Shield
-                        val jsonShield = JSONObject(_value).toString()
+                        val jsonShield = JSONObject(_value as Map<*, *>).toString()
                         val shield = Gson().fromJson<Shield>(jsonShield, Shield::class.java)
                         allStuff.add(shield)
                     }
@@ -100,7 +100,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                     valueArmor = dataSnapshot.child("inventory").child("armors").value as ArrayList<HashMap<String, Any>>
                     for (_value in valueArmor) {
                         // Convert HashMap to Armor
-                        val jsonArmor = JSONObject(_value).toString()
+                        val jsonArmor = JSONObject(_value as Map<*, *>).toString()
                         val armor = Gson().fromJson<Armor>(jsonArmor, Armor::class.java)
                         allStuff.add(armor)
                     }
@@ -111,7 +111,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                     valueJewel = dataSnapshot.child("inventory").child("jewels").value as ArrayList<HashMap<String, Any>>
                     for (_value in valueJewel) {
                         // Convert HashMap to Jewel
-                        val jsonJewel = JSONObject(_value).toString()
+                        val jsonJewel = JSONObject(_value as Map<*, *>).toString()
                         val jewel = Gson().fromJson<Jewel>(jsonJewel, Jewel::class.java)
                         allStuff.add(jewel)
                     }
@@ -123,7 +123,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                     valueItem = dataSnapshot.child("inventory").child("item").value as ArrayList<HashMap<String, Any>>
                     for (_value in valueItem) {
                         // Convert HashMap to Item
-                        val jsonItem = JSONObject(_value).toString()
+                        val jsonItem = JSONObject(_value as Map<*, *>).toString()
                         val item = Gson().fromJson<Item>(jsonItem, Item::class.java)
                         allStuff.add(item)
                     }
@@ -242,7 +242,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun addStuff() {
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_choose_type_item)
         dialog.findViewById<ImageView>(R.id.choose_type_cancel_button).setOnClickListener { dialog.dismiss() }
@@ -307,7 +307,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun openJewelDialog(jewel: Jewel, toDoSave: () -> Unit) {
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_edit_jewel)
         dialog.findViewById<TextView>(R.id.jewel_ask).text = getString(R.string.ask_jewel)
@@ -497,7 +497,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
 
     fun addItem() {
         //TODO refacto edit/add
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_edit_item)
         dialog.findViewById<ImageView>(R.id.item_cancel_button).setOnClickListener { dialog.dismiss() }
@@ -530,7 +530,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun editItem(item: Item) {
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_edit_item)
         fillEditItem(dialog, item)
@@ -584,7 +584,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun equipWeapon(weapon: Weapon){
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_equip_weapon)
 
@@ -618,7 +618,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun equipCata(weapon: Weapon){
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_equip_shield_cata)
 
@@ -651,7 +651,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun equipShield(shield: Shield){
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_equip_shield_cata)
 
@@ -684,7 +684,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun equipArmor(armor: Armor){
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_equip_armor)
 
@@ -790,21 +790,21 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
                 for (w in jewel.weakModifier){
                     value += ", " + w.name
                     //deleteValue = ""
-                    deleteValue = deleteValue.replaceFirst(", " +w.name, "")
+                    deleteValue = deleteValue!!.replaceFirst(", " +w.name, "")
                 }
             }
             PREF_MODIFIER_RES -> {
                 for (r in jewel.resModifier){
                     value += ", " + r.name
                     //deleteValue = ""
-                    deleteValue = deleteValue.replaceFirst(", " +r.name, "")
+                    deleteValue = deleteValue!!.replaceFirst(", " +r.name, "")
                 }
             }
             PREF_MODIFIER_IMMUN -> {
                 for (i in jewel.immunModifier){
                     value += ", " + i.name
                     //deleteValue = ""
-                    deleteValue = deleteValue.replaceFirst(", " +i.name, "")
+                    deleteValue = deleteValue!!.replaceFirst(", " +i.name, "")
                 }
             }
         }
@@ -821,7 +821,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun equipItem(item: Item, isAdd :Boolean) {
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_equip_item)
 

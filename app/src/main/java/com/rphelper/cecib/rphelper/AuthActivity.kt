@@ -86,21 +86,21 @@ class AuthActivity: FragmentActivity() {
             // Sign in failed
             if (response == null) {
                 // User pressed back button
-                Snackbar.make(currentFocus, "annulé", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(currentFocus!!, "annulé", Snackbar.LENGTH_SHORT).show()
                 return
             }
             if (response.error!!.errorCode == ErrorCodes.NO_NETWORK) {
-                Snackbar.make(currentFocus, "pas de connection", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(currentFocus!!, "pas de connection", Snackbar.LENGTH_SHORT).show()
                 return
             }
             if (response.error!!.errorCode == ErrorCodes.ANONYMOUS_UPGRADE_MERGE_CONFLICT) {
-                Snackbar.make(currentFocus, "ANONYMOUS_UPGRADE_MERGE_CONFLICT", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(currentFocus!!, "ANONYMOUS_UPGRADE_MERGE_CONFLICT", Snackbar.LENGTH_SHORT).show()
             }
             if (response.error!!.errorCode == ErrorCodes.ERROR_USER_DISABLED) {
-                Snackbar.make(currentFocus, "ERROR_USER_DISABLED", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(currentFocus!!, "ERROR_USER_DISABLED", Snackbar.LENGTH_SHORT).show()
                 return
             }
-            Snackbar.make(currentFocus, "erreur inconnue", Snackbar.LENGTH_SHORT).show()
+            Snackbar.make(currentFocus!!, "erreur inconnue", Snackbar.LENGTH_SHORT).show()
             Log.e("error", "Sign-in error: ", response.error)
         }
     }

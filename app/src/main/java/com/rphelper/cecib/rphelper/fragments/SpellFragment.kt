@@ -50,7 +50,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                 val value = dataSnapshot.child("spells").value as ArrayList<HashMap<String, Any>>
                 for (_value in value) {
                     // Convert HashMap to Spell
-                    val jsonSpell = JSONObject(_value).toString()
+                    val jsonSpell = JSONObject(_value as Map<*, *>).toString()
                     val spell = Gson().fromJson<Spell>(jsonSpell, Spell::class.java)
                     allSpells.add(spell)
                 }
@@ -216,7 +216,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun editSpell(place: String, spell: Spell) {
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_edit_spell)
         dialog.findViewById<TextView>(R.id.spell_type).text = place
@@ -274,7 +274,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
 
     fun addSpell(view: View, id: Int, place: String) {
         view.findViewById<FloatingActionButton>(id).setOnClickListener {
-            val dialog = Dialog(activity)
+            val dialog = Dialog(context!!)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.setContentView(R.layout.popup_edit_spell)
             dialog.findViewById<TextView>(R.id.spell_type).text = place
@@ -356,7 +356,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun equipSpell(spell: Spell) {
-        val dialog = Dialog(activity)
+        val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_equip_spell)
         val maxSpells = viewModel.getMaxEquipSpells()

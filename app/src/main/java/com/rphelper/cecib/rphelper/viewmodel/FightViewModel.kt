@@ -88,6 +88,12 @@ class FightViewModel(val context: Context) : ViewModel(){
         return character.value!!.const.value.toInt()
     }
 
+    fun attack2Hands() : Int{
+        character.value!!.const.value -= 40
+        Services.editCharacter(character.value!!)
+        return character.value!!.const.value.toInt()
+    }
+
     fun dodge():Int{
         character.value!!.const.value -= 40
         Services.editCharacter(character.value!!)

@@ -352,7 +352,7 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
         }
         dialog.findViewById<TextView>(R.id.armor_save_button).setOnClickListener {
             if(type.equals(context.getString(R.string.armor)) && (dialog.findViewById<MultiRowsRadioGroup>(R.id.armor_type_radiogroup).checkedRadioButtonId ==-1)){
-                Snackbar.make(dialog.currentFocus, context.getString(R.string.warning_armor_type), Snackbar.LENGTH_LONG).show()
+                Snackbar.make(dialog.currentFocus!!, context.getString(R.string.warning_armor_type), Snackbar.LENGTH_LONG).show()
             }else {
                 armor.name = dialog.findViewById<EditText>(R.id.armor_name_txt).text.toString()
 

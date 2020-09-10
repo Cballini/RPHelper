@@ -1,17 +1,25 @@
 package com.rphelper.cecib.rphelper.fragments
 
+import android.Manifest
+import android.app.Activity
 import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
@@ -21,6 +29,9 @@ import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
+import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.ktx.storageMetadata
+import com.bumptech.glide.Glide
 
 
 class CharacterFragment : Fragment() {
@@ -29,6 +40,10 @@ class CharacterFragment : Fragment() {
     var profileIsOnEdit = false
     var statIsOnEdit = false
     var donIsOnEdit = false
+    val storageRef = Firebase.storage.reference
+    val pathRef = storageRef.child("images/${FirebaseAuth.getInstance().currentUser!!.uid}") //profilePicture storage
+    private val READ_EXTERNAL_STORAGE_CODE = 2
+    private val REQUEST_CODE = 1000
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -76,6 +91,12 @@ class CharacterFragment : Fragment() {
             }
         })
 
+        //ProfilePicture
+        pathRef.downloadUrl.addOnSuccessListener {uri ->
+            Glide.with(this)
+                    .load(uri.toString())
+                    .into(view.findViewById<ImageView>(R.id.profile_picture))
+        }
         //Name
         view.findViewById<CategoryHorizontalComponent>(R.id.profile_name).catTitle.text = getString(R.string.name)
         //Race
@@ -202,6 +223,21 @@ class CharacterFragment : Fragment() {
         view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalTitle.text = getString(R.string.don)
 
         /************ EDIT ***********/
+        view.findViewById<ImageView>(R.id.profile_picture).setOnClickListener {
+            if(ActivityCompat.checkSelfPermission(activity!!,
+                            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+            {
+                ActivityCompat.requestPermissions(activity!!,
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        READ_EXTERNAL_STORAGE_CODE)
+            }
+            else {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
+                startActivityForResult(intent, REQUEST_CODE)
+            }
+        }
+
         view.findViewById<ImageView>(R.id.profile_edit).setOnClickListener {
             val nameView = view.findViewById<CategoryHorizontalComponent>(R.id.profile_name).catTxt
             val raceView = view.findViewById<CategoryHorizontalComponent>(R.id.profile_race).catTxt
@@ -487,6 +523,35 @@ class CharacterFragment : Fragment() {
         view.findViewById<TextView>(R.id.stat_foi).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_foi).setTypeface(null, Typeface.NORMAL);
         view.findViewById<TextView>(R.id.stat_foi).text =viewModel.character.value!!.faith.toString()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+            var uri = data?.data
+
+            view!!.findViewById<ImageView>(R.id.profile_picture).setImageURI(data?.data) // affichage
+
+            //Store in the cloud
+            // [START upload_with_metadata]
+            // Create file metadata including the content type
+            var metadata = storageMetadata {
+                contentType = "image/jpg"
+            }
+
+            var file = uri!!
+            var uploadTask = pathRef.putFile(file, metadata)
+
+            uploadTask.addOnProgressListener { taskSnapshot ->
+                val progress = (100.0 * taskSnapshot.bytesTransferred) / taskSnapshot.totalByteCount
+                println("Upload is $progress% done")
+            }.addOnFailureListener {
+                Log.e("upload", "fail")
+            }.addOnSuccessListener {
+                Log.e("upload", "success")
+                //TODO snackbar
+            }
+        }
     }
 }
 

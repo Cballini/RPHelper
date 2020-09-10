@@ -110,6 +110,25 @@
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/fight_action_offensive_layout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/fight_action_attack_2_hands"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_marginHorizontal="@dimen/txt_margin"
+                    android:text="Attaquer à 2 mains"
+                    android:textColor="@color/colorCatTitle"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+                    android:backgroundTint="@color/colorAccent"/>
+
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/fight_action_def_ref_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

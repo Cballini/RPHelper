@@ -24,6 +24,7 @@ import com.rphelper.cecib.rphelper.fragments.*
 class MainActivity : FragmentActivity() {
     private val WRITE_EXTERNAL_STORAGE_CODE = 1
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

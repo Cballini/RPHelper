@@ -113,15 +113,15 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
 
     fun getResBonus():String{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_RES_TEMP, Preferences.PRIVATE_MODE)
-        return sharedPref.getString(Preferences.PREF_MODIFIER_RES_TEMP, "")
+        return sharedPref.getString(Preferences.PREF_MODIFIER_RES_TEMP, "")!!
     }
     fun getWeakBonus():String{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK_TEMP, Preferences.PRIVATE_MODE)
-        return sharedPref.getString(Preferences.PREF_MODIFIER_WEAK_TEMP, "")
+        return sharedPref.getString(Preferences.PREF_MODIFIER_WEAK_TEMP, "")!!
     }
     fun getImmunBonus():String{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_IMMUN_TEMP, Preferences.PRIVATE_MODE)
-        return sharedPref.getString(Preferences.PREF_MODIFIER_IMMUN_TEMP, "")
+        return sharedPref.getString(Preferences.PREF_MODIFIER_IMMUN_TEMP, "")!!
     }
 
     fun getRes():String{
@@ -131,19 +131,19 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
             var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_RES, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_RES,"")
             pref += " " + context.getSharedPreferences(Preferences.PREF_MODIFIER_RES_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_RES_TEMP,"")
             if ((equipment.value!!.hat.res.contains(Elem.FIRE) && equipment.value!!.chest.res.contains(Elem.FIRE)
-                    && equipment.value!!.gloves.res.contains(Elem.FIRE) && equipment.value!!.greaves.res.contains(Elem.FIRE)) || pref.contains(Elem.FIRE.name)) res += Elem.FIRE.toString()
+                    && equipment.value!!.gloves.res.contains(Elem.FIRE) && equipment.value!!.greaves.res.contains(Elem.FIRE)) || pref!!.contains(Elem.FIRE.name)) res += Elem.FIRE.toString()
             if ((equipment.value!!.hat.res.contains(Elem.MAGIC) && equipment.value!!.chest.res.contains(Elem.MAGIC)
-                    && equipment.value!!.gloves.res.contains(Elem.MAGIC) && equipment.value!!.greaves.res.contains(Elem.MAGIC)) || pref.contains(Elem.MAGIC.name)) {
+                    && equipment.value!!.gloves.res.contains(Elem.MAGIC) && equipment.value!!.greaves.res.contains(Elem.MAGIC)) || pref!!.contains(Elem.MAGIC.name)) {
                 if(res.isNotEmpty())res += "\n"
                 res +=  Elem.MAGIC.toString()
             }
             if ((equipment.value!!.hat.res.contains(Elem.LIGHTNING) && equipment.value!!.chest.res.contains(Elem.LIGHTNING)
-                    && equipment.value!!.gloves.res.contains(Elem.LIGHTNING) && equipment.value!!.greaves.res.contains(Elem.LIGHTNING)) || pref.contains(Elem.LIGHTNING.name)) {
+                    && equipment.value!!.gloves.res.contains(Elem.LIGHTNING) && equipment.value!!.greaves.res.contains(Elem.LIGHTNING)) || pref!!.contains(Elem.LIGHTNING.name)) {
                 if(res.isNotEmpty())res += "\n"
                 res += Elem.LIGHTNING.toString()
             }
             if ((equipment.value!!.hat.res.contains(Elem.DARKNESS) && equipment.value!!.chest.res.contains(Elem.DARKNESS)
-                    && equipment.value!!.gloves.res.contains(Elem.DARKNESS) && equipment.value!!.greaves.res.contains(Elem.DARKNESS)) || pref.contains(Elem.DARKNESS.name)){
+                    && equipment.value!!.gloves.res.contains(Elem.DARKNESS) && equipment.value!!.greaves.res.contains(Elem.DARKNESS)) || pref!!.contains(Elem.DARKNESS.name)){
                 if(res.isNotEmpty())res += "\n"
                 res += Elem.DARKNESS.toString()
             }
@@ -161,19 +161,19 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
             var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK,"")
             pref +=  " "  + context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK_TEMP,"")
             if ((equipment.value!!.hat.weak.contains(Elem.FIRE) || equipment.value!!.chest.weak.contains(Elem.FIRE)
-                    || equipment.value!!.gloves.weak.contains(Elem.FIRE) || equipment.value!!.greaves.weak.contains(Elem.FIRE)) || pref.contains(Elem.FIRE.name)) weak += Elem.FIRE.toString()
+                    || equipment.value!!.gloves.weak.contains(Elem.FIRE) || equipment.value!!.greaves.weak.contains(Elem.FIRE)) || pref!!.contains(Elem.FIRE.name)) weak += Elem.FIRE.toString()
         if ((equipment.value!!.hat.weak.contains(Elem.MAGIC) || equipment.value!!.chest.weak.contains(Elem.MAGIC)
-                || equipment.value!!.gloves.weak.contains(Elem.MAGIC) || equipment.value!!.greaves.weak.contains(Elem.MAGIC)) || pref.contains(Elem.MAGIC.name)){
+                || equipment.value!!.gloves.weak.contains(Elem.MAGIC) || equipment.value!!.greaves.weak.contains(Elem.MAGIC)) || pref!!.contains(Elem.MAGIC.name)){
             if (weak.isNotEmpty())weak += "\n"
             weak += Elem.MAGIC.toString()
         }
         if ((equipment.value!!.hat.weak.contains(Elem.LIGHTNING) || equipment.value!!.chest.weak.contains(Elem.LIGHTNING)
-                || equipment.value!!.gloves.weak.contains(Elem.LIGHTNING) || equipment.value!!.greaves.weak.contains(Elem.LIGHTNING)) || pref.contains(Elem.LIGHTNING.name)){
+                || equipment.value!!.gloves.weak.contains(Elem.LIGHTNING) || equipment.value!!.greaves.weak.contains(Elem.LIGHTNING)) || pref!!.contains(Elem.LIGHTNING.name)){
             if (weak.isNotEmpty())weak += "\n"
             weak +=Elem.LIGHTNING.toString()
         }
         if ((equipment.value!!.hat.weak.contains(Elem.DARKNESS) || equipment.value!!.chest.weak.contains(Elem.DARKNESS)
-                || equipment.value!!.gloves.weak.contains(Elem.DARKNESS) || equipment.value!!.greaves.weak.contains(Elem.DARKNESS)) || pref.contains(Elem.DARKNESS.name)){
+                || equipment.value!!.gloves.weak.contains(Elem.DARKNESS) || equipment.value!!.greaves.weak.contains(Elem.DARKNESS)) || pref!!.contains(Elem.DARKNESS.name)){
             if (weak.isNotEmpty())weak += "\n"
             weak += Elem.DARKNESS.toString()
         }
@@ -190,14 +190,14 @@ class EquipmentViewModel (val context: Context) : ViewModel(){
             var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_IMMUN, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_IMMUN,"")
             pref += " " + context.getSharedPreferences(Preferences.PREF_MODIFIER_IMMUN_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_IMMUN_TEMP,"")
             if ((equipment.value!!.hat.immun.contains(Status.BLEED) && equipment.value!!.chest.immun.contains(Status.BLEED)
-                    && equipment.value!!.gloves.immun.contains(Status.BLEED) && equipment.value!!.greaves.immun.contains(Status.BLEED)) || pref.contains(Status.BLEED.name)) immun += Status.BLEED.toString()
+                    && equipment.value!!.gloves.immun.contains(Status.BLEED) && equipment.value!!.greaves.immun.contains(Status.BLEED)) || pref!!.contains(Status.BLEED.name)) immun += Status.BLEED.toString()
             if ((equipment.value!!.hat.immun.contains(Status.FROST) && equipment.value!!.chest.immun.contains(Status.FROST)
-                    && equipment.value!!.gloves.immun.contains(Status.FROST) && equipment.value!!.greaves.immun.contains(Status.FROST)) || pref.contains(Status.FROST.name)){
+                    && equipment.value!!.gloves.immun.contains(Status.FROST) && equipment.value!!.greaves.immun.contains(Status.FROST)) || pref!!.contains(Status.FROST.name)){
                 if (immun.isNotEmpty())immun += "\n"
                 immun +=Status.FROST.toString()
             }
             if ((equipment.value!!.hat.immun.contains(Status.POISON) && equipment.value!!.chest.immun.contains(Status.POISON)
-                    && equipment.value!!.gloves.immun.contains(Status.POISON) && equipment.value!!.greaves.immun.contains(Status.POISON)) || pref.contains(Status.POISON.name)){
+                    && equipment.value!!.gloves.immun.contains(Status.POISON) && equipment.value!!.greaves.immun.contains(Status.POISON)) || pref!!.contains(Status.POISON.name)){
                 if (immun.isNotEmpty())immun += "\n"
                 immun += Status.POISON.toString()
             }
