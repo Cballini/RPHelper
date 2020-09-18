@@ -14,30 +14,11 @@ import com.rphelper.cecib.rphelper.dto.Spell
 import com.rphelper.cecib.rphelper.dto.Weapon
 import com.rphelper.cecib.rphelper.utils.CalcUtils
 
-class SpellViewModel(val context: Context) : ViewModel() {
-
-    var firebaseQuery = Services.getUserDatabase()
-    fun getDataSnapshotLiveData(): LiveData<DataSnapshot?>? {
-        return firebaseQuery
-    }
-
-    val _catalyst = MutableLiveData<Weapon>()
-    val catalyst : LiveData<Weapon> get() = _catalyst
-    init {
-        _catalyst.value = Weapon()
-    }
-
-    val _character = MutableLiveData<Character>()
-    val character : LiveData<Character> get() = _character
-    init {
-        _character.value = Character()
-    }
-
-    val _allSpells = MutableLiveData< ArrayList<Spell>>()
-    val allSpells : LiveData< ArrayList<Spell>> get() = _allSpells
-    init {
-        _allSpells.value = ArrayList<Spell>()
-    }
+class SpellViewModel(val context: Context, character: Character, allSpells : ArrayList<Spell>, catalyst : Weapon) : ViewModel() {
+    
+    var character = character
+    var allSpells = allSpells
+    var catalyst = catalyst
 
     val _firstEquipSpell = MutableLiveData<Spell>()
     val firstEquipSpell : LiveData<Spell> get() = _firstEquipSpell
@@ -94,36 +75,36 @@ class SpellViewModel(val context: Context) : ViewModel() {
     }
 
     fun getSpell1(){
-        if (Services.getListOfEquipSpells(allSpells.value!!).isNotEmpty()) _firstEquipSpell.value = Services.getListOfEquipSpells(allSpells.value!!)[0]
+        if (Services.getListOfEquipSpells(allSpells).isNotEmpty()) _firstEquipSpell.value = Services.getListOfEquipSpells(allSpells)[0]
         else _firstEquipSpell.value = Spell()
     }
     fun getSpell2(){
-        if (Services.getListOfEquipSpells(allSpells.value!!).size>1) _secondEquipSpell.value = Services.getListOfEquipSpells(allSpells.value!!)[1]
+        if (Services.getListOfEquipSpells(allSpells).size>1) _secondEquipSpell.value = Services.getListOfEquipSpells(allSpells)[1]
         else _secondEquipSpell.value = Spell()
     }
     fun getSpell3(){
-        if (Services.getListOfEquipSpells(allSpells.value!!).size>2) _thirdEquipSpell.value = Services.getListOfEquipSpells(allSpells.value!!)[2]
+        if (Services.getListOfEquipSpells(allSpells).size>2) _thirdEquipSpell.value = Services.getListOfEquipSpells(allSpells)[2]
         else _thirdEquipSpell.value = Spell()
     }
     fun getSpell4(){
-        if (Services.getListOfEquipSpells(allSpells.value!!).size>3) _fourthEquipSpell.value = Services.getListOfEquipSpells(allSpells.value!!)[3]
+        if (Services.getListOfEquipSpells(allSpells).size>3) _fourthEquipSpell.value = Services.getListOfEquipSpells(allSpells)[3]
         else _fourthEquipSpell.value = Spell()
     }
     fun getSpell5(){
-        if (Services.getListOfEquipSpells(allSpells.value!!).size>4) _fifthEquipSpell.value = Services.getListOfEquipSpells(allSpells.value!!)[4]
+        if (Services.getListOfEquipSpells(allSpells).size>4) _fifthEquipSpell.value = Services.getListOfEquipSpells(allSpells)[4]
         else _fifthEquipSpell.value = Spell()
     }
     fun getSpell6(){
-        if (Services.getListOfEquipSpells(allSpells.value!!).size>5) _sixthEquipSpell.value = Services.getListOfEquipSpells(allSpells.value!!)[5]
+        if (Services.getListOfEquipSpells(allSpells).size>5) _sixthEquipSpell.value = Services.getListOfEquipSpells(allSpells)[5]
         else _sixthEquipSpell.value = Spell()
     }
 
-    fun getKnownSpells() = Services.getListOfNotEquipSpells(allSpells.value!!)
+    fun getKnownSpells() = Services.getListOfNotEquipSpells(allSpells)
 
     fun getMaxEquipSpells():Int{
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_MEM, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_MEM, 0)
-        val mem = character.value!!.memory + prefValue
+        val mem = character.memory + prefValue
         var max = 3
         if(mem>=15){
             max = 4
@@ -153,14 +134,14 @@ class SpellViewModel(val context: Context) : ViewModel() {
     }
 
     fun attack(spell: Spell){
-        character.value!!.const.value -= 20
-        character.value!!.mana.value -= spell.mana
-        Services.editCharacter(character.value!!)
+        character.const.value -= 20
+        character.mana.value -= spell.mana
+        Services.editCharacter(character)
     }
 
     fun checkMana():Boolean{
         var check = false
-        if(character.value!!.mana.value< CalcUtils.getManaMax(context, character.value!!)*0.2) check = true
+        if(character.mana.value< CalcUtils.getManaMax(context, character)*0.2) check = true
         return check
     }
 }

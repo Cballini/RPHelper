@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.rphelper.cecib.rphelper.MainActivity
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.SpellKnownAdapter
 import com.rphelper.cecib.rphelper.component.SpellComponent
@@ -38,42 +39,27 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_spell, container, false)
 
-        viewModel = SpellViewModel(context!!)
-
-        val liveData = viewModel.getDataSnapshotLiveData()
-        liveData!!.observe(viewLifecycleOwner, Observer { dataSnapshot ->
-            if (dataSnapshot != null) {
-                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
-                viewModel._catalyst.value = dataSnapshot.child("equipment").child("catalyst").getValue(Weapon::class.java)
-
-                var allSpells = ArrayList<Spell>()
-                val value = dataSnapshot.child("spells").value as ArrayList<HashMap<String, Any>>
-                for (_value in value) {
-                    // Convert HashMap to Spell
-                    val jsonSpell = JSONObject(_value as Map<*, *>).toString()
-                    val spell = Gson().fromJson<Spell>(jsonSpell, Spell::class.java)
-                    allSpells.add(spell)
-                }
-                viewModel._allSpells.value = allSpells
-
-                viewModel.getSpell1()
-                viewModel.getSpell2()
-                viewModel.getSpell3()
-                viewModel.getSpell4()
-                viewModel.getSpell5()
-                viewModel.getSpell6()
-                viewModel._knownSpells.value = viewModel.getKnownSpells()
-            }
-        })
-
+        viewModel = SpellViewModel(context!!, MainActivity.viewModel.character.value!!, MainActivity.viewModel.allSpells.value!!, MainActivity.viewModel.catalyst.value!!)
 
         /********* Equip spells ********/
         var maxSpells = 3
-        viewModel.character.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        MainActivity.viewModel.character.observe(viewLifecycleOwner, Observer {
+            viewModel.character = it
             maxSpells = viewModel.getMaxEquipSpells()
             view.findViewById<SpellComponent>(R.id.spell_fourth_equip).visibility = if (maxSpells < 4) View.GONE else View.VISIBLE
             view.findViewById<SpellComponent>(R.id.spell_fifth_equip).visibility = if (maxSpells<5) View.GONE else View.VISIBLE
             view.findViewById<SpellComponent>(R.id.spell_sixth_equip).visibility = if (maxSpells<6) View.GONE else View.VISIBLE
+        })
+
+        MainActivity.viewModel.allSpells.observe(viewLifecycleOwner, Observer {
+            viewModel.allSpells = it
+            viewModel.getSpell1()
+            viewModel.getSpell2()
+            viewModel.getSpell3()
+            viewModel.getSpell4()
+            viewModel.getSpell5()
+            viewModel.getSpell6()
+            viewModel._knownSpells.value = viewModel.getKnownSpells()
         })
 
         //First spell

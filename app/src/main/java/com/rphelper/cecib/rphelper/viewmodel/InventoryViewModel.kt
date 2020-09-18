@@ -9,29 +9,12 @@ import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.PieceEquipment
 
-class InventoryViewModel (val context: Context) : ViewModel(){
-    var firebaseQuery = Services.getUserDatabase()
-    fun getDataSnapshotLiveData(): LiveData<DataSnapshot?>? {
-        return firebaseQuery
-    }
+class InventoryViewModel (val context: Context, inventory: Inventory, stuff: MutableList<Any>, character: Character, equipment: Equipment) : ViewModel(){
 
-    val _inventory = MutableLiveData<Inventory>()
-    val inventory : LiveData<Inventory> get() = _inventory
-    init {
-        _inventory.value = Inventory()
-    }
-
-    val _money = MutableLiveData<Int>()
-    val money : LiveData<Int> get() = _money
-    init {
-        _money.value = 0
-    }
-
-    val _stuff = MutableLiveData<MutableList<Any>>()
-    val stuff : LiveData<MutableList<Any>> get() = _stuff
-    init {
-        _stuff.value = ArrayList<Any>()
-    }
+    var inventory = inventory
+    var stuff = stuff
+    var character = character
+    var equipment = equipment
 
     val _weight = MutableLiveData<Float>()
     val weight : LiveData<Float> get() = _weight
@@ -39,104 +22,92 @@ class InventoryViewModel (val context: Context) : ViewModel(){
         _weight.value =getInventoryWeight()
     }
 
-    val _character = MutableLiveData<Character>()
-    val character : LiveData<Character> get() = _character
-    init {
-        _character.value = Character()
-    }
-
-    val _equipment = MutableLiveData<Equipment>()
-    val equipment : LiveData<Equipment> get() = _equipment
-    init {
-        _equipment.value = Equipment()
-    }
-
     fun editInventory(){
-        val inventory = Inventory(money.value!!, getWeapons(), getShields(), getArmors(), getJewels(), getItems())
+        val inventory = Inventory(inventory.money, getWeapons(), getShields(), getArmors(), getJewels(), getItems())
         Services.editInventory(inventory)
     }
 
     fun getInventoryWeight():Float{
         var weight = 0F
-        for (item in stuff.value!!){
+        for (item in stuff){
             if (item is Stuff)  weight += item.weight
         }
         return weight
     }
 
-    fun getWeapons() :ArrayList<Weapon> = stuff.value!!.filter{ it is Weapon } as ArrayList<Weapon>
-    fun getShields() :ArrayList<Shield> = stuff.value!!.filter { it is Shield } as ArrayList<Shield>
-    fun getArmors() :ArrayList<Armor> = stuff.value!!.filter { it is Armor } as ArrayList<Armor>
-    fun getJewels() :ArrayList<Jewel> = stuff.value!!.filter { it is Jewel } as ArrayList<Jewel>
-    fun getItems() :ArrayList<Item> = stuff.value!!.filter { it is Item } as ArrayList<Item>
+    fun getWeapons() :ArrayList<Weapon> = stuff.filter{ it is Weapon } as ArrayList<Weapon>
+    fun getShields() :ArrayList<Shield> = stuff.filter { it is Shield } as ArrayList<Shield>
+    fun getArmors() :ArrayList<Armor> = stuff.filter { it is Armor } as ArrayList<Armor>
+    fun getJewels() :ArrayList<Jewel> = stuff.filter { it is Jewel } as ArrayList<Jewel>
+    fun getItems() :ArrayList<Item> = stuff.filter { it is Item } as ArrayList<Item>
 
     fun weaponToEquipment(weapon: Weapon, isLeft : Boolean){
-        stuff.value!!.remove(weapon)
+        stuff.remove(weapon)
         weapon.equip = true
         if(isLeft) {
-            if(equipment.value!!.leftHand.name.isNotEmpty()) stuff.value!!.add(equipment.value!!.leftHand)
-            equipment.value!!.leftHand = weapon
+            if(equipment.leftHand.name.isNotEmpty()) stuff.add(equipment.leftHand)
+            equipment.leftHand = weapon
 
         }
         else {
-            if(equipment.value!!.rightHand.name.isNotEmpty()) stuff.value!!.add(equipment.value!!.rightHand)
-            equipment.value!!.rightHand = weapon
+            if(equipment.rightHand.name.isNotEmpty()) stuff.add(equipment.rightHand)
+            equipment.rightHand = weapon
         }
         editInventory()
-        Services.editEquipment(equipment.value!!)
+        Services.editEquipment(equipment)
     }
 
     fun catalystToEquipment(weapon: Weapon){
-        stuff.value!!.remove(weapon)
+        stuff.remove(weapon)
         weapon.equip = true
 
-        if(equipment.value!!.catalyst.name.isNotEmpty()) stuff.value!!.add(equipment.value!!.catalyst)
-        equipment.value!!.catalyst = weapon
+        if(equipment.catalyst.name.isNotEmpty()) stuff.add(equipment.catalyst)
+        equipment.catalyst = weapon
 
         editInventory()
-        Services.editEquipment(equipment.value!!)
+        Services.editEquipment(equipment)
     }
 
     fun shieldToEquipment(shield: Shield){
-        stuff.value!!.remove(shield)
+        stuff.remove(shield)
         shield.equip = true
-        if(equipment.value!!.shield.name.isNotEmpty())  stuff.value!!.add(equipment.value!!.shield)
-        equipment.value!!.shield = shield
+        if(equipment.shield.name.isNotEmpty())  stuff.add(equipment.shield)
+        equipment.shield = shield
         editInventory()
-        Services.editEquipment(equipment.value!!)
+        Services.editEquipment(equipment)
     }
 
     fun armorToEquipment(armor: Armor){
-        stuff.value!!.remove(armor)
+        stuff.remove(armor)
         armor.equip = true
         when(armor.type){
             PieceEquipment.HAT->{
-                if(equipment.value!!.hat.name.isNotEmpty()) stuff.value!!.add(equipment.value!!.hat)
-                equipment.value!!.hat = armor
+                if(equipment.hat.name.isNotEmpty()) stuff.add(equipment.hat)
+                equipment.hat = armor
             }
             PieceEquipment.CHEST->{
-                if(equipment.value!!.chest.name.isNotEmpty()) stuff.value!!.add(equipment.value!!.chest)
-                equipment.value!!.chest = armor
+                if(equipment.chest.name.isNotEmpty()) stuff.add(equipment.chest)
+                equipment.chest = armor
             }
             PieceEquipment.GLOVES->{
-                if(equipment.value!!.gloves.name.isNotEmpty()) stuff.value!!.add(equipment.value!!.gloves)
-                equipment.value!!.gloves = armor
+                if(equipment.gloves.name.isNotEmpty()) stuff.add(equipment.gloves)
+                equipment.gloves = armor
             }
             PieceEquipment.GREAVES->{
-                if(equipment.value!!.greaves.name.isNotEmpty()) stuff.value!!.add(equipment.value!!.greaves)
-                equipment.value!!.greaves = armor
+                if(equipment.greaves.name.isNotEmpty()) stuff.add(equipment.greaves)
+                equipment.greaves = armor
             }
         }
         editInventory()
-        Services.editEquipment(equipment.value!!)
+        Services.editEquipment(equipment)
     }
 
-    fun getLeftHand() = equipment.value!!.leftHand
-    fun getRightHand() = equipment.value!!.rightHand
-    fun getCatalyst() = equipment.value!!.catalyst
-    fun getShield() = equipment.value!!.shield
-    fun getHat() = equipment.value!!.hat
-    fun getChest() = equipment.value!!.chest
-    fun getGloves() = equipment.value!!.gloves
-    fun getGreaves() = equipment.value!!.greaves
+    fun getLeftHand() = equipment.leftHand
+    fun getRightHand() = equipment.rightHand
+    fun getCatalyst() = equipment.catalyst
+    fun getShield() = equipment.shield
+    fun getHat() = equipment.hat
+    fun getChest() = equipment.chest
+    fun getGloves() = equipment.gloves
+    fun getGreaves() = equipment.greaves
 }

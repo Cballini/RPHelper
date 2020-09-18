@@ -12,6 +12,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
+import com.rphelper.cecib.rphelper.MainActivity
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.component.DamageComponent
@@ -31,7 +32,7 @@ class FightFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_fight, container, false)
 
-        viewModel = FightViewModel(context!!)
+        viewModel = FightViewModel(context!!, MainActivity.viewModel.fight.value!!, MainActivity.viewModel.character.value!!, MainActivity.viewModel.equipment.value!!)
 
         view.findViewById<TextView>(R.id.fight_roll_dice).setOnClickListener {
             val random = Math.random()*100
@@ -50,15 +51,8 @@ class FightFragment : Fragment() {
             }
         }
 
-        val liveData = viewModel.getDataSnapshotLiveData()
-        liveData!!.observe(viewLifecycleOwner, Observer { dataSnapshot ->
-            if (dataSnapshot != null) {
-                viewModel._fight.value = dataSnapshot.child("fight").getValue(Fight::class.java)
-                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
-            }
-        })
-
-        viewModel.fight.observe(viewLifecycleOwner, Observer {
+        MainActivity.viewModel.fight.observe(viewLifecycleOwner, Observer {
+            viewModel.fight = it
             //Posture
             when(it.posture){
                 getString(R.string.offensive) ->{
@@ -96,21 +90,29 @@ class FightFragment : Fragment() {
                 view.findViewById<Button>(R.id.fight_action_frost).text = getString(R.string.activ_frost)
             }
         })
+        MainActivity.viewModel.character.observe(viewLifecycleOwner, Observer {
+            viewModel.character = it
+        })
+        MainActivity.viewModel.equipment.observe(viewLifecycleOwner, Observer {
+            viewModel.equipment = it
+        })
+
+
         view.findViewById<RadioButton>(R.id.fight_posture_offensive).setOnCheckedChangeListener { compoundButton, b ->
             if(view.findViewById<RadioButton>(R.id.fight_posture_offensive).isChecked) {
-                viewModel._fight.value!!.posture = getString(R.string.offensive)
+                viewModel.fight.posture = getString(R.string.offensive)
                 viewModel.saveFight()
             }
         }
         view.findViewById<RadioButton>(R.id.fight_posture_defensive).setOnCheckedChangeListener { compoundButton, b ->
             if(view.findViewById<RadioButton>(R.id.fight_posture_defensive).isChecked) {
-                viewModel._fight.value!!.posture  = getString(R.string.defensive)
+                viewModel.fight.posture  = getString(R.string.defensive)
                 viewModel.saveFight()
             }
         }
         view.findViewById<RadioButton>(R.id.fight_posture_reflex).setOnCheckedChangeListener { compoundButton, b ->
             if(view.findViewById<RadioButton>(R.id.fight_posture_reflex).isChecked) {
-                viewModel._fight.value!!.posture  = getString(R.string.reflex)
+                viewModel.fight.posture  = getString(R.string.reflex)
                 viewModel.saveFight()
             }
         }
@@ -223,7 +225,7 @@ class FightFragment : Fragment() {
         view.findViewById<Button>(R.id.fight_action_poison).setOnClickListener { checkAndDisplayAlert(getString(R.string.pv),(CalcUtils.getLifeMax(context!!, Services.getJsonCharacter(context!!))*0.05).toInt(), viewModel.getPoison())}
         view.findViewById<Button>(R.id.fight_action_frost).setOnClickListener {
             val const = viewModel.frost()
-            if(viewModel.fight.value!!.frost) Snackbar.make(view, context!!.getString(R.string.activ_msg_frost) + " " +const.absoluteValue, Snackbar.LENGTH_LONG).show()
+            if(viewModel.fight.frost) Snackbar.make(view, context!!.getString(R.string.activ_msg_frost) + " " +const.absoluteValue, Snackbar.LENGTH_LONG).show()
             else Snackbar.make(view, context!!.getString(R.string.annul_msg_frost), Snackbar.LENGTH_SHORT).show()
         }
 

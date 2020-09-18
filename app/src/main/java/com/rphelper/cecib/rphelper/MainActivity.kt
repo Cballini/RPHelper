@@ -7,11 +7,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Debug
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
 import com.firebase.ui.auth.IdpResponse
 import com.firebase.ui.auth.util.ExtraConstants
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -19,7 +19,12 @@ import com.google.android.material.bottomnavigation.LabelVisibilityMode.LABEL_VI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
+import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.fragments.*
+import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
+import com.rphelper.cecib.rphelper.viewmodel.MainViewModel
+import org.json.JSONObject
 
 class MainActivity : FragmentActivity() {
     private val WRITE_EXTERNAL_STORAGE_CODE = 1
@@ -47,6 +52,7 @@ class MainActivity : FragmentActivity() {
             if(this.getSharedPreferences(Preferences.FIRST_CONNEXION, Preferences.PRIVATE_MODE).getBoolean(Preferences.FIRST_CONNEXION, true)) {
                 initDatabase()
             }
+            loadData()
         }
     }
 
@@ -94,6 +100,93 @@ class MainActivity : FragmentActivity() {
         val sharedPref: SharedPreferences = this.getSharedPreferences(Preferences.FIRST_CONNEXION, Preferences.PRIVATE_MODE)
         sharedPref.edit().putBoolean(Preferences.FIRST_CONNEXION, false).apply()
 
+    }
+
+    fun loadData(){
+        viewModel = MainViewModel(applicationContext)
+        val liveData = viewModel.getDataSnapshotLiveData()
+        liveData!!.observe(this, Observer { dataSnapshot ->
+            if (dataSnapshot != null) {
+                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
+                viewModel._equipment.value = dataSnapshot.child("equipment").getValue(Equipment::class.java)
+                viewModel._fight.value = dataSnapshot.child("fight").getValue(Fight::class.java)
+                viewModel._inventory.value = dataSnapshot.child("inventory").getValue(Inventory::class.java)
+
+                var allStuff = java.util.ArrayList<Any>()
+                //Weapon
+                var valueWeapon = java.util.ArrayList<java.util.HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("weapons").value?.let{
+                    valueWeapon = dataSnapshot.child("inventory").child("weapons").value as java.util.ArrayList<java.util.HashMap<String, Any>>
+                    for (_value in valueWeapon) {
+                        // Convert HashMap to Weapon
+                        val jsonWeapon = JSONObject(_value as Map<*, *>).toString()
+                        val weapon = Gson().fromJson<Weapon>(jsonWeapon, Weapon::class.java)
+                        allStuff.add(weapon)
+                    }
+                }
+
+                //Shield
+                var valueShield = java.util.ArrayList<java.util.HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("shields").value?.let{
+                    valueShield = dataSnapshot.child("inventory").child("shields").value as java.util.ArrayList<java.util.HashMap<String, Any>>
+                    for (_value in valueShield) {
+                        // Convert HashMap to Shield
+                        val jsonShield = JSONObject(_value as Map<*, *>).toString()
+                        val shield = Gson().fromJson<Shield>(jsonShield, Shield::class.java)
+                        allStuff.add(shield)
+                    }
+                }
+
+                //Armor
+                var valueArmor = java.util.ArrayList<java.util.HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("armors").value?.let{
+                    valueArmor = dataSnapshot.child("inventory").child("armors").value as java.util.ArrayList<java.util.HashMap<String, Any>>
+                    for (_value in valueArmor) {
+                        // Convert HashMap to Armor
+                        val jsonArmor = JSONObject(_value as Map<*, *>).toString()
+                        val armor = Gson().fromJson<Armor>(jsonArmor, Armor::class.java)
+                        allStuff.add(armor)
+                    }
+                }
+                //Jewel
+                var valueJewel = java.util.ArrayList<java.util.HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("jewels").value?.let{
+                    valueJewel = dataSnapshot.child("inventory").child("jewels").value as java.util.ArrayList<java.util.HashMap<String, Any>>
+                    for (_value in valueJewel) {
+                        // Convert HashMap to Jewel
+                        val jsonJewel = JSONObject(_value as Map<*, *>).toString()
+                        val jewel = Gson().fromJson<Jewel>(jsonJewel, Jewel::class.java)
+                        allStuff.add(jewel)
+                    }
+                }
+
+                //Item
+                var valueItem = java.util.ArrayList<java.util.HashMap<String, Any>>()
+                dataSnapshot.child("inventory").child("item").value?.let{
+                    valueItem = dataSnapshot.child("inventory").child("item").value as java.util.ArrayList<java.util.HashMap<String, Any>>
+                    for (_value in valueItem) {
+                        // Convert HashMap to Item
+                        val jsonItem = JSONObject(_value as Map<*, *>).toString()
+                        val item = Gson().fromJson<Item>(jsonItem, Item::class.java)
+                        allStuff.add(item)
+                    }
+                }
+
+                viewModel._stuff.value = allStuff
+
+                var allSpells = ArrayList<Spell>()
+                val value = dataSnapshot.child("spells").value as ArrayList<HashMap<String, Any>>
+                for (_value in value) {
+                    // Convert HashMap to Spell
+                    val jsonSpell = JSONObject(_value as Map<*, *>).toString()
+                    val spell = Gson().fromJson<Spell>(jsonSpell, Spell::class.java)
+                    allSpells.add(spell)
+                }
+                viewModel._allSpells.value = allSpells
+
+                viewModel._catalyst.value = dataSnapshot.child("equipment").child("catalyst").getValue(Weapon::class.java)
+            }
+        })
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -155,6 +248,7 @@ class MainActivity : FragmentActivity() {
 
 
     companion object{
+        lateinit var viewModel : MainViewModel
         @JvmStatic
         open fun createIntent(context: Context, response: IdpResponse?): Intent? {
             return Intent().setClass(context, MainActivity::class.java)

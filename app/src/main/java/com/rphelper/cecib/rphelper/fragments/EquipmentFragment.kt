@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
+import com.rphelper.cecib.rphelper.MainActivity
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.component.EquipmentComponent
@@ -35,20 +36,31 @@ class EquipmentFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_equipment, container, false)
 
-        viewModel = EquipmentViewModel(context!!)
+        viewModel = EquipmentViewModel(context!!, MainActivity.viewModel.character.value!!, MainActivity.viewModel.equipment.value!!, MainActivity.viewModel.inventory.value!!)
 
-        val liveData = viewModel.getDataSnapshotLiveData()
-        liveData!!.observe(viewLifecycleOwner, Observer { dataSnapshot ->
-            if (dataSnapshot != null) {
-                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
-                viewModel._equipment.value = dataSnapshot.child("equipment").getValue(Equipment::class.java)
-                viewModel._inventory.value = dataSnapshot.child("inventory").getValue(Inventory::class.java)
-                viewModel._damages.value = viewModel.getDamages()
-                viewModel._defense.value = viewModel.getDef()
-                viewModel._res.value = viewModel.getRes()
-                viewModel._immun.value = viewModel.getImmun()
-                viewModel._weak.value = viewModel.getWeak()
-            }
+        MainActivity.viewModel.character.observe(viewLifecycleOwner, Observer {
+            viewModel.character = it
+            viewModel._damages.value = viewModel.getDamages()
+            viewModel._defense.value = viewModel.getDef()
+        })
+        MainActivity.viewModel.equipment.observe(viewLifecycleOwner, Observer {
+            viewModel.equipment = it
+            viewModel._defense.value = viewModel.getDef()
+            viewModel._res.value = viewModel.getRes()
+            viewModel._immun.value = viewModel.getImmun()
+            viewModel._weak.value = viewModel.getWeak()
+            initWeaponView(view, R.id.equipment_left_hand, getString(R.string.left_hand), it.leftHand)
+            initWeaponView(view, R.id.equipment_right_hand, getString(R.string.right_hand), it.rightHand)
+            initWeaponView(view, R.id.equipment_catalyst, getString(R.string.catalyst), it.catalyst)
+            initShieldView(view, it.shield)
+            initArmorView(view, R.id.equipment_hat, getString(R.string.hat), it.hat)
+            initArmorView(view, R.id.equipment_chest, getString(R.string.chestplate), it.chest)
+            initArmorView(view, R.id.equipment_gloves, getString(R.string.gloves), it.gloves)
+            initArmorView(view, R.id.equipment_greaves, getString(R.string.greaves), it.greaves)
+        })
+
+        MainActivity.viewModel.inventory.observe(viewLifecycleOwner, Observer {
+            viewModel.inventory = it
         })
 
         /********** Stats **********/
@@ -200,42 +212,31 @@ class EquipmentFragment : Fragment() {
             }
         }
 
-        /******** Observe equipment **********/
-        viewModel.equipment.observe(viewLifecycleOwner, Observer {
-            initWeaponView(view, R.id.equipment_left_hand, getString(R.string.left_hand), it.leftHand)
-            initWeaponView(view, R.id.equipment_right_hand, getString(R.string.right_hand), it.rightHand)
-            initWeaponView(view, R.id.equipment_catalyst, getString(R.string.catalyst), it.catalyst)
-            initShieldView(view, it.shield)
-            initArmorView(view, R.id.equipment_hat, getString(R.string.hat), it.hat)
-            initArmorView(view, R.id.equipment_chest, getString(R.string.chestplate), it.chest)
-            initArmorView(view, R.id.equipment_gloves, getString(R.string.gloves), it.gloves)
-            initArmorView(view, R.id.equipment_greaves, getString(R.string.greaves), it.greaves)
-        })
 
         /*********** EDIT **********/
         view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentTypeLayout.setOnClickListener {
-            editWeapon(getString(R.string.left_hand), viewModel.equipment.value!!.leftHand)
+            editWeapon(getString(R.string.left_hand), viewModel.equipment.leftHand)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentTypeLayout.setOnClickListener {
-            editWeapon(getString(R.string.right_hand), viewModel.equipment.value!!.rightHand)
+            editWeapon(getString(R.string.right_hand), viewModel.equipment.rightHand)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_catalyst).equipmentTypeLayout.setOnClickListener {
-            editWeapon(getString(R.string.catalyst), viewModel.equipment.value!!.catalyst)
+            editWeapon(getString(R.string.catalyst), viewModel.equipment.catalyst)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentTypeLayout.setOnClickListener {
             editShield()
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.hat), viewModel.equipment.value!!.hat)
+            editArmor(getString(R.string.hat), viewModel.equipment.hat)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.chestplate), viewModel.equipment.value!!.chest)
+            editArmor(getString(R.string.chestplate), viewModel.equipment.chest)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.gloves), viewModel.equipment.value!!.gloves)
+            editArmor(getString(R.string.gloves), viewModel.equipment.gloves)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.greaves), viewModel.equipment.value!!.greaves)
+            editArmor(getString(R.string.greaves), viewModel.equipment.greaves)
         }
 
         return view
@@ -421,17 +422,17 @@ class EquipmentFragment : Fragment() {
     }
 
     fun editShield() {
-        DisplayUtils.openShieldDialog(viewModel.equipment.value!!.shield, context!!, activity!!,
+        DisplayUtils.openShieldDialog(viewModel.equipment.shield, context!!, activity!!,
                 {
-                    displayMsg(viewModel.equipment.value!!.shield.name)
-                    viewModel.shieldToInventory(viewModel.equipment.value!!.shield)
+                    displayMsg(viewModel.equipment.shield.name)
+                    viewModel.shieldToInventory(viewModel.equipment.shield)
                 },
                 {
-                    viewModel.equipment.value!!.shield?.let { viewModel.equipment.value!!.shield.reinit() }
+                    viewModel.equipment.shield?.let { viewModel.equipment.shield.reinit() }
                     viewModel.editEquipment()
                 },
                 {
-                    viewModel.equipment.value!!.shield.equip = true
+                    viewModel.equipment.shield.equip = true
                     viewModel.editEquipment()
                 })
     }

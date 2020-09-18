@@ -26,12 +26,12 @@ import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
 import com.rphelper.cecib.rphelper.component.IndicComponent
 import com.rphelper.cecib.rphelper.dto.Character
-import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
 import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import com.bumptech.glide.Glide
+import com.rphelper.cecib.rphelper.MainActivity
 
 
 class CharacterFragment : Fragment() {
@@ -49,37 +49,30 @@ class CharacterFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_character, container, false)
 
-        viewModel = CharacterViewModel(context!!)
+        viewModel = CharacterViewModel(context!!, MainActivity.viewModel.character.value!!, MainActivity.viewModel.equipment.value!!)
 
         initViewNotEditable(view)
 
-        val liveData = viewModel.getDataSnapshotLiveData()
-        liveData!!.observe(viewLifecycleOwner, Observer { dataSnapshot ->
-            if (dataSnapshot != null) {
-                viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
-                viewModel._equipment.value = dataSnapshot.child("equipment").getValue(Equipment::class.java)
-                viewModel._weight.value = viewModel.getWeight()
-                viewModel._weightMax.value = viewModel.getWeightMax()
-                viewModel._lifeMax.value = viewModel.getLifeMax()
-                viewModel._manaMax.value = viewModel.getManaMax()
-                viewModel._constMax.value = viewModel.getConstMax()
-                viewModel._speed.value = viewModel.getSpeed()
-
-                viewModel._diplo.value = viewModel.getDiplo()
-                viewModel._psy.value = viewModel.getPsy()
-                viewModel._know.value = viewModel.getKnow()
-                viewModel._push.value = viewModel.getPush()
-                viewModel._sneak.value = viewModel.getSneak()
-                viewModel._craft.value = viewModel.getCraft()
-            }
-        })
-
-        viewModel.character.observe(viewLifecycleOwner, Observer {
+        MainActivity.viewModel.character.observe(viewLifecycleOwner, Observer {
+            viewModel.character = it
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_name).catTxt.setText(it.name)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_race).catTxt.setText(it.race)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_origin).catTxt.setText(it.origin)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_religion).catTxt.setText(it.religion)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt.setText(it.level.toString())
+            viewModel._weight.value = viewModel.getWeight()
+            viewModel._weightMax.value = viewModel.getWeightMax()
+            viewModel._lifeMax.value = viewModel.getLifeMax()
+            viewModel._manaMax.value = viewModel.getManaMax()
+            viewModel._constMax.value = viewModel.getConstMax()
+            viewModel._speed.value = viewModel.getSpeed()
+
+            viewModel._diplo.value = viewModel.getDiplo()
+            viewModel._psy.value = viewModel.getPsy()
+            viewModel._know.value = viewModel.getKnow()
+            viewModel._push.value = viewModel.getPush()
+            viewModel._sneak.value = viewModel.getSneak()
+            viewModel._craft.value = viewModel.getCraft()
             it.let {
                 view.findViewById<IndicComponent>(R.id.indic_life).indicCurrent.text = it!!.life.value.toString()
                 view.findViewById<IndicComponent>(R.id.indic_const).indicCurrent.text = it!!.const.value.toString()
@@ -89,6 +82,12 @@ class CharacterFragment : Fragment() {
 
                 if (it.don.isNotEmpty()) view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setText(it.don)
             }
+        })
+
+        MainActivity.viewModel.equipment.observe(viewLifecycleOwner, Observer {
+            viewModel.equipment = it
+            viewModel._weight.value = viewModel.getWeight()
+            viewModel._speed.value = viewModel.getSpeed()
         })
 
         //ProfilePicture
@@ -246,11 +245,11 @@ class CharacterFragment : Fragment() {
             val levelView = view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt
             if (profileIsOnEdit) {
                 profileIsOnEdit = false
-                viewModel.character.value!!.name = nameView.text.toString()
-                viewModel.character.value!!.race = raceView.text.toString()
-                viewModel.character.value!!.origin = originView.text.toString()
-                viewModel.character.value!!.religion = religionView.text.toString()
-                viewModel.character.value!!.level = if(levelView.text.toString().isNotEmpty())levelView.text.toString().toInt() else 0
+                viewModel.character.name = nameView.text.toString()
+                viewModel.character.race = raceView.text.toString()
+                viewModel.character.origin = originView.text.toString()
+                viewModel.character.religion = religionView.text.toString()
+                viewModel.character.level = if(levelView.text.toString().isNotEmpty())levelView.text.toString().toInt() else 0
                 view.findViewById<ImageView>(R.id.profile_edit).setImageResource(R.drawable.ic_edit)
                 nameView.setEnabled(false)
                 raceView.setEnabled(false)
@@ -275,7 +274,7 @@ class CharacterFragment : Fragment() {
            displayEditIndicDialog(getString(R.string.lifeEditTitle))
         }
         view.findViewById<IndicComponent>(R.id.indic_life).indicReset.setOnClickListener {
-            viewModel.character.value!!.life.value = viewModel.lifeMax.value!!.toFloat()
+            viewModel.character.life.value = viewModel.lifeMax.value!!.toFloat()
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_life).indicEditBonus.setOnClickListener {
@@ -286,7 +285,7 @@ class CharacterFragment : Fragment() {
             displayEditIndicDialog(getString(R.string.constEditTitle))
         }
         view.findViewById<IndicComponent>(R.id.indic_const).indicReset.setOnClickListener {
-            viewModel.character.value!!.const.value = viewModel.constMax.value!!.toFloat()
+            viewModel.character.const.value = viewModel.constMax.value!!.toFloat()
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_const).indicEditBonus.setOnClickListener {
@@ -297,7 +296,7 @@ class CharacterFragment : Fragment() {
             displayEditIndicDialog(getString(R.string.manaEditTitle))
         }
         view.findViewById<IndicComponent>(R.id.indic_mana).indicReset.setOnClickListener {
-            viewModel.character.value!!.mana.value = viewModel.manaMax.value!!.toFloat()
+            viewModel.character.mana.value = viewModel.manaMax.value!!.toFloat()
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_mana).indicEditBonus.setOnClickListener {
@@ -311,25 +310,25 @@ class CharacterFragment : Fragment() {
         view.findViewById<ImageView>(R.id.stat_edit).setOnClickListener {
             if (statIsOnEdit){
                 statIsOnEdit = false
-                viewModel.character.value!!.vitality = if (view.findViewById<TextView>(R.id.stat_vit).text.toString().isNotEmpty())
+                viewModel.character.vitality = if (view.findViewById<TextView>(R.id.stat_vit).text.toString().isNotEmpty())
                     view.findViewById<TextView>(R.id.stat_vit).text.toString().toInt() else 0
-                viewModel.character.value!!.vigor = if(view.findViewById<TextView>(R.id.stat_vig).text.toString().isNotEmpty())
+                viewModel.character.vigor = if(view.findViewById<TextView>(R.id.stat_vig).text.toString().isNotEmpty())
                     view.findViewById<TextView>(R.id.stat_vig).text.toString().toInt() else 0
-                viewModel.character.value!!.strength = if (view.findViewById<TextView>(R.id.stat_for).text.toString().isNotEmpty())
+                viewModel.character.strength = if (view.findViewById<TextView>(R.id.stat_for).text.toString().isNotEmpty())
                     view.findViewById<TextView>(R.id.stat_for).text.toString().toInt() else 0
-                viewModel.character.value!!.dexterity = if (view.findViewById<TextView>(R.id.stat_dex).text.toString().isNotEmpty())
+                viewModel.character.dexterity = if (view.findViewById<TextView>(R.id.stat_dex).text.toString().isNotEmpty())
                     view.findViewById<TextView>(R.id.stat_dex).text.toString().toInt() else 0
-                viewModel.character.value!!.endurance = if (view.findViewById<TextView>(R.id.stat_end).text.toString().isNotEmpty())
+                viewModel.character.endurance = if (view.findViewById<TextView>(R.id.stat_end).text.toString().isNotEmpty())
                     view.findViewById<TextView>(R.id.stat_end).text.toString().toInt() else 0
-                viewModel.character.value!!.memory = if (view.findViewById<TextView>(R.id.stat_mem).text.toString().isNotEmpty())
+                viewModel.character.memory = if (view.findViewById<TextView>(R.id.stat_mem).text.toString().isNotEmpty())
                     view.findViewById<TextView>(R.id.stat_mem).text.toString().toInt() else 0
-                viewModel.character.value!!.intelligence = if (view.findViewById<TextView>(R.id.stat_int).text.toString().isNotEmpty())
+                viewModel.character.intelligence = if (view.findViewById<TextView>(R.id.stat_int).text.toString().isNotEmpty())
                     view.findViewById<TextView>(R.id.stat_int).text.toString().toInt() else 0
-                viewModel.character.value!!.faith = if(view.findViewById<TextView>(R.id.stat_foi).text.toString().isNotEmpty())
+                viewModel.character.faith = if(view.findViewById<TextView>(R.id.stat_foi).text.toString().isNotEmpty())
                     view.findViewById<TextView>(R.id.stat_foi).text.toString().toInt() else 0
 
                 view.findViewById<ImageView>(R.id.stat_edit).setImageResource(R.drawable.ic_edit)
-                fillStatsWithBonus(view, viewModel.character.value!!)
+                fillStatsWithBonus(view, viewModel.character)
                 view.findViewById<TextView>(R.id.stat_vit).setEnabled(false)
                 view.findViewById<TextView>(R.id.stat_vig).setEnabled(false)
                 view.findViewById<TextView>(R.id.stat_for).setEnabled(false)
@@ -357,7 +356,7 @@ class CharacterFragment : Fragment() {
         view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalEdit.setOnClickListener {
             if (donIsOnEdit){
                 donIsOnEdit = false
-                viewModel.character.value!!.don = view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.text.toString()
+                viewModel.character.don = view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.text.toString()
                 view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalEdit.setImageResource(R.drawable.ic_edit)
                 view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setEnabled(false)
                 viewModel.editCharacter()
@@ -433,13 +432,13 @@ class CharacterFragment : Fragment() {
             dialogInterface.dismiss()
             when(title){
                 getString(R.string.lifeEditTitle) -> {
-                    if (editText.text.isNotEmpty()){viewModel.character.value!!.life.value = editText.text.toString().toFloat()}
+                    if (editText.text.isNotEmpty()){viewModel.character.life.value = editText.text.toString().toFloat()}
                 }
                 getString(R.string.manaEditTitle) -> {
-                    if (editText.text.isNotEmpty()){viewModel.character.value!!.mana.value = editText.text.toString().toFloat()}
+                    if (editText.text.isNotEmpty()){viewModel.character.mana.value = editText.text.toString().toFloat()}
                 }
                 getString(R.string.constEditTitle) -> {
-                    if (editText.text.isNotEmpty()){viewModel.character.value!!.const.value = editText.text.toString().toFloat()}
+                    if (editText.text.isNotEmpty()){viewModel.character.const.value = editText.text.toString().toFloat()}
                 }
             }
             viewModel.editCharacter()
@@ -494,35 +493,35 @@ class CharacterFragment : Fragment() {
         view.findViewById<ImageView>(R.id.stat_edit).setImageResource(R.drawable.ic_check)
         view.findViewById<TextView>(R.id.stat_vit).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_vit).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_vit).text =viewModel.character.value!!.vitality.toString()
+        view.findViewById<TextView>(R.id.stat_vit).text =viewModel.character.vitality.toString()
 
         view.findViewById<TextView>(R.id.stat_vig).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_vig).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_vig).text =viewModel.character.value!!.vigor.toString()
+        view.findViewById<TextView>(R.id.stat_vig).text =viewModel.character.vigor.toString()
 
         view.findViewById<TextView>(R.id.stat_for).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_for).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_for).text =viewModel.character.value!!.strength.toString()
+        view.findViewById<TextView>(R.id.stat_for).text =viewModel.character.strength.toString()
 
         view.findViewById<TextView>(R.id.stat_dex).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_dex).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_dex).text =viewModel.character.value!!.dexterity.toString()
+        view.findViewById<TextView>(R.id.stat_dex).text =viewModel.character.dexterity.toString()
 
         view.findViewById<TextView>(R.id.stat_end).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_end).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_end).text =viewModel.character.value!!.endurance.toString()
+        view.findViewById<TextView>(R.id.stat_end).text =viewModel.character.endurance.toString()
 
         view.findViewById<TextView>(R.id.stat_mem).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_mem).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_mem).text =viewModel.character.value!!.memory.toString()
+        view.findViewById<TextView>(R.id.stat_mem).text =viewModel.character.memory.toString()
 
         view.findViewById<TextView>(R.id.stat_int).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_int).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_int).text =viewModel.character.value!!.intelligence.toString()
+        view.findViewById<TextView>(R.id.stat_int).text =viewModel.character.intelligence.toString()
 
         view.findViewById<TextView>(R.id.stat_foi).setTextColor(resources.getColor(R.color.colorTxt))
         view.findViewById<TextView>(R.id.stat_foi).setTypeface(null, Typeface.NORMAL);
-        view.findViewById<TextView>(R.id.stat_foi).text =viewModel.character.value!!.faith.toString()
+        view.findViewById<TextView>(R.id.stat_foi).text =viewModel.character.faith.toString()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

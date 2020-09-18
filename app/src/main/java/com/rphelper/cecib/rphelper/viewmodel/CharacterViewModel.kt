@@ -4,8 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.google.firebase.database.DataSnapshot
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.Services
 import com.rphelper.cecib.rphelper.dto.Character
@@ -13,24 +11,10 @@ import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.utils.CalcUtils
 
 
-class CharacterViewModel(val context: Context) : ViewModel(){
+class CharacterViewModel(val context: Context, character: Character, equipment: Equipment) {
 
-    var firebaseQuery = Services.getUserDatabase()
-    fun getDataSnapshotLiveData(): LiveData<DataSnapshot?>? {
-        return firebaseQuery
-    }
-
-    val _character = MutableLiveData<Character>()
-    val character : LiveData<Character> get() = _character
-    init {
-        _character.value = Character()
-    }
-
-    val _equipment = MutableLiveData<Equipment>()
-    val equipment : LiveData<Equipment> get() = _equipment
-    init {
-        _equipment.value = Equipment()
-    }
+    var character = character
+    var equipment = equipment
 
     val _weight = MutableLiveData<Float>()
     val weight : LiveData<Float> get() = _weight
@@ -145,45 +129,45 @@ class CharacterViewModel(val context: Context) : ViewModel(){
         return sharedPref.getInt(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, 0)
     }
 
-    fun getSpeed() = CalcUtils.getSpeed(context, character.value!!, equipment.value!!)
+    fun getSpeed() = CalcUtils.getSpeed(context, character, equipment)
 
-    fun getDiplo() =35 + character.value!!.intelligence + _character.value!!.memory
-    fun getPsy() = 35 + _character.value!!.faith + _character.value!!.dexterity
-    fun getKnow() =30 + _character.value!!.intelligence + _character.value!!.memory
-    fun getPush() =35 + _character.value!!.vigor + _character.value!!.strength
-    fun getSneak() =35 + _character.value!!.dexterity + _character.value!!.endurance
-    fun getCraft() =35 + _character.value!!.intelligence + _character.value!!.dexterity
+    fun getDiplo() =35 + character.intelligence + character.memory
+    fun getPsy() = 35 + character.faith + character.dexterity
+    fun getKnow() =30 + character.intelligence + character.memory
+    fun getPush() =35 + character.vigor + character.strength
+    fun getSneak() =35 + character.dexterity + character.endurance
+    fun getCraft() =35 + character.intelligence + character.dexterity
 
     fun getLifeMax():Int{
-        val max = CalcUtils.getLifeMax(context, character.value!!)
-        if(character.value!!.life.value>max){ character.value!!.life.value = max.toFloat(); Services.editCharacter(character.value!!)}
-        if(character.value!!.life.value<0){ character.value!!.life.value = 0F; Services.editCharacter(character.value!!)}
+        val max = CalcUtils.getLifeMax(context, character)
+        if(character.life.value>max){ character.life.value = max.toFloat(); Services.editCharacter(character)}
+        if(character.life.value<0){ character.life.value = 0F; Services.editCharacter(character)}
         return max
     }
 
     fun getConstMax():Int{
-        val max = CalcUtils.getConstMax(context, character.value!!)
-        if(character.value!!.const.value>max){ character.value!!.const.value = max.toFloat(); Services.editCharacter(character.value!!)}
-        if(character.value!!.const.value<0) {character.value!!.const.value = 0F; Services.editCharacter(character.value!!)}
+        val max = CalcUtils.getConstMax(context, character)
+        if(character.const.value>max){ character.const.value = max.toFloat(); Services.editCharacter(character)}
+        if(character.const.value<0) {character.const.value = 0F; Services.editCharacter(character)}
         return max
     }
     fun getManaMax():Int{
-        val max = CalcUtils.getManaMax(context, character.value!!)
-        if(character.value!!.mana.value>max) {character.value!!.mana.value = max.toFloat(); Services.editCharacter(character.value!!)}
-        if(character.value!!.mana.value<0){ character.value!!.mana.value = 0F; Services.editCharacter(character.value!!)}
+        val max = CalcUtils.getManaMax(context, character)
+        if(character.mana.value>max) {character.mana.value = max.toFloat(); Services.editCharacter(character)}
+        if(character.mana.value<0){ character.mana.value = 0F; Services.editCharacter(character)}
         return max
     }
 
-    fun getWeight() = CalcUtils.getWeight(equipment.value!!)
+    fun getWeight() = CalcUtils.getWeight(equipment)
 
     fun getWeightMax():Int{
-        val max = CalcUtils.getWeightMax(context, character.value!!)
+        val max = CalcUtils.getWeightMax(context, character)
         if(weight.value!!>max) _weight.value = max.toFloat()
         return max
     }
 
     fun editCharacter(){
-        Services.editCharacter(character.value!!)
+        Services.editCharacter(character)
     }
 
     fun updateCharacterBonus(){
