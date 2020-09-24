@@ -120,13 +120,13 @@
                         android:id="@+id/equipment_panel_second_panel_light"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/light"/>
+                        android:src="@drawable/lightning"/>
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/equipment_panel_second_panel_dark"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/dark"/>
+                        android:src="@drawable/darkness"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -226,13 +226,13 @@
                         android:id="@+id/equipment_panel_fourth_panel_light"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/light"/>
+                        android:src="@drawable/lightning"/>
                     <ImageView
                         android:visibility="gone"
                         android:id="@+id/equipment_panel_fourth_panel_dark"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/dark"/>
+                        android:src="@drawable/darkness"/>
                 </LinearLayout>
 
             </LinearLayout>

@@ -210,15 +210,16 @@ class EquipmentViewModel (val context: Context, character: Character, equipment:
         editEquipment()
     }
 
-    fun armorToInventory(type :String, armor: Armor){
+    fun armorToInventory(type :PieceEquipment, armor: Armor){
         armor.equip = false
+        armor.type = type
         inventory.armors.add(armor)
         Services.editInventory(inventory)
         when(type){
-            context.getString(R.string.hat)-> equipment.hat.reinit()
-            context.getString(R.string.chestplate)-> equipment.chest.reinit()
-            context.getString(R.string.gloves)-> equipment.gloves.reinit()
-            context.getString(R.string.greaves)-> equipment.greaves.reinit()
+            PieceEquipment.HAT-> equipment.hat.reinit()
+            PieceEquipment.CHEST-> equipment.chest.reinit()
+            PieceEquipment.GLOVES-> equipment.gloves.reinit()
+            PieceEquipment.GREAVES-> equipment.greaves.reinit()
         }
         editEquipment()
     }

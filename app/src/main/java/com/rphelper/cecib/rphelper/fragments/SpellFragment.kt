@@ -226,7 +226,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
             } else {
                 spell.mana = 0
             }
-            if(dialog.findViewById<CheckBox>(R.id.spell_rapidfire).isChecked) spell.rapidFire = true
+            spell.rapidFire = dialog.findViewById<CheckBox>(R.id.spell_rapidfire).isChecked
             spell.use = when (true) {
                 dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
                 else -> ""
@@ -284,7 +284,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
                 } else {
                     spell.mana = 0
                 }
-                if(dialog.findViewById<CheckBox>(R.id.spell_rapidfire).isChecked) spell.rapidFire = true
+                spell.rapidFire = dialog.findViewById<CheckBox>(R.id.spell_rapidfire).isChecked
                 spell.use = when (true) {
                     dialog.findViewById<CheckBox>(R.id.spell_use_int).isChecked -> getString(R.string.intel)
                     else -> ""

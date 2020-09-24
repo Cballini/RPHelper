@@ -19,6 +19,7 @@ data class Character(var name :String,
                      var intelligence :Int,
                      var faith :Int,
                      var don:String){
+    var deadlyWound : Int = 0
 
     constructor():this("", "", "", "", 0, Indic(0F,0),
             Indic(0F,0),Indic(0F,0), 0,0,0,0,0,0,0,0, "" )

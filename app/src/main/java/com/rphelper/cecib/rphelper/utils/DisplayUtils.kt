@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -24,13 +25,27 @@ import com.rphelper.cecib.rphelper.enums.Status
 
 object DisplayUtils {
     @JvmStatic
-    fun hideKeyboard(view: View, context: Context) {
-        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
+    open fun hideSoftKeyboard(activity: Activity): Unit {
+        val inputMethodManager = activity.getSystemService(
+                Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(
+                activity.currentFocus!!.windowToken, 0)
     }
 
     @JvmStatic
     fun stringBonus(bonus :Int) : String{
+        val sign = if (bonus>=0) "+ " else ""
+        return "(" + sign + bonus.toString() + ")"
+    }
+
+    @JvmStatic
+    fun stringBonus(bonus :Float) : String{
+        val sign = if (bonus>=0) "+ " else ""
+        return "(" + sign + bonus.toString() + ")"
+    }
+
+    @JvmStatic
+    fun stringBonus(bonus :Double) : String{
         val sign = if (bonus>=0) "+ " else ""
         return "(" + sign + bonus.toString() + ")"
     }
@@ -113,8 +128,7 @@ object DisplayUtils {
             } else {
                 weapon.boost = 0
             }
-            if (dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked) weapon.rapidFire = true
-            if (dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked) weapon.rapidFire = true
+            weapon.rapidFire = dialog.findViewById<CheckBox>(R.id.weapon_rapidfire).isChecked
             if (dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).text.toString().isNotEmpty()) {
                 weapon.statusValue = dialog.findViewById<EditText>(R.id.weapon_status_proc_txt).text.toString().toFloat()
             } else {
@@ -281,10 +295,6 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
 
                 shield.res?.let { shield.res.clear() }
                         ?: run { shield.res = ArrayList<Elem>() }
-                if (dialog.findViewById<CheckBox>(R.id.shield_res_fire).isChecked && dialog.findViewById<CheckBox>(R.id.shield_res_dark).isChecked
-                        && dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked && dialog.findViewById<CheckBox>(R.id.shield_res_magic).isChecked) {
-                    shield.res.add(Elem.ALL)
-                } else {
                     if (dialog.findViewById<CheckBox>(R.id.shield_res_fire).isChecked) {
                         shield.res.add(Elem.FIRE)
                     }
@@ -297,7 +307,6 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
                     if (dialog.findViewById<CheckBox>(R.id.shield_res_magic).isChecked) {
                         shield.res.add(Elem.MAGIC)
                     }
-                }
 
                 if (dialog.findViewById<EditText>(R.id.shield_weight_txt).text.toString().isNotEmpty()) {
                     shield.weight = dialog.findViewById<EditText>(R.id.shield_weight_txt).text.toString().toFloat()
@@ -324,7 +333,7 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
                     dialog.findViewById<CheckBox>(R.id.shield_res_fire).isChecked = true
                     dialog.findViewById<CheckBox>(R.id.shield_res_dark).isChecked = true
                     dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked = true
-                    dialog.findViewById<CheckBox>(R.id.shield_res_light).isChecked = true
+                    dialog.findViewById<CheckBox>(R.id.shield_res_magic).isChecked = true
                 }
             }
             dialog.findViewById<EditText>(R.id.shield_weight_txt).setText(shield.weight.toString())
@@ -332,13 +341,13 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
     }
 
     @JvmStatic
-    fun openArmorDialog(type: String, armor: Armor, context: Context, activity: Activity, toDoEquip: () -> Unit,  toDoDelete: () -> Unit,  toDoSave: () -> Unit) {
+    fun openArmorDialog(type: PieceEquipment, armor: Armor, context: Context, activity: Activity, toDoEquip: () -> Unit,  toDoDelete: () -> Unit,  toDoSave: () -> Unit) {
         val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.popup_edit_armor)
-        dialog.findViewById<TextView>(R.id.armor_type).text = type
+        dialog.findViewById<TextView>(R.id.armor_type).text = PieceEquipment.getPieceString(type, context)
         fillArmorEdit(dialog, armor)
-        if(!type.equals(context.getString(R.string.armor))) dialog.findViewById<LinearLayout>(R.id.armor_type_layout).visibility = View.GONE
+        if(type!=PieceEquipment.NOTHING) dialog.findViewById<LinearLayout>(R.id.armor_type_layout).visibility = View.GONE
         if(!armor.equip) dialog.findViewById<TextView>(R.id.armor_disequip_button).text = context.getString(R.string.equiper)
         dialog.findViewById<EditText>(R.id.armor_name_txt).setSelection(dialog.findViewById<EditText>(R.id.armor_name_txt).text.length)
         dialog.findViewById<ImageView>(R.id.armor_cancel_button).setOnClickListener { dialog.dismiss() }
@@ -351,12 +360,12 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
             dialog.dismiss()
         }
         dialog.findViewById<TextView>(R.id.armor_save_button).setOnClickListener {
-            if(type.equals(context.getString(R.string.armor)) && (dialog.findViewById<MultiRowsRadioGroup>(R.id.armor_type_radiogroup).checkedRadioButtonId ==-1)){
+            if(type==PieceEquipment.NOTHING && (dialog.findViewById<MultiRowsRadioGroup>(R.id.armor_type_radiogroup).checkedRadioButtonId ==-1)){
                 Snackbar.make(dialog.currentFocus!!, context.getString(R.string.warning_armor_type), Snackbar.LENGTH_LONG).show()
             }else {
                 armor.name = dialog.findViewById<EditText>(R.id.armor_name_txt).text.toString()
 
-                if (type.equals(context.getString(R.string.armor))) {
+                if (type==PieceEquipment.NOTHING) {
                     when (true) {
                         dialog.findViewById<RadioButton>(R.id.armor_type_hat).isChecked -> armor.type = PieceEquipment.HAT
                         dialog.findViewById<RadioButton>(R.id.armor_type_chest).isChecked -> armor.type = PieceEquipment.CHEST
@@ -384,10 +393,6 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
                 }
 
                 armor.res?.let { armor.res.clear() } ?: run { armor.res = ArrayList<Elem>() }
-                if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_dark).isChecked
-                        && dialog.findViewById<CheckBox>(R.id.armor_res_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
-                    armor.res.add(Elem.ALL)
-                } else {
                     if (dialog.findViewById<CheckBox>(R.id.armor_res_fire).isChecked) {
                         armor.res.add(Elem.FIRE)
                     }
@@ -400,13 +405,9 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
                     if (dialog.findViewById<CheckBox>(R.id.armor_res_magic).isChecked) {
                         armor.res.add(Elem.MAGIC)
                     }
-                }
+
 
                 armor.weak?.let { armor.weak.clear() } ?: run { armor.weak = ArrayList<Elem>() }
-                if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_dark).isChecked
-                        && dialog.findViewById<CheckBox>(R.id.armor_weak_light).isChecked && dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
-                    armor.weak.add(Elem.ALL)
-                } else {
                     if (dialog.findViewById<CheckBox>(R.id.armor_weak_fire).isChecked) {
                         armor.weak.add(Elem.FIRE)
                     }
@@ -419,7 +420,7 @@ fun removeEquipment(context: Context, toDoDelete: () -> Unit){
                     if (dialog.findViewById<CheckBox>(R.id.armor_weak_magic).isChecked) {
                         armor.weak.add(Elem.MAGIC)
                     }
-                }
+
 
                 if (dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().isNotEmpty()) {
                     armor.weight = dialog.findViewById<EditText>(R.id.armor_weight_txt).text.toString().toFloat()

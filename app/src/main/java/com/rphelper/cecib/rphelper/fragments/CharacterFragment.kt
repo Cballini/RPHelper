@@ -60,6 +60,7 @@ class CharacterFragment : Fragment() {
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_origin).catTxt.setText(it.origin)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_religion).catTxt.setText(it.religion)
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt.setText(it.level.toString())
+            view.findViewById<CategoryHorizontalComponent>(R.id.profile_deadly_wound).catTxt.setText(it.deadlyWound.toString())
             viewModel._weight.value = viewModel.getWeight()
             viewModel._weightMax.value = viewModel.getWeightMax()
             viewModel._lifeMax.value = viewModel.getLifeMax()
@@ -110,6 +111,8 @@ class CharacterFragment : Fragment() {
         view.findViewById<CategoryHorizontalComponent>(R.id.profile_speed).catTitle.text = getString(R.string.speed)
         viewModel.speed.observe(viewLifecycleOwner, Observer {
             view.findViewById<CategoryHorizontalComponent>(R.id.profile_speed).catTxt.setText(it.toString())})
+        //Deadly Wound
+        view.findViewById<CategoryHorizontalComponent>(R.id.profile_deadly_wound).catTitle.text = getString(R.string.deadly_wound)
         //Life
         view.findViewById<IndicComponent>(R.id.indic_life).indicTitle.text = getString(R.string.pv)
         setOnClickListenerIndicDrop(R.id.indic_life, view)
@@ -243,6 +246,8 @@ class CharacterFragment : Fragment() {
             val originView = view.findViewById<CategoryHorizontalComponent>(R.id.profile_origin).catTxt
             val religionView = view.findViewById<CategoryHorizontalComponent>(R.id.profile_religion).catTxt
             val levelView = view.findViewById<CategoryHorizontalComponent>(R.id.profile_level).catTxt
+            val deadlyWoundView = view.findViewById<CategoryHorizontalComponent>(R.id.profile_deadly_wound).catTxt
+
             if (profileIsOnEdit) {
                 profileIsOnEdit = false
                 viewModel.character.name = nameView.text.toString()
@@ -250,12 +255,14 @@ class CharacterFragment : Fragment() {
                 viewModel.character.origin = originView.text.toString()
                 viewModel.character.religion = religionView.text.toString()
                 viewModel.character.level = if(levelView.text.toString().isNotEmpty())levelView.text.toString().toInt() else 0
+                viewModel.character.deadlyWound = if(deadlyWoundView.text.toString().isNotEmpty())deadlyWoundView.text.toString().toInt() else 0
                 view.findViewById<ImageView>(R.id.profile_edit).setImageResource(R.drawable.ic_edit)
                 nameView.setEnabled(false)
                 raceView.setEnabled(false)
                 originView.setEnabled(false)
                 religionView.setEnabled(false)
                 levelView.setEnabled(false)
+                deadlyWoundView.setEnabled(false)
                 viewModel.editCharacter()
             }else{
                 profileIsOnEdit = true
@@ -265,6 +272,7 @@ class CharacterFragment : Fragment() {
                 originView.setEnabled(true)
                 religionView.setEnabled(true)
                 levelView.setEnabled(true)
+                deadlyWoundView.setEnabled(true)
 
                 levelView.inputType = InputType.TYPE_CLASS_NUMBER
             }

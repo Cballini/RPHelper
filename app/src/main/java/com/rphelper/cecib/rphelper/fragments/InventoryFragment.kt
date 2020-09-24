@@ -39,15 +39,18 @@ import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.ItemAdapter
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+import com.rphelper.cecib.rphelper.component.DamageComponent
 import com.rphelper.cecib.rphelper.component.RecapEquipmentComponent
 import com.rphelper.cecib.rphelper.component.SpellComponent
 import com.rphelper.cecib.rphelper.dto.*
+import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
 import com.rphelper.cecib.rphelper.enums.PieceEquipment
 import com.rphelper.cecib.rphelper.enums.Status
 import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
+import com.rphelper.cecib.rphelper.utils.resIdByName
 import com.rphelper.cecib.rphelper.viewmodel.InventoryViewModel
 import org.json.JSONObject
 import java.util.*
@@ -224,7 +227,7 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     }
 
     fun editArmor(armor: Armor, isAdd :Boolean) {
-        DisplayUtils.openArmorDialog(getString(R.string.armor), armor, context!!, activity!!,
+        DisplayUtils.openArmorDialog(PieceEquipment.NOTHING, armor, context!!, activity!!,
                 {equipArmor(armor) },
                 {if(viewModel.stuff.contains(armor)){
                     viewModel.stuff.remove(armor)
@@ -523,12 +526,109 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
     fun equipWeapon(weapon: Weapon){
         val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.popup_equip_weapon)
+        dialog.setContentView(R.layout.popup_comparator_weapon)
 
         val leftHand = viewModel.getLeftHand()
         val rightHand = viewModel.getRightHand()
-        fillWeaponRecap(dialog, R.id.equip_weapon_recap_left, leftHand)
-        fillWeaponRecap(dialog, R.id.equip_weapon_recap_right, rightHand)
+
+        dialog.findViewById<RadioGroup>(R.id.equip_weapon_radio_group).setOnCheckedChangeListener { group, checkedId ->
+            var weaponEquip = Weapon()
+            if (dialog.findViewById<RadioButton>(R.id.equip_weapon_left_hand).isChecked) weaponEquip = leftHand
+            else if (dialog.findViewById<RadioButton>(R.id.equip_weapon_right_hand).isChecked) weaponEquip = rightHand
+
+            val dmgGap = weapon.damage - weaponEquip.damage
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_dmg_txt).text = weapon.damage.toString()
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_dmg_gap).text = DisplayUtils.stringBonus(dmgGap)
+            if (dmgGap < 0) {
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_dmg_txt).setTextColor(resources.getColor(R.color.malus))
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_dmg_gap).setTextColor(resources.getColor(R.color.malus))
+            } else {
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_dmg_txt).setTextColor(resources.getColor(R.color.bonus))
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_dmg_gap).setTextColor(resources.getColor(R.color.bonus))
+            }
+
+            if ((weapon.rapidFire && weaponEquip.rapidFire)
+                    || (!weapon.rapidFire && !weaponEquip.rapidFire)) dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_rapidfire).visibility = View.GONE
+            else {
+                dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_rapidfire).visibility = View.VISIBLE
+                if (weapon.rapidFire && !weaponEquip.rapidFire) {
+                    dialog.findViewById<TextView>(R.id.equip_comparator_weapon_rapidfire_sign).text = "+"
+                    dialog.findViewById<TextView>(R.id.equip_comparator_weapon_rapidfire_sign).setTextColor(resources.getColor(R.color.bonus))
+                } else if (!weapon.rapidFire && weaponEquip.rapidFire) {
+                    dialog.findViewById<TextView>(R.id.equip_comparator_weapon_rapidfire_sign).text = "-"
+                    dialog.findViewById<TextView>(R.id.equip_comparator_weapon_rapidfire_sign).setTextColor(resources.getColor(R.color.malus))
+                }
+            }
+
+            if ((weapon.status == weaponEquip.status) && (weapon.statusValue == weaponEquip.statusValue)) dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_status).visibility = View.GONE
+            else {
+                dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_status).visibility = View.VISIBLE
+                if (weapon.status == weaponEquip.status) {
+                    val statusGap = weapon.statusValue - weaponEquip.statusValue
+                    if (statusGap < 0) {
+                        dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_status_plus_layout).visibility = View.GONE
+                        dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_status_minus_layout).visibility = View.VISIBLE
+                        dialog.findViewById<TextView>(R.id.equip_comparator_weapon_status_minus_proc).text = statusGap.toString()
+                        dialog.findViewById<ImageView>(R.id.equip_comparator_weapon_status_minus_type).setImageResource(context!!.resIdByName(weapon.status.name.toLowerCase(), "drawable"))
+                    } else {
+                        dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_status_plus_layout).visibility = View.VISIBLE
+                        dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_status_plus_layout).visibility = View.GONE
+                        dialog.findViewById<TextView>(R.id.equip_comparator_weapon_status_plus_proc).text = statusGap.toString()
+                        dialog.findViewById<ImageView>(R.id.equip_comparator_weapon_status_plus_type).setImageResource(context!!.resIdByName(weapon.status.name.toLowerCase(), "drawable"))
+                    }
+                }
+                else {
+                    dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_status_plus_layout).visibility = View.VISIBLE
+                    dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_status_minus_layout).visibility = View.VISIBLE
+                    dialog.findViewById<TextView>(R.id.equip_comparator_weapon_status_plus_proc).text = weapon.statusValue.toString()
+                    dialog.findViewById<ImageView>(R.id.equip_comparator_weapon_status_plus_type).setImageResource(context!!.resIdByName(weapon.status.name.toLowerCase(), "drawable"))
+                    dialog.findViewById<TextView>(R.id.equip_comparator_weapon_status_minus_proc).text = weaponEquip.statusValue.toString()
+                    dialog.findViewById<ImageView>(R.id.equip_comparator_weapon_status_minus_type).setImageResource(context!!.resIdByName(weaponEquip.status.name.toLowerCase(), "drawable"))
+                }
+            }
+
+            if((weapon.affinity == weaponEquip.affinity)) dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_affi).visibility = View.GONE
+            else {
+                dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_affi).visibility = View.VISIBLE
+                dialog.findViewById<ImageView>(R.id.equip_comparator_weapon_affi_plus_type).setImageResource(context!!.resIdByName(weapon.affinity.name.toLowerCase(), "drawable"))
+                dialog.findViewById<ImageView>(R.id.equip_comparator_weapon_affi_minus_type).setImageResource(context!!.resIdByName(weaponEquip.affinity.name.toLowerCase(), "drawable"))
+            }
+
+            val bonusForIni = weaponEquip.bonusFor
+            val bonusForNew = weapon.bonusFor
+            val bonusDexIni = weaponEquip.bonusDex
+            val bonusDexNew = weapon.bonusDex
+            if(bonusForIni==Bonus.NOTHING && bonusForNew==Bonus.NOTHING) dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_bonus_for_layout).visibility= View.GONE
+            else dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_bonus_for_layout).visibility= View.VISIBLE
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_bonus_for_ini).text = bonusForIni.name
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_bonus_for_new).text = bonusForNew.name
+            if (Bonus.compareBetterBonus(bonusForIni, bonusForNew)){
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_bonus_for_new).setTextColor(resources.getColor(R.color.bonus))
+            }else{
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_bonus_for_new).setTextColor(resources.getColor(R.color.malus))
+            }
+            if(bonusDexIni==Bonus.NOTHING && bonusDexNew==Bonus.NOTHING) dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_bonus_dex_layout).visibility= View.GONE
+            else dialog.findViewById<LinearLayout>(R.id.equip_comparator_weapon_bonus_dex_layout).visibility= View.VISIBLE
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_bonus_dex_ini).text = bonusDexIni.name
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_bonus_dex_new).text = bonusDexNew.name
+            if (Bonus.compareBetterBonus(bonusDexIni, bonusDexNew)){
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_bonus_dex_new).setTextColor(resources.getColor(R.color.bonus))
+            }else{
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_bonus_dex_new).setTextColor(resources.getColor(R.color.malus))
+            }
+
+            val weightGap = weapon.weight - weaponEquip.weight
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_weight_txt).text = weapon.weight.toString()
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_weight_gap).text = DisplayUtils.stringBonus(weightGap)
+            if (weightGap < 0) {
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_weight_txt).setTextColor(resources.getColor(R.color.bonus))
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_weight_gap).setTextColor(resources.getColor(R.color.bonus))
+            } else {
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_weight_txt).setTextColor(resources.getColor(R.color.malus))
+                dialog.findViewById<TextView>(R.id.equip_comparator_weapon_weight_gap).setTextColor(resources.getColor(R.color.malus))
+            }
+        }
+        dialog.findViewById<RadioButton>(R.id.equip_weapon_left_hand).isChecked = true
 
         dialog.findViewById<ImageView>(R.id.equip_weapon_cancel_button).setOnClickListener { dialog.dismiss() }
         dialog.findViewById<TextView>(R.id.equip_weapon_save_button).setOnClickListener {
@@ -539,133 +639,197 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         dialog.show()
     }
 
-    fun fillWeaponRecap(dialog: Dialog, id:Int, weapon: Weapon){
-        if(weapon.name.isEmpty()){
-            dialog.findViewById<RecapEquipmentComponent>(id).recapName.text = getString(R.string.nothing)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.visibility = View.GONE
-        }else {
-            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = weapon.name
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.total_damage)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = CalcUtils.getTotalDamage(weapon, context!!, viewModel.character).toString()
-            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = weapon.weight.toString()
-        }
-    }
-
     fun equipCata(weapon: Weapon){
         val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.popup_equip_shield_cata)
+        dialog.setContentView(R.layout.popup_comparator_catalyst)
 
-        dialog.findViewById<TextView>(R.id.equip_shield_cata_title).text = getString(R.string.equip_catalyst)
+        val catalystEquip = viewModel.getCatalyst()
+        val boostGap = weapon.boost-catalystEquip.boost // + = bonus / - = malus
+        val bonusIntIni = catalystEquip.bonusInt
+        val bonusIntNew = weapon.bonusInt
+        val bonusFoiIni = catalystEquip.bonusFoi
+        val bonusFoiNew = weapon.bonusFoi
+        val weightGap = weapon.weight-catalystEquip.weight // - = bonus / + = malus
 
-        val catalyst = viewModel.getCatalyst()
-        fillCatalystRecap(dialog, R.id.equip_shield_cata_recap, catalyst)
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_boost_txt).text =  weapon.boost.toString()
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_boost_gap).text =  DisplayUtils.stringBonus(boostGap)
+        if (boostGap<0) {
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_boost_txt).setTextColor(resources.getColor(R.color.malus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_boost_gap).setTextColor(resources.getColor(R.color.malus))
+        }else{
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_boost_txt).setTextColor(resources.getColor(R.color.bonus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_boost_gap).setTextColor(resources.getColor(R.color.bonus))
+        }
 
-        dialog.findViewById<ImageView>(R.id.equip_shield_cata_cancel_button).setOnClickListener { dialog.dismiss() }
-        dialog.findViewById<TextView>(R.id.equip_shield_cata_save_button).setOnClickListener {
+        if(bonusIntIni==Bonus.NOTHING && bonusIntNew==Bonus.NOTHING) dialog.findViewById<LinearLayout>(R.id.equip_comparator_catalyst_bonus_int_layout).visibility= View.GONE
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_bonus_int_ini).text = bonusIntIni.name
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_bonus_int_new).text = bonusIntNew.name
+        if (Bonus.compareBetterBonus(bonusIntIni, bonusIntNew)){
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_bonus_int_new).setTextColor(resources.getColor(R.color.bonus))
+        }else{
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_bonus_int_new).setTextColor(resources.getColor(R.color.malus))
+        }
+        if(bonusFoiIni==Bonus.NOTHING && bonusFoiNew==Bonus.NOTHING) dialog.findViewById<LinearLayout>(R.id.equip_comparator_catalyst_bonus_foi_layout).visibility= View.GONE
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_bonus_foi_ini).text = bonusFoiIni.name
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_bonus_foi_new).text = bonusFoiNew.name
+        if (Bonus.compareBetterBonus(bonusFoiIni, bonusFoiNew)){
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_bonus_foi_new).setTextColor(resources.getColor(R.color.bonus))
+        }else{
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_bonus_foi_new).setTextColor(resources.getColor(R.color.malus))
+        }
+
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_weight_txt).text =  weapon.weight.toString()
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_weight_gap).text =  DisplayUtils.stringBonus(weightGap)
+        if (weightGap<0) {
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_weight_txt).setTextColor(resources.getColor(R.color.bonus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_weight_gap).setTextColor(resources.getColor(R.color.bonus))
+        }else{
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_weight_txt).setTextColor(resources.getColor(R.color.malus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_weight_gap).setTextColor(resources.getColor(R.color.malus))
+        }
+
+        dialog.findViewById<ImageView>(R.id.equip_catalyst_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById<TextView>(R.id.equip_catalyst_save_button).setOnClickListener {
             viewModel.catalystToEquipment(weapon)
             dialog.dismiss()
         }
         dialog.show()
     }
 
-    fun fillCatalystRecap(dialog: Dialog, id:Int, weapon: Weapon){
-        if(weapon.name.isEmpty()){
-            dialog.findViewById<RecapEquipmentComponent>(id).recapName.text = getString(R.string.nothing)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.visibility = View.GONE
-        }else {
-            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = weapon.name
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.boost)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = weapon.boost.toString()
-            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = weapon.weight.toString()
-        }
-    }
-
     fun equipShield(shield: Shield){
         val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.popup_equip_shield_cata)
-
-        dialog.findViewById<TextView>(R.id.equip_shield_cata_title).text = getString(R.string.equip_shield)
+        dialog.setContentView(R.layout.popup_comparator_shield)
 
         val shieldEquip = viewModel.getShield()
-        fillShieldRecap(dialog, R.id.equip_shield_cata_recap, shieldEquip)
+        val blockGap = CalcUtils.round1decimal(shield.block-shieldEquip.block) // - = bonus, + = malus
+        val weightGap = CalcUtils.round1decimal(shield.weight - shieldEquip.weight) // - = bonus / + = malus
+        dialog.findViewById<TextView>(R.id.equip_comparator_shield_block_txt).text = shield.block.toString()
+        dialog.findViewById<TextView>(R.id.equip_comparator_shield_block_gap).text = DisplayUtils.stringBonus(blockGap)
+        if (blockGap < 0) {
+            dialog.findViewById<TextView>(R.id.equip_comparator_shield_block_txt).setTextColor(resources.getColor(R.color.bonus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_shield_block_gap).setTextColor(resources.getColor(R.color.bonus))
+        } else {
+            dialog.findViewById<TextView>(R.id.equip_comparator_shield_block_txt).setTextColor(resources.getColor(R.color.malus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_shield_block_gap).setTextColor(resources.getColor(R.color.malus))
+        }
 
-        dialog.findViewById<ImageView>(R.id.equip_shield_cata_cancel_button).setOnClickListener { dialog.dismiss() }
-        dialog.findViewById<TextView>(R.id.equip_shield_cata_save_button).setOnClickListener {
+        //res
+        val resPlus = shield.res.filterNot { shieldEquip.res.contains(it) }
+        val resMinus = shieldEquip.res.filterNot { shield.res.contains(it) }
+        if(resPlus.isEmpty() && resMinus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_shield_res).visibility = View.GONE
+        else {
+            if (resPlus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_shield_res_plus_layout).visibility = View.GONE
+            if (resMinus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_shield_res_minus_layout).visibility = View.GONE
+        }
+        if(resPlus.contains(Elem.DARKNESS)||resPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_shield_res_plus_dark).visibility = View.VISIBLE
+        if(resMinus.contains(Elem.DARKNESS)||resMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_shield_res_minus_dark).visibility = View.VISIBLE
+        if(resPlus.contains(Elem.LIGHTNING)||resPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_shield_res_plus_light).visibility = View.VISIBLE
+        if(resMinus.contains(Elem.LIGHTNING)||resMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_shield_res_minus_light).visibility = View.VISIBLE
+        if(resPlus.contains(Elem.FIRE)||resPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_shield_res_plus_fire).visibility = View.VISIBLE
+        if(resMinus.contains(Elem.FIRE)||resMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_shield_res_minus_fire).visibility = View.VISIBLE
+        if(resPlus.contains(Elem.MAGIC)||resPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_shield_res_plus_magic).visibility = View.VISIBLE
+        if(resMinus.contains(Elem.MAGIC)||resMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_shield_res_minus_magic).visibility = View.VISIBLE
+
+        dialog.findViewById < TextView >(R.id.equip_comparator_shield_weight_txt).text = shield.weight.toString()
+        dialog.findViewById < TextView >(R.id.equip_comparator_shield_weight_gap).text = DisplayUtils.stringBonus(weightGap)
+        if (weightGap < 0) {
+            dialog.findViewById<TextView>(R.id.equip_comparator_shield_weight_txt).setTextColor(resources.getColor(R.color.bonus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_shield_weight_gap).setTextColor(resources.getColor(R.color.bonus))
+        } else {
+            dialog.findViewById<TextView>(R.id.equip_comparator_shield_weight_txt).setTextColor(resources.getColor(R.color.malus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_shield_weight_gap).setTextColor(resources.getColor(R.color.malus))
+        }
+
+        dialog.findViewById < ImageView >(R.id.equip_shield_cancel_button).setOnClickListener { dialog.dismiss() }
+        dialog.findViewById < TextView >(R.id.equip_shield_save_button).setOnClickListener {
             viewModel.shieldToEquipment(shield)
             dialog.dismiss()
         }
         dialog.show()
     }
 
-    fun fillShieldRecap(dialog: Dialog, id:Int, shield: Shield){
-        if(shield.name.isEmpty()){
-            dialog.findViewById<RecapEquipmentComponent>(id).recapName.text = getString(R.string.nothing)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.visibility = View.GONE
-        }else {
-            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = shield.name
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.block)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = shield.block.toString()
-            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = shield.weight.toString()
-        }
-    }
-
     fun equipArmor(armor: Armor){
         val dialog = Dialog(context!!)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.popup_equip_armor)
+        dialog.setContentView(R.layout.popup_comparator_armor)
 
+        var armorEquip = Armor()
         when(armor.type){
-            PieceEquipment.HAT -> {
-                val hat = viewModel.getHat()
-                fillArmorRecap(dialog, R.id.equip_armor_recap_hat, hat)
-                dialog.findViewById<TextView>(R.id.equip_armor_chest).visibility = View.GONE
-                dialog.findViewById<TextView>(R.id.equip_armor_gloves).visibility = View.GONE
-                dialog.findViewById<TextView>(R.id.equip_armor_greaves).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_chest).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_gloves).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_greaves).visibility = View.GONE
-            }
-            PieceEquipment.CHEST ->{
-                val chest = viewModel.getChest()
-                fillArmorRecap(dialog, R.id.equip_armor_recap_chest, chest)
-                dialog.findViewById<TextView>(R.id.equip_armor_hat).visibility = View.GONE
-                dialog.findViewById<TextView>(R.id.equip_armor_gloves).visibility = View.GONE
-                dialog.findViewById<TextView>(R.id.equip_armor_greaves).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_hat).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_gloves).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_greaves).visibility = View.GONE
-            }
-            PieceEquipment.GLOVES -> {
-                val gloves = viewModel.getGloves()
-                fillArmorRecap(dialog, R.id.equip_armor_recap_gloves, gloves)
-                dialog.findViewById<TextView>(R.id.equip_armor_chest).visibility = View.GONE
-                dialog.findViewById<TextView>(R.id.equip_armor_hat).visibility = View.GONE
-                dialog.findViewById<TextView>(R.id.equip_armor_greaves).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_chest).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_hat).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_greaves).visibility = View.GONE
-            }
-            PieceEquipment.GREAVES ->{
-                val greaves = viewModel.getGreaves()
-                fillArmorRecap(dialog, R.id.equip_armor_recap_greaves, greaves)
-                dialog.findViewById<TextView>(R.id.equip_armor_chest).visibility = View.GONE
-                dialog.findViewById<TextView>(R.id.equip_armor_gloves).visibility = View.GONE
-                dialog.findViewById<TextView>(R.id.equip_armor_hat).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_chest).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_gloves).visibility = View.GONE
-                dialog.findViewById<RecapEquipmentComponent>(R.id.equip_armor_recap_hat).visibility = View.GONE
-            }
+            PieceEquipment.HAT -> armorEquip = viewModel.getHat()
+            PieceEquipment.CHEST -> armorEquip = viewModel.getChest()
+            PieceEquipment.GLOVES -> armorEquip = viewModel.getGloves()
+            PieceEquipment.GREAVES -> armorEquip = viewModel.getGreaves()
+        }
+        val defGap = CalcUtils.round1decimal(armor.def-armorEquip.def) // + = bonus, - = malus
+        val weightGap = CalcUtils.round1decimal(armor.weight-armorEquip.weight) // - = bonus, + = malus
+
+        dialog.findViewById<TextView>(R.id.equip_comparator_armor_def_txt).text = armor.def.toString()
+        dialog.findViewById<TextView>(R.id.equip_comparator_armor_def_gap).text = DisplayUtils.stringBonus(defGap)
+        if (defGap < 0) {
+            dialog.findViewById<TextView>(R.id.equip_comparator_armor_def_txt).setTextColor(resources.getColor(R.color.malus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_armor_def_gap).setTextColor(resources.getColor(R.color.malus))
+        } else {
+            dialog.findViewById<TextView>(R.id.equip_comparator_armor_def_txt).setTextColor(resources.getColor(R.color.bonus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_armor_def_gap).setTextColor(resources.getColor(R.color.bonus))
+        }
+
+        //immun
+        val immunPlus = armor.immun.filterNot { armorEquip.immun.contains(it) }
+        val immunMinus = armorEquip.immun.filterNot { armor.immun.contains(it) }
+        if(immunPlus.isEmpty() && immunMinus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_immun).visibility = View.GONE
+        else {
+            if (immunPlus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_immun_plus_layout).visibility = View.GONE
+            if (immunMinus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_immun_minus_layout).visibility = View.GONE
+        }
+        if(immunPlus.contains(Status.POISON)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_immun_plus_poison).visibility = View.VISIBLE
+        if(immunMinus.contains(Status.POISON)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_immun_minus_poison).visibility = View.VISIBLE
+        if(immunPlus.contains(Status.BLEED)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_immun_plus_bleed).visibility = View.VISIBLE
+        if(immunMinus.contains(Status.BLEED)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_immun_minus_bleed).visibility = View.VISIBLE
+        if(immunPlus.contains(Status.FROST)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_immun_plus_frost).visibility = View.VISIBLE
+        if(immunMinus.contains(Status.FROST)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_immun_minus_frost).visibility = View.VISIBLE
+        //res
+        val resPlus = armor.res.filterNot { armorEquip.res.contains(it) }
+        val resMinus = armorEquip.res.filterNot { armor.res.contains(it) }
+        if(resPlus.isEmpty() && resMinus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_res).visibility = View.GONE
+        else {
+            if (resPlus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_res_plus_layout).visibility = View.GONE
+            if (resMinus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_res_minus_layout).visibility = View.GONE
+        }
+        if(resPlus.contains(Elem.DARKNESS)||resPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_res_plus_dark).visibility = View.VISIBLE
+        if(resMinus.contains(Elem.DARKNESS)||resMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_res_minus_dark).visibility = View.VISIBLE
+        if(resPlus.contains(Elem.LIGHTNING)||resPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_res_plus_light).visibility = View.VISIBLE
+        if(resMinus.contains(Elem.LIGHTNING)||resMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_res_minus_light).visibility = View.VISIBLE
+        if(resPlus.contains(Elem.FIRE)||resPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_res_plus_fire).visibility = View.VISIBLE
+        if(resMinus.contains(Elem.FIRE)||resMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_res_minus_fire).visibility = View.VISIBLE
+        if(resPlus.contains(Elem.MAGIC)||resPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_res_plus_magic).visibility = View.VISIBLE
+        if(resMinus.contains(Elem.MAGIC)||resMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_res_minus_magic).visibility = View.VISIBLE
+        //weak
+        val weakPlus = armor.weak.filterNot { armorEquip.weak.contains(it) }
+        val weakMinus = armorEquip.weak.filterNot { armor.weak.contains(it) }
+        if(weakPlus.isEmpty() && weakMinus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_weak).visibility = View.GONE
+        else {
+            if (weakPlus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_weak_plus_layout).visibility = View.GONE
+            if (weakMinus.isEmpty()) dialog.findViewById<LinearLayout>(R.id.equip_comparator_armor_weak_minus_layout).visibility = View.GONE
+        }
+        if(weakPlus.contains(Elem.DARKNESS)|| weakPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_weak_plus_dark).visibility = View.VISIBLE
+        if(weakMinus.contains(Elem.DARKNESS)|| weakMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_weak_minus_dark).visibility = View.VISIBLE
+        if(weakPlus.contains(Elem.LIGHTNING)|| weakPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_weak_plus_light).visibility = View.VISIBLE
+        if(weakMinus.contains(Elem.LIGHTNING)|| weakMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_weak_minus_light).visibility = View.VISIBLE
+        if(weakPlus.contains(Elem.FIRE)|| weakPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_weak_plus_fire).visibility = View.VISIBLE
+        if(weakMinus.contains(Elem.FIRE)|| weakMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_weak_minus_fire).visibility = View.VISIBLE
+        if(weakPlus.contains(Elem.MAGIC)|| weakPlus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_weak_plus_magic).visibility = View.VISIBLE
+        if(weakMinus.contains(Elem.MAGIC)|| weakMinus.contains(Elem.ALL)) dialog.findViewById<ImageView>(R.id.equip_comparator_armor_weak_minus_magic).visibility = View.VISIBLE
+
+        dialog.findViewById<TextView>(R.id.equip_comparator_armor_weight_txt).text = armor.weight.toString()
+        dialog.findViewById<TextView>(R.id.equip_comparator_armor_weight_gap).text = DisplayUtils.stringBonus(weightGap)
+        if (defGap < 0) {
+            dialog.findViewById<TextView>(R.id.equip_comparator_armor_weight_txt).setTextColor(resources.getColor(R.color.bonus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_armor_weight_gap).setTextColor(resources.getColor(R.color.bonus))
+        } else {
+            dialog.findViewById<TextView>(R.id.equip_comparator_armor_weight_txt).setTextColor(resources.getColor(R.color.malus))
+            dialog.findViewById<TextView>(R.id.equip_comparator_armor_weight_gap).setTextColor(resources.getColor(R.color.malus))
         }
 
         dialog.findViewById<ImageView>(R.id.equip_armor_cancel_button).setOnClickListener { dialog.dismiss() }
@@ -674,21 +838,6 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             dialog.dismiss()
         }
         dialog.show()
-    }
-
-    fun fillArmorRecap(dialog: Dialog, id:Int, armor: Armor){
-        if(armor.name.isEmpty()){
-            dialog.findViewById<RecapEquipmentComponent>(id).recapName.text = getString(R.string.nothing)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.visibility = View.GONE
-            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.visibility = View.GONE
-        }else {
-            dialog.findViewById<RecapEquipmentComponent>(id).recapNameTxt.text = armor.name
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfo.text = getString(R.string.def)
-            dialog.findViewById<RecapEquipmentComponent>(id).recapInfoTxt.text = armor.def.toString()
-            dialog.findViewById<RecapEquipmentComponent>(id).recapWeightTxt.text = armor.weight.toString()
-        }
     }
 
     fun modifPref(pref: String, jewel: Jewel) {

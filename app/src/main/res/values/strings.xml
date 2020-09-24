@@ -19,6 +19,7 @@
     <string name="religion">Religion :</string>
     <string name="level">Niveau :</string>
     <string name="speed">Vitesse :</string>
+    <string name="deadly_wound">Blessure(s) grave(s) :</string>
     
     <string name="intel">INT</string>
     <string name="strength">FOR</string>
@@ -88,7 +89,9 @@
 
     <string name="weapon">Armes</string>
     <string name="left_hand">Main gauche</string>
+    <string name="left_hand2">Main\ngauche</string>
     <string name="right_hand">Main droite</string>
+    <string name="right_hand2">Main\ndroite</string>
     <string name="catalyst">Cataliseur</string>
     <string name="shield">Bouclier</string>
     <string name="armor">Armure</string>

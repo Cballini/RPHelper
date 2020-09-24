@@ -120,11 +120,9 @@ class SpellViewModel(val context: Context, character: Character, allSpells : Arr
 
     fun getTotalDamage(spell: Spell):Int{
         var dmg = 0
-        val cata = Services.getJsonWeapon(context, "catalyst")
-        val character = Services.getJsonCharacter(context)
-        if (cata.name.isNotEmpty() && spell.damage!=0){
-            dmg = spell.damage + cata.boost
-            dmg += (character.intelligence * cata.bonusInt.value + character.faith * cata.bonusFoi.value).toInt()
+        if (catalyst.name.isNotEmpty() && spell.damage!=0){
+            dmg = spell.damage + catalyst.boost
+            dmg += (character.intelligence * catalyst.bonusInt.value + character.faith * catalyst.bonusFoi.value).toInt()
             if (spell.rapidFire) {
                 val dmgTot = dmg
                 dmg = dmgTot + dmgTot/2 + dmgTot/4

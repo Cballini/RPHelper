@@ -59,13 +59,13 @@
                 android:id="@+id/indic_solo_icons_light"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/light"/>
+                android:src="@drawable/lightning"/>
             <ImageView
                 android:visibility="gone"
                 android:id="@+id/indic_solo_icons_dark"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/dark"/>
+                android:src="@drawable/darkness"/>
             <ImageView
                 android:visibility="gone"
                 android:id="@+id/indic_solo_icons_poison"
@@ -113,13 +113,13 @@
                 android:id="@+id/indic_solo_icons_bonus_light"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/light"/>
+                android:src="@drawable/lightning"/>
             <ImageView
                 android:visibility="gone"
                 android:id="@+id/indic_solo_icons_bonus_dark"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/dark"/>
+                android:src="@drawable/darkness"/>
             <ImageView
                 android:visibility="gone"
                 android:id="@+id/indic_solo_icons_bonus_poison"

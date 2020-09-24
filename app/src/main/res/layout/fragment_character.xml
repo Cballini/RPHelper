@@ -96,6 +96,15 @@
                 android:layout_marginEnd="@dimen/app_margin"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profile_religion"
+                app:layout_constraintBottom_toTopOf="@+id/profile_deadly_wound"/>
+
+            <com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
+                android:id="@+id/profile_deadly_wound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/profile_level"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

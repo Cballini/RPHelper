@@ -22,5 +22,8 @@ enum class Bonus (val value: Float){
             list.add(Bonus.E.name)
             return list
         }
+
+        @JvmStatic
+        fun compareBetterBonus(bonusIni : Bonus, bonusNew: Bonus) = bonusNew.value-bonusIni.value>=0
     }
 }

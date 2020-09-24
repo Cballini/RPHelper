@@ -2,11 +2,16 @@ package com.rphelper.cecib.rphelper
 
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
+import android.view.View.OnTouchListener
+import android.view.ViewGroup
+import android.widget.EditText
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -22,9 +27,10 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.fragments.*
-import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
+import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.viewmodel.MainViewModel
 import org.json.JSONObject
+
 
 class MainActivity : FragmentActivity() {
     private val WRITE_EXTERNAL_STORAGE_CODE = 1
@@ -48,6 +54,7 @@ class MainActivity : FragmentActivity() {
                     WRITE_EXTERNAL_STORAGE_CODE)
         }
         else{
+           //setupUI(findViewById(R.id.fragment_container), this)
             initView()
             if(this.getSharedPreferences(Preferences.FIRST_CONNEXION, Preferences.PRIVATE_MODE).getBoolean(Preferences.FIRST_CONNEXION, true)) {
                 initDatabase()
@@ -246,7 +253,6 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-
     companion object{
         lateinit var viewModel : MainViewModel
         @JvmStatic
@@ -254,5 +260,24 @@ class MainActivity : FragmentActivity() {
             return Intent().setClass(context, MainActivity::class.java)
                     .putExtra(ExtraConstants.IDP_RESPONSE, response)
         }
+
+        /*@JvmStatic
+        fun setupUI(view: View, activity: Activity) {
+            // Set up touch listener for non-text box views to hide keyboard.
+            if (view !is EditText) {
+                view.setOnTouchListener(OnTouchListener { v, event ->
+                    DisplayUtils.hideSoftKeyboard(activity)
+                    false
+                })
+            }
+
+            //If a layout container, iterate over children and seed recursion.
+            if (view is ViewGroup) {
+                for (i in 0 until (view as ViewGroup).childCount) {
+                    val innerView: View = (view as ViewGroup).getChildAt(i)
+                    setupUI(innerView, activity)
+                }
+            }
+        }*/
     }
 }

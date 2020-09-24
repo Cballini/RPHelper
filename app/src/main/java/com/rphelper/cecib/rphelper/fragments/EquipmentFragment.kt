@@ -22,6 +22,7 @@ import com.rphelper.cecib.rphelper.component.IndicSoloIconsComponent
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
+import com.rphelper.cecib.rphelper.enums.PieceEquipment
 import com.rphelper.cecib.rphelper.enums.Status
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.viewmodel.EquipmentViewModel
@@ -227,16 +228,16 @@ class EquipmentFragment : Fragment() {
             editShield()
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.hat), viewModel.equipment.hat)
+            editArmor(PieceEquipment.HAT, viewModel.equipment.hat)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.chestplate), viewModel.equipment.chest)
+            editArmor(PieceEquipment.CHEST, viewModel.equipment.chest)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.gloves), viewModel.equipment.gloves)
+            editArmor(PieceEquipment.GLOVES, viewModel.equipment.gloves)
         }
         view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentTypeLayout.setOnClickListener {
-            editArmor(getString(R.string.greaves), viewModel.equipment.greaves)
+            editArmor(PieceEquipment.GREAVES, viewModel.equipment.greaves)
         }
 
         return view
@@ -437,7 +438,7 @@ class EquipmentFragment : Fragment() {
                 })
     }
 
-    fun editArmor(type: String, armor: Armor) {
+    fun editArmor(type: PieceEquipment, armor: Armor) {
         DisplayUtils.openArmorDialog(type, armor, context!!, activity!!,
                 {
                     displayMsg(armor.name)
