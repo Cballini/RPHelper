@@ -74,7 +74,7 @@ class MainActivity : FragmentActivity() {
     }
 
     //Récup données en local
-   /* fun initDatabase(){
+   fun initDatabase(){
         val database = Firebase.database
         //character
         val charRef = database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/character")
@@ -100,16 +100,12 @@ class MainActivity : FragmentActivity() {
         val inventoryRef = database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/inventory")
         val inventory = Services.getJsonInventory(applicationContext)
         inventoryRef.setValue(inventory)
-
-        //update pref
-        val sharedPref: SharedPreferences = this.getSharedPreferences(Preferences.FIRST_CONNEXION, Preferences.PRIVATE_MODE)
-        sharedPref.edit().putBoolean(Preferences.FIRST_CONNEXION, false).apply()
-    }*/
+    }
 
     fun loadData(){
         val liveData = viewModel.getDataSnapshotLiveData()
         liveData!!.observe(this, Observer { dataSnapshot ->
-            if (dataSnapshot != null) {
+            if (dataSnapshot != null && dataSnapshot.hasChildren()) {
                 viewModel._character.value = dataSnapshot.child("character").getValue(Character::class.java)
                 viewModel._equipment.value = dataSnapshot.child("equipment").getValue(Equipment::class.java)
                 viewModel._fight.value = dataSnapshot.child("fight").getValue(Fight::class.java)
@@ -188,7 +184,7 @@ class MainActivity : FragmentActivity() {
                 viewModel._allSpells.value = allSpells
 
                 viewModel._catalyst.value = dataSnapshot.child("equipment").child("catalyst").getValue(Weapon::class.java)
-            }
+            }else initDatabase()
         })
     }
 
