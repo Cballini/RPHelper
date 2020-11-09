@@ -536,6 +536,9 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
             if (dialog.findViewById<RadioButton>(R.id.equip_weapon_left_hand).isChecked) weaponEquip = leftHand
             else if (dialog.findViewById<RadioButton>(R.id.equip_weapon_right_hand).isChecked) weaponEquip = rightHand
 
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_base_name).text = weaponEquip.name
+            dialog.findViewById<TextView>(R.id.equip_comparator_weapon_new_name).text = weapon.name
+
             val dmgGap = weapon.damage - weaponEquip.damage
             dialog.findViewById<TextView>(R.id.equip_comparator_weapon_dmg_txt).text = weapon.damage.toString()
             dialog.findViewById<TextView>(R.id.equip_comparator_weapon_dmg_gap).text = DisplayUtils.stringBonus(dmgGap)
@@ -652,6 +655,9 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         val bonusFoiNew = weapon.bonusFoi
         val weightGap = weapon.weight-catalystEquip.weight // - = bonus / + = malus
 
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_base_name).text = catalystEquip.name
+        dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_new_name).text = weapon.name
+
         dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_boost_txt).text =  weapon.boost.toString()
         dialog.findViewById<TextView>(R.id.equip_comparator_catalyst_boost_gap).text =  DisplayUtils.stringBonus(boostGap)
         if (boostGap<0) {
@@ -705,6 +711,9 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         val shieldEquip = viewModel.getShield()
         val blockGap = CalcUtils.round1decimal(shield.block-shieldEquip.block) // - = bonus, + = malus
         val weightGap = CalcUtils.round1decimal(shield.weight - shieldEquip.weight) // - = bonus / + = malus
+
+        dialog.findViewById<TextView>(R.id.equip_comparator_shield_base_name).text = shieldEquip.name
+        dialog.findViewById<TextView>(R.id.equip_comparator_shield_new_name).text = shield.name
         dialog.findViewById<TextView>(R.id.equip_comparator_shield_block_txt).text = shield.block.toString()
         dialog.findViewById<TextView>(R.id.equip_comparator_shield_block_gap).text = DisplayUtils.stringBonus(blockGap)
         if (blockGap < 0) {
@@ -764,6 +773,9 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         }
         val defGap = CalcUtils.round1decimal(armor.def-armorEquip.def) // + = bonus, - = malus
         val weightGap = CalcUtils.round1decimal(armor.weight-armorEquip.weight) // - = bonus, + = malus
+
+        dialog.findViewById<TextView>(R.id.equip_comparator_armor_base_name).text = armorEquip.name
+        dialog.findViewById<TextView>(R.id.equip_comparator_armor_new_name).text = armor.name
 
         dialog.findViewById<TextView>(R.id.equip_comparator_armor_def_txt).text = armor.def.toString()
         dialog.findViewById<TextView>(R.id.equip_comparator_armor_def_gap).text = DisplayUtils.stringBonus(defGap)

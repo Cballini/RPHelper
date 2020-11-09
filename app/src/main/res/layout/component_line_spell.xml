@@ -6,33 +6,38 @@
     android:layout_marginVertical="@dimen/txt_margin"
     android:layout_marginHorizontal="@dimen/small_margin">
 
-<TextView
-    android:id="@+id/line_spell_name"
-    android:layout_width="wrap_content"
-    android:layout_height="0dp"
-    android:text="@string/name"
-    android:textColor="@color/colorCatTitle"
-    android:padding="@dimen/txt_margin"
-    android:background="@drawable/shape_category_light"
-    android:gravity="center"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@id/line_spell_note"
-    app:layout_constraintBottom_toBottomOf="@id/line_spell_note"
-    app:layout_constraintEnd_toStartOf="@id/line_spell_note"/>
-
-    <TextView
-        android:id="@+id/line_spell_note"
+    <LinearLayout
+        android:id="@+id/line_spell_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorCatTitle"
-        android:paddingVertical="@dimen/txt_margin"
-        android:paddingHorizontal="@dimen/small_margin"
-        android:text="Description
-2 lignes"
-        android:maxLines="10"
-        android:textColor="@color/colorTxt"
-        app:layout_constraintStart_toEndOf="@+id/line_spell_name"
-        app:layout_constraintEnd_toStartOf="@+id/line_spell_damage_layout" />
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/line_spell_damage_layout">
+        <TextView
+            android:id="@+id/line_spell_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/name"
+            android:textColor="@color/colorCatTitle"
+            android:paddingRight="@dimen/small_margin"
+            android:padding="@dimen/txt_margin"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_category_light"
+            android:gravity="center"
+            android:maxEms="6"/>
+
+        <TextView
+            android:id="@+id/line_spell_note"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorCatTitle"
+            android:paddingVertical="@dimen/txt_margin"
+            android:paddingHorizontal="@dimen/small_margin"
+            android:text=""
+            android:maxEms="10"
+            android:textColor="@color/colorTxt"/>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/line_spell_damage_layout"
@@ -42,8 +47,8 @@
         android:gravity="center"
         android:background="@color/colorCatTitle"
         android:paddingHorizontal="@dimen/txt_margin"
-        app:layout_constraintTop_toTopOf="@id/line_spell_name"
-        app:layout_constraintBottom_toBottomOf="@id/line_spell_name"
+        app:layout_constraintTop_toTopOf="@id/line_spell_layout"
+        app:layout_constraintBottom_toBottomOf="@id/line_spell_layout"
         app:layout_constraintEnd_toStartOf="@+id/line_spell_mana_layout">
         <TextView
             android:id="@+id/line_spell_damage"
@@ -68,8 +73,8 @@
         android:gravity="center"
         android:background="@color/colorCatTitle"
         android:paddingHorizontal="@dimen/txt_margin"
-        app:layout_constraintTop_toTopOf="@id/line_spell_name"
-        app:layout_constraintBottom_toBottomOf="@id/line_spell_name"
+        app:layout_constraintTop_toTopOf="@id/line_spell_layout"
+        app:layout_constraintBottom_toBottomOf="@id/line_spell_layout"
         app:layout_constraintEnd_toStartOf="@id/line_spell_use_layout2">
         <TextView
             android:id="@+id/line_spell_mana"
@@ -94,8 +99,8 @@
         android:gravity="center"
         android:background="@color/colorCatTitle"
         android:paddingHorizontal="@dimen/txt_margin"
-        app:layout_constraintTop_toTopOf="@id/line_spell_name"
-        app:layout_constraintBottom_toBottomOf="@id/line_spell_name"
+        app:layout_constraintTop_toTopOf="@id/line_spell_layout"
+        app:layout_constraintBottom_toBottomOf="@id/line_spell_layout"
         app:layout_constraintEnd_toStartOf="@+id/line_spell_use_layout">
         <TextView
             android:id="@+id/line_spell_use2"
@@ -120,8 +125,8 @@
         android:gravity="center"
         android:background="@drawable/shape_category_light_txt"
         android:paddingHorizontal="@dimen/txt_margin"
-        app:layout_constraintTop_toTopOf="@id/line_spell_name"
-        app:layout_constraintBottom_toBottomOf="@id/line_spell_name"
+        app:layout_constraintTop_toTopOf="@id/line_spell_layout"
+        app:layout_constraintBottom_toBottomOf="@id/line_spell_layout"
         app:layout_constraintEnd_toEndOf="parent">
         <TextView
             android:id="@+id/line_spell_use"
