@@ -415,7 +415,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         if (viewModel.checkMana()) {
             msg = getString(R.string.warning_mana)
         } else {
-            snackMsg = getString(R.string.lost_msg) + " " + value + " points de mana et 30 points de constitution."
+            snackMsg = getString(R.string.lost_msg) + " " + value + " points de mana et 20 points de constitution." //TODO string file
         }
 
         if (msg.isNotEmpty()) {

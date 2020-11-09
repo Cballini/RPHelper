@@ -34,7 +34,7 @@ class AuthActivity: FragmentActivity() {
                 .setTheme(com.firebase.ui.auth.R.style.FirebaseUI)
                 .setLogo(R.mipmap.ic_launcher)
                 .setAvailableProviders(getProviders())
-                //.setIsSmartLockEnabled(false)
+                .setIsSmartLockEnabled(false)
 
             val customLayout = AuthMethodPickerLayout.Builder(R.layout.auth_custom_layout)
                     .setGoogleButtonId(R.id.custom_google_signin_button)

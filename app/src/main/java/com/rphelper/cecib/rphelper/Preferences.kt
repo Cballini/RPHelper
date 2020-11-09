@@ -4,7 +4,6 @@ package com.rphelper.cecib.rphelper
 
 object Preferences {
     var PRIVATE_MODE = 0
-    var FIRST_CONNEXION = "first_connexion"
 
     val PREF_MODIFIER_MANA_MAX = "modifier_mana_max"
     val PREF_MODIFIER_CONST_MAX = "modifier_const_max"

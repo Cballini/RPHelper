@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.os.Bundle
@@ -32,6 +33,7 @@ import com.google.firebase.storage.ktx.storage
 import com.google.firebase.storage.ktx.storageMetadata
 import com.bumptech.glide.Glide
 import com.rphelper.cecib.rphelper.MainActivity
+import com.rphelper.cecib.rphelper.utils.CalcUtils
 
 
 class CharacterFragment : Fragment() {
@@ -52,6 +54,20 @@ class CharacterFragment : Fragment() {
         viewModel = CharacterViewModel(context!!, MainActivity.viewModel.character.value!!, MainActivity.viewModel.equipment.value!!)
 
         initViewNotEditable(view)
+
+        //credits
+        view.findViewById<ImageView>(R.id.info).setOnClickListener {
+            val builder = AlertDialog.Builder(context)
+            with(builder)
+            {
+                setTitle(context.getString(R.string.credits_title))
+                setMessage(context.getString(R.string.credits))
+                setNeutralButton(context.getString(R.string.ok)) { dialog, which ->
+                    dialog.dismiss()
+                }
+                show()
+            }
+        }
 
         MainActivity.viewModel.character.observe(viewLifecycleOwner, Observer {
             viewModel.character = it
@@ -286,7 +302,7 @@ class CharacterFragment : Fragment() {
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_life).indicEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.lifeBonusTxt), Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, {viewModel.updateCharacterBonus()})
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.lifeBonusTxt), Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, viewModel.character, {viewModel.updateCharacterBonus()})
         }
 
         view.findViewById<IndicComponent>(R.id.indic_const).indicEdit.setOnClickListener {
@@ -297,7 +313,7 @@ class CharacterFragment : Fragment() {
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_const).indicEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.constBonusTxt), Preferences.PREF_MODIFIER_CONST_MAX_TEMP, {viewModel.updateCharacterBonus()})
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.constBonusTxt), Preferences.PREF_MODIFIER_CONST_MAX_TEMP, viewModel.character,  {viewModel.updateCharacterBonus()})
         }
 
         view.findViewById<IndicComponent>(R.id.indic_mana).indicEdit.setOnClickListener {
@@ -308,11 +324,11 @@ class CharacterFragment : Fragment() {
             viewModel.editCharacter()
         }
         view.findViewById<IndicComponent>(R.id.indic_mana).indicEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.manaBonusTxt), Preferences.PREF_MODIFIER_MANA_MAX_TEMP, {viewModel.updateCharacterBonus()})
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.manaBonusTxt), Preferences.PREF_MODIFIER_MANA_MAX_TEMP, viewModel.character, {viewModel.updateCharacterBonus()})
         }
 
         view.findViewById<IndicComponent>(R.id.indic_weight).indicEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.weightBonusTxt), Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, {viewModel.updateCharacterBonus()})
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.weightBonusTxt), Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, viewModel.character, {viewModel.updateCharacterBonus()})
         }
 
         view.findViewById<ImageView>(R.id.stat_edit).setOnClickListener {

@@ -129,7 +129,6 @@
     <string name="roll_dice">Lancer le dé</string>
     <string name="brut_dmg">Physique (brut)</string>
     <string name="elem_res_dmg">Res</string>
-    <string name="block_dmg">Parade</string>
     <string name="elem_brut_dmg">Elem (brut)</string>
     <string name="weak_dmg">Faiblesse</string>
     <string name="submit">SUBIR</string>
@@ -213,4 +212,7 @@
 
     <string name="equipment_help">DEGATS\nIls s\'ajoutent aux dégats bruts des armes.\n\nDEFENSE\nElle s\'ajoute à l\'armure.\n\nRESISTANCES\nVous êtes résistant à un élément si toutes vos pièces d\'armure possèdent cette résistance.\nAvec une résistance vous subissez seulement 20% des dégats de l\'élément concerné.\n\nIMMUNITE\nVous êtes immunisé à un statut si toutes vos pièces d\'armure possèdent cette immunité.\nAvec une immunité vous ne pouvez pas subir le statut concerné.\n\nFAIBLESSE\nSi au moins une de vos pièces d\'armure possède une faiblesse, vous êtes faible face à l\'élément concerné.\nDans ce cas vous subissez le double des dégats.</string>
     <string name="weapon_help">CLASSES D\'ARME\nS = stat x3\nA = stat x2.5\nB = stat x2\nC = stat x1.5\nD = stat x1\nE = stat x0.5\n\nEFFETS DES ARMES\nTWIN = coût 120 const, dégats x1.5 (l\'arme doit être équipée à 2 mains)\nARME A DEUX MAINS = coût attaque et blocage/2 (40 const) et + 20 dégats\nAFFINITE ELEMENTAIRE = ajout (dégats bruts de l\'arme)/2 en dégats élémentaires\nRAPID FIRE = 3 attaques causant dégats + dégats/2 + dégats/4</string>
+
+    <string name="credits_title">Crédits</string>
+    <string name="credits">Icons by <a target="_blank" href="https://icons8.com">Icons8</a></string>
 </resources>

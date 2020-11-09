@@ -109,7 +109,6 @@ class FightViewModel(val context: Context, fight: Fight, character: Character, e
     }
 
     fun frost() : Int{
-        var maxConst = CalcUtils.getConstMaxWhithoutModif(character)
         val sharedPref: SharedPreferences = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX, Preferences.PRIVATE_MODE)
         val sharedPrefTemp: SharedPreferences = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX_TEMP, Preferences.PRIVATE_MODE)
         val prefValueTemp = sharedPrefTemp.getInt(Preferences.PREF_MODIFIER_CONST_MAX_TEMP, 0)
@@ -117,11 +116,11 @@ class FightViewModel(val context: Context, fight: Fight, character: Character, e
         var value = 0
         if (fight.frost){ //cancel frost
             editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, 0)
+            editor.apply()
         }else{ //frost
-            value = -((maxConst + prefValueTemp)/2)
-            editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, value)
+            value = CalcUtils.changeConstMaxModifier(context, character, prefValueTemp)
         }
-        editor.apply()
+
         fight.frost = !fight.frost
         if (character.const.value>CalcUtils.getConstMax(context, character)){
             character.const.value = value.absoluteValue.toFloat()

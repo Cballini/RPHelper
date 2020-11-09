@@ -56,6 +56,17 @@ object CalcUtils {
     @JvmStatic
     fun getConstMaxWhithoutModif(character :Character):Int = 60 + 20*character.endurance
 
+    @JvmStatic
+    fun changeConstMaxModifier(context: Context, character: Character, prefValueTemp : Int) :Int{
+        val sharedPref: SharedPreferences = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX, Preferences.PRIVATE_MODE)
+        val editor = sharedPref.edit()
+        var maxConst = CalcUtils.getConstMaxWhithoutModif(character)
+        val value = -((maxConst + prefValueTemp)/2)
+        editor.putInt(Preferences.PREF_MODIFIER_CONST_MAX, value)
+        editor.apply()
+        return value
+    }
+
 
     @JvmStatic
     fun getDef(context: Context, character: Character, equipment: Equipment) : Int {

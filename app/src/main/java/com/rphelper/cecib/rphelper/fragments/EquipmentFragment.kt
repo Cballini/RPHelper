@@ -74,7 +74,7 @@ class EquipmentFragment : Fragment() {
             view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_damages).indicSoloEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.damageBonusTxt), Preferences.PREF_MODIFIER_DAMAGES_TEMP, { viewModel.updateEquipmentBonus() })
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.damageBonusTxt), Preferences.PREF_MODIFIER_DAMAGES_TEMP, viewModel.character, { viewModel.updateEquipmentBonus() })
         }
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloTitle.text = getString(R.string.def)
         setOnClickListenerIndicDrop(R.id.equipment_stat_defense, view)
@@ -85,7 +85,7 @@ class EquipmentFragment : Fragment() {
             view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloBonus.text = DisplayUtils.stringBonus(it!!)
         })
         view.findViewById<IndicSoloComponent>(R.id.equipment_stat_defense).indicSoloEditBonus.setOnClickListener {
-            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.defBonusTxt), Preferences.PREF_MODIFIER_DEFENSE_TEMP, { viewModel.updateEquipmentBonus() })
+            DisplayUtils.displayEditIndicBonusDialog(context!!, getString(R.string.defBonusTxt), Preferences.PREF_MODIFIER_DEFENSE_TEMP, viewModel.character, { viewModel.updateEquipmentBonus() })
         }
         view.findViewById<IndicSoloIconsComponent>(R.id.equipment_stat_res).indicSoloIconsTitle.text = getString(R.string.res)
         setOnClickListenerIconsIndicDrop(R.id.equipment_stat_res, view)

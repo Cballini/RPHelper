@@ -56,9 +56,6 @@ class MainActivity : FragmentActivity() {
         else{
            //setupUI(findViewById(R.id.fragment_container), this)
             initView()
-            if(this.getSharedPreferences(Preferences.FIRST_CONNEXION, Preferences.PRIVATE_MODE).getBoolean(Preferences.FIRST_CONNEXION, true)) {
-                initDatabase()
-            }
             loadData()
         }
     }
@@ -76,7 +73,8 @@ class MainActivity : FragmentActivity() {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
-    fun initDatabase(){
+    //Récup données en local
+   /* fun initDatabase(){
         val database = Firebase.database
         //character
         val charRef = database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/character")
@@ -106,11 +104,9 @@ class MainActivity : FragmentActivity() {
         //update pref
         val sharedPref: SharedPreferences = this.getSharedPreferences(Preferences.FIRST_CONNEXION, Preferences.PRIVATE_MODE)
         sharedPref.edit().putBoolean(Preferences.FIRST_CONNEXION, false).apply()
-
-    }
+    }*/
 
     fun loadData(){
-        viewModel = MainViewModel(applicationContext)
         val liveData = viewModel.getDataSnapshotLiveData()
         liveData!!.observe(this, Observer { dataSnapshot ->
             if (dataSnapshot != null) {
@@ -253,8 +249,12 @@ class MainActivity : FragmentActivity() {
         }
     }
 
+    init{
+        viewModel = MainViewModel(this)
+    }
+
     companion object{
-        lateinit var viewModel : MainViewModel
+       lateinit var viewModel : MainViewModel
         @JvmStatic
         open fun createIntent(context: Context, response: IdpResponse?): Intent? {
             return Intent().setClass(context, MainActivity::class.java)

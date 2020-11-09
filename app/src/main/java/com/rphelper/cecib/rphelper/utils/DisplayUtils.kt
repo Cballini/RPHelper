@@ -15,6 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.dto.Armor
+import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Shield
 import com.rphelper.cecib.rphelper.dto.Weapon
 import com.rphelper.cecib.rphelper.enums.Bonus
@@ -57,7 +58,7 @@ object DisplayUtils {
     }
 
     @JvmStatic
-    fun displayEditIndicBonusDialog(context: Context, txt: String, pref :String, toDo: () -> Unit){
+    fun displayEditIndicBonusDialog(context: Context, txt: String, pref :String, character: Character, toDo: () -> Unit){
         val builder = AlertDialog.Builder(context)
         val dialogLayout = LayoutInflater.from(context).inflate(R.layout.dialog_edit_indic, null)
         builder.setView(dialogLayout)
@@ -68,13 +69,19 @@ object DisplayUtils {
 
         builder.setPositiveButton(context.getString(R.string.ok)) { dialogInterface, i ->
             dialogInterface.dismiss()
-
             val sharedPref: SharedPreferences = context!!.getSharedPreferences(pref, Preferences.PRIVATE_MODE)
             val editor = sharedPref.edit()
             var value = 0
             if (editText.text.isNotEmpty()) { value = editText.text.toString().toInt() }
             editor.putInt(pref, value)
             editor.apply()
+            if(pref.equals(Preferences.PREF_MODIFIER_CONST_MAX_TEMP)) {
+                val sharedPrefConst: SharedPreferences = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX, Preferences.PRIVATE_MODE)
+                val prefValueConst = sharedPrefConst.getInt(Preferences.PREF_MODIFIER_CONST_MAX, 0)
+                if (prefValueConst != 0) {
+                    CalcUtils.changeConstMaxModifier(context, character, value)
+                }
+            }
             toDo()
         }
 
@@ -84,6 +91,13 @@ object DisplayUtils {
             val editor = sharedPref.edit()
             editor.putInt(pref, 0)
             editor.apply()
+            if(pref.equals(Preferences.PREF_MODIFIER_CONST_MAX_TEMP)) {
+                val sharedPrefConst: SharedPreferences = context!!.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX, Preferences.PRIVATE_MODE)
+                val prefValueConst = sharedPrefConst.getInt(Preferences.PREF_MODIFIER_CONST_MAX, 0)
+                if (prefValueConst != 0) {
+                    CalcUtils.changeConstMaxModifier(context, character, 0)
+                }
+            }
             toDo()
         }
         builder.show()
