@@ -111,57 +111,87 @@ class EquipmentViewModel (val context: Context, character: Character, equipment:
             res=""
             var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_RES, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_RES,"")
             pref += " " + context.getSharedPreferences(Preferences.PREF_MODIFIER_RES_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_RES_TEMP,"")
-            if ((equipment.hat.res.contains(Elem.FIRE) && equipment.chest.res.contains(Elem.FIRE)
-                    && equipment.gloves.res.contains(Elem.FIRE) && equipment.greaves.res.contains(Elem.FIRE)) || pref!!.contains(Elem.FIRE.name)) res += Elem.FIRE.toString()
-            if ((equipment.hat.res.contains(Elem.MAGIC) && equipment.chest.res.contains(Elem.MAGIC)
-                    && equipment.gloves.res.contains(Elem.MAGIC) && equipment.greaves.res.contains(Elem.MAGIC)) || pref!!.contains(Elem.MAGIC.name)) {
-                if(res.isNotEmpty())res += "\n"
-                res +=  Elem.MAGIC.toString()
+
+            if (checkRes(equipment, Elem.FIRE, pref!!)){
+                res += Elem.FIRE.toString()
             }
-            if ((equipment.hat.res.contains(Elem.LIGHTNING) && equipment.chest.res.contains(Elem.LIGHTNING)
-                    && equipment.gloves.res.contains(Elem.LIGHTNING) && equipment.greaves.res.contains(Elem.LIGHTNING)) || pref!!.contains(Elem.LIGHTNING.name)) {
-                if(res.isNotEmpty())res += "\n"
-                res += Elem.LIGHTNING.toString()
+            if (checkRes(equipment, Elem.MAGIC, pref!!)){
+                res += Elem.MAGIC.toString()
             }
-            if ((equipment.hat.res.contains(Elem.DARKNESS) && equipment.chest.res.contains(Elem.DARKNESS)
-                    && equipment.gloves.res.contains(Elem.DARKNESS) && equipment.greaves.res.contains(Elem.DARKNESS)) || pref!!.contains(Elem.DARKNESS.name)){
-                if(res.isNotEmpty())res += "\n"
+            if (checkRes(equipment, Elem.DARKNESS, pref!!)){
                 res += Elem.DARKNESS.toString()
             }
-            if (equipment.hat.res.contains(Elem.ALL) && equipment.chest.res.contains(Elem.ALL)
-                    && equipment.gloves.res.contains(Elem.ALL) && equipment.greaves.res.contains(Elem.ALL)){
-                res = Elem.ALL.toString()
+            if (checkRes(equipment, Elem.LIGHTNING, pref!!)){
+                res += Elem.LIGHTNING.toString()
+            }
+            if (checkRes(equipment, Elem.ALL, pref!!)){
+                res = Elem.FIRE.toString() + Elem.MAGIC.toString() + Elem.LIGHTNING.toString() + Elem.DARKNESS.toString()
             }
         }
         return res
     }
+
+    fun checkRes(equipment: Equipment, elem:Elem, pref:String) : Boolean{
+        var hasRes = false
+        if(pref.contains(elem.name)) {
+            hasRes = true
+        }
+        else{
+            if (equipment.hat.res.contains(elem) || equipment.hat.res.contains(Elem.ALL)) {
+                if (equipment.chest.res.contains(elem) || equipment.chest.res.contains(Elem.ALL)) {
+                    if (equipment.gloves.res.contains(elem) || equipment.gloves.res.contains(Elem.ALL)) {
+                        if (equipment.greaves.res.contains(elem) || equipment.greaves.res.contains(Elem.ALL)) {
+                            hasRes = true
+                        }
+                    }
+                }
+            }
+        }
+        return hasRes
+    }
+
     fun getWeak():String {
         var weak = "/"
-        if (null != equipment.hat.weak && null != equipment.chest.weak && null != equipment.gloves.weak && null != equipment.greaves.weak){
-            weak=""
-            var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK,"")
-            pref +=  " "  + context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK_TEMP,"")
-            if ((equipment.hat.weak.contains(Elem.FIRE) || equipment.chest.weak.contains(Elem.FIRE)
-                    || equipment.gloves.weak.contains(Elem.FIRE) || equipment.greaves.weak.contains(Elem.FIRE)) || pref!!.contains(Elem.FIRE.name)) weak += Elem.FIRE.toString()
-        if ((equipment.hat.weak.contains(Elem.MAGIC) || equipment.chest.weak.contains(Elem.MAGIC)
-                || equipment.gloves.weak.contains(Elem.MAGIC) || equipment.greaves.weak.contains(Elem.MAGIC)) || pref!!.contains(Elem.MAGIC.name)){
-            if (weak.isNotEmpty())weak += "\n"
-            weak += Elem.MAGIC.toString()
+        if (null != equipment.hat.weak && null != equipment.chest.weak && null != equipment.gloves.weak && null != equipment.greaves.weak) {
+            weak = ""
+            var pref = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK, "")
+            pref += " " + context.getSharedPreferences(Preferences.PREF_MODIFIER_WEAK_TEMP, Preferences.PRIVATE_MODE).getString(Preferences.PREF_MODIFIER_WEAK_TEMP, "")
+            if (checkWeak(equipment, Elem.FIRE, pref!!)) {
+                weak += Elem.FIRE.toString()
+            }
+            if (checkWeak(equipment, Elem.MAGIC, pref!!)) {
+                weak += Elem.MAGIC.toString()
+            }
+            if (checkWeak(equipment, Elem.DARKNESS, pref!!)) {
+                weak += Elem.DARKNESS.toString()
+            }
+            if (checkWeak(equipment, Elem.LIGHTNING, pref!!)) {
+                weak += Elem.LIGHTNING.toString()
+            }
+            if (checkWeak(equipment, Elem.ALL, pref!!)) {
+                weak = Elem.FIRE.toString() + Elem.MAGIC.toString() + Elem.LIGHTNING.toString() + Elem.DARKNESS.toString()
+            }
         }
-        if ((equipment.hat.weak.contains(Elem.LIGHTNING) || equipment.chest.weak.contains(Elem.LIGHTNING)
-                || equipment.gloves.weak.contains(Elem.LIGHTNING) || equipment.greaves.weak.contains(Elem.LIGHTNING)) || pref!!.contains(Elem.LIGHTNING.name)){
-            if (weak.isNotEmpty())weak += "\n"
-            weak +=Elem.LIGHTNING.toString()
-        }
-        if ((equipment.hat.weak.contains(Elem.DARKNESS) || equipment.chest.weak.contains(Elem.DARKNESS)
-                || equipment.gloves.weak.contains(Elem.DARKNESS) || equipment.greaves.weak.contains(Elem.DARKNESS)) || pref!!.contains(Elem.DARKNESS.name)){
-            if (weak.isNotEmpty())weak += "\n"
-            weak += Elem.DARKNESS.toString()
-        }
-            if (equipment.hat.weak.contains(Elem.ALL) || equipment.chest.weak.contains(Elem.ALL)
-                    || equipment.gloves.weak.contains(Elem.ALL) || equipment.greaves.weak.contains(Elem.ALL)) weak += Elem.FIRE.toString()
-    }
         return weak
+    }
+
+    fun checkWeak(equipment: Equipment, elem:Elem, pref:String) : Boolean{
+        var hasWeak = false
+        if(pref.contains(elem.name)) {
+            hasWeak = true
+        }
+        else{
+            if (equipment.hat.weak.contains(elem) || equipment.hat.weak.contains(Elem.ALL)) {
+                if (equipment.chest.weak.contains(elem) || equipment.chest.weak.contains(Elem.ALL)) {
+                    if (equipment.gloves.weak.contains(elem) || equipment.gloves.weak.contains(Elem.ALL)) {
+                        if (equipment.greaves.weak.contains(elem) || equipment.greaves.weak.contains(Elem.ALL)) {
+                            hasWeak = true
+                        }
+                    }
+                }
+            }
+        }
+        return hasWeak
     }
 
     fun getImmun():String{
