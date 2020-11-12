@@ -11,11 +11,16 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.rphelper.cecib.rphelper.MainActivity
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.Services
+import com.rphelper.cecib.rphelper.adapter.HistoryAdapter
+import com.rphelper.cecib.rphelper.adapter.SpellKnownAdapter
 import com.rphelper.cecib.rphelper.component.DamageComponent
+import com.rphelper.cecib.rphelper.component.IndicComponent
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.dto.Fight
@@ -27,6 +32,9 @@ import kotlin.math.absoluteValue
 
 class FightFragment : Fragment() {
     private lateinit var viewModel: FightViewModel
+    private lateinit var historyRecyclerView: RecyclerView
+    private lateinit var historyViewAdapter: RecyclerView.Adapter<*>
+    private lateinit var historyViewManager: RecyclerView.LayoutManager
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -210,6 +218,16 @@ class FightFragment : Fragment() {
             if (view.findViewById<DamageComponent>(R.id.fight_calc_recovery).damageButton3.isChecked){val mana = viewModel.recoverMana(recovery); msgHeal(getString(R.string.mana), recovery, mana)}
         }
 
+        view.findViewById<ImageView>(R.id.fight_history_drop).setOnClickListener {
+            if(view.findViewById<RecyclerView>(R.id.fight_history_recycler).visibility == View.GONE){
+                view.findViewById<RecyclerView>(R.id.fight_history_recycler).visibility = View.VISIBLE
+                view.findViewById<ImageView>(R.id.fight_history_drop).setImageResource(R.drawable.ic_arrow_drop_up)
+            }else{
+                view.findViewById<RecyclerView>(R.id.fight_history_recycler).visibility = View.GONE
+                view.findViewById<ImageView>(R.id.fight_history_drop).setImageResource(R.drawable.ic_arrow_drop_down)
+            }
+        }
+
         /********* ACTIONS *************/
         view.findViewById<Button>(R.id.fight_action_attack).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), 80,  viewModel.attackOrBlock()) }
         view.findViewById<Button>(R.id.fight_action_twin).setOnClickListener { checkAndDisplayAlert(getString(R.string.constitution), 120, viewModel.twin()) }
@@ -225,9 +243,49 @@ class FightFragment : Fragment() {
         view.findViewById<Button>(R.id.fight_action_poison).setOnClickListener { checkAndDisplayAlert(getString(R.string.pv),(CalcUtils.getLifeMax(context!!, Services.getJsonCharacter(context!!))*0.05).toInt(), viewModel.getPoison())}
         view.findViewById<Button>(R.id.fight_action_frost).setOnClickListener {
             val const = viewModel.frost()
-            if(viewModel.fight.frost) Snackbar.make(view, context!!.getString(R.string.activ_msg_frost) + " " +const.absoluteValue, Snackbar.LENGTH_LONG).show()
-            else Snackbar.make(view, context!!.getString(R.string.annul_msg_frost), Snackbar.LENGTH_SHORT).show()
+            if(viewModel.fight.frost) {
+                viewModel._lastMsg.value = context!!.getString(R.string.activ_msg_frost) + " " + const.absoluteValue
+                Snackbar.make(view, viewModel.lastMsg.value.toString(), Snackbar.LENGTH_LONG).show()
+            }
+            else {
+                viewModel._lastMsg.value = context!!.getString(R.string.annul_msg_frost)
+                Snackbar.make(view, viewModel.lastMsg.value.toString(), Snackbar.LENGTH_SHORT).show()
+            }
         }
+
+
+        /*********** HISTORY **************/
+        historyViewManager = LinearLayoutManager(this.context)
+        historyViewAdapter = HistoryAdapter(viewModel.getHistory())
+
+        historyRecyclerView = view.findViewById<RecyclerView>(R.id.fight_history_recycler).apply {
+            // use a linear layout manager
+            layoutManager = historyViewManager
+            // specify an viewAdapter (see also next example)
+            adapter = historyViewAdapter
+        }
+
+        viewModel.lastMsg.observe(viewLifecycleOwner, Observer {
+            if(it.isNotBlank()) {
+                val history = viewModel.getHistory()
+                var newHistory = ArrayList<String>()
+                newHistory.add(it)
+                if (history.size < 10) {
+                    newHistory.addAll(history)
+                } else {
+                    newHistory.addAll(history.dropLast(1))
+                }
+                viewModel.editHistory(newHistory)
+                historyViewAdapter = HistoryAdapter(newHistory)
+                historyRecyclerView.apply {
+                    // use a linear layout manager
+                    layoutManager = historyViewManager
+
+                    // specify an viewAdapter (see also next example)
+                    adapter = historyViewAdapter
+                }
+            }
+        })
 
         return view
     }
@@ -239,18 +297,16 @@ class FightFragment : Fragment() {
             getString(R.string.pv)->{
                 if(viewModel.checkLife()){
                     msg = getString(R.string.warning_life) + "Il vous reste : " + stat + "/" + viewModel.getLifeMax()+"."
-                }else{
-                    snackMsg = getString(R.string.lost_msg) + " " + value + " points de vie. (" + stat + "/" + viewModel.getLifeMax()+"pv)."
                 }
+                snackMsg = getString(R.string.lost_msg) + " " + value + " points de vie. (" + stat + "/" + viewModel.getLifeMax()+"pv)."
             }
             getString(R.string.constitution)->{
                 if(viewModel.checkConst(30)){
                     msg = getString(R.string.warning_const30)
                 }else if(viewModel.checkConst(80)){
                     msg = getString(R.string.warning_const80)
-                }else{
-                    snackMsg = getString(R.string.lost_msg) + " " + value + " points de constitution. (" + stat + "/" + viewModel.getConstMax() +"pc)."
                 }
+                snackMsg = getString(R.string.lost_msg) + " " + value + " points de constitution. (" + stat + "/" + viewModel.getConstMax() +"pc)."
             }
         }
         if (msg.isNotEmpty()){
@@ -262,7 +318,10 @@ class FightFragment : Fragment() {
                 setNeutralButton(getString(R.string.ok)) { dialog, which -> dialog.cancel() }
                 show()
             }
-        }else{ Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_LONG).show() }
+        }else{
+            Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_LONG).show()
+        }
+        viewModel._lastMsg.value = snackMsg
     }
 
     fun msgHeal(type:String, value : Int, stat: Int){
@@ -273,6 +332,7 @@ class FightFragment : Fragment() {
             getString(R.string.mana) -> snackMsg = getString(R.string.win_msg) + " " + value + " points de mana. (" + stat + "/" + viewModel.getManaMax() + "pm)."
         }
         Snackbar.make(view!!, snackMsg, Snackbar.LENGTH_LONG).show()
+        viewModel._lastMsg.value = snackMsg
     }
 
 }

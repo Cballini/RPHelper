@@ -28,6 +28,7 @@ object FileUtils {
                 context.getString(R.string.file_fight) -> fileObject.writeText(readJsonAsset(context, context.getString(R.string.file_empty_fight)))
                 context.getString(R.string.file_spells) -> fileObject.writeText(readJsonAsset(context, context.getString(R.string.file_empty_spells)))
                 context.getString(R.string.file_inventory) -> fileObject.writeText(readJsonAsset(context, context.getString(R.string.file_empty_inventory)))
+                context.getString(R.string.file_history) -> fileObject.writeText("[]")
                 else -> fileObject.writeText("{}")
             }
         }

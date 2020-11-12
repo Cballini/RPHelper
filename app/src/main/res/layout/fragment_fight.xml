@@ -261,6 +261,61 @@
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fight_history_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/txt_margin"
+            android:layout_marginHorizontal="@dimen/app_margin"
+            android:layout_marginVertical="@dimen/app_margin"
+            android:background="@color/white"
+            android:elevation="1dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/fight_status_layout">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_border"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/txt_margin">
+                <ImageView
+                    android:id="@+id/fight_history_drop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/txt_margin"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_arrow_drop_up"
+                    android:tint="@color/colorPrimaryDark"/>
+            <TextView
+                android:id="@+id/fight_history_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textColor="@color/colorTxt"
+                android:textSize="@dimen/title_txt"
+                android:text="@string/history"
+                android:textAlignment="center"/>
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fight_history_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                tools:listitem="@layout/component_line_history"
+                android:paddingBottom="@dimen/app_margin"/>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/fight_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/big_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fight_history_layout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -82,6 +82,11 @@
     <string name="warning_armor_type">Attention vous devez sélectionner le type de votre pièce d\'armure.</string>
     <string name="nothing">Rien</string>
     <string name="inventory_disequip_all">Déséquiper tout </string>
+    <string name="history">Historique</string>
+    <string name="damage_suffered">Dégâts subis</string>
+    <string name="heal_pv_done">Points de vie soignés</string>
+    <string name="heal_mana_done">Points de mana récupérés</string>
+    <string name="heal_const_done">Points de constitution récupérés</string>
 
     <string name="choose_type_item">Type d\'objet(s)</string>
     <string name="type">Type</string>
@@ -189,11 +194,13 @@
     <string name="file_fight">fight.json</string>
     <string name="file_spells">spells.json</string>
     <string name="file_inventory">inventory.json</string>
+    <string name="file_history">history.json</string>
     <string name="file_empty_character">empty_character.json</string>
     <string name="file_empty_equipment">empty_equipment.json</string>
     <string name="file_empty_fight">empty_fight.json</string>
     <string name="file_empty_spells">empty_spells.json</string>
     <string name="file_empty_inventory">empty_inventory.json</string>
+    <string name="file_empty_history">empty_history.json</string>
 
     <string name="help">Aide</string>
     <string name="indic_help">Max VIE de base = 200 + (20 x Vitalité).\nSi vous arrivez à 0 vous subissez une blessure grave. Au bout de 3 votre personnage est définitivement mort.\n\nMax CONST de base = 60 + (20 x Endurance).\nLa constitution est utile pour attaquer, bloquer, esquiver et lancer des sorts.\n\nMax MANA de base = 40 + (5 x Mémoire).\nLe mana est utile pour lancer des sorts.\n\nPOIDS max = 40 + Vigueur.\nIl influe sur la capacité à porter des équipements et sur la vitesse.</string>

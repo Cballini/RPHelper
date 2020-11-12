@@ -82,6 +82,12 @@ object Services {
         return Gson().fromJson<Fight>(FileUtils.readJsonFile(context,context.getString(R.string.file_fight)), Fight::class.java)
     }
 
+    @JvmStatic
+    fun getLocalHistory(context: Context): ArrayList<String> {
+        val sType = object : TypeToken<ArrayList<String>>() { }.type
+        return Gson().fromJson<ArrayList<String>>(FileUtils.readJsonFile(context,context.getString(R.string.file_history)), sType)
+    }
+
 
     /******** EDIT *******/
     @JvmStatic
@@ -98,4 +104,10 @@ object Services {
 
     @JvmStatic
     fun editFight(fight: Fight) = Firebase.database.getReference("user/" + FirebaseAuth.getInstance().currentUser!!.uid +"/fight").setValue(fight)
+
+    @JvmStatic
+    fun editLocalHistory(context: Context, entries: List<String>) {
+        val entriesString = Gson().toJson(entries)
+        FileUtils.editJsonFile(context, context.getString(R.string.file_history), entriesString)
+    }
 }

@@ -20,6 +20,12 @@ class FightViewModel(val context: Context, fight: Fight, character: Character, e
     var character = character
     var equipment = equipment
 
+    val _lastMsg = MutableLiveData<String>()
+    val lastMsg : LiveData<String> get() = _lastMsg
+    init {
+        _lastMsg.value = ""
+    }
+
     fun getLifeMax() = CalcUtils.getLifeMax(context, character)
     fun getManaMax() = CalcUtils.getManaMax(context, character)
     fun getConstMax() = CalcUtils.getConstMax(context, character)
@@ -148,5 +154,7 @@ class FightViewModel(val context: Context, fight: Fight, character: Character, e
         return last
     }
 
+    fun getHistory() = Services.getLocalHistory(context)
+    fun editHistory(entries:ArrayList<String>) = Services.editLocalHistory(context, entries)
 
 }
