@@ -214,30 +214,134 @@ class EquipmentFragment : Fragment() {
             }
         }
 
+        /*********SELECT VISIBILITY**********/
+        //TODO voir default ?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if(viewModel.equipment.leftHand.inHand)view.findViewById<ImageView>(R.id.equipment_left_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+            else view.findViewById<ImageView>(R.id.equipment_left_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+            if(viewModel.equipment.rightHand.inHand)view.findViewById<ImageView>(R.id.equipment_right_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.lightGreen)
+            else view.findViewById<ImageView>(R.id.equipment_right_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+        }
+        view.findViewById<ImageView>(R.id.equipment_left_hand_panel).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(viewModel.equipment.leftHand.inHand)view.findViewById<ImageView>(R.id.equipment_left_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                else view.findViewById<ImageView>(R.id.equipment_left_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                if(viewModel.equipment.rightHand.inHand)view.findViewById<ImageView>(R.id.equipment_right_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.lightGreen)
+                else view.findViewById<ImageView>(R.id.equipment_right_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+            }
+            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).visibility = View.VISIBLE
+            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).visibility = View.GONE
+        }
+        view.findViewById<ImageView>(R.id.equipment_right_hand_panel).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(viewModel.equipment.rightHand.inHand)view.findViewById<ImageView>(R.id.equipment_right_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                else view.findViewById<ImageView>(R.id.equipment_right_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                if(viewModel.equipment.leftHand.inHand)view.findViewById<ImageView>(R.id.equipment_left_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.lightGreen)
+                else view.findViewById<ImageView>(R.id.equipment_left_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+            }
+            view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).visibility = View.VISIBLE
+            view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).visibility = View.GONE
+        }
+
+        //TODO voir default ?
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if(viewModel.equipment.catalyst.inHand)view.findViewById<ImageView>(R.id.equipment_catalyst_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+            else view.findViewById<ImageView>(R.id.equipment_catalyst_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+            if(viewModel.equipment.shield.inHand)view.findViewById<ImageView>(R.id.equipment_shield_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.lightGreen)
+            else view.findViewById<ImageView>(R.id.equipment_shield_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+        }
+        view.findViewById<ImageView>(R.id.equipment_catalyst_panel).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(viewModel.equipment.catalyst.inHand)view.findViewById<ImageView>(R.id.equipment_catalyst_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                else view.findViewById<ImageView>(R.id.equipment_catalyst_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                if(viewModel.equipment.shield.inHand)view.findViewById<ImageView>(R.id.equipment_shield_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.lightGreen)
+                else view.findViewById<ImageView>(R.id.equipment_shield_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+            }
+            view.findViewById<EquipmentComponent>(R.id.equipment_catalyst).visibility = View.VISIBLE
+            view.findViewById<EquipmentComponent>(R.id.equipment_shield).visibility = View.GONE
+        }
+        view.findViewById<ImageView>(R.id.equipment_shield_panel).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if(viewModel.equipment.shield.inHand)view.findViewById<ImageView>(R.id.equipment_shield_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                else view.findViewById<ImageView>(R.id.equipment_shield_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                if(viewModel.equipment.catalyst.inHand)view.findViewById<ImageView>(R.id.equipment_catalyst_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.lightGreen)
+                else view.findViewById<ImageView>(R.id.equipment_catalyst_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+            }
+            view.findViewById<EquipmentComponent>(R.id.equipment_shield).visibility = View.VISIBLE
+            view.findViewById<EquipmentComponent>(R.id.equipment_catalyst).visibility = View.GONE
+        }
+        view.findViewById<ImageView>(R.id.equipment_hat_panel).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.findViewById<ImageView>(R.id.equipment_hat_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                view.findViewById<ImageView>(R.id.equipment_chest_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_gloves_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_greaves_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+            }
+            view.findViewById<EquipmentComponent>(R.id.equipment_hat).visibility = View.VISIBLE
+            view.findViewById<EquipmentComponent>(R.id.equipment_chest).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).visibility = View.GONE
+        }
+        view.findViewById<ImageView>(R.id.equipment_chest_panel).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.findViewById<ImageView>(R.id.equipment_hat_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_chest_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                view.findViewById<ImageView>(R.id.equipment_gloves_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_greaves_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+            }
+            view.findViewById<EquipmentComponent>(R.id.equipment_hat).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_chest).visibility = View.VISIBLE
+            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).visibility = View.GONE
+        }
+        view.findViewById<ImageView>(R.id.equipment_gloves_panel).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.findViewById<ImageView>(R.id.equipment_hat_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_chest_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_gloves_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                view.findViewById<ImageView>(R.id.equipment_greaves_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+            }
+            view.findViewById<EquipmentComponent>(R.id.equipment_hat).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_chest).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).visibility = View.VISIBLE
+            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).visibility = View.GONE
+        }
+        view.findViewById<ImageView>(R.id.equipment_greaves_panel).setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.findViewById<ImageView>(R.id.equipment_hat_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_chest_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_gloves_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimaryUnselect)
+                view.findViewById<ImageView>(R.id.equipment_greaves_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+            }
+            view.findViewById<EquipmentComponent>(R.id.equipment_hat).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_chest).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_gloves).visibility = View.GONE
+            view.findViewById<EquipmentComponent>(R.id.equipment_greaves).visibility = View.VISIBLE
+        }
 
         /*********** EDIT **********/
-        view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentTypeLayout.setOnClickListener {
+        view.findViewById<EquipmentComponent>(R.id.equipment_left_hand).equipmentEdit.setOnClickListener {
             editWeapon(getString(R.string.left_hand), viewModel.equipment.leftHand)
         }
-        view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentTypeLayout.setOnClickListener {
+        view.findViewById<EquipmentComponent>(R.id.equipment_right_hand).equipmentEdit.setOnClickListener {
             editWeapon(getString(R.string.right_hand), viewModel.equipment.rightHand)
         }
-        view.findViewById<EquipmentComponent>(R.id.equipment_catalyst).equipmentTypeLayout.setOnClickListener {
+        view.findViewById<EquipmentComponent>(R.id.equipment_catalyst).equipmentEdit.setOnClickListener {
             editWeapon(getString(R.string.catalyst), viewModel.equipment.catalyst)
         }
-        view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentTypeLayout.setOnClickListener {
+        view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentEdit.setOnClickListener {
             editShield()
         }
-        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentTypeLayout.setOnClickListener {
+        view.findViewById<EquipmentComponent>(R.id.equipment_hat).equipmentEdit.setOnClickListener {
             editArmor(PieceEquipment.HAT, viewModel.equipment.hat)
         }
-        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentTypeLayout.setOnClickListener {
+        view.findViewById<EquipmentComponent>(R.id.equipment_chest).equipmentEdit.setOnClickListener {
             editArmor(PieceEquipment.CHEST, viewModel.equipment.chest)
         }
-        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentTypeLayout.setOnClickListener {
+        view.findViewById<EquipmentComponent>(R.id.equipment_gloves).equipmentEdit.setOnClickListener {
             editArmor(PieceEquipment.GLOVES, viewModel.equipment.gloves)
         }
-        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentTypeLayout.setOnClickListener {
+        view.findViewById<EquipmentComponent>(R.id.equipment_greaves).equipmentEdit.setOnClickListener {
             editArmor(PieceEquipment.GREAVES, viewModel.equipment.greaves)
         }
 
@@ -246,11 +350,10 @@ class EquipmentFragment : Fragment() {
 
     fun initWeaponView(view: View, id: Int, type: String, weapon: Weapon?) {
         weapon?.let {
-            view!!.findViewById<EquipmentComponent>(id).equipmentType.text = type
             view!!.findViewById<EquipmentComponent>(id).equipment_name.text = weapon.name
-            changeEquipmentInHand(id, weapon.inHand)
+            changeEquipmentInHand(id, weapon.inHand, type, true)
             view!!.findViewById<EquipmentComponent>(id).equipmentInHand.setOnCheckedChangeListener{ compoundButton, b ->
-                changeEquipmentInHand(id, compoundButton.isChecked)
+                changeEquipmentInHand(id, compoundButton.isChecked, type, false)
                 weapon.inHand = compoundButton.isChecked
                 viewModel.editEquipment()
             }
@@ -308,9 +411,14 @@ class EquipmentFragment : Fragment() {
     }
 
     fun initShieldView(view: View, shield: Shield) {
-        view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentType.text = getString(R.string.shield)
             shield?.let {
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipment_name.text = it.name
+                changeEquipmentInHand(R.id.equipment_shield, shield.inHand, getString(R.string.shield), true)
+                view!!.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentInHand.setOnCheckedChangeListener{ compoundButton, b ->
+                    changeEquipmentInHand(R.id.equipment_shield, compoundButton.isChecked, getString(R.string.shield), false)
+                    shield.inHand = compoundButton.isChecked
+                    viewModel.editEquipment()
+                }
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTitle.text = getString(R.string.block)
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentFirstPanelTxt.text = it.block.toString()
                 view.findViewById<EquipmentComponent>(R.id.equipment_shield).equipmentSecondPanelTitle.text = getString(R.string.res)
@@ -347,7 +455,8 @@ class EquipmentFragment : Fragment() {
     }
 
     fun initArmorView(view: View, id: Int, type: String, armor: Armor?) {
-        view!!.findViewById<EquipmentComponent>(id).equipmentType.text = type
+        view!!.findViewById<EquipmentComponent>(id).equipmentInHandImg.visibility = View.GONE
+        view!!.findViewById<EquipmentComponent>(id).equipmentInHand.visibility = View.GONE
         view!!.findViewById<EquipmentComponent>(id).equipment_name.text = armor!!.name
         view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTitle.text = getString(R.string.def)
         view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanelTxt.text = armor!!.def.toString()
@@ -563,11 +672,16 @@ class EquipmentFragment : Fragment() {
         builder.show()
     }
 
-    fun changeEquipmentInHand(id:Int, isChecked : Boolean){
+    fun changeEquipmentInHand(id:Int, isChecked : Boolean, type:String, isInit : Boolean){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (isChecked) {
+                when(type){
+                    getString(R.string.left_hand) -> view!!.findViewById<ImageView>(R.id.equipment_left_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                    getString(R.string.right_hand) -> view!!.findViewById<ImageView>(R.id.equipment_right_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                    getString(R.string.catalyst) -> view!!.findViewById<ImageView>(R.id.equipment_catalyst_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                    getString(R.string.shield) -> view!!.findViewById<ImageView>(R.id.equipment_shield_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                }
                 view!!.findViewById<EquipmentComponent>(id).equipmentInHand.isChecked = true
-                view!!.findViewById<EquipmentComponent>(id).equipmentTypeLayout.backgroundTintList = context!!.resources.getColorStateList(R.color.green)
                 view!!.findViewById<EquipmentComponent>(id).equipmentNameLayout.backgroundTintList = context!!.resources.getColorStateList(R.color.green)
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.background = context!!.getDrawable(R.drawable.shape_border_select)
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.background = context!!.getDrawable(R.drawable.shape_border_select)
@@ -580,8 +694,15 @@ class EquipmentFragment : Fragment() {
                 view!!.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.background = context!!.getDrawable(R.drawable.shape_border_select)
             }
             else {
+                if(!isInit) {
+                    when (type) {
+                        getString(R.string.left_hand) -> view!!.findViewById<ImageView>(R.id.equipment_left_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                        getString(R.string.right_hand) -> view!!.findViewById<ImageView>(R.id.equipment_right_hand_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                        getString(R.string.catalyst) -> view!!.findViewById<ImageView>(R.id.equipment_catalyst_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                        getString(R.string.shield) -> view!!.findViewById<ImageView>(R.id.equipment_shield_panel).backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                    }
+                }
                 view!!.findViewById<EquipmentComponent>(id).equipmentInHand.isChecked = false
-                view!!.findViewById<EquipmentComponent>(id).equipmentTypeLayout.backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
                 view!!.findViewById<EquipmentComponent>(id).equipmentNameLayout.backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.background = context!!.getDrawable(R.drawable.shape_border)
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.background = context!!.getDrawable(R.drawable.shape_border)

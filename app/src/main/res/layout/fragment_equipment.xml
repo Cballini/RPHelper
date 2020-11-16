@@ -76,37 +76,94 @@
                 android:padding="@dimen/txt_margin"
                 android:layout_gravity="end"/>
 
-            <com.rphelper.cecib.rphelper.component.EquipmentComponent
-                android:id="@+id/equipment_left_hand"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingEnd="@dimen/txt_margin"
-                android:paddingBottom="@dimen/small_margin"
-                android:paddingStart="@dimen/small_margin"/>
+                android:orientation="horizontal"
+                android:padding="@dimen/txt_margin">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="24dp">
+                    <ImageView
+                        android:id="@+id/equipment_left_hand_panel"
+                        android:layout_width="50dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/left_hand"
+                        android:tint="@color/white"
+                        android:background="@drawable/shape_category_light"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/equipment_right_hand_panel"/>
+                    <ImageView
+                        android:id="@+id/equipment_right_hand_panel"
+                        android:layout_width="50dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/right_hand"
+                        android:tint="@color/white"
+                        android:layout_marginTop="@dimen/little_space"
+                        android:background="@drawable/shape_category_light"
+                        android:backgroundTint="@color/colorPrimaryUnselect"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/equipment_left_hand_panel"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <com.rphelper.cecib.rphelper.component.EquipmentComponent
-                    android:id="@+id/equipment_right_hand"
+                    android:id="@+id/equipment_left_hand"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="@dimen/txt_margin"
-                    android:paddingVertical="@dimen/small_margin"
-                    android:paddingEnd="@dimen/small_margin"/>
-            <com.rphelper.cecib.rphelper.component.EquipmentComponent
-                android:id="@+id/equipment_catalyst"
+                    android:layout_weight="1" />
+                <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                    android:id="@+id/equipment_right_hand"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingStart="@dimen/txt_margin"
-                android:paddingVertical="@dimen/small_margin"
-                android:paddingEnd="@dimen/small_margin"/>
-
-            <com.rphelper.cecib.rphelper.component.EquipmentComponent
-                android:id="@+id/equipment_shield"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="@dimen/small_margin"/>
+                android:orientation="horizontal"
+                android:padding="@dimen/txt_margin">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="24dp">
+                    <ImageView
+                        android:id="@+id/equipment_catalyst_panel"
+                        android:layout_width="50dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/catalyst"
+                        android:tint="@color/white"
+                        android:background="@drawable/shape_category_light"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/equipment_shield_panel"/>
+                    <ImageView
+                        android:id="@+id/equipment_shield_panel"
+                        android:layout_width="50dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/shield"
+                        android:tint="@color/white"
+                        android:layout_marginTop="@dimen/little_space"
+                        android:background="@drawable/shape_category_light"
+                        android:backgroundTint="@color/colorPrimaryUnselect"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/equipment_catalyst_panel"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                    android:id="@+id/equipment_catalyst"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+                <com.rphelper.cecib.rphelper.component.EquipmentComponent
+                    android:id="@+id/equipment_shield"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -119,40 +176,87 @@
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/equipment_weapons_layout">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/txt_margin">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="24dp">
+                    <ImageView
+                        android:id="@+id/equipment_hat_panel"
+                        android:layout_width="50dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/hat"
+                        android:tint="@color/white"
+                        android:background="@drawable/shape_category_light"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toTopOf="@+id/equipment_chest_panel"/>
+                    <ImageView
+                        android:id="@+id/equipment_chest_panel"
+                        android:layout_width="50dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/chest"
+                        android:tint="@color/white"
+                        android:layout_marginTop="@dimen/little_space"
+                        android:background="@drawable/shape_category_light"
+                        android:backgroundTint="@color/colorPrimaryUnselect"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/equipment_hat_panel"
+                        app:layout_constraintBottom_toTopOf="@+id/equipment_gloves_panel"/>
+                    <ImageView
+                        android:id="@+id/equipment_gloves_panel"
+                        android:layout_width="50dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/gloves"
+                        android:tint="@color/white"
+                        android:layout_marginTop="@dimen/little_space"
+                        android:background="@drawable/shape_category_light"
+                        android:backgroundTint="@color/colorPrimaryUnselect"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/equipment_chest_panel"
+                        app:layout_constraintBottom_toTopOf="@+id/equipment_greaves_panel"/>
+                    <ImageView
+                        android:id="@+id/equipment_greaves_panel"
+                        android:layout_width="50dp"
+                        android:layout_height="0dp"
+                        android:src="@drawable/greaves"
+                        android:tint="@color/white"
+                        android:layout_marginTop="@dimen/little_space"
+                        android:background="@drawable/shape_category_light"
+                        android:backgroundTint="@color/colorPrimaryUnselect"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/equipment_gloves_panel"/>
+                </androidx.constraintlayout.widget.ConstraintLayout>
                 <com.rphelper.cecib.rphelper.component.EquipmentComponent
                     android:id="@+id/equipment_hat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="@dimen/txt_margin"
-                    android:paddingVertical="@dimen/small_margin"
-                    android:paddingStart="@dimen/small_margin"/>
+                    android:layout_weight="1"/>
                 <com.rphelper.cecib.rphelper.component.EquipmentComponent
                     android:id="@+id/equipment_chest"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="@dimen/txt_margin"
-                    android:paddingVertical="@dimen/small_margin"
-                    android:paddingEnd="@dimen/small_margin"/>
-
-
+                    android:layout_weight="1"/>
                 <com.rphelper.cecib.rphelper.component.EquipmentComponent
                     android:id="@+id/equipment_gloves"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="@dimen/txt_margin"
-                    android:paddingVertical="@dimen/small_margin"
-                    android:paddingStart="@dimen/small_margin"/>
+                    android:layout_weight="1"/>
                 <com.rphelper.cecib.rphelper.component.EquipmentComponent
                     android:id="@+id/equipment_greaves"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingStart="@dimen/txt_margin"
-                    android:paddingVertical="@dimen/small_margin"
-                    android:paddingEnd="@dimen/small_margin"/>
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
         </LinearLayout>
 
         <View

@@ -30,7 +30,8 @@ class InventoryViewModel (val context: Context, inventory: Inventory, stuff: Mut
     fun getInventoryWeight():Float{
         var weight = 0F
         for (item in stuff){
-            if (item is Stuff)  weight += item.weight
+            if (item is Item) weight += (item.weight * item.quantity)
+            else if (item is Stuff)  weight += item.weight
         }
         return weight
     }

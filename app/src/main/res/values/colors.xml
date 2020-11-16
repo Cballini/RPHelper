@@ -4,12 +4,14 @@
     <color name="colorPrimaryDark">#7A3025</color>
     <color name="colorAccent">#687EB5</color>
 
+    <color name="lightGreen">#62B083</color>
     <color name="green">#27ae60</color>
     <color name="grey">#E3E3E3</color>
     <color name="medium_grey">#989898</color>
     <color name="red">#E13A15</color>
     <color name="bonus">#038387</color>
     <color name="malus">#c0392b</color>
+    <color name="colorPrimaryUnselect">#E1756F</color>
 
     <color name="colorCatTitle">#FBF8F6</color>
     <color name="colorTxt">#263238</color>

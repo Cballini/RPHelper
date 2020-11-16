@@ -181,15 +181,12 @@ class EquipmentViewModel (val context: Context, character: Character, equipment:
             hasWeak = true
         }
         else{
-            if (equipment.hat.weak.contains(elem) || equipment.hat.weak.contains(Elem.ALL)) {
-                if (equipment.chest.weak.contains(elem) || equipment.chest.weak.contains(Elem.ALL)) {
-                    if (equipment.gloves.weak.contains(elem) || equipment.gloves.weak.contains(Elem.ALL)) {
-                        if (equipment.greaves.weak.contains(elem) || equipment.greaves.weak.contains(Elem.ALL)) {
+            if (equipment.hat.weak.contains(elem) || equipment.hat.weak.contains(Elem.ALL) ||
+                    equipment.chest.weak.contains(elem) || equipment.chest.weak.contains(Elem.ALL) ||
+                    equipment.gloves.weak.contains(elem) || equipment.gloves.weak.contains(Elem.ALL) ||
+                    equipment.greaves.weak.contains(elem) || equipment.greaves.weak.contains(Elem.ALL)) {
                             hasWeak = true
                         }
-                    }
-                }
-            }
         }
         return hasWeak
     }

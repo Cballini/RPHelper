@@ -13,7 +13,7 @@
         android:textAlignment="center"
         android:textSize="@dimen/cat_txt"
         android:textColor="@color/colorCatTitle"
-        android:background="@drawable/shape_indic"
+        android:background="@drawable/shape_indic_top"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView

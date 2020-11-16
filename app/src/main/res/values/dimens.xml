@@ -6,6 +6,7 @@
     <dimen name="big_margin_floating">80dp</dimen>
     <dimen name="floating_margin">40dp</dimen>
     <dimen name="txt_margin">5dp</dimen>
+    <dimen name="little_space">2dp</dimen>
 
     <dimen name="cat_txt">16sp</dimen>
     <dimen name="title_txt">20sp</dimen>

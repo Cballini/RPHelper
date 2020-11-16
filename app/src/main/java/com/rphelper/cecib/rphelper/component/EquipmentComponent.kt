@@ -14,12 +14,11 @@ class EquipmentComponent @JvmOverloads constructor(
         context: Context,
         attrs: AttributeSet? = null
 ) : ConstraintLayout(context, attrs) {
-    var equipmentTypeLayout : LinearLayout
-    var equipmentType : TextView
-
-    var equipmentNameLayout : LinearLayout
+    var equipmentNameLayout : ConstraintLayout
     var equipmentName : TextView
     var equipmentInHand : CheckBox
+    var equipmentInHandImg : ImageView
+    var equipmentEdit : ImageView
 
     var equipmentFirstPanel :LinearLayout
     var equipmentFirstPanelTitle : TextView
@@ -62,12 +61,11 @@ class EquipmentComponent @JvmOverloads constructor(
 
     init {
         LayoutInflater.from(context).inflate(R.layout.component_equipment, this, true)
-        equipmentTypeLayout = findViewById(R.id.equipment_type_layout)
-        equipmentType = findViewById(R.id.equipment_type)
-
         equipmentNameLayout = findViewById(R.id.equipment_name_layout)
         equipmentName = findViewById(R.id.equipment_name)
         equipmentInHand = findViewById(R.id.equipment_in_hand_checkbox)
+        equipmentInHandImg = findViewById(R.id.equipment_in_hand_img)
+        equipmentEdit = findViewById(R.id.equipment_edit)
 
         equipmentFirstPanel = findViewById(R.id.equipment_panel_first_panel)
         equipmentFirstPanelTitle = findViewById(R.id.equipment_panel_first_panel_title)
