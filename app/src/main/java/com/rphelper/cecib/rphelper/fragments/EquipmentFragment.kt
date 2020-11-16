@@ -3,6 +3,7 @@ package com.rphelper.cecib.rphelper.fragments
 
 import android.app.AlertDialog
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -247,6 +248,12 @@ class EquipmentFragment : Fragment() {
         weapon?.let {
             view!!.findViewById<EquipmentComponent>(id).equipmentType.text = type
             view!!.findViewById<EquipmentComponent>(id).equipment_name.text = weapon.name
+            changeEquipmentInHand(id, weapon.inHand)
+            view!!.findViewById<EquipmentComponent>(id).equipmentInHand.setOnCheckedChangeListener{ compoundButton, b ->
+                changeEquipmentInHand(id, compoundButton.isChecked)
+                weapon.inHand = compoundButton.isChecked
+                viewModel.editEquipment()
+            }
             if (type.equals(context!!.getString(R.string.catalyst))) {
                 view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.visibility = View.GONE
                 view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.visibility = View.VISIBLE
@@ -554,5 +561,38 @@ class EquipmentFragment : Fragment() {
         }
 
         builder.show()
+    }
+
+    fun changeEquipmentInHand(id:Int, isChecked : Boolean){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (isChecked) {
+                view!!.findViewById<EquipmentComponent>(id).equipmentInHand.isChecked = true
+                view!!.findViewById<EquipmentComponent>(id).equipmentTypeLayout.backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                view!!.findViewById<EquipmentComponent>(id).equipmentNameLayout.backgroundTintList = context!!.resources.getColorStateList(R.color.green)
+                view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.background = context!!.getDrawable(R.drawable.shape_border_select)
+                view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.background = context!!.getDrawable(R.drawable.shape_border_select)
+                view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanel.background = context!!.getDrawable(R.drawable.shape_border_select)
+                view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanel.background = context!!.getDrawable(R.drawable.shape_border_select)
+                view!!.findViewById<EquipmentComponent>(id).equipmentBonusForLayout.background = context!!.getDrawable(R.drawable.shape_border_select)
+                view!!.findViewById<EquipmentComponent>(id).equipmentBonusDexLayout.background = context!!.getDrawable(R.drawable.shape_border_select)
+                view!!.findViewById<EquipmentComponent>(id).equipmentBonusIntLayout.background = context!!.getDrawable(R.drawable.shape_border_select)
+                view!!.findViewById<EquipmentComponent>(id).equipmentBonusFoiLayout.background = context!!.getDrawable(R.drawable.shape_border_select)
+                view!!.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.background = context!!.getDrawable(R.drawable.shape_border_select)
+            }
+            else {
+                view!!.findViewById<EquipmentComponent>(id).equipmentInHand.isChecked = false
+                view!!.findViewById<EquipmentComponent>(id).equipmentTypeLayout.backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                view!!.findViewById<EquipmentComponent>(id).equipmentNameLayout.backgroundTintList = context!!.resources.getColorStateList(R.color.colorPrimary)
+                view!!.findViewById<EquipmentComponent>(id).equipmentFirstPanel.background = context!!.getDrawable(R.drawable.shape_border)
+                view!!.findViewById<EquipmentComponent>(id).equipmentSecondPanel.background = context!!.getDrawable(R.drawable.shape_border)
+                view!!.findViewById<EquipmentComponent>(id).equipmentThirdPanel.background = context!!.getDrawable(R.drawable.shape_border)
+                view!!.findViewById<EquipmentComponent>(id).equipmentFourthPanel.background = context!!.getDrawable(R.drawable.shape_border)
+                view!!.findViewById<EquipmentComponent>(id).equipmentBonusForLayout.background = context!!.getDrawable(R.drawable.shape_border)
+                view!!.findViewById<EquipmentComponent>(id).equipmentBonusDexLayout.background = context!!.getDrawable(R.drawable.shape_border)
+                view!!.findViewById<EquipmentComponent>(id).equipmentBonusIntLayout.background = context!!.getDrawable(R.drawable.shape_border)
+                view!!.findViewById<EquipmentComponent>(id).equipmentBonusFoiLayout.background = context!!.getDrawable(R.drawable.shape_border)
+                view!!.findViewById<EquipmentComponent>(id).equipmentLargePanelLayout.background = context!!.getDrawable(R.drawable.shape_border)
+            }
+        }
     }
 }

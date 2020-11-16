@@ -6,9 +6,11 @@ class Shield (name:String, weight:Float) : Stuff(name, weight){
     var block: Float = 1F
     var res = ArrayList<Elem>()
     var equip = true
+    var inHand = false
 
     constructor():this("", 0F){
         equip = false
+        inHand = false
     }
 
     fun reinit(){

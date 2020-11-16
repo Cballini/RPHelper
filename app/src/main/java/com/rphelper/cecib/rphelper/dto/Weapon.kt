@@ -15,9 +15,11 @@ class Weapon (name:String, var damage:Int, weight:Float) : Stuff(name, weight){
     var statusValue : Float = 0F
     var rapidFire = false
     var equip = true
+    var inHand = false
 
     constructor():this("", 0, 0F){
         equip = false
+        inHand = false
     }
 
     fun reinit(){
