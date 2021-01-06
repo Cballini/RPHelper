@@ -6,8 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.firebase.database.DataSnapshot
-import com.rphelper.cecib.rphelper.Preferences
-import com.rphelper.cecib.rphelper.Services
+import com.rphelper.cecib.rphelper.*
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.dto.Spell
@@ -105,15 +104,15 @@ class SpellViewModel(val context: Context, character: Character, allSpells : Arr
         val sharedPref: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_MEM, Preferences.PRIVATE_MODE)
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_MEM, 0)
         val mem = character.memory + prefValue
-        var max = 3
-        if(mem>=15){
-            max = 4
+        var max = NB_SPELLS_BASE_MEMORY
+        if(mem>= MEMORY_FLOOR_1){
+            max = NB_SPELLS_BASE_MEMORY+1
         }
-        if(mem>=25){
-            max = 5
+        if(mem>= MEMORY_FLOOR_2){
+            max = NB_SPELLS_BASE_MEMORY+2
         }
-        if(mem>=35){
-            max = 6
+        if(mem>= MEMORY_FLOOR_3){
+            max = NB_SPELLS_BASE_MEMORY+3
         }
         return  max
     }
@@ -132,7 +131,7 @@ class SpellViewModel(val context: Context, character: Character, allSpells : Arr
     }
 
     fun attack(spell: Spell){
-        character.const.value -= 20
+        character.const.value -= COST_SPELL_CONST
         character.mana.value -= spell.mana
         Services.editCharacter(character)
     }

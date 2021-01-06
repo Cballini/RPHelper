@@ -5,9 +5,7 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.DataSnapshot
-import com.rphelper.cecib.rphelper.Preferences
-import com.rphelper.cecib.rphelper.Services
+import com.rphelper.cecib.rphelper.*
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.dto.Fight
@@ -76,25 +74,25 @@ class FightViewModel(val context: Context, fight: Fight, character: Character, e
     }
 
     fun attackOrBlock() : Int{
-        character.const.value -= 80
+        character.const.value -= COST_ATTACK_CONST
         Services.editCharacter(character)
         return character.const.value.toInt()
     }
 
     fun attack2Hands() : Int{
-        character.const.value -= 40
+        character.const.value -= COST_2HANDS_CONST
         Services.editCharacter(character)
         return character.const.value.toInt()
     }
 
     fun dodge():Int{
-        character.const.value -= 40
+        character.const.value -= COST_DODGE_CONST
         Services.editCharacter(character)
         return character.const.value.toInt()
     }
 
     fun twin():Int{
-        character.const.value -= 120
+        character.const.value -= COST_TWIN_CONST
         Services.editCharacter(character)
         return character.const.value.toInt()
     }
@@ -108,7 +106,7 @@ class FightViewModel(val context: Context, fight: Fight, character: Character, e
     }
 
     fun getPoison():Int{
-        val damages = (CalcUtils.getLifeMax(context, character)*0.05).toInt()
+        val damages = (CalcUtils.getLifeMax(context, character)* POISON_FACTOR).toInt()
         character.life.value -= damages
         Services.editCharacter(character)
         return character.life.value.toInt()

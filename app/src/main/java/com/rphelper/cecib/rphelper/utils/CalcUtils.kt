@@ -96,7 +96,7 @@ object CalcUtils {
         dmg += (character.strength*weapon.bonusFor.value + character.dexterity*weapon.bonusDex.value).toInt()
         if (weapon.rapidFire) {
             val dmgTot = dmg
-            dmg = dmgTot + dmgTot/2 + dmgTot/4
+            dmg = dmgTot + dmgTot/3 + dmgTot/6
         }
         return dmg
     }

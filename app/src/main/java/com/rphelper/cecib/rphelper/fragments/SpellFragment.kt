@@ -2,6 +2,7 @@ package com.rphelper.cecib.rphelper.fragments
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
+import com.rphelper.cecib.rphelper.COST_SPELL_CONST
 import com.rphelper.cecib.rphelper.MainActivity
+import com.rphelper.cecib.rphelper.NB_SPELLS_BASE_MEMORY
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.SpellKnownAdapter
 import com.rphelper.cecib.rphelper.component.SpellComponent
@@ -42,7 +45,7 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         viewModel = SpellViewModel(context!!, MainActivity.viewModel.character.value!!, MainActivity.viewModel.allSpells.value!!, MainActivity.viewModel.catalyst.value!!)
 
         /********* Equip spells ********/
-        var maxSpells = 3
+        var maxSpells = NB_SPELLS_BASE_MEMORY
         MainActivity.viewModel.character.observe(viewLifecycleOwner, Observer {
             viewModel.character = it
             maxSpells = viewModel.getMaxEquipSpells()
@@ -65,31 +68,103 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
         //First spell
         viewModel.firstEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_first_equip, getString(R.string.spell1), it)
+            if (viewModel.character.mana.value<it.mana || viewModel.character.const.value< COST_SPELL_CONST) {
+                view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_first_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
         })
 
         //Second spell
         viewModel.secondEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_second_equip, getString(R.string.spell2), it)
+            if (viewModel.character.mana.value<it.mana|| viewModel.character.const.value< COST_SPELL_CONST) {
+                view.findViewById<SpellComponent>(R.id.spell_second_equip).spellButton.isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_second_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<SpellComponent>(R.id.spell_second_equip).spellButton.isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_second_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
         })
 
         //Third spell
         viewModel.thirdEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_third_equip, getString(R.string.spell3), it)
+            if (viewModel.character.mana.value<it.mana|| viewModel.character.const.value< COST_SPELL_CONST) {
+                view.findViewById<SpellComponent>(R.id.spell_third_equip).spellButton.isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_third_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<SpellComponent>(R.id.spell_third_equip).spellButton.isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_third_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
         })
 
         //Fourth spell
         viewModel.fourthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_fourth_equip, getString(R.string.spell4), it)
+            if (viewModel.character.mana.value<it.mana|| viewModel.character.const.value< COST_SPELL_CONST) {
+                view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellButton.isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellButton.isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_fourth_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
         })
 
         //Fifth spell
         viewModel.fifthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_fifth_equip, getString(R.string.spell5), it)
+            if (viewModel.character.mana.value<it.mana|| viewModel.character.const.value< COST_SPELL_CONST) {
+                view.findViewById<SpellComponent>(R.id.spell_fifth_equip).spellButton.isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_fifth_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<SpellComponent>(R.id.spell_fifth_equip).spellButton.isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_fifth_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
         })
 
         //Sixth spell
         viewModel.sixthEquipSpell.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             initSpellView(view, R.id.spell_sixth_equip, getString(R.string.spell6), it)
+            if (viewModel.character.mana.value<it.mana|| viewModel.character.const.value< COST_SPELL_CONST) {
+                view.findViewById<SpellComponent>(R.id.spell_sixth_equip).spellButton.isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_sixth_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<SpellComponent>(R.id.spell_sixth_equip).spellButton.isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<SpellComponent>(R.id.spell_sixth_equip).spellButton.backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
         })
 
         //Help

@@ -2,6 +2,7 @@ package com.rphelper.cecib.rphelper.fragments
 
 
 import android.app.AlertDialog
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -14,19 +15,19 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
-import com.rphelper.cecib.rphelper.MainActivity
-import com.rphelper.cecib.rphelper.R
-import com.rphelper.cecib.rphelper.Services
+import com.rphelper.cecib.rphelper.*
 import com.rphelper.cecib.rphelper.adapter.HistoryAdapter
 import com.rphelper.cecib.rphelper.adapter.SpellKnownAdapter
 import com.rphelper.cecib.rphelper.component.DamageComponent
 import com.rphelper.cecib.rphelper.component.IndicComponent
+import com.rphelper.cecib.rphelper.component.SpellComponent
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.dto.Equipment
 import com.rphelper.cecib.rphelper.dto.Fight
 import com.rphelper.cecib.rphelper.dto.Inventory
 import com.rphelper.cecib.rphelper.utils.CalcUtils
 import com.rphelper.cecib.rphelper.viewmodel.FightViewModel
+import kotlinx.android.synthetic.main.component_damage_calc.view.*
 import kotlin.math.absoluteValue
 
 
@@ -100,6 +101,66 @@ class FightFragment : Fragment() {
         })
         MainActivity.viewModel.character.observe(viewLifecycleOwner, Observer {
             viewModel.character = it
+            if(it.const.value< COST_ATTACK_CONST) {
+                view.findViewById<Button>(R.id.fight_action_attack).isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_attack).backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<Button>(R.id.fight_action_attack).isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_attack).backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
+            if(it.const.value< COST_TWIN_CONST) {
+                view.findViewById<Button>(R.id.fight_action_twin).isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_twin).backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<Button>(R.id.fight_action_twin).isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_twin).backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
+            if(it.const.value< COST_2HANDS_CONST){
+                view.findViewById<Button>(R.id.fight_action_attack_2_hands).isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_attack_2_hands).backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<Button>(R.id.fight_action_attack_2_hands).isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_attack_2_hands).backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
+            if(it.const.value< COST_BLOCK_CONST) {
+                view.findViewById<Button>(R.id.fight_action_block).isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_block).backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<Button>(R.id.fight_action_block).isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_block).backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
+            if(it.const.value< COST_DODGE_CONST) {
+                view.findViewById<Button>(R.id.fight_action_dodge).isEnabled = false
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_dodge).backgroundTintList =  resources.getColorStateList(R.color.medium_grey)
+                }
+            }
+            else{
+                view.findViewById<Button>(R.id.fight_action_dodge).isEnabled = true
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    view.findViewById<Button>(R.id.fight_action_dodge).backgroundTintList =  resources.getColorStateList(R.color.colorAccent)
+                }
+            }
         })
         MainActivity.viewModel.equipment.observe(viewLifecycleOwner, Observer {
             viewModel.equipment = it
