@@ -237,6 +237,7 @@ class MainActivity : FragmentActivity() {
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                     // permission was granted, yay!
                     initView()
+                    loadData()
                 } else {
                     this.finish()
                 }
