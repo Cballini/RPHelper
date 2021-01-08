@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="inventory_filter_array">
+        <item>@string/type</item>
+        <item>@string/equip</item>
+        <item>@string/alphabetical</item>
+        <item>@string/first_weapon</item>
+        <item>@string/first_shield</item>
+        <item>@string/first_armor</item>
+        <item>@string/first_jewel</item>
+        <item>@string/first_item</item>
+    </string-array>
+</resources>

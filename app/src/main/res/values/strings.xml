@@ -79,6 +79,7 @@
     <string name="desc">Description</string>
     <string name="quantity">Quantité</string>
     <string name="nb">NB</string>
+    <string name="filter_by">Trier par :</string>
     <string name="warning_armor_type">Attention vous devez sélectionner le type de votre pièce d\'armure.</string>
     <string name="nothing">Rien</string>
     <string name="inventory_disequip_all">Déséquiper tout </string>
@@ -87,6 +88,12 @@
     <string name="heal_pv_done">Points de vie soignés</string>
     <string name="heal_mana_done">Points de mana récupérés</string>
     <string name="heal_const_done">Points de constitution récupérés</string>
+    <string name="alphabetical">Ordre alphabetique</string>
+    <string name="first_weapon">Armes en 1er</string>
+    <string name="first_shield">Boucliers en 1er</string>
+    <string name="first_armor">Armures en 1er</string>
+    <string name="first_jewel">Accessoires en 1er</string>
+    <string name="first_item">Objets en 1er</string>
 
     <string name="choose_type_item">Type d\'objet(s)</string>
     <string name="type">Type</string>

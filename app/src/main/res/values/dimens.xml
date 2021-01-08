@@ -15,6 +15,7 @@
 
     <dimen name="button_height">42dp</dimen>
     <dimen name="double_button_height">84dp</dimen>
+    <dimen name="spinner_weight">125dp</dimen>
 
     <dimen name="icon_margin">120dp</dimen>
 </resources>

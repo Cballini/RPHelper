@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:tint="@color/white"
             android:src="@drawable/ic_hand"
-            android:padding="@dimen/small_margin"
+            android:paddingHorizontal="@dimen/small_margin"
             android:layout_gravity="center"
             android:background="#ea6e65"/>
         <ImageView
@@ -52,7 +52,7 @@
             android:layout_height="match_parent"
             android:tint="@color/white"
             android:src="@drawable/ic_delete"
-            android:padding="@dimen/small_margin"
+            android:paddingHorizontal="@dimen/small_margin"
             android:layout_gravity="center"
             android:background="#e9584d"/>
         <ImageView
@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:tint="@color/white"
             android:src="@drawable/ic_edit"
-            android:padding="@dimen/small_margin"
+            android:paddingHorizontal="@dimen/small_margin"
             android:layout_gravity="center"
             android:background="#e63f35"/>
 
@@ -71,11 +71,12 @@
         android:id="@+id/line_main_layout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <com.rphelper.cecib.rphelper.component.LineItemComponent
-        android:id="@+id/line_item_component"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="match_parent">
+
+        <com.rphelper.cecib.rphelper.component.LineItemComponent
+            android:id="@+id/line_item_component"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 

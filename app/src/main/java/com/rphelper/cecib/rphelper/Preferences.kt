@@ -33,4 +33,6 @@ object Preferences {
     val PREF_MODIFIER_RES_TEMP = "modifier_res_temp"
     val PREF_MODIFIER_IMMUN_TEMP = "modifier_immun_temp"
     val PREF_MODIFIER_WEAK_TEMP = "modifier_weak_temp"
+
+    val PREF_INVENTORY_FILTER = "pref_inventory_filter"
 }
