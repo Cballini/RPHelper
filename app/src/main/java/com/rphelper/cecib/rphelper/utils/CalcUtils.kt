@@ -23,7 +23,7 @@ object CalcUtils {
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_WEIGHT_MAX, 0)
         val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, Preferences.PRIVATE_MODE)
         val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, 0)
-        return 40 + character.vigor + prefValue + prefValue2
+        return 40 + character.vigor*2 + prefValue + prefValue2
     }
 
     @JvmStatic
@@ -76,8 +76,8 @@ object CalcUtils {
         val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_DEFENSE_TEMP, 0)
         var def = 50F + prefValue + prefValue2
         def += equipment.hat.def + equipment.chest.def + equipment.gloves.def + equipment.greaves.def
-        def += (character.vitality.toFloat()/2 + character.memory.toFloat()/2 + character.endurance.toFloat()/2 + character.vigor
-                + character.strength.toFloat()/2 + character.dexterity.toFloat()/2 + character.intelligence.toFloat()/2 + character.faith.toFloat()/2)
+        def += (character.vitality.toFloat()/2 + character.memory.toFloat()/2 + character.endurance.toFloat()/2 + character.vigor*2
+                + character.strength.toFloat() + character.dexterity.toFloat()/2 + character.faith.toFloat()/2)
         return def.toInt()
     }
 

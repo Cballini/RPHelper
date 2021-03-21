@@ -140,6 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/txt_margin"
+            android:paddingBottom="@dimen/app_margin"
             tools:listitem="@layout/component_line_item"
             app:layout_constraintTop_toBottomOf="@+id/inventory_title_layout"
             app:layout_constraintBottom_toBottomOf="parent"/>

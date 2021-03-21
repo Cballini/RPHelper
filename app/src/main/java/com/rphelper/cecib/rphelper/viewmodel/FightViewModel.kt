@@ -98,7 +98,7 @@ class FightViewModel(val context: Context, fight: Fight, character: Character, e
     }
 
     fun bleed(damages: Int):Int{
-        character.life.value -= damages
+        character.life.value -= damages/2
         Services.editCharacter(character)
         fight.bleed = damages
         saveFight()

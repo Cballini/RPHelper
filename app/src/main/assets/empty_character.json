@@ -5,6 +5,7 @@
   "religion" : "",
   "level" : "0",
   "don" : "",
+  "characterDon" : [],
   "life" : {
     "value" : "0",
     "maxValue" : "0"

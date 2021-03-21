@@ -1,0 +1,46 @@
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/don_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/txt_margin"
+        android:text="@string/don"
+        android:textAlignment="center"
+        android:textSize="@dimen/cat_txt"
+        android:textColor="@color/colorCatTitle"
+        android:background="@drawable/shape_indic_top"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/don_add"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/ic_add_box"
+        android:tint="@color/colorCatTitle"
+        android:paddingVertical="@dimen/txt_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/don_title"
+        app:layout_constraintBottom_toBottomOf="@+id/don_title"/>
+
+    <LinearLayout
+        android:id="@+id/don_recycler_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/shape_indic_txt"
+        android:paddingVertical="@dimen/txt_margin"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/don_title">
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/don_recycler"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           tools:listitem="@layout/component_swipe_don" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

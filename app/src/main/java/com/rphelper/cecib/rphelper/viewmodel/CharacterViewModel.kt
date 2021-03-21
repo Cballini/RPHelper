@@ -131,12 +131,48 @@ class CharacterViewModel(val context: Context, character: Character, equipment: 
 
     fun getSpeed() = CalcUtils.getSpeed(context, character, equipment)
 
-    fun getDiplo() =35 + character.intelligence + character.memory
-    fun getPsy() = 35 + character.faith + character.dexterity
-    fun getKnow() =30 + character.intelligence + character.memory
-    fun getPush() =35 + character.vigor + character.strength
-    fun getSneak() =35 + character.dexterity + character.endurance
-    fun getCraft() =35 + character.intelligence + character.dexterity
+    fun getDiplo(): Int {
+        var formula = (character.intelligence + character.strength)/2 + character.intelligence + 35
+        if(formula>=45){
+            if(formula - getSkillReduction() >= 45) formula -= getSkillReduction() else formula = 45
+        }
+        return formula
+    }
+    fun getPsy(): Int {
+        var formula = (character.faith*2 + 35 )
+        if(formula>=45){
+            if(formula - getSkillReduction() >= 45) formula -= getSkillReduction() else formula = 45
+        }
+        return formula
+    }
+    fun getKnow(): Int {
+        var formula = (character.intelligence + character.memory)/2 + character.memory + 30
+        if(formula>=45){
+            if(formula - getSkillReduction() >= 45) formula -= getSkillReduction() else formula = 45
+        }
+        return formula
+    }
+    fun getPush(): Int {
+        var formula = (character.strength + character.vigor)/2 + character.strength + 35
+        if(formula>=45){
+            if(formula - getSkillReduction() >= 45) formula -= getSkillReduction() else formula = 45
+        }
+        return formula
+    }
+    fun getSneak(): Int {
+        var formula = (character.dexterity + character.vigor)/2 + character.dexterity + 35
+        if(formula>=45){
+            if(formula - getSkillReduction() >= 45) formula -= getSkillReduction() else formula = 45
+        }
+        return formula
+    }
+    fun getCraft(): Int {
+        var formula = character.memory + character.dexterity + 35
+        if(formula>=45){
+            if(formula - getSkillReduction() >= 45) formula -= getSkillReduction() else formula = 45
+        }
+        return formula
+    }
 
     fun getLifeMax():Int{
         val max = CalcUtils.getLifeMax(context, character)
@@ -179,5 +215,11 @@ class CharacterViewModel(val context: Context, character: Character, equipment: 
         _manaMax.value = getManaMax()
         _constBonus.value = getConstBonus()
         _constMax.value = getConstMax()
+    }
+
+    fun getSkillReduction(): Int {
+        var reduction = 0;
+        if(character.characterDon.size>1) reduction = (character.characterDon.size -1) * 4
+        return reduction;
     }
 }

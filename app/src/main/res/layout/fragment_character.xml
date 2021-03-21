@@ -475,16 +475,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/app_margin"
+        android:orientation="vertical"
         android:background="@color/white"
         android:elevation="1dp"
         android:padding="@dimen/app_margin"
         app:layout_constraintTop_toBottomOf="@+id/skill_layout">
-        <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
+        <com.rphelper.cecib.rphelper.component.DonComponent
             android:id="@+id/don_cat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:layout_marginBottom="@dimen/app_margin"/>
+
+        <com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
+            android:id="@+id/don_bonus_cat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

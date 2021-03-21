@@ -4,7 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Typeface
 import android.os.Bundle
@@ -15,29 +14,36 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
+import com.google.firebase.storage.ktx.storageMetadata
+import com.rphelper.cecib.rphelper.MainActivity
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.R
+import com.rphelper.cecib.rphelper.adapter.DonAdapter
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
 import com.rphelper.cecib.rphelper.component.CategoryVerticalComponent
+import com.rphelper.cecib.rphelper.component.DonComponent
 import com.rphelper.cecib.rphelper.component.IndicComponent
 import com.rphelper.cecib.rphelper.dto.Character
 import com.rphelper.cecib.rphelper.utils.DisplayUtils
+import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 import com.rphelper.cecib.rphelper.viewmodel.CharacterViewModel
-import com.google.firebase.storage.ktx.storage
-import com.google.firebase.storage.ktx.storageMetadata
-import com.bumptech.glide.Glide
-import com.rphelper.cecib.rphelper.MainActivity
-import com.rphelper.cecib.rphelper.utils.CalcUtils
 
 
-class CharacterFragment : Fragment() {
-
+class CharacterFragment : Fragment(), RecyclerViewClickListener {
+    private lateinit var recyclerViewDon: RecyclerView
+    private lateinit var viewAdapterDon: RecyclerView.Adapter<*>
+    private lateinit var viewManagerDon: RecyclerView.LayoutManager
     lateinit var viewModel : CharacterViewModel
     var profileIsOnEdit = false
     var statIsOnEdit = false
@@ -97,7 +103,16 @@ class CharacterFragment : Fragment() {
 
                 fillStatsWithBonus(view, it!!)
 
-                if (it.don.isNotEmpty()) view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setText(it.don)
+                if (it.don.isNotEmpty()) view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalCurrent.setText(it.don)
+                viewManagerDon = LinearLayoutManager(this.context)
+                viewAdapterDon = DonAdapter(viewModel.character.characterDon, this)
+                recyclerViewDon = view.findViewById<DonComponent>(R.id.don_cat).donRecycler.apply {
+                    // use a linear layout manager
+                    layoutManager = viewManagerDon
+
+                    // specify an viewAdapter (see also next example)
+                    adapter = viewAdapterDon
+                }
             }
         })
 
@@ -238,7 +253,12 @@ class CharacterFragment : Fragment() {
         }
 
         //Don
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalTitle.text = getString(R.string.don)
+        view.findViewById<DonComponent>(R.id.don_cat).donAdd.setOnClickListener {
+            openDonDialog("", -1)
+            //TODO rg comp = -8*donSize vérif
+        }
+
+        view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalTitle.text = getString(R.string.don_bonus)
 
         /************ EDIT ***********/
         view.findViewById<ImageView>(R.id.profile_picture).setOnClickListener {
@@ -377,18 +397,18 @@ class CharacterFragment : Fragment() {
             }
         }
 
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalEdit.setOnClickListener {
+        view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalEdit.setOnClickListener {
             if (donIsOnEdit){
                 donIsOnEdit = false
-                viewModel.character.don = view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.text.toString()
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalEdit.setImageResource(R.drawable.ic_edit)
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setEnabled(false)
+                viewModel.character.don = view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalCurrent.text.toString()
+                view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalEdit.setImageResource(R.drawable.ic_edit)
+                view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalCurrent.setEnabled(false)
                 viewModel.editCharacter()
             }else{
                 donIsOnEdit = true
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalEdit.setImageResource(R.drawable.ic_check)
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.hint = "Entrez vos dons"
-                view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setEnabled(true)
+                view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalEdit.setImageResource(R.drawable.ic_check)
+                view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalCurrent.hint = getString(R.string.hint_don_bonus)
+                view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalCurrent.setEnabled(true)
             }
         }
 
@@ -428,7 +448,7 @@ class CharacterFragment : Fragment() {
         view.findViewById<TextView>(R.id.stat_int).setEnabled(false)
         view.findViewById<TextView>(R.id.stat_foi).setEnabled(false)
 
-        view.findViewById<CategoryVerticalComponent>(R.id.don_cat).catVerticalCurrent.setEnabled(false)
+        view.findViewById<CategoryVerticalComponent>(R.id.don_bonus_cat).catVerticalCurrent.setEnabled(false)
     }
 
     fun setOnClickListenerIndicDrop(id:Int, view: View){
@@ -574,6 +594,48 @@ class CharacterFragment : Fragment() {
                 Log.e("upload", "success")
                 //TODO snackbar
             }
+        }
+    }
+
+    override fun onItemClicked(position: Int, v: View, id: Int) {
+        when(id){
+            R.id.line_don_button_edit -> {
+                openDonDialog(viewModel.character.characterDon[position], position)
+            }
+            R.id.line_don_button_delete -> {
+                viewModel.character.characterDon.removeAt(position)
+                viewModel.editCharacter()
+            }
+        }
+    }
+
+    private fun openDonDialog(don: String, position: Int) {
+        val builder = AlertDialog.Builder(context)
+        val input = EditText(context)
+        val lp: LinearLayout.LayoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT)
+        input.layoutParams = lp
+        input.setText(don)
+        builder.setView(input)
+        with(builder)
+        {
+            setTitle(context.getString(R.string.hint_don))
+            setNegativeButton(context.getString(R.string.cancel)) { dialog, which ->
+                dialog.dismiss()
+            }
+            setPositiveButton(context.getString(R.string.save)) { dialog, which ->
+                if(input.text.toString().isNotEmpty()){
+                    if(position!=-1){
+                        viewModel.character.characterDon[position] = input.text.toString()
+                    }else{
+                        viewModel.character.characterDon.add(input.text.toString())
+                    }
+                    viewModel.editCharacter()
+                }
+                dialog.dismiss()
+            }
+            show()
         }
     }
 }

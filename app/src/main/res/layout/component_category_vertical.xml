@@ -1,4 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/life_layout"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/txt_margin"
-        android:text="@string/don"
+        android:text="@string/don_bonus"
         android:textAlignment="center"
         android:textSize="@dimen/cat_txt"
         android:textColor="@color/colorCatTitle"
