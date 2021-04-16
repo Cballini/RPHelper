@@ -161,6 +161,8 @@
     <string name="edit">Modifier</string>
     <string name="delete">Supprimer</string>
     <string name="confirm_delete">Etes-vous sûr(e) de vouloir supprimmer cet objet ?</string>
+    <string name="confirm_delete_don">Etes-vous sûr(e) de vouloir supprimmer ce don ?</string>
+    <string name="confirm_delete_spell">Etes-vous sûr(e) de vouloir supprimmer ce sort ?</string>
     <string name="cancel">Annuler</string>
     <string name="save">Enregistrer</string>
     <string name="disequip">Déséquiper</string>

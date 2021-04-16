@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.EquipmentFragment">
+    tools:context=".fragments.EquipmentFragment"
+    android:background="@color/dark_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
             android:padding="@dimen/small_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             android:gravity="start"
             android:orientation="vertical"
@@ -63,7 +64,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/equipment_stat_layout">
@@ -171,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/equipment_weapons_layout">

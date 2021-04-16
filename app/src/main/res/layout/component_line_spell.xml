@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginVertical="@dimen/txt_margin"
-    android:layout_marginHorizontal="@dimen/small_margin">
+    android:layout_marginVertical="@dimen/txt_margin">
 
     <LinearLayout
         android:id="@+id/line_spell_layout"
@@ -31,7 +30,7 @@
             android:id="@+id/line_spell_note"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorCatTitle"
+            android:background="@color/dark_background"
             android:paddingVertical="@dimen/txt_margin"
             android:paddingHorizontal="@dimen/small_margin"
             android:text=""
@@ -45,7 +44,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@color/colorCatTitle"
+        android:background="@color/dark_background"
         android:paddingHorizontal="@dimen/txt_margin"
         app:layout_constraintTop_toTopOf="@id/line_spell_layout"
         app:layout_constraintBottom_toBottomOf="@id/line_spell_layout"
@@ -71,7 +70,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@color/colorCatTitle"
+        android:background="@color/dark_background"
         android:paddingHorizontal="@dimen/txt_margin"
         app:layout_constraintTop_toTopOf="@id/line_spell_layout"
         app:layout_constraintBottom_toBottomOf="@id/line_spell_layout"
@@ -97,7 +96,7 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@color/colorCatTitle"
+        android:background="@color/dark_background"
         android:paddingHorizontal="@dimen/txt_margin"
         app:layout_constraintTop_toTopOf="@id/line_spell_layout"
         app:layout_constraintBottom_toBottomOf="@id/line_spell_layout"

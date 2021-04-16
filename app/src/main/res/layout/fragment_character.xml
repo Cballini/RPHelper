@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.CharacterFragment">
+    tools:context=".fragments.CharacterFragment"
+    android:background="@color/dark_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
@@ -169,7 +170,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -377,7 +378,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
 
             app:layout_constraintEnd_toEndOf="parent"
@@ -476,7 +477,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/app_margin"
         android:orientation="vertical"
-        android:background="@color/white"
+        android:background="@color/dark_panel"
         android:elevation="1dp"
         android:padding="@dimen/app_margin"
         app:layout_constraintTop_toBottomOf="@+id/skill_layout">

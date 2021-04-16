@@ -10,7 +10,7 @@
 <item
     android:top="1dp">
 <shape android:shape="rectangle">
-    <solid android:color="@color/colorCatTitle"/>
+    <solid android:color="@color/dark_background"/>
 </shape>
 </item>
 </layer-list>

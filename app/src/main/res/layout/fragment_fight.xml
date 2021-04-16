@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FightFragment">
+    tools:context=".fragments.FightFragment"
+    android:background="@color/dark_background">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -43,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/app_margin"
             android:layout_marginTop="@dimen/double_app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             android:orientation="vertical"
             android:gravity="center"
@@ -97,7 +98,7 @@
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Attaquer"
-                    android:textColor="@color/colorCatTitle"
+                    android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
                 <Button
@@ -108,7 +109,7 @@
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Attaquer twin"
-                    android:textColor="@color/colorCatTitle"
+                    android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
@@ -126,7 +127,7 @@
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Attaquer à 2 mains"
-                    android:textColor="@color/colorCatTitle"
+                    android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
 
@@ -145,7 +146,7 @@
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Bloquer"
-                    android:textColor="@color/colorCatTitle"
+                    android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
                 <Button
@@ -156,7 +157,7 @@
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Esquiver"
-                    android:textColor="@color/colorCatTitle"
+                    android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
@@ -169,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/app_margin"
             android:layout_marginTop="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/fight_action_layout">
@@ -194,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/app_margin"
             android:layout_marginTop="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/fight_calc_layout">
@@ -228,7 +229,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/submit"
-                    android:textColor="@color/colorCatTitle"
+                    android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
@@ -245,7 +246,7 @@
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Poison"
-                    android:textColor="@color/colorCatTitle"
+                    android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
                 <Button
@@ -256,7 +257,7 @@
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
                     android:text="Frost"
-                    android:textColor="@color/colorCatTitle"
+                    android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
             </LinearLayout>
@@ -268,7 +269,7 @@
             android:padding="@dimen/txt_margin"
             android:layout_marginHorizontal="@dimen/app_margin"
             android:layout_marginVertical="@dimen/app_margin"
-            android:background="@color/white"
+            android:background="@color/dark_panel"
             android:elevation="1dp"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/fight_status_layout">

@@ -1,14 +1,19 @@
 apply plugin: 'com.android.application'
 
 android {
+    sourceSets{
+        main{
+            manifest.srcFile 'src/main/AndroidManifest.xml'
+        }
+    }
     compileSdkVersion 29
     defaultConfig {
         applicationId "com.rphelper.cecib.rphelper"
         minSdkVersion 19
         targetSdkVersion 29
         multiDexEnabled true
-        versionCode 26
-        versionName "24"
+        versionCode 28
+        versionName "26"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

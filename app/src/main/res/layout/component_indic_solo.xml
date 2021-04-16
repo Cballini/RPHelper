@@ -46,7 +46,7 @@
             android:minHeight="@dimen/double_app_margin"
             android:textSize="@dimen/cat_txt"
             android:layout_weight="6"
-            android:background="@color/colorCatTitle"
+            android:background="@color/dark_background"
             android:textColor="@color/colorTxt"/>
 
 

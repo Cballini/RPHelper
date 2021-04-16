@@ -29,7 +29,7 @@
                 android:layout_height="24dp"
                 android:padding="@dimen/txt_margin"
                 android:src="@drawable/weapon"
-                android:tint="@color/white" />
+                android:tint="@color/colorCatTitle" />
         </LinearLayout>
 
         <TextView
@@ -47,7 +47,7 @@
             android:id="@+id/line_item_note"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorCatTitle"
+            android:background="@color/dark_background"
             android:paddingVertical="@dimen/txt_margin"
             android:paddingHorizontal="@dimen/small_margin"
             android:text=""
@@ -71,7 +71,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@color/colorCatTitle"
+            android:background="@color/dark_background"
             android:paddingHorizontal="@dimen/txt_margin">
             <ImageView
                 android:id="@+id/line_item_equip_img"
@@ -85,7 +85,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-            android:background="@color/colorCatTitle"
+            android:background="@color/dark_background"
             android:paddingHorizontal="@dimen/txt_margin">
             <TextView
                 android:id="@+id/line_item_weight"

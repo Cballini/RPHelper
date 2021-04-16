@@ -117,7 +117,7 @@
             android:layout_height="@dimen/button_height"
             android:text="@string/submit"
             android:gravity="center"
-            android:textColor="@color/colorCatTitle"
+            android:textColor="@color/colorTxt"
             android:backgroundTint="@color/colorAccent"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
             android:layout_weight="1"/>

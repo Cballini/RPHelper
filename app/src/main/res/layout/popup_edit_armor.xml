@@ -329,14 +329,14 @@
                 android:text="@string/disequip"
                 android:textColor="@color/colorCatTitle"
                 android:padding="@dimen/txt_margin"
-                android:background="@color/medium_grey"
+                android:background="@color/colorTxt"
                 android:layout_marginEnd="@dimen/app_margin"/>
             <TextView
                 android:id="@+id/armor_delete_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/delete"
-                android:textColor="@color/colorCatTitle"
+                android:textColor="@color/colorTxt"
                 android:padding="@dimen/txt_margin"
                 android:background="@color/red"
                 android:layout_marginEnd="@dimen/app_margin"/>

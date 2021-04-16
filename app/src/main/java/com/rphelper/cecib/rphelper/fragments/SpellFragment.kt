@@ -22,10 +22,7 @@ import com.rphelper.cecib.rphelper.NB_SPELLS_BASE_MEMORY
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.SpellKnownAdapter
 import com.rphelper.cecib.rphelper.component.SpellComponent
-import com.rphelper.cecib.rphelper.dto.Character
-import com.rphelper.cecib.rphelper.dto.Equipment
-import com.rphelper.cecib.rphelper.dto.Spell
-import com.rphelper.cecib.rphelper.dto.Weapon
+import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.utils.FileUtils
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 import com.rphelper.cecib.rphelper.viewmodel.SpellViewModel
@@ -227,23 +224,28 @@ class SpellFragment : Fragment(), RecyclerViewClickListener {
     }
 
     override fun onItemClicked(position: Int, v: View, id :Int) {
-        val popupMenu = PopupMenu(context, v)
-        popupMenu.menuInflater.inflate(R.menu.menu_item, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.action_edit -> editSpell(getString(R.string.known_spells), viewModel.knownSpells.value!![position])
-                R.id.action_delete -> {
-                    val spell = viewModel.knownSpells.value!![position]
-                    viewModel.knownSpells.value!!.remove(spell)
-                    viewModel.editSpells()
-                }
-                R.id.action_equip -> {
-                    equipSpell(viewModel.knownSpells.value!![position])
+        when(id){
+            R.id.line_button_equip ->  equipSpell(viewModel.knownSpells.value!![position])
+            R.id.line_button_edit -> editSpell(getString(R.string.known_spells), viewModel.knownSpells.value!![position])
+            R.id.line_button_delete -> {
+                val builder = AlertDialog.Builder(context)
+                with(builder)
+                {
+                    setTitle(getString(R.string.warning))
+                    setMessage(getString(R.string.confirm_delete_spell))
+                    setNegativeButton(getString(R.string.no)) { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                        val spell = viewModel.knownSpells.value!![position]
+                        viewModel.knownSpells.value!!.remove(spell)
+                        viewModel.editSpells()
+                        dialog.dismiss()
+                    }
+                    show()
                 }
             }
-            true
-        })
-        popupMenu.show()
+        }
     }
 
     fun initSpellView(view: View, id: Int, place: String, spell: Spell?) {

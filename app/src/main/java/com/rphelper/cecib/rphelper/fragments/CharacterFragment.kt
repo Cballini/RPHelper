@@ -603,8 +603,21 @@ class CharacterFragment : Fragment(), RecyclerViewClickListener {
                 openDonDialog(viewModel.character.characterDon[position], position)
             }
             R.id.line_don_button_delete -> {
-                viewModel.character.characterDon.removeAt(position)
-                viewModel.editCharacter()
+                val builder = AlertDialog.Builder(context)
+                with(builder)
+                {
+                    setTitle(getString(R.string.warning))
+                    setMessage(getString(R.string.confirm_delete_don))
+                    setNegativeButton(getString(R.string.no)) { dialog, which ->
+                        dialog.dismiss()
+                    }
+                    setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                        viewModel.character.characterDon.removeAt(position)
+                        viewModel.editCharacter()
+                        dialog.dismiss()
+                    }
+                    show()
+                }
             }
         }
     }

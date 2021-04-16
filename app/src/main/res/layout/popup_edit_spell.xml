@@ -206,7 +206,7 @@
                 android:text="@string/disequip"
                 android:textColor="@color/colorCatTitle"
                 android:padding="@dimen/txt_margin"
-                android:background="@color/medium_grey"
+                android:background="@color/colorTxt"
                 android:layout_marginEnd="@dimen/app_margin"/>
 
             <TextView

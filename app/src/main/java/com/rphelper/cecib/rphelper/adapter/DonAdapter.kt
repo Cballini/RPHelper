@@ -2,6 +2,7 @@ package com.rphelper.cecib.rphelper.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.daimajia.swipe.SwipeLayout
@@ -13,7 +14,7 @@ class DonAdapter (val mDataset: MutableList<String>, callback : RecyclerViewClic
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DonAdapter.ViewHolder {
         val item = LayoutInflater.from(parent!!.context)
-                .inflate(R.layout.component_swipe_don, parent, false) as SwipeLayout
+                .inflate(R.layout.component_swipe_don, parent, false) as LinearLayout
 
         return DonAdapter.ViewHolder(item)
     }
@@ -32,5 +33,5 @@ class DonAdapter (val mDataset: MutableList<String>, callback : RecyclerViewClic
     }
 
 
-    class ViewHolder(val lineObject: SwipeLayout) : RecyclerView.ViewHolder(lineObject)
+    class ViewHolder(val lineObject: LinearLayout) : RecyclerView.ViewHolder(lineObject)
 }

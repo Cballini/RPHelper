@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SpellFragment">
+    tools:context=".fragments.SpellFragment"
+    android:background="@color/dark_background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/app_margin"
-                android:background="@color/white"
+                android:background="@color/dark_panel"
                 android:elevation="1dp"
                 android:orientation="vertical"
                 app:layout_constraintTop_toTopOf="parent">
@@ -119,7 +120,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/app_margin"
-                android:background="@color/white"
+                android:background="@color/dark_panel"
                 android:elevation="1dp"
                 android:gravity="center"
                 android:orientation="vertical"
