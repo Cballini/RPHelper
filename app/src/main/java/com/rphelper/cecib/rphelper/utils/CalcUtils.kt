@@ -14,7 +14,12 @@ object CalcUtils {
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_LIFE_MAX, 0)
         val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, Preferences.PRIVATE_MODE)
         val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_LIFE_MAX_TEMP, 0)
-        return 200 + 20*character.vitality + prefValue + prefValue2
+        val formule = 200 + 20*character.vitality + prefValue + prefValue2
+        if(formule >= 0){
+            return formule
+        }else{
+            return 0
+        }
     }
 
     @JvmStatic
@@ -23,7 +28,12 @@ object CalcUtils {
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_WEIGHT_MAX, 0)
         val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, Preferences.PRIVATE_MODE)
         val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_WEIGHT_MAX_TEMP, 0)
-        return 40 + character.vigor*2 + prefValue + prefValue2
+        val formule = 40 + character.vigor*2 + prefValue + prefValue2
+        if(formule >= 0){
+            return formule
+        }else{
+            return 0
+        }
     }
 
     @JvmStatic
@@ -41,7 +51,12 @@ object CalcUtils {
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_MANA_MAX, 0)
         val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_MANA_MAX_TEMP, Preferences.PRIVATE_MODE)
         val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_MANA_MAX_TEMP, 0)
-        return 40 + 5*character.memory + prefValue + prefValue2
+        val formule = 40 + 5*character.memory + prefValue + prefValue2
+        if(formule >= 0){
+            return formule
+        }else{
+            return 0
+        }
     }
 
     @JvmStatic
@@ -50,7 +65,12 @@ object CalcUtils {
         val prefValue = sharedPref.getInt(Preferences.PREF_MODIFIER_CONST_MAX, 0)
         val sharedPref2: SharedPreferences = context.getSharedPreferences(Preferences.PREF_MODIFIER_CONST_MAX_TEMP, Preferences.PRIVATE_MODE)
         val prefValue2 = sharedPref2.getInt(Preferences.PREF_MODIFIER_CONST_MAX_TEMP, 0)
-        return 60 + 20*character.endurance + prefValue + prefValue2
+        val formule = 60 + 20*character.endurance + prefValue + prefValue2
+        if(formule >= 0){
+            return formule
+        }else{
+            return 0
+        }
     }
 
     @JvmStatic

@@ -245,7 +245,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
-                    android:text="Poison"
+                    android:text="@string/submit_poison"
                     android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>
@@ -256,7 +256,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:layout_marginHorizontal="@dimen/txt_margin"
-                    android:text="Frost"
+                    android:text="@string/activ_frost"
                     android:textColor="@color/colorTxt"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
                     android:backgroundTint="@color/colorAccent"/>

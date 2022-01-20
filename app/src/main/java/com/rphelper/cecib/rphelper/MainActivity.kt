@@ -2,21 +2,21 @@ package com.rphelper.cecib.rphelper
 
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.View.OnTouchListener
-import android.view.ViewGroup
-import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.lifecycle.Observer
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.firebase.ui.auth.IdpResponse
 import com.firebase.ui.auth.util.ExtraConstants
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -27,14 +27,14 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.fragments.*
-import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.viewmodel.MainViewModel
 import org.json.JSONObject
 
 
 class MainActivity : FragmentActivity() {
     private val WRITE_EXTERNAL_STORAGE_CODE = 1
-
+    private val NUM_PAGES = 5
+    private lateinit var mPager: ViewPager2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,16 +61,69 @@ class MainActivity : FragmentActivity() {
     }
 
     fun initView(){
-        val fragmentManager = supportFragmentManager
+        /*val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val fragment = CharacterFragment()
         fragmentTransaction.add(R.id.fragment_container, fragment as Fragment)
-        fragmentTransaction.commit()
+        fragmentTransaction.commit()*/
+
+        // Instantiate a ViewPager and a PagerAdapter.
+       mPager = findViewById(R.id.fragment_container)
+
+        // The pager adapter, which provides the pages to the view pager widget.
+        val pagerAdapter = ScreenSlidePagerAdapter(this)
+        mPager.adapter = pagerAdapter
+        mPager.currentItem = 0
+        mPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            @RequiresApi(Build.VERSION_CODES.O)
+            override fun onPageSelected(position: Int) {
+                when(position){
+                    0 -> findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.navigation_profil
+                    1 -> findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.navigation_equipments
+                    2 -> findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.navigation_fight
+                    3 -> findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.navigation_spells
+                    4 -> findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.navigation_inventory
+                    else -> findViewById<BottomNavigationView>(R.id.navigation).selectedItemId = R.id.navigation_profil
+                }
+                super.onPageSelected(position)
+            }
+        })
 
         val navigation = findViewById<BottomNavigationView>(R.id.navigation)
         navigation.isItemHorizontalTranslationEnabled = false
         navigation.labelVisibilityMode = LABEL_VISIBILITY_UNLABELED
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+    }
+
+    override fun onBackPressed() {
+        if (mPager.currentItem == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed()
+        } else {
+            // Otherwise, select the previous step.
+            mPager.currentItem = mPager.currentItem - 1
+        }
+    }
+
+    /**
+     * Exemple mais pas compatible menu ?
+     * A simple pager adapter that represents 5 ScreenSlidePageFragment objects, in
+     * sequence.
+     */
+    private inner class ScreenSlidePagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
+        override fun getItemCount(): Int = NUM_PAGES
+
+        override fun createFragment(position: Int): Fragment {
+            return when(position){
+                0 -> CharacterFragment()
+                1 -> EquipmentFragment()
+                2 -> FightFragment()
+                3 -> SpellFragment()
+                4 -> InventoryFragment()
+                else -> CharacterFragment()
+            }
+        }
     }
 
     //Récup données en local
@@ -191,38 +244,23 @@ class MainActivity : FragmentActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_profil -> {
-                val charFragment = CharacterFragment()
-                val statTransaction = supportFragmentManager.beginTransaction()
-                statTransaction.replace(R.id.fragment_container, charFragment as Fragment)
-                statTransaction.commit()
+                mPager.currentItem = 0
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_equipments -> {
-                val equipFragment = EquipmentFragment()
-                val equipTransaction = supportFragmentManager.beginTransaction()
-                equipTransaction.replace(R.id.fragment_container, equipFragment as Fragment)
-                equipTransaction.commit()
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_spells -> {
-                val spellFragment = SpellFragment()
-                val spellTransaction = supportFragmentManager.beginTransaction()
-                spellTransaction.replace(R.id.fragment_container, spellFragment as Fragment)
-                spellTransaction.commit()
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_inventory -> {
-                val inventoryFragment = InventoryFragment()
-                val bagTransaction = supportFragmentManager.beginTransaction()
-                bagTransaction.replace(R.id.fragment_container, inventoryFragment as Fragment)
-                bagTransaction.commit()
+                mPager.currentItem = 1
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_fight -> {
-                val fightFragment = FightFragment()
-                val fightTransaction = supportFragmentManager.beginTransaction()
-                fightTransaction.replace(R.id.fragment_container, fightFragment as Fragment)
-                fightTransaction.commit()
+                mPager.currentItem = 2
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_spells -> {
+                mPager.currentItem = 3
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_inventory -> {
+                mPager.currentItem = 4
                 return@OnNavigationItemSelectedListener true
             }
         }

@@ -16,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.gson.Gson
 import com.rphelper.cecib.rphelper.MainActivity
 import com.rphelper.cecib.rphelper.Preferences
 import com.rphelper.cecib.rphelper.Preferences.PREF_MODIFIER_CONST_MAX
@@ -40,9 +39,6 @@ import com.rphelper.cecib.rphelper.Preferences.PRIVATE_MODE
 import com.rphelper.cecib.rphelper.R
 import com.rphelper.cecib.rphelper.adapter.ItemAdapter
 import com.rphelper.cecib.rphelper.component.CategoryHorizontalComponent
-import com.rphelper.cecib.rphelper.component.DamageComponent
-import com.rphelper.cecib.rphelper.component.RecapEquipmentComponent
-import com.rphelper.cecib.rphelper.component.SpellComponent
 import com.rphelper.cecib.rphelper.dto.*
 import com.rphelper.cecib.rphelper.enums.Bonus
 import com.rphelper.cecib.rphelper.enums.Elem
@@ -53,7 +49,6 @@ import com.rphelper.cecib.rphelper.utils.DisplayUtils
 import com.rphelper.cecib.rphelper.utils.RecyclerViewClickListener
 import com.rphelper.cecib.rphelper.utils.resIdByName
 import com.rphelper.cecib.rphelper.viewmodel.InventoryViewModel
-import org.json.JSONObject
 import java.util.*
 
 
@@ -94,11 +89,11 @@ class InventoryFragment : Fragment(), RecyclerViewClickListener {
         spinner.adapter = spinnerAdapter
         spinner.onItemSelectedListener = object :
                 AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 filterInventory(filters[position])
                 updatePrefIndexFilter(position)
             }
-            override fun onNothingSelected(parent: AdapterView<*>) {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // write code to perform some action
             }
         }

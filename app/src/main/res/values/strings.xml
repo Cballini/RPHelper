@@ -151,6 +151,7 @@
     <string name="recover">Récupérer</string>
     <string name="activ_frost">Activer frost</string>
     <string name="annul_frost">Annuler frost</string>
+    <string name="submit_poison">Subir poison</string>
     <string name="activ_msg_frost">Votre constitution max est divisée par 2 elle passe à : </string>
     <string name="annul_msg_frost">Votre constitution max revient à la normale. </string>
     <string name="posture">Posture</string>
@@ -219,7 +220,7 @@
 
     <string name="stat_help">VIT (vitalité) = + 20pv par points + 1 défense par 2 points\n\nVIG (vigueur) = + 2kg + 2 défense par point\n\nFOR (force) = + 2 dégats par points + 1 défense par points\n\nDEX (dextérité) = + 1 dégat par points + 1 défense par 2 points\n\nEND (endurance) = + 20 constitution par points + 1 défense par 2 points\n\nMEM (mémoire) = + 5 mana par points + 1 défense par 2 points et influe sur le nombre de sorts équipables (+ 1 sort à 15/20/25 pts)\n\nINT (intelligence) = influe sur l\'aprentissage de sorts\n\nFOI = + 1 défense par 2 points et influe sur l\'aprentissage de sorts</string>
 
-    <string name="skill_help">Diplomatie/Bluff = (INT+FOR)/2 + INT + 35\n\nIntuition / Psychologie = FOI x2 + 35\n\nConnaissance / Analyse = (INT+MEM)/2 + MEM + 30\n\nGrimper / Pousser = (FOR+VIG)/2 + FOR + 35\n\nAcrobatie / Discrétion = (DEX+VIG)/2 + DEX + 35\n\nArtisanat / Sabotage = MEM+DEX+35\n\nLes points de stats "virtuels" (donnés par des accessoires) ne sont pas pris en compte dans ces calculs.\n\n1er don gratuit, puis -4 pts compétences par don supplémentaire (pas appliqué si compétence inférieure à 45.</string>
+    <string name="skill_help">Diplomatie/Bluff = (INT+FOR)/2 + INT + 35\n\nIntuition / Psychologie = FOI x2 + 35\n\nConnaissance / Analyse = (INT+MEM)/2 + MEM + 30\n\nGrimper / Pousser = (FOR+VIG)/2 + FOR + 35\n\nAcrobatie / Discrétion = (DEX+VIG)/2 + DEX + 35\n\nArtisanat / Sabotage = MEM+DEX+35\n\nLes points de stats "virtuels" (donnés par des accessoires) ne sont pas pris en compte dans ces calculs.\n\n1er don gratuit, puis -8 pts compétences par don supplémentaire.</string>
 
     <string name="fight_help">
         PHASES DE COMBAT\nPendant le tour d\'un joueur :\nPhase 1 : Mouvement OU Changement de posture (1 seule fois)\nPhase 2 : Action de posture\nPhase 3 : Changement de posture OU Mouvement (1 seule fois)\n\nPOSTURE\nOffensive : Attaque ou sort offensif.\nDefensive : Utilisation objet / sort non-offensif ou changement d\'arme. Blocage hors de son tour.\nRéflexe : Mouvement, changement d\'arme ou utilisation d\'armes de jet. Esquive hors de son tour.\nEn position Défensive ou Réflexe si prise de dégats ou pas de blocage/esquive récupération de toute la constitution en début de tour.\n\nCOUTS DES ACTIONS\nAttaque = 80 const\nAttaque twin = 120 const\nAttaque à 2 main = 40 const (+ 20 dégâts)\nBlocage = 80 const\nEsquive = 30 const\nAttaque et blocage arme à 2 mains = 40 const\nSort = 30 const + coût en mana\n\nSTATUS\nBleed = (Dégats Arme/2) / Tour \nPoison = VIE MAX x 0,05 / Tour \nFrost = CONST MAX / 2 \n
